@@ -1,0 +1,10 @@
+{
+  "name": "eutenly",
+  "version": "1.0.0",
+  "description": "Eutenly's Bot",
+  "main": "./run.sh",
+  "repository": "git@github.com:eutenly/bot.git",
+  "author": "Maia & APixel",
+  "license": "Private",
+  "private": true
+}
