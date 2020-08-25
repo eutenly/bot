@@ -30,7 +30,7 @@ export default async function connect(client: Client) {
     client.ws = ws;
 
     // Websocket opened
-    ws.on("open", function open() {
+    ws.on("open", () => {
 
         // Log
         console.log(chalk.green("Gateway: Connected"));
@@ -43,7 +43,7 @@ export default async function connect(client: Client) {
     });
 
     // Heartbeat and events
-    ws.on("message", function message(rawPacket: string) {
+    ws.on("message", (rawPacket: string) => {
 
         // Parse packet
         const packet = JSON.parse(rawPacket);
@@ -66,7 +66,7 @@ export default async function connect(client: Client) {
 
     // Websocket closed
     // https://discord.com/developers/docs/topics/opcodes-and-status-codes#gateway-gateway-close-event-codes
-    ws.on("close", function close(code: number, reason: string) {
+    ws.on("close", (code: number, reason: string) => {
 
         // Parse reason
         if (code === 4020) reason = "Session invalidated by Discord";
