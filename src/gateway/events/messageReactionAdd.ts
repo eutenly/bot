@@ -19,7 +19,7 @@ export default function messageReactionAdd(client: Client, data: MessageReaction
 
     // Get guild
     const guild: Guild | undefined = client.guilds.get(data.guild_id);
-    if (!guild) throw new Error(`MessageReactionAdd Gateway Event: Message (${data.message_id}) created in channel (${data.channel_id}) but its guild (${data.guild_id}) isn't cached`);
+    if ((data.guild_id) && (!guild)) throw new Error(`MessageReactionAdd Gateway Event: Message (${data.message_id}) created in channel (${data.channel_id}) but its guild (${data.guild_id}) isn't cached`);
 
     // Create reaction
     const reaction: Reaction = new Reaction({

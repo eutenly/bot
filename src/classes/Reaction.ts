@@ -5,7 +5,7 @@ interface ReactionData {
     messageID: string;
     userID: string;
     channelID: string;
-    guild: Guild;
+    guild: Guild | undefined;
 }
 
 export default class Reaction {
@@ -15,7 +15,7 @@ export default class Reaction {
     messageID: string;
     userID: string;
     channelID: string;
-    guild: Guild;
+    guild: Guild | undefined;
 
     // Constructor
     constructor(data: ReactionData) {

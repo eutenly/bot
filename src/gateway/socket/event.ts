@@ -10,9 +10,6 @@ export default function event(client: Client, type: string, data: any) {
     // Ready
     if (type === "READY") ready(client, data);
 
-    // Ignore DM Channels or Non-Guild Messages
-    else if (!data.guild_id) return;
-
     // Message Create
     else if (type === "MESSAGE_CREATE") messageCreate(client, data);
 

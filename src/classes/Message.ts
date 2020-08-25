@@ -5,7 +5,7 @@ interface MessageData {
     content: string;
     authorID: string;
     channelID: string;
-    guild: Guild;
+    guild: Guild | undefined;
 }
 
 export default class Message {
@@ -15,7 +15,7 @@ export default class Message {
     content: string;
     authorID: string;
     channelID: string;
-    guild: Guild;
+    guild: Guild | undefined;
 
     // Constructor
     constructor(data: MessageData) {
