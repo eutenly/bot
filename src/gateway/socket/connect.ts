@@ -28,7 +28,7 @@ export default async function connect(client: Client) {
     // Set websocket
     client.ws = ws;
 
-    // Open websocket
+    // Websocket opened
     ws.on("open", function open() {
 
         // Log
@@ -55,5 +55,16 @@ export default async function connect(client: Client) {
 
         // Hello
         else if (packet.op === 10) initializeHeartbeat(client, packet.d.heartbeat_interval);
+    });
+
+    // Websocket closed
+    ws.on("close", function close(code: number, reason: string) {
+
+        // Log
+        console.log(chalk.red(`Gateway: Closed - ${code} ${reason}`));
+        console.log(chalk.red("Gateway: Reconnecting..."));
+
+        // Reconnect
+        connect(client);
     });
 }
