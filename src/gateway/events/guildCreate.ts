@@ -8,6 +8,18 @@ interface GuildCreateEventData {
 
 export default function guildCreate(client: Client, data: GuildCreateEventData) {
 
+    // Get joined at
+    const joinedAt: Date = new Date(data.joined_at);
+
+    // Create guild
+    const guild: Guild = new Guild({
+        id: data.id,
+        joinedAt
+    });
+
+    // Cache guild
+    client.guilds.set(guild.id, guild);
+
     /**
      * Ignore non new servers
      *
@@ -17,14 +29,7 @@ export default function guildCreate(client: Client, data: GuildCreateEventData) 
      * We can check if the guild is new or not by checking the joined timestamp
      * 300,000 ms (5 minutes) is the threshold were using
      */
-    const joinedAt: Date = new Date(data.joined_at);
     if (joinedAt.getTime() < Date.now() - 300000) return;
-
-    // Create guild
-    const guild: Guild = new Guild({
-        id: data.id,
-        joinedAt
-    });
 
     // Emit event
     client.emit("guildCreate", guild);

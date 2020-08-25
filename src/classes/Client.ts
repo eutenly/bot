@@ -1,6 +1,7 @@
 import { EventEmitter } from "events";
 import WebSocket from "ws";
 import connect from "../gateway/socket/connect";
+import Guild from "./Guild";
 
 export default class Client extends EventEmitter {
 
@@ -17,6 +18,9 @@ export default class Client extends EventEmitter {
     id: string;
     avatarURL: string;
 
+    // The guilds the bots in
+    guilds: Map<string, Guild>;
+
     // Constructor
     constructor(token: string) {
 
@@ -26,6 +30,8 @@ export default class Client extends EventEmitter {
         // Set data
         this.token = token;
         this.sequence = null;
+
+        this.guilds = new Map();
 
         // Connect
         connect(this);
