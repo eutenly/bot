@@ -2,6 +2,7 @@ import Client from "../../classes/Client";
 import guildCreate from "../events/guildCreate";
 import guildDelete from "../events/guildDelete";
 import messageCreate from "../events/messageCreate";
+import messageReactionAdd from "../events/messageReactionAdd";
 import ready from "../events/ready";
 
 export default function event(client: Client, type: string, data: any) {
@@ -17,4 +18,7 @@ export default function event(client: Client, type: string, data: any) {
 
     // Guild Delete
     else if (type === "GUILD_DELETE") guildDelete(client, data);
+
+    // Message Reaction Add
+    else if (type === "MESSAGE_REACTION_ADD") messageReactionAdd(client, data);
 }
