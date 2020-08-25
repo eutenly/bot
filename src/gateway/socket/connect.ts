@@ -57,6 +57,9 @@ export default async function connect(client: Client) {
         // Heartbeat
         else if (packet.op === 1) heartbeat(client);
 
+        // Invalid Session
+        else if (packet.op === 9) ws.close(4020, "Session invalidated by Discord");
+
         // Hello
         else if (packet.op === 10) initializeHeartbeat(client, packet.d.heartbeat_interval);
     });
@@ -64,6 +67,9 @@ export default async function connect(client: Client) {
     // Websocket closed
     // https://discord.com/developers/docs/topics/opcodes-and-status-codes#gateway-gateway-close-event-codes
     ws.on("close", function close(code: number, reason: string) {
+
+        // Parse reason
+        if (code === 4020) reason = "Session invalidated by Discord";
 
         // Log
         console.log(chalk.red(`Gateway: Closed - ${code} ${reason}`));
@@ -82,7 +88,7 @@ export default async function connect(client: Client) {
         console.log(chalk.red("Gateway: Reconnecting..."));
 
         // Must start new session
-        if ([4007, 4009].includes(code)) client.sessionID = undefined;
+        if ([4007, 4009, 4020].includes(code)) client.sessionID = undefined;
 
         // Reconnect
         connect(client);
