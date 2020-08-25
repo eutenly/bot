@@ -10,9 +10,12 @@
   "dependencies": {
     "@typegoose/typegoose": "^7.3.3",
     "@types/mongoose": "^5.7.36",
+    "@types/node-fetch": "^2.5.7",
     "@types/ws": "^7.2.6",
+    "chalk": "^4.1.0",
     "dotenv": "^8.2.0",
     "mongoose": "^5.10.0",
+    "node-fetch": "^2.6.0",
     "typegoose": "^5.9.1",
     "ws": "^7.3.1"
   }
