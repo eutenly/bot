@@ -6,6 +6,7 @@ import event from "./event";
 import heartbeat from "./heartbeat";
 import identify from "./identify";
 import initializeHeartbeat from "./initializeHeartbeat";
+import resume from "./resume";
 
 export default async function connect(client: Client) {
 
@@ -22,7 +23,7 @@ export default async function connect(client: Client) {
 
     // Create websocket
     const ws: WebSocket = new WebSocket(`${gatewayData.url}?v=6&encoding=json`, {
-        perMessageDeflate: false,
+        perMessageDeflate: false
     });
 
     // Set websocket
@@ -35,7 +36,10 @@ export default async function connect(client: Client) {
         console.log(chalk.green("Gateway: Connected"));
 
         // Identify
-        identify(ws, client.token);
+        if (!client.sessionID) identify(ws, client.token);
+
+        // Resume
+        else resume(client);
     });
 
     // Heartbeat and events
@@ -58,11 +62,27 @@ export default async function connect(client: Client) {
     });
 
     // Websocket closed
+    // https://discord.com/developers/docs/topics/opcodes-and-status-codes#gateway-gateway-close-event-codes
     ws.on("close", function close(code: number, reason: string) {
 
         // Log
         console.log(chalk.red(`Gateway: Closed - ${code} ${reason}`));
+
+        // Exit process
+        if ([4004, 4010, 4011, 4012, 4013, 4014].includes(code)) {
+
+            // Log
+            console.log(chalk.red("Exiting process"));
+
+            // Exit
+            process.exit();
+        }
+
+        // Log
         console.log(chalk.red("Gateway: Reconnecting..."));
+
+        // Must start new session
+        if ([4007, 4009].includes(code)) client.sessionID = undefined;
 
         // Reconnect
         connect(client);

@@ -17,6 +17,7 @@ export default class Client extends EventEmitter {
     // Data about the client
     id: string;
     avatarURL: string;
+    sessionID: string | undefined;
 
     // The guilds the bots in
     guilds: Map<string, Guild>;
