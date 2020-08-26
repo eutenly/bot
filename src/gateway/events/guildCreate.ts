@@ -12,13 +12,10 @@ export default function guildCreate(client: Client, data: GuildCreateEventData) 
     const joinedAt: Date = new Date(data.joined_at);
 
     // Create guild
-    const guild: Guild = new Guild({
+    const guild: Guild = new Guild(client, {
         id: data.id,
         joinedAt
     });
-
-    // Cache guild
-    client.guilds.set(guild.id, guild);
 
     /**
      * Ignore non new servers
