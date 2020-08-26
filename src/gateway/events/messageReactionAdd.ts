@@ -1,5 +1,7 @@
+import Channel from "../../classes/Channel";
 import Client from "../../classes/Client";
 import Guild from "../../classes/Guild";
+import Message from "../../classes/Message";
 import Reaction from "../../classes/Reaction";
 
 interface MessageReactionAddEventDataEmoji {
@@ -15,20 +17,18 @@ interface MessageReactionAddEventData {
     guild_id: string;
 }
 
-export default function messageReactionAdd(client: Client, data: MessageReactionAddEventData) {
-
-    // Get guild
-    const guild: Guild | undefined = client.guilds.get(data.guild_id);
-    if ((data.guild_id) && (!guild)) throw new Error(`MessageReactionAdd Gateway Event: Message (${data.message_id}) created in channel (${data.channel_id}) but its guild (${data.guild_id}) isn't cached`);
+export default async function messageReactionAdd(client: Client, data: MessageReactionAddEventData) {
 
     // Create reaction
-    const reaction: Reaction = new Reaction({
+    const reaction: Reaction = new Reaction(client, {
         id: data.emoji.id || data.emoji.name,
         messageID: data.message_id,
         userID: data.user_id,
         channelID: data.channel_id,
-        guild
+        guildID: data.guild_id
     });
+
+    await reaction.uninitializedMessage;
 
     // Emit event
     client.emit("messageReactionAdd", reaction);

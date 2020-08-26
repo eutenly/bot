@@ -1,30 +1,50 @@
+import Channel from "./Channel";
+import Client from "./Client";
 import Guild from "./Guild";
+import Message from "./Message";
 
 interface ReactionData {
     id: string;
     messageID: string;
     userID: string;
     channelID: string;
-    guild: Guild | undefined;
+    guildID: string;
 }
 
 export default class Reaction {
 
+    // The client
+    client: Client;
+
     // Data about the reaction
     id: string;
-    messageID: string;
+    uninitializedMessage: Promise<Message>;
+    message: Message;
     userID: string;
-    channelID: string;
+    channel: Channel;
     guild: Guild | undefined;
 
     // Constructor
-    constructor(data: ReactionData) {
+    constructor(client: Client, data: ReactionData) {
 
         // Set data
+        this.client = client;
+
         this.id = data.id;
-        this.messageID = data.messageID;
         this.userID = data.userID;
-        this.channelID = data.channelID;
-        this.guild = data.guild;
+
+        // Get channel
+        this.channel = this.client.channels.get(data.channelID) || new Channel(client, {
+            id: data.channelID,
+            guildID: data.guildID
+        });
+
+        this.guild = this.channel.guild;
+
+        // Register message
+        this.uninitializedMessage = this.channel.registerMessage({
+            id: data.messageID
+        });
+        this.uninitializedMessage.then((m: Message) => this.message = m);
     }
 }
