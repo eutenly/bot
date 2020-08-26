@@ -3,6 +3,9 @@ import Client from "./Client";
 
 export default async function fetch(client: Client, path: string, options: RequestInit = {}, headers: object = {}): Promise<any> {
 
+    // Parse body
+    if (options.body) options.body = JSON.stringify(options.body);
+
     // Make request
     const result: Response = await nodeFetch(`https://discord.com/api/v6${path}`, {
         headers: {

@@ -5,11 +5,11 @@ import Channel from "./Channel";
 export default async function sendMessage(channel: Channel, content: string): Promise<Message> {
 
     // Contruct Payload
-    const payload: RequestInit = {
+    const payload: object = {
         method: "POST",
-        body: JSON.stringify({
-            content: content
-        })
+        body: {
+            content
+        }
     };
 
     // Send Message
