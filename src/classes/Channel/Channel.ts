@@ -2,6 +2,7 @@ import Client from "../Client/Client";
 import Guild from "../Guild/Guild";
 import Message from "../Message/Message";
 import registerMessage, { MessageData } from "./registerMessage";
+import sendMessage from "./sendMessage";
 
 interface ChannelData {
     id: string;
@@ -34,4 +35,5 @@ export default class Channel {
     }
 
     registerMessage = (data: MessageData): Promise<Message> => registerMessage(this, data);
+    sendMessage = (content: string): Promise<Message> => sendMessage(this, content);
 }
