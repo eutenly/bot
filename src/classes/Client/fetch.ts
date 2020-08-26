@@ -1,13 +1,15 @@
-import nodeFetch from "node-fetch";
+import nodeFetch, { RequestInit, Response } from "node-fetch";
 import Client from "./Client";
 
-export default async function fetch(client: Client, path: string): Promise<any> {
+export default async function fetch(client: Client, path: string, options: RequestInit = {}, headers: object = {}): Promise<any> {
 
     // Make request
-    const result = await nodeFetch(`https://discord.com/api/v6${path}`, {
+    const result: Response = await nodeFetch(`https://discord.com/api/v6${path}`, {
         headers: {
-            "Authorization": `Bot ${client.token}`
-        }
+            "Authorization": `Bot ${client.token}`,
+            ...headers
+        },
+        ...options
     });
 
     // Parse result

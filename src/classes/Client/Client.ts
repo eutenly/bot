@@ -1,4 +1,5 @@
 import { EventEmitter } from "events";
+import { RequestInit } from "node-fetch";
 import WebSocket from "ws";
 import connect from "../../gateway/socket/connect";
 import Channel from "../Channel/Channel";
@@ -48,5 +49,5 @@ export default class Client extends EventEmitter {
     updateSequence = (sequence: number) => this.sequence = sequence;
 
     // Make requests to the API
-    fetch = (path: string): Promise<any> => fetch(this, path);
+    fetch = (path: string, options?: RequestInit, headers?: object): Promise<any> => fetch(this, path, options, headers);
 }
