@@ -7,6 +7,7 @@ export default async function fetch(client: Client, path: string, options: Reque
     const result: Response = await nodeFetch(`https://discord.com/api/v6${path}`, {
         headers: {
             "Authorization": `Bot ${client.token}`,
+            "Content-Type": "application/json",
             ...headers
         },
         ...options
