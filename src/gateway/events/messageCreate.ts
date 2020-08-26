@@ -1,5 +1,5 @@
+import Channel from "../../classes/Channel";
 import Client from "../../classes/Client";
-import Guild from "../../classes/Guild";
 import Message from "../../classes/Message";
 
 interface MessageCreateEventDataAuthor {
@@ -15,23 +15,23 @@ interface MessageCreateEventData {
     guild_id: string;
 }
 
-export default function messageCreate(client: Client, data: MessageCreateEventData) {
+export default async function messageCreate(client: Client, data: MessageCreateEventData) {
 
     // Ignore non default messages
     // https://discord.com/developers/docs/resources/channel#message-object-message-types
     if (data.type !== 0) return;
 
-    // Get guild
-    const guild: Guild | undefined = client.guilds.get(data.guild_id);
-    if ((data.guild_id) && (!guild)) throw new Error(`MessageCreate Gateway Event: Message (${data.id}) created in channel (${data.channel_id}) but its guild (${data.guild_id}) isn't cached`);
+    // Get channel
+    const channel: Channel = client.channels.get(data.channel_id) || new Channel(client, {
+        id: data.channel_id,
+        guildID: data.guild_id
+    });
 
-    // Create message
-    const message: Message = new Message({
+    // Register message
+    const message: Message = await channel.registerMessage({
         id: data.id,
         content: data.content,
-        authorID: data.author.id,
-        channelID: data.channel_id,
-        guild
+        authorID: data.author.id
     });
 
     // Emit event
