@@ -42,4 +42,21 @@ export default class Client extends EventEmitter {
     updateSequence(sequence: number) {
         this.sequence = sequence;
     }
+
+    // Fetch
+    async fetch(path: string): Promise<any> {
+
+        // Make request
+        const result = await fetch(`https://discord.com/api/v6${path}`, {
+            headers: {
+                "Authorization": `Bot ${this.token}`
+            }
+        });
+
+        // Parse result
+        const data: any = await result.json();
+
+        // Return
+        return data;
+    }
 }
