@@ -1,7 +1,7 @@
-import Channel from "./Channel";
-import Client from "./Client";
-import Guild from "./Guild";
-import Message from "./Message";
+import Channel from "../Channel/Channel";
+import Client from "../Client/Client";
+import Guild from "../Guild/Guild";
+import Message from "../Message/Message";
 
 interface ReactionData {
     id: string;

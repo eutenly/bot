@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import Client from "./classes/Client";
+import Client from "./classes/Client/Client";
 
 // Configure env variables
 dotenv.config();

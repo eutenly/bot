@@ -1,6 +1,6 @@
-import Channel from "./Channel";
-import Client from "./Client";
-import Guild from "./Guild";
+import Channel from "../Channel/Channel";
+import Client from "../Client/Client";
+import Guild from "../Guild/Guild";
 
 interface MessageData {
     id: string;

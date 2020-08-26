@@ -1,4 +1,4 @@
-import Client from "../../classes/Client";
+import Client from "../../classes/Client/Client";
 
 export default function identify(client: Client) {
 

@@ -1,5 +1,5 @@
-import Client from "../../classes/Client";
-import Guild from "../../classes/Guild";
+import Client from "../../classes/Client/Client";
+import Guild from "../../classes/Guild/Guild";
 
 interface GuildDeleteEventData {
     id: string;

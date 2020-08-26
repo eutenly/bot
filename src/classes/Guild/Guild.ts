@@ -1,4 +1,4 @@
-import Client from "./Client";
+import Client from "../Client/Client";
 
 interface GuildData {
     id: string;

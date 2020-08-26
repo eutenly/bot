@@ -1,8 +1,8 @@
-import Channel from "../../classes/Channel";
-import Client from "../../classes/Client";
-import Guild from "../../classes/Guild";
-import Message from "../../classes/Message";
-import Reaction from "../../classes/Reaction";
+import Channel from "../../classes/Channel/Channel";
+import Client from "../../classes/Client/Client";
+import Guild from "../../classes/Guild/Guild";
+import Message from "../../classes/Message/Message";
+import Reaction from "../../classes/Reaction/Reaction";
 
 interface MessageReactionAddEventDataEmoji {
     id: string | null;

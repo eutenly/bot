@@ -1,4 +1,4 @@
-import Client from "../../classes/Client";
+import Client from "../../classes/Client/Client";
 import guildCreate from "../events/guildCreate";
 import guildDelete from "../events/guildDelete";
 import messageCreate from "../events/messageCreate";

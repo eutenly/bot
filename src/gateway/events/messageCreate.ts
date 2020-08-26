@@ -1,6 +1,6 @@
-import Channel from "../../classes/Channel";
-import Client from "../../classes/Client";
-import Message from "../../classes/Message";
+import Channel from "../../classes/Channel/Channel";
+import Client from "../../classes/Client/Client";
+import Message from "../../classes/Message/Message";
 
 interface MessageCreateEventDataAuthor {
     id: string;

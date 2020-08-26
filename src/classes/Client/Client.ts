@@ -1,9 +1,9 @@
 import { EventEmitter } from "events";
-import fetch from "node-fetch";
 import WebSocket from "ws";
-import connect from "../gateway/socket/connect";
-import Channel from "./Channel";
-import Guild from "./Guild";
+import connect from "../../gateway/socket/connect";
+import Channel from "../Channel/Channel";
+import Guild from "../Guild/Guild";
+import fetch from "./fetch";
 
 export default class Client extends EventEmitter {
 
@@ -45,24 +45,8 @@ export default class Client extends EventEmitter {
     }
 
     // Update the sequence
-    updateSequence(sequence: number) {
-        this.sequence = sequence;
-    }
+    updateSequence = (sequence: number) => this.sequence = sequence;
 
-    // Fetch
-    async fetch(path: string): Promise<any> {
-
-        // Make request
-        const result = await fetch(`https://discord.com/api/v6${path}`, {
-            headers: {
-                "Authorization": `Bot ${this.token}`
-            }
-        });
-
-        // Parse result
-        const data: any = await result.json();
-
-        // Return
-        return data;
-    }
+    // Make requests to the API
+    fetch = (path: string): Promise<any> => fetch(this, path);
 }
