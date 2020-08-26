@@ -38,8 +38,7 @@ export default class Channel {
         this.client.channels.set(this.id, this);
     }
 
-    // async registerMessage(data: MessageData): Promise<Message> {
-    async registerMessage(data: MessageData): Promise<any> {
+    async registerMessage(data: MessageData): Promise<Message> {
 
         // Already cached
         const cachedMessage: Message | undefined = this.messages.get(data.id);
