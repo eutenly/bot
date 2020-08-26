@@ -1,30 +1,37 @@
+import Channel from "./Channel";
+import Client from "./Client";
 import Guild from "./Guild";
 
 interface MessageData {
     id: string;
     content: string;
     authorID: string;
-    channelID: string;
+    channel: Channel;
     guild: Guild | undefined;
 }
 
 export default class Message {
 
+    // The client
+    client: Client;
+
     // Data about the message
     id: string;
     content: string;
     authorID: string;
-    channelID: string;
+    channel: Channel;
     guild: Guild | undefined;
 
     // Constructor
-    constructor(data: MessageData) {
+    constructor(client: Client, data: MessageData) {
 
         // Set data
+        this.client = client;
+
         this.id = data.id;
         this.content = data.content;
         this.authorID = data.authorID;
-        this.channelID = data.channelID;
+        this.channel = data.channel;
         this.guild = data.guild;
     }
 }

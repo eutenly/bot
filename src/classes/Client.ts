@@ -1,6 +1,8 @@
 import { EventEmitter } from "events";
+import fetch from "node-fetch";
 import WebSocket from "ws";
 import connect from "../gateway/socket/connect";
+import Channel from "./Channel";
 import Guild from "./Guild";
 
 export default class Client extends EventEmitter {
@@ -22,6 +24,9 @@ export default class Client extends EventEmitter {
     // The guilds the bots in
     guilds: Map<string, Guild>;
 
+    // The channels that are cached
+    channels: Map<string, Channel>;
+
     // Constructor
     constructor(token: string) {
 
@@ -33,6 +38,7 @@ export default class Client extends EventEmitter {
         this.sequence = null;
 
         this.guilds = new Map();
+        this.channels = new Map();
 
         // Connect
         connect(this);
