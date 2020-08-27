@@ -1,8 +1,8 @@
 import Client from "../Client/Client";
+import { EmbedData } from "../Embed/Embed";
 import FetchQueue from "../FetchQueue/FetchQueue";
 import Guild from "../Guild/Guild";
 import Message from "../Message/Message";
-import { EmbedData } from "./Embed/Embed";
 import registerMessage, { MessageData } from "./registerMessage";
 import sendMessage from "./sendMessage";
 
