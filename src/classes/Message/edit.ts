@@ -1,7 +1,7 @@
 import { EmbedData } from "../Embed/Embed";
 import Message from "../Message/Message";
 
-export default async function sendMessage(message: Message, content: string | EmbedData, embed: EmbedData = {}): Promise<void> {
+export default async function edit(message: Message, content: string | EmbedData, embed: EmbedData = {}): Promise<void> {
 
     // Parse content
     if (typeof content === "object") {
