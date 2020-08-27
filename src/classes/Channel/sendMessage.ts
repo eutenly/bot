@@ -2,7 +2,13 @@ import Message from "../Message/Message";
 import Channel from "./Channel";
 import { EmbedData } from "./Embed/Embed";
 
-export default async function sendMessage(channel: Channel, content: string = "", embed: EmbedData = {}): Promise<Message> {
+export default async function sendMessage(channel: Channel, content: string | EmbedData, embed: EmbedData = {}): Promise<Message> {
+
+    // Parse content
+    if (typeof content === "object") {
+        embed = content;
+        content = "";
+    }
 
     // Contruct Payload
     const payload: object = {

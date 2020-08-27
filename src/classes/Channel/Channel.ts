@@ -54,5 +54,5 @@ export default class Channel {
     registerMessage = (data: MessageData): Promise<Message> => registerMessage(this, data);
 
     // Send a message
-    sendMessage = (content?: string, embed?: EmbedData): Promise<Message> => sendMessage(this, content, embed);
+    sendMessage = (content: string | EmbedData, embed?: EmbedData): Promise<Message> => sendMessage(this, content, embed);
 }
