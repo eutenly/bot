@@ -15,6 +15,7 @@ export default async function fetch(client: Client, path: string, options: Reque
         },
         ...options
     });
+    if (result.status === 204) {return; }
 
     // Parse result
     const data: any = await result.json();
