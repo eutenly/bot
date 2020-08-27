@@ -12,10 +12,6 @@ interface MessageData {
     guild: Guild | undefined;
 }
 
-interface MessageFetchQueue {
-    addReaction: FetchQueue;
-}
-
 export default class Message {
 
     // The client
@@ -28,9 +24,6 @@ export default class Message {
     channel: Channel;
     guild: Guild | undefined;
 
-    // Fetch queues
-    fetchQueues: MessageFetchQueue;
-
     // Constructor
     constructor(client: Client, data: MessageData) {
 
@@ -42,11 +35,6 @@ export default class Message {
         this.authorID = data.authorID;
         this.channel = data.channel;
         this.guild = data.guild;
-
-        // Set fetch queues
-        this.fetchQueues = {
-            addReaction: new FetchQueue(client)
-        };
     }
 
     addReaction = (emoji: string): Promise<any> => addReaction(this, emoji);

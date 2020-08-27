@@ -13,6 +13,7 @@ interface ChannelData {
 
 interface ChannelFetchQueue {
     sendMessage: FetchQueue;
+    addReaction: FetchQueue;
 }
 
 export default class Channel {
@@ -41,7 +42,8 @@ export default class Channel {
 
         // Set fetch queues
         this.fetchQueues = {
-            sendMessage: new FetchQueue(client)
+            sendMessage: new FetchQueue(client),
+            addReaction: new FetchQueue(client)
         };
 
         // Cache channel
