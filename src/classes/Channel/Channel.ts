@@ -2,6 +2,7 @@ import Client from "../Client/Client";
 import FetchQueue from "../FetchQueue/FetchQueue";
 import Guild from "../Guild/Guild";
 import Message from "../Message/Message";
+import { EmbedData } from "./Embed/Embed";
 import registerMessage, { MessageData } from "./registerMessage";
 import sendMessage from "./sendMessage";
 
@@ -40,7 +41,7 @@ export default class Channel {
 
         // Set fetch queues
         this.fetchQueues = {
-            sendMessage: new FetchQueue(client, `/channels/${this.id}/messages`)
+            sendMessage: new FetchQueue(client)
         };
 
         // Cache channel
@@ -51,5 +52,5 @@ export default class Channel {
     registerMessage = (data: MessageData): Promise<Message> => registerMessage(this, data);
 
     // Send a message
-    sendMessage = (content: string): Promise<Message> => sendMessage(this, content);
+    sendMessage = (content?: string, embed?: EmbedData): Promise<Message> => sendMessage(this, content, embed);
 }

@@ -20,7 +20,7 @@ export default async function processRequests(fetchQueue: FetchQueue) {
         if ((fetchQueue.rateLimit) && (fetchQueue.rateLimit.remaining === 0)) await sleep(fetchQueue.rateLimit.reset - Date.now());
 
         // Fetch
-        const { data, rateLimit }: { data: any; rateLimit: RateLimit | undefined; } = await fetchQueue.client.fetch(fetchQueue.path, requestData.data);
+        const { data, rateLimit }: { data: any; rateLimit: RateLimit | undefined; } = await fetchQueue.client.fetch(requestData.path, requestData.data);
 
         // Update rate limit
         if (rateLimit) fetchQueue.rateLimit = rateLimit;

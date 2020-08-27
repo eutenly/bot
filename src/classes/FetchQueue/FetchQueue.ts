@@ -4,6 +4,7 @@ import processRequests from "./processRequests";
 import request from "./request";
 
 export interface RequestData {
+    path: string;
     data: object;
     resolve: Function;
 }
@@ -14,24 +15,22 @@ export default class FetchQueue {
     client: Client;
 
     // Data about the fetch queue
-    path: string;
     requests: RequestData[];
     rateLimit?: RateLimit;
     processingRequests: boolean;
 
     // Constructor
-    constructor(client: Client, path: string) {
+    constructor(client: Client) {
 
         // Set data
         this.client = client;
 
-        this.path = path;
         this.requests = [];
         this.processingRequests = false;
     }
 
     // Request data to be fetched
-    request = (data: object): Promise<any> => request(this, data);
+    request = (path: string, data: object): Promise<any> => request(this, path, data);
 
     // Process requests
     processRequests = () => processRequests(this);

@@ -1,10 +1,10 @@
 import FetchQueue from "./FetchQueue";
 
-export default async function request(fetchQueue: FetchQueue, data: object) {
+export default async function request(fetchQueue: FetchQueue, path: string, data: object) {
     return new Promise((resolve) => {
 
         // Add to requests
-        fetchQueue.requests.push({ data, resolve });
+        fetchQueue.requests.push({ path, data, resolve });
 
         // Process requests
         if (!fetchQueue.processingRequests) fetchQueue.processRequests();

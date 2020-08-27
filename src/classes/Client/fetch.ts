@@ -1,4 +1,3 @@
-import chalk from "chalk";
 import nodeFetch, { RequestInit, Response } from "node-fetch";
 import RateLimit from "../common/RateLimit";
 import Client from "./Client";
@@ -20,7 +19,8 @@ export default async function fetch(client: Client, path: string, options: Reque
     });
 
     // Parse result
-    const data: any = await result.json();
+    let data: any = {};
+    if (result.status !== 204) data = await result.json();
 
     // Parse rate limit
     const bucket: string | null = result.headers.get("X-RateLimit-Bucket");
