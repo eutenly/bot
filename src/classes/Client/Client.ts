@@ -4,6 +4,7 @@ import WebSocket from "ws";
 import connect from "../../gateway/socket/connect";
 import Channel from "../Channel/Channel";
 import Guild from "../Guild/Guild";
+import RateLimit from "../common/RateLimit";
 import fetch from "./fetch";
 
 export default class Client extends EventEmitter {
@@ -49,5 +50,5 @@ export default class Client extends EventEmitter {
     updateSequence = (sequence: number) => this.sequence = sequence;
 
     // Make requests to the API
-    fetch = (path: string, options?: RequestInit, headers?: object): Promise<any> => fetch(this, path, options, headers);
+    fetch = (path: string, options?: RequestInit, headers?: object): Promise<{ data: any; rateLimit: RateLimit | undefined; }> => fetch(this, path, options, headers);
 }

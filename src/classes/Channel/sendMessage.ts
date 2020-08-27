@@ -1,5 +1,5 @@
-import { RequestInit } from "node-fetch";
 import Message from "../Message/Message";
+import RateLimit from "../common/RateLimit";
 import Channel from "./Channel";
 
 export default async function sendMessage(channel: Channel, content: string): Promise<Message> {
@@ -12,8 +12,8 @@ export default async function sendMessage(channel: Channel, content: string): Pr
         }
     };
 
-    // Send Message
-    const rawMessage = await channel.client.fetch(`/channels/${channel.id}/messages`, payload);
+    // Add to fetch queue
+    const rawMessage: any = await channel.fetchQueues.sendMessage.request(payload);
 
     // Register Message
     const message: Message = await channel.registerMessage({

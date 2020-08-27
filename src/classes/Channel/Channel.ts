@@ -1,4 +1,5 @@
 import Client from "../Client/Client";
+import FetchQueue from "../FetchQueue/FetchQueue";
 import Guild from "../Guild/Guild";
 import Message from "../Message/Message";
 import registerMessage, { MessageData } from "./registerMessage";
@@ -7,6 +8,10 @@ import sendMessage from "./sendMessage";
 interface ChannelData {
     id: string;
     guildID: string;
+}
+
+interface ChannelFetchQueue {
+    sendMessage: FetchQueue;
 }
 
 export default class Channel {
@@ -19,6 +24,9 @@ export default class Channel {
     guild: Guild | undefined;
     messages: Map<string, Message>;
 
+    // Fetch queues
+    fetchQueues: ChannelFetchQueue;
+
     // Constructor
     constructor(client: Client, data: ChannelData) {
 
@@ -30,10 +38,18 @@ export default class Channel {
 
         this.messages = new Map();
 
+        // Set fetch queues
+        this.fetchQueues = {
+            sendMessage: new FetchQueue(client, `/channels/${this.id}/messages`)
+        };
+
         // Cache channel
         this.client.channels.set(this.id, this);
     }
 
+    // Register a new message into cache
     registerMessage = (data: MessageData): Promise<Message> => registerMessage(this, data);
+
+    // Send a message
     sendMessage = (content: string): Promise<Message> => sendMessage(this, content);
 }
