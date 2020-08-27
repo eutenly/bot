@@ -41,7 +41,7 @@ export default class Embed {
     footer?: ExtendedTextData;
 
     // Constructor
-    constructor(data: EmbedData) {
+    constructor(data: EmbedData = {}) {
 
         // Set data
         this.title = data.title;
