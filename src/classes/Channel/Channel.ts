@@ -1,6 +1,7 @@
 import Client from "../Client/Client";
 import Guild from "../Guild/Guild";
 import Message from "../Message/Message";
+import { EmbedData } from "./Embed/Embed";
 import registerMessage, { MessageData } from "./registerMessage";
 import sendMessage from "./sendMessage";
 
@@ -35,5 +36,5 @@ export default class Channel {
     }
 
     registerMessage = (data: MessageData): Promise<Message> => registerMessage(this, data);
-    sendMessage = (content: string): Promise<Message> => sendMessage(this, content);
+    sendMessage = (content?: string, embed?: EmbedData): Promise<Message> => sendMessage(this, content, embed);
 }

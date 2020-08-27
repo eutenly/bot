@@ -1,14 +1,16 @@
 import { RequestInit } from "node-fetch";
 import Message from "../Message/Message";
 import Channel from "./Channel";
+import { EmbedData } from "./Embed/Embed";
 
-export default async function sendMessage(channel: Channel, content: string): Promise<Message> {
+export default async function sendMessage(channel: Channel, content: string = "", embed: EmbedData = {}): Promise<Message> {
 
     // Contruct Payload
     const payload: object = {
         method: "POST",
         body: {
-            content
+            content,
+            embed
         }
     };
 
