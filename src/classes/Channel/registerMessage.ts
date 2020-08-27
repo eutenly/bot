@@ -14,7 +14,7 @@ export default async function registerMessage(channel: Channel, data: MessageDat
     if (cachedMessage) return cachedMessage;
 
     // Message needs to be fetched
-    if (!data.content) {
+    if (!data.authorID) {
 
         // Fetch message
         const rawMessage: any = await channel.client.fetch(`/channels/${channel.id}/messages/${data.id}`);
