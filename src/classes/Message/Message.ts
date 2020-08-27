@@ -1,8 +1,9 @@
 import Channel from "../Channel/Channel";
 import Client from "../Client/Client";
-import FetchQueue from "../FetchQueue/FetchQueue";
+import { EmbedData } from "../Embed/Embed";
 import Guild from "../Guild/Guild";
 import addReaction from "./addReaction";
+import edit from "./edit";
 
 interface MessageData {
     id: string;
@@ -37,5 +38,9 @@ export default class Message {
         this.guild = data.guild;
     }
 
+    // Edit message
+    edit = (content: string | EmbedData, embed?: EmbedData): Promise<void> => edit(this, content, embed);
+
+    // Add reaction
     addReaction = (emoji: string): Promise<any> => addReaction(this, emoji);
 }
