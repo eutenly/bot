@@ -1,6 +1,7 @@
 import Channel from "../Channel/Channel";
 import Client from "../Client/Client";
 import Guild from "../Guild/Guild";
+import addReaction from "./addReaction";
 
 interface MessageData {
     id: string;
@@ -34,4 +35,6 @@ export default class Message {
         this.channel = data.channel;
         this.guild = data.guild;
     }
+
+    addReaction = (emoji: string): Promise<any> => addReaction(this, emoji);
 }
