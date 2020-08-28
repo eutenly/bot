@@ -1,22 +1,17 @@
 import { EmbedData } from "../Embed/Embed";
 import Message from "../Message/Message";
+import messagePayload from "../common/messagePayload";
 import Channel from "./Channel";
 
 export default async function sendMessage(channel: Channel, content: string | EmbedData, embed: EmbedData = {}): Promise<Message> {
 
     // Parse content
-    if (typeof content === "object") {
-        embed = content;
-        content = "";
-    }
+    const payloadBody: object = messagePayload(content, embed);
 
     // Contruct Payload
     const payload: object = {
         method: "POST",
-        body: {
-            content,
-            embed
-        }
+        body: payloadBody
     };
 
     // Add to fetch queue
