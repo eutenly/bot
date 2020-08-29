@@ -4,6 +4,7 @@ import guildDelete from "../events/guildDelete";
 import messageCreate from "../events/messageCreate";
 import messageReactionAdd from "../events/messageReactionAdd";
 import ready from "../events/ready";
+import roleUpdate from "../events/roleUpdate";
 
 export default function event(client: Client, type: string, data: any) {
 
@@ -21,4 +22,7 @@ export default function event(client: Client, type: string, data: any) {
 
     // Message Reaction Add
     else if (type === "MESSAGE_REACTION_ADD") messageReactionAdd(client, data);
+
+    // Role update
+    else if (type === "GUILD_ROLE_UPDATE") roleUpdate(client, data);
 }

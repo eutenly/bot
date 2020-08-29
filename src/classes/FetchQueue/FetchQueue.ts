@@ -5,7 +5,7 @@ import request from "./request";
 
 export interface RequestData {
     path: string;
-    data: object;
+    data?: object;
     resolve: Function;
 }
 
@@ -30,7 +30,7 @@ export default class FetchQueue {
     }
 
     // Request data to be fetched
-    request = (path: string, data: object): Promise<any> => request(this, path, data);
+    request = (path: string, data?: object): Promise<any> => request(this, path, data);
 
     // Process requests
     processRequests = () => processRequests(this);

@@ -1,12 +1,39 @@
 import Client from "../../classes/Client/Client";
 import Guild from "../../classes/Guild/Guild";
 
-interface GuildCreateEventData {
-    id: string;
-    joined_at: string;
+interface EventDataMember {
+    roles: string[];
 }
 
-export default function guildCreate(client: Client, data: GuildCreateEventData) {
+interface PermissionOverwrites {
+    id: string;
+    type: string;
+    allow_new: string;
+    deny_new: string;
+}
+
+interface EventDataChannel {
+    id: string;
+    type: number;
+    parent_id?: string;
+    permission_overwrites: PermissionOverwrites[];
+}
+
+interface EventDataRole {
+    id: string;
+    permissions_new: string;
+    position: number;
+}
+
+interface EventData {
+    id: string;
+    joined_at: string;
+    channels: EventDataChannel[];
+    roles: EventDataRole[];
+    members: EventDataMember[];
+}
+
+export default function guildCreate(client: Client, data: EventData) {
 
     // Get joined at
     const joinedAt: Date = new Date(data.joined_at);
@@ -14,6 +41,10 @@ export default function guildCreate(client: Client, data: GuildCreateEventData) 
     // Create guild
     const guild: Guild = new Guild(client, {
         id: data.id,
+        channels: data.channels,
+        rawRoles: data.roles,
+        roles: new Map(),
+        myRoles: data.members[0].roles,
         joinedAt
     });
 

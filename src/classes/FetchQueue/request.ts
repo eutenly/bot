@@ -1,6 +1,6 @@
 import FetchQueue from "./FetchQueue";
 
-export default function request(fetchQueue: FetchQueue, path: string, data: object) {
+export default function request(fetchQueue: FetchQueue, path: string, data?: object) {
     return new Promise((resolve) => {
 
         // Add to requests
