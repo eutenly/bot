@@ -1,5 +1,5 @@
 import Client from "../../classes/Client/Client";
-import Guild, { GuildDataChannel, GuildDataMember, GuildDataRole } from "../../classes/Guild/Guild";
+import Guild from "../../classes/Guild/Guild";
 
 interface EventData {
     guild_id: string;

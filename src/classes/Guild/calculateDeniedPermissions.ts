@@ -1,6 +1,12 @@
 import Guild, { GuildDataChannel, GuildDataMember, GuildDataRole } from "./Guild";
 import calculatePermissionOverwrites from "./calculatePermissionOverwrites";
 
+export interface PartialPermissionsGuildData {
+    channels?: GuildDataChannel[];
+    rawRoles?: GuildDataRole[];
+    myRoles?: string[];
+}
+
 export interface PermissionsGuildData {
     channels: GuildDataChannel[];
     rawRoles: GuildDataRole[];
@@ -12,26 +18,31 @@ export interface Permissions {
     [key: string]: number;
 }
 
-export default async function calculateDeniedPermissions(guild: Guild, rawData?: PermissionsGuildData) {
+export default async function calculateDeniedPermissions(guild: Guild, rawData: PartialPermissionsGuildData = {}) {
 
-    // Data needs to be fetched
-    if (!rawData) {
+    // Get channel data
+    let channelData: Promise<GuildDataChannel[]> | undefined;
+    if (!rawData.channels) channelData = guild.getChannels();
 
-        // Fetch message
-        const channelData: Promise<GuildDataChannel[]> = guild.getChannels();
-        const roleData: Promise<GuildDataRole[]> = guild.getRoles();
-        const selfData: Promise<GuildDataMember> = guild.getMember(guild.client.id);
+    // Get role data
+    let roleData: Promise<GuildDataRole[]> | undefined;
+    if (!rawData.rawRoles) roleData = guild.getRoles();
 
-        // Set data
-        rawData = {
-            channels: await channelData,
-            rawRoles: await roleData,
-            roles: new Map(),
-            myRoles: (await selfData).roles
-        };
-    }
+    // Get bot's member data
+    let selfData: Promise<GuildDataMember> | undefined;
+    if (!rawData.myRoles) selfData = guild.getMember(guild.client.id);
 
-    const data: PermissionsGuildData = rawData;
+    // Set data
+    if (channelData) rawData.channels = await channelData;
+    if (roleData) rawData.rawRoles = await roleData;
+    if (selfData) rawData.myRoles = (await selfData).roles;
+
+    const data: PermissionsGuildData = {
+        channels: rawData.channels || [],
+        rawRoles: rawData.rawRoles || [],
+        roles: new Map(),
+        myRoles: rawData.myRoles || []
+    };
 
     // Add the @everyone role to `myRoles`
     // The @everyone role ID is the same as the guild ID

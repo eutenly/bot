@@ -2,6 +2,7 @@ import Client from "../../classes/Client/Client";
 import channelUpdate from "../events/channelUpdate";
 import guildCreate from "../events/guildCreate";
 import guildDelete from "../events/guildDelete";
+import guildMemberUpdate from "../events/guildMemberUpdate";
 import messageCreate from "../events/messageCreate";
 import messageReactionAdd from "../events/messageReactionAdd";
 import ready from "../events/ready";
@@ -29,4 +30,7 @@ export default function event(client: Client, type: string, data: any) {
 
     // Channel update
     else if (type === "CHANNEL_UPDATE") channelUpdate(client, data);
+
+    // Guild member update
+    else if (type === "GUILD_MEMBER_UPDATE") guildMemberUpdate(client, data);
 }

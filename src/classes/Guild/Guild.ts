@@ -1,6 +1,6 @@
 import Client from "../Client/Client";
 import FetchQueue from "../FetchQueue/FetchQueue";
-import calculateDeniedPermissions, { PermissionsGuildData } from "./calculateDeniedPermissions";
+import calculateDeniedPermissions, { PartialPermissionsGuildData } from "./calculateDeniedPermissions";
 import getChannels from "./getChannels";
 import getMember from "./getMember";
 import getRoles from "./getRoles";
@@ -85,7 +85,7 @@ export default class Guild {
     }
 
     // Calculate the denied permissions for all channels in this guild
-    calculateDeniedPermissions = (data?: PermissionsGuildData): Promise<void> => calculateDeniedPermissions(this, data);
+    calculateDeniedPermissions = (data?: PartialPermissionsGuildData): Promise<void> => calculateDeniedPermissions(this, data);
 
     // Get all the channels in this guild
     getChannels = (): Promise<GuildDataChannel[]> => getChannels(this);
