@@ -20,6 +20,19 @@ export interface Permissions {
 
 export default async function calculateDeniedPermissions(guild: Guild, rawData: PartialPermissionsGuildData = {}) {
 
+    // If it's already processing denied permissions, set `processDeniedPermissions` to true
+    // This will cause it to calculate denied permissions again once it's done, in case there was another update to the perms
+    if (guild.processingDeniedPermissions) {
+
+        // Set process denied permissions
+        guild.processDeniedPermissions = true;
+
+        return;
+    }
+
+    // Set processing denied permissions
+    guild.processingDeniedPermissions = true;
+
     // Get channel data
     let channelData: Promise<GuildDataChannel[]> | undefined;
     if (!rawData.channels) channelData = guild.getChannels();
@@ -128,4 +141,17 @@ export default async function calculateDeniedPermissions(guild: Guild, rawData: 
         if (deniedPermissions !== 0) guild.deniedPermissions.set(c.id, deniedPermissions);
         else guild.deniedPermissions.delete(c.id);
     });
+
+    // Set processing denied permissions
+    guild.processingDeniedPermissions = false;
+
+    // If `processDeniedPermissions` is true, calculate denied permissions again
+    if (guild.processDeniedPermissions) {
+
+        // Set process denied permissions
+        guild.processDeniedPermissions = false;
+
+        // Calculate denied permissions
+        calculateDeniedPermissions(guild);
+    }
 }

@@ -56,6 +56,8 @@ export default class Guild {
 
     // A map of channel IDs mapped to a bitfield of denied permissions in that channel
     deniedPermissions: Map<string, number>;
+    processDeniedPermissions: boolean;
+    processingDeniedPermissions: boolean;
 
     // Fetch queues
     fetchQueues: GuildFetchQueue;
@@ -78,6 +80,8 @@ export default class Guild {
 
         // Calculate denied permissions
         this.deniedPermissions = new Map();
+        this.processDeniedPermissions = false;
+        this.processingDeniedPermissions = false;
         this.calculateDeniedPermissions(data);
 
         // Cache guild
