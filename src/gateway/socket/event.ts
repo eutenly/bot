@@ -1,4 +1,5 @@
 import Client from "../../classes/Client/Client";
+import channelDelete from "../events/channelDelete";
 import channelUpdate from "../events/channelUpdate";
 import guildCreate from "../events/guildCreate";
 import guildDelete from "../events/guildDelete";
@@ -34,6 +35,9 @@ export default function event(client: Client, type: string, data: any) {
 
     // Channel update
     else if (type === "CHANNEL_UPDATE") channelUpdate(client, data);
+
+    // Channel delete
+    else if (type === "CHANNEL_DELETE") channelDelete(client, data);
 
     // Guild member update
     else if (type === "GUILD_MEMBER_UPDATE") guildMemberUpdate(client, data);
