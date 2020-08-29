@@ -1,4 +1,4 @@
-import Guild, { GuildDataChannel, GuildDataRole } from "./Guild";
+import Guild, { GuildDataChannel, GuildDataMember, GuildDataRole } from "./Guild";
 import calculatePermissionOverwrites from "./calculatePermissionOverwrites";
 
 export interface PermissionsGuildData {
@@ -12,7 +12,26 @@ export interface Permissions {
     [key: string]: number;
 }
 
-export default function calculateDeniedPermissions(guild: Guild, data: PermissionsGuildData) {
+export default async function calculateDeniedPermissions(guild: Guild, rawData?: PermissionsGuildData) {
+
+    // Data needs to be fetched
+    if (!rawData) {
+
+        // Fetch message
+        const channelData: Promise<GuildDataChannel[]> = guild.getChannels();
+        const roleData: Promise<GuildDataRole[]> = guild.getRoles();
+        const selfData: Promise<GuildDataMember> = guild.getMember(guild.client.id);
+
+        // Set data
+        rawData = {
+            channels: await channelData,
+            rawRoles: await roleData,
+            roles: new Map(),
+            myRoles: (await selfData).roles
+        };
+    }
+
+    const data: PermissionsGuildData = rawData;
 
     // Add the @everyone role to `myRoles`
     // The @everyone role ID is the same as the guild ID

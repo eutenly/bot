@@ -85,7 +85,7 @@ export default class Guild {
     }
 
     // Calculate the denied permissions for all channels in this guild
-    calculateDeniedPermissions = (data: PermissionsGuildData) => calculateDeniedPermissions(this, data);
+    calculateDeniedPermissions = (data?: PermissionsGuildData): Promise<void> => calculateDeniedPermissions(this, data);
 
     // Get all the channels in this guild
     getChannels = (): Promise<GuildDataChannel[]> => getChannels(this);

@@ -1,4 +1,5 @@
 import Client from "../../classes/Client/Client";
+import channelUpdate from "../events/channelUpdate";
 import guildCreate from "../events/guildCreate";
 import guildDelete from "../events/guildDelete";
 import messageCreate from "../events/messageCreate";
@@ -25,4 +26,7 @@ export default function event(client: Client, type: string, data: any) {
 
     // Role update
     else if (type === "GUILD_ROLE_UPDATE") roleUpdate(client, data);
+
+    // Channel update
+    else if (type === "CHANNEL_UPDATE") channelUpdate(client, data);
 }
