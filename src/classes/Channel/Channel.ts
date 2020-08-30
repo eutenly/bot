@@ -3,8 +3,19 @@ import { EmbedData } from "../Embed/Embed";
 import FetchQueue from "../FetchQueue/FetchQueue";
 import Guild from "../Guild/Guild";
 import Message from "../Message/Message";
+import fetchMessage from "./fetchMessage";
 import registerMessage, { MessageData } from "./registerMessage";
 import sendMessage from "./sendMessage";
+
+interface RawMessageAuthor {
+    id: string;
+}
+
+export interface RawMessage {
+    id: string;
+    content: string;
+    author: RawMessageAuthor;
+}
 
 interface ChannelData {
     id: string;
@@ -14,6 +25,7 @@ interface ChannelData {
 interface ChannelFetchQueue {
     sendMessage: FetchQueue;
     addReaction: FetchQueue;
+    fetchMessage: FetchQueue;
 }
 
 export default class Channel {
@@ -43,7 +55,8 @@ export default class Channel {
         // Set fetch queues
         this.fetchQueues = {
             sendMessage: new FetchQueue(client),
-            addReaction: new FetchQueue(client)
+            addReaction: new FetchQueue(client),
+            fetchMessage: new FetchQueue(client)
         };
 
         // Cache channel
@@ -55,4 +68,7 @@ export default class Channel {
 
     // Send a message
     sendMessage = (content: string | EmbedData, embed?: EmbedData): Promise<Message> => sendMessage(this, content, embed);
+
+    // Fetch a message from this channel
+    fetchMessage = (messageID: string): Promise<RawMessage> => fetchMessage(this, messageID);
 }

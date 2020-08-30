@@ -6,7 +6,12 @@ import Channel from "./Channel";
 export default async function sendMessage(channel: Channel, content: string | EmbedData, embed: EmbedData = {}): Promise<Message> {
 
     // Parse content
-    const payloadBody: object = messagePayload(content, embed);
+    const payloadBody: any = messagePayload(content, embed);
+
+    // Missing perms
+    const deniedPermissions: number | undefined = channel.guild?.deniedPermissions.get(channel.id);
+    if ((deniedPermissions) && ((deniedPermissions & 0x800) === 0x800)) throw new Error("Missing permissions");
+    if ((deniedPermissions) && (Object.keys(payloadBody.embed).length) && ((deniedPermissions & 0x4000) === 0x4000)) throw new Error("Missing permissions");
 
     // Contruct Payload
     const payload: object = {
@@ -24,5 +29,6 @@ export default async function sendMessage(channel: Channel, content: string | Em
         authorID: rawMessage.author.id
     });
 
+    // Return
     return message;
 }

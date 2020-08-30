@@ -18,11 +18,15 @@ export default class Reaction {
 
     // Data about the reaction
     id: string;
-    uninitializedMessage: Promise<Message>;
+    uninitializedMessage: Promise<any>;
     message: Message;
     userID: string;
     channel: Channel;
     guild: Guild | undefined;
+
+    // Whether or not construction for this reaction failed
+    // This will be true if the bot doesn't have permissions to read message history to register the message
+    constructionFailed: boolean;
 
     // Constructor
     constructor(client: Client, data: ReactionData) {
@@ -42,9 +46,9 @@ export default class Reaction {
         this.guild = this.channel.guild;
 
         // Register message
+        this.constructionFailed = false;
         this.uninitializedMessage = this.channel.registerMessage({
             id: data.messageID
-        });
-        this.uninitializedMessage.then((m: Message) => this.message = m);
+        }).then((m: Message) => this.message = m).catch(() => this.constructionFailed = true);
     }
 }

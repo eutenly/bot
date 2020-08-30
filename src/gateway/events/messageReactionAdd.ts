@@ -1,7 +1,4 @@
-import Channel from "../../classes/Channel/Channel";
 import Client from "../../classes/Client/Client";
-import Guild from "../../classes/Guild/Guild";
-import Message from "../../classes/Message/Message";
 import Reaction from "../../classes/Reaction/Reaction";
 
 interface MessageReactionAddEventDataEmoji {
@@ -29,6 +26,7 @@ export default async function messageReactionAdd(client: Client, data: MessageRe
     });
 
     await reaction.uninitializedMessage;
+    if (reaction.constructionFailed) return;
 
     // Emit event
     client.emit("messageReactionAdd", reaction);
