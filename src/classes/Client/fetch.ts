@@ -10,6 +10,7 @@ export default async function fetch(client: Client, path: string, options: Reque
     // Make request
     const result: Response = await nodeFetch(`https://discord.com/api/v6${path}`, {
         headers: {
+            "User-Agent": "Eutenly (https://eutenly.com, 1.0)",
             "Authorization": `Bot ${client.token}`,
             "Content-Type": "application/json",
             "X-RateLimit-Precision": "millisecond",
