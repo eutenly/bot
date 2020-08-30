@@ -54,6 +54,16 @@ export default class Client extends EventEmitter {
 
         // Connect
         connect(this);
+
+        // SIGINT
+        process.on("SIGINT", () => {
+
+            // Close websocket
+            if (this.ws) this.ws.close(4020, "Process terminated");
+
+            // Exit
+            process.exit();
+        });
     }
 
     // Update the sequence
