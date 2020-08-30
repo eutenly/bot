@@ -1,5 +1,5 @@
-import chalk from "chalk";
 import fetch from "node-fetch";
+import { terminal } from "terminal-kit";
 import WebSocket from "ws";
 import Client from "../../classes/Client/Client";
 import event from "./event";
@@ -11,7 +11,9 @@ import resume from "./resume";
 export default async function connect(client: Client) {
 
     // Log
-    console.log(chalk.magenta("Gateway: Connecting..."));
+    const connectingStart = Date.now();
+    terminal.magenta.bold("Gateway: Connecting...\n");
+    terminal("  - ").magenta("Getting gateway data...\n");
 
     // Get gateway bot
     let gatewayData = await fetch("https://discord.com/api/gateway/bot", {
@@ -20,6 +22,10 @@ export default async function connect(client: Client) {
         }
     });
     gatewayData = await gatewayData.json();
+
+    const websocketStart = Date.now();
+    terminal.column(1).up(1).right("  - Getting gateway data".length)(" - ").green(`Done! (${Date.now() - connectingStart}ms)\n`);
+    terminal("  - ").magenta("Creating websocket...\n");
 
     // Create websocket
     const ws: WebSocket = new WebSocket(`${gatewayData.url}?v=6&encoding=json`, {
@@ -33,13 +39,25 @@ export default async function connect(client: Client) {
     ws.on("open", () => {
 
         // Log
-        console.log(chalk.green("Gateway: Connected"));
+        terminal.column(1).up(1).right("  - Creating websocket".length)(" - ").green(`Done! (${Date.now() - websocketStart}ms)\n`);
 
         // Identify
-        if (!client.sessionID) identify(ws, client.token);
+        if (!client.sessionID) {
+
+            identify(ws, client.token);
+
+            // Log
+            terminal("  - ").green("Sent identify payload\n");
+        }
 
         // Resume
-        else resume(client);
+        else {
+
+            resume(client);
+
+            // Log
+            terminal("  - ").green("Sent resume payload\n");
+        }
     });
 
     // Heartbeat and events
@@ -61,7 +79,14 @@ export default async function connect(client: Client) {
         else if (packet.op === 9) ws.close(4021, "Session invalidated by Discord");
 
         // Hello
-        else if (packet.op === 10) initializeHeartbeat(client, packet.d.heartbeat_interval);
+        else if (packet.op === 10) {
+
+            initializeHeartbeat(client, packet.d.heartbeat_interval);
+
+            // Log
+            terminal("  - ").green("Initialized heartbeat\n");
+            terminal.column(1).up(5).right("Gateway: Connecting".length)(" - ").green(`Done! (${Date.now() - connectingStart}ms)\n`).down(4)("\n");
+        }
     });
 
     // Websocket closed
@@ -72,20 +97,20 @@ export default async function connect(client: Client) {
         if (code === 4021) reason = "Session invalidated by Discord";
 
         // Log
-        console.log(chalk.red(`Gateway: Closed - ${code} ${reason}`));
+        terminal.red.bold("\nGateway: Closed").styleReset(" - ").red.bold(code).red(` ${reason}\n`);
 
         // Exit process
         if ([4004, 4010, 4011, 4012, 4013, 4014].includes(code)) {
 
             // Log
-            console.log(chalk.red("Exiting process"));
+            terminal("  - ").red("Exiting process\n");
 
             // Exit
             process.exit();
         }
 
         // Log
-        console.log(chalk.red("Gateway: Reconnecting..."));
+        terminal("  - ").red("Reconnecting to gateway\n\n");
 
         // Must start new session
         if ([4007, 4009, 4021].includes(code)) client.sessionID = undefined;

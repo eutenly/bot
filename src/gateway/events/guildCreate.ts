@@ -41,6 +41,9 @@ interface EventData {
 
 export default function guildCreate(client: Client, data: EventData) {
 
+    // Log
+    client.loadingGuildsProgressBar.startItem(data.id);
+
     // Get joined at
     const joinedAt: Date = new Date(data.joined_at);
 
@@ -63,6 +66,9 @@ export default function guildCreate(client: Client, data: EventData) {
 
         // Remove from loading guilds
         client.loadingGuilds.delete(guild.id);
+
+        // Log
+        client.loadingGuildsProgressBar.itemDone(guild.id);
 
         // If all guilds are loaded, emit the `ready` event
         if (client.loadingGuilds.size === 0) client.emit("ready");

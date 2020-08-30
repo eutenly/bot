@@ -1,6 +1,7 @@
 import { EventEmitter } from "events";
 import mongoose from "mongoose";
 import { RequestInit } from "node-fetch";
+import { Terminal } from "terminal-kit";
 import WebSocket from "ws";
 import connect from "../../gateway/socket/connect";
 import Channel from "../Channel/Channel";
@@ -28,6 +29,7 @@ export default class Client extends EventEmitter {
     // Guilds that haven't become available yet
     // A map is used instead of an array since we need to index by guild ID
     loadingGuilds: Map<string, void> | undefined;
+    loadingGuildsProgressBar: Terminal.ProgressBarController;
 
     // The guilds the bots in
     guilds: Map<string, Guild>;
@@ -54,11 +56,8 @@ export default class Client extends EventEmitter {
 
         this.eutenlyEmojis = new Map();
 
-        // Connect to Discord
-        connect(this);
-
-        // Connect to MongoDB
-        connectMongoDB();
+        // Connect
+        this.connect();
 
         // SIGINT
         process.on("SIGINT", async () => {
@@ -73,6 +72,15 @@ export default class Client extends EventEmitter {
             process.exit();
         });
     }
+
+    connect = async () => {
+
+        // Connect to MongoDB
+        await connectMongoDB();
+
+        // Connect to Discord
+        connect(this);
+    };
 
     // Update the sequence
     updateSequence = (sequence: number) => this.sequence = sequence;

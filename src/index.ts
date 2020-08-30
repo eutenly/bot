@@ -1,9 +1,12 @@
-import chalk from "chalk";
 import dotenv from "dotenv";
+import { terminal } from "terminal-kit";
 import Client from "./classes/Client/Client";
 
 // Configure env variables
 dotenv.config();
+
+// Clear dev logs
+if (process.env.DEV === "true") terminal.up(1).eraseLine().up(1).eraseLine();
 
 // Create client
 const client: Client = new Client(process.env.BOT_TOKEN || "");
@@ -12,5 +15,5 @@ const client: Client = new Client(process.env.BOT_TOKEN || "");
 client.on("ready", () => {
 
     // Log
-    console.log(chalk.green("Bot online!"));
+    terminal.green.bold("Bot online!\n");
 });

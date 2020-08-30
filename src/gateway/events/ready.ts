@@ -1,3 +1,4 @@
+import { terminal } from "terminal-kit";
 import Client from "../../classes/Client/Client";
 
 interface ReadyEventDataUser {
@@ -24,4 +25,14 @@ export default function ready(client: Client, data: ReadyEventData) {
 
     // Set loading guilds
     data.guilds.forEach((g: LoadingGuilds) => client.loadingGuilds?.set(g.id));
+
+    // Log
+    client.loadingGuildsProgressBar = terminal.progressBar({
+        title: "Loading Guilds",
+        percent: true,
+        items: client.loadingGuilds?.size,
+        barStyle: terminal.green,
+        barBracketStyle: terminal.white
+    });
+    terminal("\n\n");
 }
