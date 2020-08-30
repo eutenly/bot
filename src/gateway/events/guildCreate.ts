@@ -48,6 +48,16 @@ export default function guildCreate(client: Client, data: EventData) {
         joinedAt
     });
 
+    // Guilds are loading
+    if (client.loadingGuilds) {
+
+        // Remove from loading guilds
+        client.loadingGuilds.delete(guild.id);
+
+        // If all guilds are loaded, emit the `ready` event
+        if (client.loadingGuilds.size === 0) client.emit("ready");
+    }
+
     /**
      * Ignore non new servers
      *

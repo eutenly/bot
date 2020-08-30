@@ -23,6 +23,10 @@ export default class Client extends EventEmitter {
     avatarURL: string;
     sessionID: string | undefined;
 
+    // Guilds that haven't become available yet
+    // A map is used instead of an array since we need to index by guild ID
+    loadingGuilds: Map<string, void> | undefined;
+
     // The guilds the bots in
     guilds: Map<string, Guild>;
 
@@ -39,6 +43,7 @@ export default class Client extends EventEmitter {
         this.token = token;
         this.sequence = null;
 
+        this.loadingGuilds = new Map();
         this.guilds = new Map();
         this.channels = new Map();
 

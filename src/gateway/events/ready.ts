@@ -5,9 +5,14 @@ interface ReadyEventDataUser {
     avatar: string;
 }
 
+export interface LoadingGuilds {
+    id: string;
+}
+
 interface ReadyEventData {
     user: ReadyEventDataUser;
     session_id: string;
+    guilds: LoadingGuilds[];
 }
 
 export default function ready(client: Client, data: ReadyEventData) {
@@ -17,6 +22,6 @@ export default function ready(client: Client, data: ReadyEventData) {
     client.avatarURL = `https://cdn.discordapp.com/avatars/${client.id}/${data.user.avatar}`;
     client.sessionID = data.session_id;
 
-    // Emit event
-    client.emit("ready");
+    // Set loading guilds
+    data.guilds.forEach((g: LoadingGuilds) => client.loadingGuilds?.set(g.id));
 }
