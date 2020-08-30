@@ -1,5 +1,4 @@
 import typegoose from "@typegoose/typegoose";
-import mongoose from "mongoose";
 
 import dataSchema from "./data";
 import serversSchema from "./servers";

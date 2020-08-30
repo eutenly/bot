@@ -1,10 +1,12 @@
 import { EventEmitter } from "events";
+import mongoose from "mongoose";
 import { RequestInit } from "node-fetch";
 import WebSocket from "ws";
 import connect from "../../gateway/socket/connect";
 import Channel from "../Channel/Channel";
 import Guild from "../Guild/Guild";
 import RateLimit from "../common/RateLimit";
+import connectMongoDB from "./connectMongoDB";
 import fetch from "./fetch";
 
 export default class Client extends EventEmitter {
@@ -52,14 +54,20 @@ export default class Client extends EventEmitter {
 
         this.eutenlyEmojis = new Map();
 
-        // Connect
+        // Connect to Discord
         connect(this);
 
+        // Connect to MongoDB
+        connectMongoDB();
+
         // SIGINT
-        process.on("SIGINT", () => {
+        process.on("SIGINT", async () => {
 
             // Close websocket
             if (this.ws) this.ws.close(4020, "Process terminated");
+
+            // Disconnect from MongoDB
+            await mongoose.disconnect();
 
             // Exit
             process.exit();
