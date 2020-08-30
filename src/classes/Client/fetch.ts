@@ -38,6 +38,9 @@ export default async function fetch(client: Client, path: string, options: Reque
         reset
     };
 
+    // API error
+    if (data.code !== undefined) throw new Error(`API Error: ${data.code} ${data.message}`);
+
     // Return
     return {
         data,
