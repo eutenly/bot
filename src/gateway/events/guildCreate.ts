@@ -1,10 +1,6 @@
 import Client from "../../classes/Client/Client";
 import Guild from "../../classes/Guild/Guild";
 
-interface EventDataMember {
-    roles: string[];
-}
-
 interface PermissionOverwrites {
     id: string;
     type: string;
@@ -25,12 +21,22 @@ interface EventDataRole {
     position: number;
 }
 
+interface EventDataMember {
+    roles: string[];
+}
+
+interface EventDataEmoji {
+    id: string;
+    name: string;
+}
+
 interface EventData {
     id: string;
     joined_at: string;
     channels: EventDataChannel[];
     roles: EventDataRole[];
     members: EventDataMember[];
+    emojis: EventDataEmoji[];
 }
 
 export default function guildCreate(client: Client, data: EventData) {
@@ -47,6 +53,10 @@ export default function guildCreate(client: Client, data: EventData) {
         myRoles: data.members[0].roles,
         joinedAt
     });
+
+    // Set Eutenly emojis
+    // If the guild is Eutenly Support, add its emojis to `client.eutenlyEmojis`
+    if (guild.id === "733725629769318461") data.emojis.forEach((e: EventDataEmoji) => client.eutenlyEmojis.set(e.name, e.id));
 
     // Guilds are loading
     if (client.loadingGuilds) {

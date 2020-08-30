@@ -33,6 +33,9 @@ export default class Client extends EventEmitter {
     // The channels that are cached
     channels: Map<string, Channel>;
 
+    // The names of emojis on the Eutenly support server mapped to their emoji IDs
+    eutenlyEmojis: Map<string, string>;
+
     // Constructor
     constructor(token: string) {
 
@@ -46,6 +49,8 @@ export default class Client extends EventEmitter {
         this.loadingGuilds = new Map();
         this.guilds = new Map();
         this.channels = new Map();
+
+        this.eutenlyEmojis = new Map();
 
         // Connect
         connect(this);
