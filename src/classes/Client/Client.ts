@@ -9,6 +9,7 @@ import Guild from "../Guild/Guild";
 import RateLimit from "../common/RateLimit";
 import connectMongoDB from "./connectMongoDB";
 import fetch from "./fetch";
+import activateGarbageCollection from "./garbageCollector";
 
 export default class Client extends EventEmitter {
 
@@ -78,6 +79,9 @@ export default class Client extends EventEmitter {
 
         // Connect to MongoDB
         await connectMongoDB();
+
+        // Activate the Garbage Collector
+        activateGarbageCollection(this);
 
         // Connect to Discord
         connect(this);
