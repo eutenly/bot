@@ -2,6 +2,8 @@ import Channel from "../Channel/Channel";
 import Message from "../Message/Message";
 import Client from "./Client";
 
+
+
 export default function activateGarbageCollection(client: Client) {
     // Setup Garbage Collection to run every 60 seconds
     setInterval(function() {
@@ -10,6 +12,8 @@ export default function activateGarbageCollection(client: Client) {
 }
 
 export function collectGarbage(client: Client) {
+    const exclusions = [client.serverJoinLeave.id];
+
     // Cycle through cached channels
     client.channels.forEach(async (channel: Channel) => {
 
@@ -27,6 +31,9 @@ export function collectGarbage(client: Client) {
 
         // Check if channels have no cached messages
         if (channel.messages.size === 0) {
+            // Check for exclusions
+            if (exclusions.includes(channel.id)) return;
+
             // Delete channel cache
             client.channels.delete(channel.id);
         }
