@@ -20,13 +20,14 @@ export async function collectGarbage(client: Client) {
 
             // Check age of Timestamp
             if (timestamp.getTime() < Date.now() - 600000) {
+                // Delete messages older than 10 minutes
                 channel.messages.delete(message.id);
-                console.log("Deleted message cache" + message.id);
             }
         });
 
-        // Clear channel cache if no messages are present
+        // Check if channels have no cached messages
         if (channel.messages.size === 0) {
+            // Delete channel cache
             client.channels.delete(channel.id);
         }
     });
