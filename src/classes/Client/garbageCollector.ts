@@ -2,8 +2,6 @@ import Channel from "../Channel/Channel";
 import Message from "../Message/Message";
 import Client from "./Client";
 
-
-
 export default function activateGarbageCollection(client: Client) {
     // Setup Garbage Collection to run every 60 seconds
     setInterval(function() {
