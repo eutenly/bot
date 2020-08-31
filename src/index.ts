@@ -19,6 +19,5 @@ client.on("ready", () => {
     terminal.green.bold("Bot online!\n");
 });
 
-client.on("message", (msg) => {
-    routeMessage(msg);
-});
+// Message
+client.on("message", routeMessage);

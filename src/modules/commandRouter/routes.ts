@@ -1,19 +1,20 @@
 import Message from "../../classes/Message/Message";
-import evalCommand from "../eval/eval";
+import exampleCommand from "../example";
 
+// Define routes
 export const routes: Command[] = [
     {
-        name: "Eval",
-        information: "Owner JavaScript Eval",
-        inputs: ["eval "],
-        module: evalCommand,
-        allowParams: true,
+        name: "Example",
+        information: "Example command",
+        inputs: ["example"],
+        module: exampleCommand,
+        allowParams: true
     }
 ];
 
 type CommandRoute = (message: Message) => Promise<void>;
 
-interface Command {
+export interface Command {
     name: string;
     information: string;
     inputs: string[];
