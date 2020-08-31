@@ -19,7 +19,7 @@ export interface RawMessage {
 
 interface ChannelData {
     id: string;
-    guildID: string;
+    guildID?: string;
 }
 
 interface ChannelFetchQueue {
@@ -48,7 +48,7 @@ export default class Channel {
         this.client = client;
 
         this.id = data.id;
-        this.guild = this.client.guilds.get(data.guildID);
+        if (data.guildID) this.guild = this.client.guilds.get(data.guildID);
 
         this.messages = new Map();
 
