@@ -2,6 +2,8 @@ import dotenv from "dotenv";
 import { terminal } from "terminal-kit";
 import Client from "./classes/Client/Client";
 import routeMessage from "./modules/commandRouter/router";
+import serverJoin from "./modules/serverJoin";
+import serverLeave from "./modules/serverLeave";
 
 // Configure env variables
 dotenv.config();
@@ -21,3 +23,9 @@ client.on("ready", () => {
 
 // Message
 client.on("message", routeMessage);
+
+// Server Joined
+client.on("guildCreate", serverJoin);
+
+// Server Left
+client.on("guildDelete", serverLeave);
