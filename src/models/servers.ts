@@ -1,8 +1,10 @@
-export default class Servers {
+import { createSchema, Type } from "ts-mongoose";
+
+export const serversSchema = createSchema({
 
     // Server ID
-    _id: string;
+    _id: Type.string(),
 
     // The server's prefix
-    prefix: String;
-};
+    prefix: Type.string()
+});
