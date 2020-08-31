@@ -33,6 +33,7 @@ export default class Client extends EventEmitter {
 
     // The guilds the bots in
     guilds: Map<string, Guild>;
+    eutenland: Guild;
 
     // The channels that are cached
     channels: Map<string, Channel>;
