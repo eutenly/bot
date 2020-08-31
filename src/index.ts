@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import { terminal } from "terminal-kit";
 import Client from "./classes/Client/Client";
+import routeMessage from "./modules/commandRouter/router";
 import serverJoin from "./modules/serverJoin";
 import serverLeave from "./modules/serverLeave";
 
@@ -19,6 +20,9 @@ client.on("ready", () => {
     // Log
     terminal.green.bold("Bot online!\n");
 });
+
+// Message
+client.on("message", routeMessage);
 
 // Server Joined
 client.on("guildCreate", serverJoin);
