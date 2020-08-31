@@ -8,7 +8,6 @@
   "license": "Private",
   "private": true,
   "dependencies": {
-    "@typegoose/typegoose": "^7.3.3",
     "@types/mongoose": "^5.7.36",
     "@types/node-fetch": "^2.5.7",
     "@types/terminal-kit": "^1.28.2",
@@ -17,7 +16,7 @@
     "mongoose": "^5.10.0",
     "node-fetch": "^2.6.0",
     "terminal-kit": "^1.43.0",
-    "typegoose": "^5.9.1",
+    "ts-mongoose": "^0.0.21",
     "ws": "^7.3.1"
   }
 }
