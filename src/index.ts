@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import { terminal } from "terminal-kit";
 import Client from "./classes/Client/Client";
+import routeMessage from "./modules/commandRouter/router";
 
 // Configure env variables
 dotenv.config();
@@ -16,4 +17,8 @@ client.on("ready", () => {
 
     // Log
     terminal.green.bold("Bot online!\n");
+});
+
+client.on("message", (msg) => {
+    routeMessage(msg);
 });
