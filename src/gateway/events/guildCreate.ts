@@ -44,7 +44,7 @@ interface EventData {
 export default function guildCreate(client: Client, data: EventData) {
 
     // Log
-    client.loadingGuildsProgressBar.startItem(data.id);
+    if (client.loadingGuilds) client.loadingGuildsProgressBar.startItem(data.id);
 
     // Get joined at
     const joinedAt: Date = new Date(data.joined_at);
@@ -80,8 +80,15 @@ export default function guildCreate(client: Client, data: EventData) {
         // Log
         client.loadingGuildsProgressBar.itemDone(guild.id);
 
-        // If all guilds are loaded, emit the `ready` event
-        if (client.loadingGuilds.size === 0) client.emit("ready");
+        // All guilds are loaded
+        if (client.loadingGuilds.size === 0) {
+
+            // Unset loading guilds
+            client.loadingGuilds = undefined;
+
+            // Emit the `ready` event
+            client.emit("ready");
+        }
     }
 
     /**
