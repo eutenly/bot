@@ -37,7 +37,7 @@ export default class Client extends EventEmitter {
     // The channels that are cached
     channels: Map<string, Channel>;
 
-    // The names of emojis on the Eutenly support server mapped to their emoji IDs
+    // The names of emojis on the Eutenland server mapped to their emoji IDs
     eutenlyEmojis: Map<string, string>;
 
     // Constructor

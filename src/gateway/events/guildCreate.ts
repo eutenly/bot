@@ -58,7 +58,7 @@ export default function guildCreate(client: Client, data: EventData) {
     });
 
     // Set Eutenly emojis
-    // If the guild is Eutenly Support, add its emojis to `client.eutenlyEmojis`
+    // If the guild is Eutenland, add its emojis to `client.eutenlyEmojis`
     if (guild.id === "733725629769318461") data.emojis.forEach((e: EventDataEmoji) => client.eutenlyEmojis.set(e.name, e.id));
 
     // Guilds are loading
