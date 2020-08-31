@@ -32,6 +32,7 @@ interface EventDataEmoji {
 
 interface EventData {
     id: string;
+    name: string;
     joined_at: string;
     channels: EventDataChannel[];
     roles: EventDataRole[];
@@ -50,6 +51,7 @@ export default function guildCreate(client: Client, data: EventData) {
     // Create guild
     const guild: Guild = new Guild(client, {
         id: data.id,
+        name: data.name,
         channels: data.channels,
         rawRoles: data.roles,
         roles: new Map(),

@@ -32,6 +32,7 @@ export interface GuildDataMember {
 
 export interface GuildData {
     id: string;
+    name: string;
     channels: GuildDataChannel[];
     rawRoles: GuildDataRole[];
     roles: Map<string, GuildDataRole>;
@@ -54,6 +55,13 @@ export default class Guild {
     id: string;
     joinedAt: Date;
 
+    /**
+     * The server's name
+     *
+     * This property is only set on guild create, it isn't updated
+     */
+    name: string;
+
     // A map of channel IDs mapped to a bitfield of denied permissions in that channel
     deniedPermissions: Map<string, number>;
     processDeniedPermissions: boolean;
@@ -69,6 +77,7 @@ export default class Guild {
         this.client = client;
 
         this.id = data.id;
+        this.name = data.name;
         this.joinedAt = data.joinedAt;
 
         // Set fetch queues
