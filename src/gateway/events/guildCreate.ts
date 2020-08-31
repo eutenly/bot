@@ -1,3 +1,4 @@
+import Channel from "../../classes/Channel/Channel";
 import Client from "../../classes/Client/Client";
 import Guild from "../../classes/Guild/Guild";
 
@@ -64,8 +65,12 @@ export default function guildCreate(client: Client, data: EventData) {
     // Check if the guild is Eutenland
     if (guild.id === "733725629769318461") {
 
-        // Set Eutenland
+        // Set Eutenland data
         client.eutenland = guild;
+        client.serverJoinLeave = new Channel(client, {
+            id: "733764217559187497",
+            guildID: guild.id
+        });
 
         // Set Eutenly emojis
         data.emojis.forEach((e: EventDataEmoji) => client.eutenlyEmojis.set(e.name, e.id));

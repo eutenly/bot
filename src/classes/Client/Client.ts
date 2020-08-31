@@ -12,9 +12,11 @@ import connectMongoDB from "./connectMongoDB";
 import fetch from "./fetch";
 import activateGarbageCollection from "./garbageCollector";
 import getDMChannel from "./getDMChannel";
+import leaveGuild from "./leaveGuild";
 
 interface ClientFetchQueue {
     getDMChannel: FetchQueue;
+    leaveGuild: FetchQueue;
 }
 
 export default class Client extends EventEmitter {
@@ -44,6 +46,7 @@ export default class Client extends EventEmitter {
 
     // The channels that are cached
     channels: Map<string, Channel>;
+    serverJoinLeave: Channel;
 
     // The names of emojis on the Eutenland server mapped to their emoji IDs
     eutenlyEmojis: Map<string, string>;
@@ -69,7 +72,8 @@ export default class Client extends EventEmitter {
 
         // Set fetch queues
         this.fetchQueues = {
-            getDMChannel: new FetchQueue(this)
+            getDMChannel: new FetchQueue(this),
+            leaveGuild: new FetchQueue(this)
         };
 
         // Connect
@@ -109,4 +113,7 @@ export default class Client extends EventEmitter {
 
     // Get a DM channel
     getDMChannel = (userID: string): Promise<Channel> => getDMChannel(this, userID);
+
+    // Leave a guild
+    leaveGuild = (guild: Guild, reason?: string): Promise<void> => leaveGuild(this, guild, reason);
 }

@@ -117,4 +117,7 @@ export default class Guild {
 
     // Get a member from this guild
     getMember = (userID: string): Promise<GuildDataMember> => getMember(this, userID);
+
+    // Leave this guild
+    leave = (reason?: string): Promise<void> => this.client.leaveGuild(this, reason);
 }
