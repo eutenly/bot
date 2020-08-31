@@ -1,3 +1,4 @@
+import Channel from "../../classes/Channel/Channel";
 import Client from "../../classes/Client/Client";
 import Guild from "../../classes/Guild/Guild";
 
@@ -33,6 +34,7 @@ interface EventDataEmoji {
 interface EventData {
     id: string;
     name: string;
+    owner_id: string;
     joined_at: string;
     channels: EventDataChannel[];
     roles: EventDataRole[];
@@ -43,7 +45,7 @@ interface EventData {
 export default function guildCreate(client: Client, data: EventData) {
 
     // Log
-    client.loadingGuildsProgressBar.startItem(data.id);
+    if (client.loadingGuilds) client.loadingGuildsProgressBar.startItem(data.id);
 
     // Get joined at
     const joinedAt: Date = new Date(data.joined_at);
@@ -52,6 +54,7 @@ export default function guildCreate(client: Client, data: EventData) {
     const guild: Guild = new Guild(client, {
         id: data.id,
         name: data.name,
+        ownerID: data.owner_id,
         channels: data.channels,
         rawRoles: data.roles,
         roles: new Map(),
@@ -62,8 +65,12 @@ export default function guildCreate(client: Client, data: EventData) {
     // Check if the guild is Eutenland
     if (guild.id === "733725629769318461") {
 
-        // Set Eutenland
+        // Set Eutenland data
         client.eutenland = guild;
+        client.serverJoinLeave = new Channel(client, {
+            id: "733764217559187497",
+            guildID: guild.id
+        });
 
         // Set Eutenly emojis
         data.emojis.forEach((e: EventDataEmoji) => client.eutenlyEmojis.set(e.name, e.id));
@@ -78,8 +85,15 @@ export default function guildCreate(client: Client, data: EventData) {
         // Log
         client.loadingGuildsProgressBar.itemDone(guild.id);
 
-        // If all guilds are loaded, emit the `ready` event
-        if (client.loadingGuilds.size === 0) client.emit("ready");
+        // All guilds are loaded
+        if (client.loadingGuilds.size === 0) {
+
+            // Unset loading guilds
+            client.loadingGuilds = undefined;
+
+            // Emit the `ready` event
+            client.emit("ready");
+        }
     }
 
     /**

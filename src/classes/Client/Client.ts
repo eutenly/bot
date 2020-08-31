@@ -5,11 +5,19 @@ import { Terminal } from "terminal-kit";
 import WebSocket from "ws";
 import connect from "../../gateway/socket/connect";
 import Channel from "../Channel/Channel";
+import FetchQueue from "../FetchQueue/FetchQueue";
 import Guild from "../Guild/Guild";
 import RateLimit from "../common/RateLimit";
 import connectMongoDB from "./connectMongoDB";
 import fetch from "./fetch";
 import activateGarbageCollection from "./garbageCollector";
+import getDMChannel from "./getDMChannel";
+import leaveGuild from "./leaveGuild";
+
+interface ClientFetchQueue {
+    getDMChannel: FetchQueue;
+    leaveGuild: FetchQueue;
+}
 
 export default class Client extends EventEmitter {
 
@@ -38,9 +46,13 @@ export default class Client extends EventEmitter {
 
     // The channels that are cached
     channels: Map<string, Channel>;
+    serverJoinLeave: Channel;
 
     // The names of emojis on the Eutenland server mapped to their emoji IDs
     eutenlyEmojis: Map<string, string>;
+
+    // Fetch queues
+    fetchQueues: ClientFetchQueue;
 
     // Constructor
     constructor(token: string) {
@@ -57,6 +69,12 @@ export default class Client extends EventEmitter {
         this.channels = new Map();
 
         this.eutenlyEmojis = new Map();
+
+        // Set fetch queues
+        this.fetchQueues = {
+            getDMChannel: new FetchQueue(this),
+            leaveGuild: new FetchQueue(this)
+        };
 
         // Connect
         this.connect();
@@ -92,4 +110,10 @@ export default class Client extends EventEmitter {
 
     // Make requests to the API
     fetch = (path: string, options?: RequestInit, headers?: object): Promise<{ data: any; rateLimit: RateLimit | undefined; }> => fetch(this, path, options, headers);
+
+    // Get a DM channel
+    getDMChannel = (userID: string): Promise<Channel> => getDMChannel(this, userID);
+
+    // Leave a guild
+    leaveGuild = (guild: Guild, reason?: string): Promise<void> => leaveGuild(this, guild, reason);
 }

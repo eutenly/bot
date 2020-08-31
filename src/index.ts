@@ -1,6 +1,8 @@
 import dotenv from "dotenv";
 import { terminal } from "terminal-kit";
 import Client from "./classes/Client/Client";
+import serverJoin from "./modules/serverJoin";
+import serverLeave from "./modules/serverLeave";
 
 // Configure env variables
 dotenv.config();
@@ -17,3 +19,9 @@ client.on("ready", () => {
     // Log
     terminal.green.bold("Bot online!\n");
 });
+
+// Server Joined
+client.on("guildCreate", serverJoin);
+
+// Server Left
+client.on("guildDelete", serverLeave);

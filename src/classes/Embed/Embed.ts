@@ -8,6 +8,7 @@ export interface EmbedData {
     thumbnail?: ImageEmbedData;
     image?: ImageEmbedData;
     footer?: ExtendedTextData;
+    timestamp?: string;
 }
 
 export interface FieldData {
@@ -39,6 +40,7 @@ export default class Embed {
     thumbnail?: ImageEmbedData;
     image?: ImageEmbedData;
     footer?: ExtendedTextData;
+    timestamp?: string;
 
     // Constructor
     constructor(data: EmbedData = {}) {
@@ -57,6 +59,7 @@ export default class Embed {
         this.thumbnail = data.thumbnail;
         this.image = data.image;
         this.footer = data.footer;
+        this.timestamp = data.timestamp;
     }
 
     // Set title
@@ -207,6 +210,17 @@ export default class Embed {
             text,
             icon_url: iconURL
         };
+        return this;
+    };
+
+    // Set timestamp
+    setTimestamp = (timestamp?: Date): Embed => {
+
+        // No timestamp
+        if (!timestamp) timestamp = new Date();
+
+        // Set data
+        this.timestamp = timestamp.toISOString();
         return this;
     };
 }
