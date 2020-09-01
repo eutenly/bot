@@ -1,5 +1,5 @@
 import Message from "../../classes/Message/Message";
-import evalCommand from "../eval"
+import evalCommand from "../eval";
 import exampleCommand from "../example";
 
 // Define routes
