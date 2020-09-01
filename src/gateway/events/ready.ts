@@ -1,5 +1,7 @@
 import { terminal } from "terminal-kit";
-import Client from "../../classes/Client/Client";
+import Client, { EventQueueEvent } from "../../classes/Client/Client";
+import { Servers } from "../../models/index";
+import event from "../socket/event";
 
 interface ReadyEventDataUser {
     id: string;
@@ -16,15 +18,21 @@ interface ReadyEventData {
     guilds: LoadingGuilds[];
 }
 
-export default function ready(client: Client, data: ReadyEventData) {
+export default async function ready(client: Client, data: ReadyEventData) {
 
     // Set client data
     client.id = data.user.id;
     client.avatarURL = `https://cdn.discordapp.com/avatars/${client.id}/${data.user.avatar}`;
     client.sessionID = data.session_id;
 
+    // Get server data
+    await Servers.insertMany(data.guilds.map((g: LoadingGuilds) => ({ _id: g.id }))).catch(() => { });
+    const serverData = await Servers.find({ _id: { $in: data.guilds.map((g: LoadingGuilds) => g.id) } });
+
     // Set loading guilds
-    data.guilds.forEach((g: LoadingGuilds) => client.loadingGuilds?.set(g.id));
+    serverData.forEach((s) => client.loadingGuilds?.set(s._id, {
+        prefix: s.prefix
+    }));
 
     // Log
     client.loadingGuildsProgressBar = terminal.progressBar({
@@ -35,4 +43,11 @@ export default function ready(client: Client, data: ReadyEventData) {
         barBracketStyle: terminal.white
     });
     terminal("\n\n");
+
+    // Ready
+    client.ready = true;
+
+    // Process queued events
+    client.eventQueue.forEach((e: EventQueueEvent) => event(client, e.type, e.data));
+    client.eventQueue = [];
 }

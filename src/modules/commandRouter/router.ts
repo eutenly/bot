@@ -4,7 +4,7 @@ import { routes, Command } from "./routes";
 export default function routeMessage(message: Message) {
 
     // Get prefix
-    const prefix: string = process.env.DEFAULT_PREFIX || "";
+    const prefix: string = message.guild?.prefix || process.env.DEFAULT_PREFIX || "";
 
     // Ignore if message doesn't start with the prefix
     if (!message.content.startsWith(prefix)) return;

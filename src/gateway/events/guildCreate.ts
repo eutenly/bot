@@ -1,5 +1,5 @@
 import Channel from "../../classes/Channel/Channel";
-import Client from "../../classes/Client/Client";
+import Client, { ServerData } from "../../classes/Client/Client";
 import Guild from "../../classes/Guild/Guild";
 
 interface PermissionOverwrites {
@@ -44,8 +44,16 @@ interface EventData {
 
 export default function guildCreate(client: Client, data: EventData) {
 
-    // Log
-    if (client.loadingGuilds) client.loadingGuildsProgressBar.startItem(data.id);
+    // Guilds are loading
+    let serverData: ServerData | undefined;
+    if (client.loadingGuilds) {
+
+        // Log
+        client.loadingGuildsProgressBar.startItem(data.id);
+
+        // Get server data
+        serverData = client.loadingGuilds.get(data.id);
+    }
 
     // Get joined at
     const joinedAt: Date = new Date(data.joined_at);
@@ -59,7 +67,8 @@ export default function guildCreate(client: Client, data: EventData) {
         rawRoles: data.roles,
         roles: new Map(),
         myRoles: data.members[0].roles,
-        joinedAt
+        joinedAt,
+        data: serverData || {}
     });
 
     // Check if the guild is Eutenland

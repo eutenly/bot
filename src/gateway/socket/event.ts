@@ -14,10 +14,13 @@ import roleUpdate from "../events/roleUpdate";
 export default function event(client: Client, type: string, data: any) {
 
     // Ready
-    if (type === "READY") ready(client, data);
+    if (type === "READY") return ready(client, data);
+
+    // Client isn't ready
+    if (!client.ready) return client.eventQueue.push({ type, data });
 
     // Message Create
-    else if (type === "MESSAGE_CREATE") messageCreate(client, data);
+    if (type === "MESSAGE_CREATE") messageCreate(client, data);
 
     // Guild Create
     else if (type === "GUILD_CREATE") guildCreate(client, data);
