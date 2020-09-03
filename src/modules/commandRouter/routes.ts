@@ -7,8 +7,7 @@ export const routes: Command[] = [
         name: "Eval",
         information: "Owner JavaScript Eval",
         inputs: ["eval"],
-        module: evalCommand,
-        allowParams: true
+        module: evalCommand
     }
 ];
 
@@ -19,5 +18,4 @@ export interface Command {
     information: string;
     inputs: string[];
     module: CommandRoute;
-    allowParams: boolean;
 }
