@@ -14,6 +14,15 @@ import activateGarbageCollection from "./garbageCollector";
 import getDMChannel from "./getDMChannel";
 import leaveGuild from "./leaveGuild";
 
+export interface ServerData {
+    prefix?: string;
+}
+
+export interface EventQueueEvent {
+    type: string;
+    data: any;
+}
+
 interface ClientFetchQueue {
     getDMChannel: FetchQueue;
     leaveGuild: FetchQueue;
@@ -35,9 +44,13 @@ export default class Client extends EventEmitter {
     avatarURL: string;
     sessionID: string | undefined;
 
+    // Whether or not the client is ready to handle events from Discord
+    ready: boolean;
+    eventQueue: EventQueueEvent[];
+
     // Guilds that haven't become available yet
     // A map is used instead of an array since we need to index by guild ID
-    loadingGuilds: Map<string, void> | undefined;
+    loadingGuilds: Map<string, ServerData> | undefined;
     loadingGuildsProgressBar: Terminal.ProgressBarController;
 
     // The guilds the bots in
@@ -63,6 +76,8 @@ export default class Client extends EventEmitter {
         // Set data
         this.token = token;
         this.sequence = null;
+
+        this.eventQueue = [];
 
         this.loadingGuilds = new Map();
         this.guilds = new Map();

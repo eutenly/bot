@@ -1,4 +1,4 @@
-import Client from "../Client/Client";
+import Client, { ServerData } from "../Client/Client";
 import FetchQueue from "../FetchQueue/FetchQueue";
 import calculateDeniedPermissions, { PartialPermissionsGuildData } from "./calculateDeniedPermissions";
 import getChannels from "./getChannels";
@@ -39,6 +39,7 @@ export interface GuildData {
     roles: Map<string, GuildDataRole>;
     myRoles: string[];
     joinedAt: Date;
+    data: ServerData;
 }
 
 interface GuildFetchQueue {
@@ -55,6 +56,7 @@ export default class Guild {
     // Data about the guild
     id: string;
     joinedAt: Date;
+    prefix?: string;
 
     /**
      * The server's name
@@ -88,6 +90,7 @@ export default class Guild {
         this.name = data.name;
         this.ownerID = data.ownerID;
         this.joinedAt = data.joinedAt;
+        this.prefix = data.data.prefix;
 
         // Set fetch queues
         this.fetchQueues = {
