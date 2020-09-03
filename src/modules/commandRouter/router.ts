@@ -22,11 +22,9 @@ export default function routeMessage(message: Message) {
     // Get input
     const input = route.inputs.find((routeInput: string) => requestedCommand.startsWith(routeInput));
 
-    // The route has params but the input doesn't have space before params
-    if ((route.allowParams) && ((input !== requestedCommand) && (!requestedCommand.startsWith(`${input} `)))) return;
-
-    // The route doesn't have params
-    else if ((!route.allowParams) && (input === requestedCommand)) return;
+    // Invalid format
+    // ie. `e;helpgoogle` instead of `e;help google`
+    if ((requestedCommand !== input) && (!requestedCommand.startsWith(`${input} `))) return;
 
     // Run module
     route.module(message);
