@@ -1,4 +1,5 @@
 import Channel from "../Channel/Channel";
+import Command from "../Command/Command";
 import Message from "../Message/Message";
 import Client from "./Client";
 
@@ -37,6 +38,13 @@ function collectGarbage(client: Client) {
             // Delete channel cache
             client.channels.delete(channel.id);
         }
+    });
+
+    // Loop through user commands
+    client.userCommands.forEach((command: Command) => {
+
+        // If the command has expired, remove it from cache
+        if (command.expireTimestamp <= Date.now()) client.userCommands.delete(command.message.authorID);
     });
 }
 

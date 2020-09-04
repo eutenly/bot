@@ -22,7 +22,10 @@ export default class Command {
     message: Message;
     responseMessage?: Message;
     webScraper?: Boolean;
+
     searchManager: SearchManager;
+
+    expireTimestamp: number;
 
     // Constructor
     constructor(client: Client, data: CommandData) {
@@ -40,6 +43,8 @@ export default class Command {
             parser: data.parser,
             getEmbed: data.getEmbed
         });
+
+        this.expireTimestamp = Date.now() + 180000;
 
         // Set user command
         client.userCommands.set(this.message.authorID, this);
