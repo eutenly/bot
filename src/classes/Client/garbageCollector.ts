@@ -4,19 +4,21 @@ import Client from "./Client";
 
 export default function activateGarbageCollection(client: Client) {
     // Setup Garbage Collection to run every 60 seconds
-    setInterval(function() {
+    setInterval(() => {
         collectGarbage(client);
     }, 60000);
 }
 
-export function collectGarbage(client: Client) {
-    const exclusions = [client.serverJoinLeave.id];
+function collectGarbage(client: Client) {
+
+    // Define exclusions
+    const exclusions: string[] = [client.serverJoinLeave.id];
 
     // Cycle through cached channels
-    client.channels.forEach(async (channel: Channel) => {
+    client.channels.forEach((channel: Channel) => {
 
         // Cycle through messages within channel
-        channel.messages.forEach(async (message: Message) => {
+        channel.messages.forEach((message: Message) => {
             // Get Timestamp
             const timestamp = convertToTimestamp(message.id);
 
