@@ -5,9 +5,9 @@ import { Terminal } from "terminal-kit";
 import WebSocket from "ws";
 import connect from "../../gateway/socket/connect";
 import Channel from "../Channel/Channel";
-import Command from "../Command/Command";
 import FetchQueue from "../FetchQueue/FetchQueue";
 import Guild from "../Guild/Guild";
+import User from "../User/User";
 import RateLimit from "../common/RateLimit";
 import connectMongoDB from "./connectMongoDB";
 import fetch from "./fetch";
@@ -63,7 +63,7 @@ export default class Client extends EventEmitter {
     serverJoinLeave: Channel;
 
     // Users mapped to their command
-    userCommands: Map<string, Command>;
+    users: Map<string, User>;
 
     // The names of emojis on the Eutenland server mapped to their emoji IDs
     eutenlyEmojis: Map<string, string>;
@@ -87,7 +87,7 @@ export default class Client extends EventEmitter {
         this.guilds = new Map();
         this.channels = new Map();
 
-        this.userCommands = new Map();
+        this.users = new Map();
 
         this.eutenlyEmojis = new Map();
 

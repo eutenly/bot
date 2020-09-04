@@ -1,6 +1,6 @@
 import Channel from "../Channel/Channel";
-import Command from "../Command/Command";
 import Message from "../Message/Message";
+import User from "../User/User";
 import Client from "./Client";
 
 export default function activateGarbageCollection(client: Client) {
@@ -40,11 +40,16 @@ function collectGarbage(client: Client) {
         }
     });
 
-    // Loop through user commands
-    client.userCommands.forEach((command: Command) => {
+    // Loop through users
+    client.users.forEach((user: User) => {
 
-        // If the command has expired, remove it from cache
-        if (command.expireTimestamp <= Date.now()) client.userCommands.delete(command.message.authorID);
+        /**
+         * If the user's command has expired, remove it from cache
+         *
+         * This assumes that a user's command is the only reason a user would be cached long-term
+         * Regular command uses (ie. ping, help, etc) only keep the user object in the message object which gets cleared by the garbage collector
+         */
+        if ((!user.command) || (user.command.expireTimestamp <= Date.now())) client.users.delete(user.id);
     });
 }
 

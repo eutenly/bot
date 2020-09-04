@@ -17,7 +17,7 @@ export default async function page(message: Message) {
     const amount: number = parseInt(PARAMS.slice(1).join(" ")) || 1;
 
     // Get command
-    const command: Command | undefined = message.client.userCommands.get(message.authorID);
+    const command: Command | undefined = message.author.command;
     if (!command) return message.channel.sendMessage(":x:  **|  You haven't searched anything recently**");
 
     // Get page

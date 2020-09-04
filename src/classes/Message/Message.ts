@@ -3,6 +3,7 @@ import Client from "../Client/Client";
 import Command from "../Command/Command";
 import { EmbedData } from "../Embed/Embed";
 import Guild from "../Guild/Guild";
+import User from "../User/User";
 import addReaction from "./addReaction";
 import edit from "./edit";
 
@@ -22,7 +23,7 @@ export default class Message {
     // Data about the message
     id: string;
     content: string;
-    authorID: string;
+    author: User;
     channel: Channel;
     guild: Guild | undefined;
 
@@ -36,7 +37,9 @@ export default class Message {
 
         this.id = data.id;
         this.content = data.content;
-        this.authorID = data.authorID;
+        this.author = client.users.get(data.authorID) || new User(client, {
+            id: data.authorID
+        });
         this.channel = data.channel;
         this.guild = data.guild;
     }

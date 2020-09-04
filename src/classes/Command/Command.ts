@@ -47,6 +47,6 @@ export default class Command {
         this.expireTimestamp = Date.now() + 180000;
 
         // Set user command
-        client.userCommands.set(this.message.authorID, this);
+        this.message.author.command = this;
     }
 }
