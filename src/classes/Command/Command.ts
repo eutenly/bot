@@ -1,6 +1,8 @@
 import Client from "../Client/Client";
 import Message from "../Message/Message";
-import SearchManager, { GetEmbed, GetURL, Parser } from "./SearchManager/SearchManager";
+import SearchManager, { CachedResult, GetEmbed, GetURL, Parser } from "./SearchManager/SearchManager";
+
+export type View = (cachedResult: CachedResult, message: Message) => void;
 
 interface CommandData {
     name: string;
@@ -10,6 +12,7 @@ interface CommandData {
     getURL: GetURL;
     parser: Parser;
     getEmbed: GetEmbed;
+    view: View;
 }
 
 export default class Command {
@@ -24,6 +27,8 @@ export default class Command {
     webScraper?: Boolean;
 
     searchManager: SearchManager;
+
+    view: View;
 
     expireTimestamp: number;
 
@@ -43,6 +48,8 @@ export default class Command {
             parser: data.parser,
             getEmbed: data.getEmbed
         });
+
+        this.view = data.view;
 
         this.expireTimestamp = Date.now() + 180000;
 

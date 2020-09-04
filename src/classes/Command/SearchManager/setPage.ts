@@ -25,10 +25,10 @@ export default async function setPage(searchManager: SearchManager, page: number
     else data = await result.json();
 
     // Run parser
-    const parsedData: CachedResult = searchManager.parser(data, page);
+    const parsedData: CachedResult = searchManager.parser(data);
 
     // Add to cache
-    searchManager.cache.push(parsedData);
+    searchManager.cache.set(page, parsedData);
 
     // Get embed
     const embed: Embed = searchManager.getEmbed(searchManager, parsedData);

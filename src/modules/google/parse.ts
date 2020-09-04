@@ -7,7 +7,7 @@ import parseMain from "./parse/main";
 import parseQuestions from "./parse/questions";
 import parseTwitter from "./parse/twitter";
 
-export default function parse(data: string, page: number): CachedResult {
+export default function parse(data: string): CachedResult {
 
     // Parse
     const dom: any = cheerio.load(data);
@@ -45,7 +45,6 @@ export default function parse(data: string, page: number): CachedResult {
 
     // Return
     return {
-        page,
         metadata: {
             totalResults: dom("#result-stats").text().split(" ").slice(1, 2).join(" "),
             knowledgePanel

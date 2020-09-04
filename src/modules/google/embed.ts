@@ -9,7 +9,7 @@ export default function embed(searchManager: SearchManager, cachedResult: Cached
     // Embed
     const embed = new Embed()
         .setAuthor(`Google Search: ${searchManager.query}`, "http://pluspng.com/img-png/google-logo-png-open-2000.png")
-        .setDescription(`Page ${cachedResult.page}, About ${cachedResult.metadata.totalResults} results`)
+        .setDescription(`Page ${searchManager.page}, About ${cachedResult.metadata.totalResults} results`)
         .setColor(0x4086f4)
         .setBranding();
 

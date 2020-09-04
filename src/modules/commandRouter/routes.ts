@@ -2,6 +2,7 @@ import Message from "../../classes/Message/Message";
 import evalCommand from "../eval";
 import googleCommand from "../google/main";
 import pageCommand from "../page";
+import viewCommand from "../view";
 
 // Define routes
 export const routes: Command[] = [
@@ -16,6 +17,12 @@ export const routes: Command[] = [
         information: "Jump to a page",
         inputs: ["page", "next", "previous"],
         module: pageCommand
+    },
+    {
+        name: "View",
+        information: "View more info about a result",
+        inputs: ["view", "result"],
+        module: viewCommand
     },
     {
         name: "Eval",

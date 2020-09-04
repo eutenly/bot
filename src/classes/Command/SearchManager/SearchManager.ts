@@ -5,12 +5,11 @@ import setPage from "./setPage";
 export type GetURL = (query: string, page: number) => string;
 
 export interface CachedResult {
-    page: number;
     metadata: any;
     results: any[];
 }
 
-export type Parser = (data: any, page: number) => CachedResult;
+export type Parser = (data: any) => CachedResult;
 
 export type GetEmbed = (searchManager: SearchManager, cachedResult: CachedResult) => Embed;
 
@@ -30,7 +29,7 @@ export default class SearchManager {
     query: string;
     page?: number;
     getURL: GetURL;
-    cache: CachedResult[];
+    cache: Map<number, CachedResult>;
 
     parser: Parser;
     getEmbed: GetEmbed;
@@ -43,7 +42,7 @@ export default class SearchManager {
 
         this.query = data.query;
         this.getURL = data.getURL;
-        this.cache = [];
+        this.cache = new Map();
 
         this.parser = data.parser;
         this.getEmbed = data.getEmbed;
