@@ -5,6 +5,7 @@ import { Terminal } from "terminal-kit";
 import WebSocket from "ws";
 import connect from "../../gateway/socket/connect";
 import Channel from "../Channel/Channel";
+import Command from "../Command/Command";
 import FetchQueue from "../FetchQueue/FetchQueue";
 import Guild from "../Guild/Guild";
 import RateLimit from "../common/RateLimit";
@@ -61,6 +62,9 @@ export default class Client extends EventEmitter {
     channels: Map<string, Channel>;
     serverJoinLeave: Channel;
 
+    // Users mapped to their command
+    userCommands: Map<string, Command>;
+
     // The names of emojis on the Eutenland server mapped to their emoji IDs
     eutenlyEmojis: Map<string, string>;
 
@@ -82,6 +86,8 @@ export default class Client extends EventEmitter {
         this.loadingGuilds = new Map();
         this.guilds = new Map();
         this.channels = new Map();
+
+        this.userCommands = new Map();
 
         this.eutenlyEmojis = new Map();
 

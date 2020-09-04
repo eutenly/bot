@@ -1,9 +1,10 @@
+import Command from "../classes/Command/Command";
 import Reaction from "../classes/Reaction/Reaction";
 
 export default async function reactionAdded(reaction: Reaction) {
 
     // Get command
-    const command = reaction.message.command;
+    const command: Command | undefined = reaction.message.command;
     if (!command) return;
 
     // Restrict to command author

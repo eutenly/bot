@@ -40,5 +40,8 @@ export default class Command {
             parser: data.parser,
             getEmbed: data.getEmbed
         });
+
+        // Set user command
+        client.userCommands.set(this.message.authorID, this);
     }
 }
