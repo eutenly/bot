@@ -1,5 +1,4 @@
 import Command from "../../classes/Command/Command";
-import Embed from "../../classes/Embed/Embed";
 import Message from "../../classes/Message/Message";
 import embed from "./embed";
 import parse from "./parse";
@@ -24,8 +23,5 @@ export default async function main(message: Message) {
     });
 
     // Search
-    const resultsEmbed: Embed = await command.searchManager.getPage(1);
-
-    // Send
-    message.channel.sendMessage(resultsEmbed);
+    command.searchManager.setPage(1);
 }

@@ -1,5 +1,6 @@
 import Channel from "../Channel/Channel";
 import Client from "../Client/Client";
+import Command from "../Command/Command";
 import { EmbedData } from "../Embed/Embed";
 import Guild from "../Guild/Guild";
 import addReaction from "./addReaction";
@@ -24,6 +25,8 @@ export default class Message {
     authorID: string;
     channel: Channel;
     guild: Guild | undefined;
+
+    command?: Command;
 
     // Constructor
     constructor(client: Client, data: MessageData) {

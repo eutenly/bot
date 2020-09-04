@@ -20,6 +20,7 @@ export default class Command {
     // Data about the command
     name: string;
     message: Message;
+    responseMessage?: Message;
     webScraper?: Boolean;
     searchManager: SearchManager;
 

@@ -1,6 +1,6 @@
 import Embed from "../../Embed/Embed";
 import Command from "../Command";
-import getPage from "./getPage";
+import setPage from "./setPage";
 
 export type GetURL = (query: string, page: number) => string;
 
@@ -50,5 +50,5 @@ export default class SearchManager {
     }
 
     // Get a page's results
-    getPage = (page: number): Promise<Embed> => getPage(this, page);
+    setPage = (page: number): Promise<void> => setPage(this, page);
 }
