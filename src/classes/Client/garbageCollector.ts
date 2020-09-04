@@ -44,12 +44,15 @@ function collectGarbage(client: Client) {
     client.users.forEach((user: User) => {
 
         /**
-         * If the user's command has expired, remove it from cache
+         * If the user's cooldown or command has expired, remove it from cache
          *
-         * This assumes that a user's command is the only reason a user would be cached long-term
+         * This assumes that a user's cooldown and command are the only reason a user would be cached long-term
          * Regular command uses (ie. ping, help, etc) only keep the user object in the message object which gets cleared by the garbage collector
          */
-        if ((!user.command) || (user.command.expireTimestamp <= Date.now())) client.users.delete(user.id);
+        if (user.checkCooldown()) user.cooldown = 0;
+        if ((user.command) && (user.command.expireTimestamp <= Date.now())) delete user.command;
+
+        if ((!user.cooldown) && (!user.command)) client.users.delete(user.id);
     });
 }
 

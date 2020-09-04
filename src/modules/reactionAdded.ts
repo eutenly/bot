@@ -10,6 +10,9 @@ export default async function reactionAdded(reaction: Reaction) {
     // Restrict to command author
     if (reaction.user.id !== command.message.author.id) return;
 
+    // Cooldown not done
+    if (!reaction.user.checkCooldown()) return;
+
     // Previous page
     if ((reaction.id === reaction.client.eutenlyEmojis.get("left_arrow")) && (command.searchManager.page)) {
 

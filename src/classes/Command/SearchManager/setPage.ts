@@ -4,6 +4,9 @@ import SearchManager, { CachedResult } from "./SearchManager";
 
 export default async function setPage(searchManager: SearchManager, page: number): Promise<void> {
 
+    // Set cooldown
+    searchManager.command.message.author.setCooldown(searchManager.command.webScraper ? 4000 : 2000);
+
     // Invalid page
     if (page < 1) page = 1;
 
