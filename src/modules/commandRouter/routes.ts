@@ -1,5 +1,6 @@
 import Message from "../../classes/Message/Message";
 import evalCommand from "../eval";
+import helpCommand from "../help";
 
 // Define routes
 export const routes: Command[] = [
@@ -7,7 +8,15 @@ export const routes: Command[] = [
         name: "Eval",
         information: "Owner JavaScript Eval",
         inputs: ["eval"],
-        module: evalCommand
+        module: evalCommand,
+        private: true
+    },
+    {
+        name: "Help",
+        information: "Help about eutenly",
+        inputs: ["help", "h", "?"],
+        module: helpCommand,
+        private: false
     }
 ];
 
@@ -18,4 +27,5 @@ export interface Command {
     information: string;
     inputs: string[];
     module: CommandRoute;
+    private: boolean;
 }
