@@ -2,6 +2,7 @@ import Channel from "../Channel/Channel";
 import Client from "../Client/Client";
 import Guild from "../Guild/Guild";
 import Message from "../Message/Message";
+import remove from "./remove";
 
 interface ReactionData {
     id: string;
@@ -54,4 +55,7 @@ export default class Reaction {
             id: data.messageID
         }).then((m: Message) => this.message = m).catch(() => this.constructionFailed = true);
     }
+
+    // Remove this reaction
+    remove = (): Promise<void> => remove(this);
 }
