@@ -5,6 +5,7 @@ import Message from "../Message/Message";
 
 interface ReactionData {
     id: string;
+    name?: string;
     messageID: string;
     userID: string;
     channelID: string;
@@ -18,6 +19,7 @@ export default class Reaction {
 
     // Data about the reaction
     id: string;
+    name?: string;
     uninitializedMessage: Promise<any>;
     message: Message;
     userID: string;
@@ -35,6 +37,7 @@ export default class Reaction {
         this.client = client;
 
         this.id = data.id;
+        this.name = data.name;
         this.userID = data.userID;
 
         // Get channel
