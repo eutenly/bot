@@ -2,6 +2,7 @@ import Channel from "../Channel/Channel";
 import Client from "../Client/Client";
 import Guild from "../Guild/Guild";
 import Message from "../Message/Message";
+import User from "../User/User";
 import remove from "./remove";
 
 interface ReactionData {
@@ -23,7 +24,7 @@ export default class Reaction {
     name?: string;
     uninitializedMessage: Promise<any>;
     message: Message;
-    userID: string;
+    user: User;
     channel: Channel;
     guild: Guild | undefined;
 
@@ -39,7 +40,9 @@ export default class Reaction {
 
         this.id = data.id;
         this.name = data.name;
-        this.userID = data.userID;
+        this.user = client.users.get(data.userID) || new User(client, {
+            id: data.userID
+        });
 
         // Get channel
         this.channel = this.client.channels.get(data.channelID) || new Channel(client, {

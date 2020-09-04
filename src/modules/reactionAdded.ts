@@ -8,7 +8,7 @@ export default async function reactionAdded(reaction: Reaction) {
     if (!command) return;
 
     // Restrict to command author
-    if (reaction.userID !== command.message.author.id) return;
+    if (reaction.user.id !== command.message.author.id) return;
 
     // Previous page
     if ((reaction.id === reaction.client.eutenlyEmojis.get("left_arrow")) && (command.searchManager.page)) {
