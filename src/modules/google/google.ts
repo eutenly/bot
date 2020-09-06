@@ -4,7 +4,7 @@ import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
 
-export default async function google(message: Message, query: string) {
+export default async function google(message: Message, query: string, commandHistoryIndex?: number) {
 
     // Create command
     const command: Command = new Command(message.client, {
@@ -16,7 +16,7 @@ export default async function google(message: Message, query: string) {
         parser: parse,
         getEmbed: embed,
         view
-    });
+    }, (m: Message, chIndex: number) => google(m, query, chIndex), commandHistoryIndex);
 
     // Search
     command.searchManager?.setPage(1);

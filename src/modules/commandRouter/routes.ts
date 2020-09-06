@@ -1,6 +1,7 @@
 import Message from "../../classes/Message/Message";
 import evalCommand from "../eval";
 import googleCommand from "../google/main";
+import moveCommand from "../move";
 import pageCommand from "../page";
 import viewCommand from "../view";
 
@@ -17,6 +18,12 @@ export const routes: Command[] = [
         information: "Jump to a page",
         inputs: ["page", "next", "previous"],
         module: pageCommand
+    },
+    {
+        name: "Move",
+        information: "Move through your recent command history",
+        inputs: ["back", "forward"],
+        module: moveCommand
     },
     {
         name: "View",

@@ -1,6 +1,14 @@
 import Channel from "../Channel/Channel";
 import Client from "../Client/Client";
 import Command from "../Command/Command";
+import Message from "../Message/Message";
+
+export type RunCommand = (message: Message, commandHistoryIndex: number) => void;
+
+export interface CommandHistoryEntry {
+    run: RunCommand;
+    latest?: boolean;
+}
 
 interface UserData {
     id: string;
@@ -18,6 +26,9 @@ export default class User {
     // The command this user has used
     command?: Command;
 
+    // The users command history
+    commandHistory: CommandHistoryEntry[];
+
     // Constructor
     constructor(client: Client, data: UserData) {
 
@@ -26,6 +37,8 @@ export default class User {
 
         this.id = data.id;
         this.cooldown = 0;
+
+        this.commandHistory = [];
 
         // Cache user
         this.client.users.set(this.id, this);
