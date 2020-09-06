@@ -1,6 +1,6 @@
 import fetch, { Response } from "node-fetch";
 import Embed from "../../Embed/Embed";
-import SearchManager, { CachedResult } from "./SearchManager";
+import SearchManager from "./SearchManager";
 
 export default async function setPage(searchManager: SearchManager, page: number): Promise<void> {
 
@@ -25,27 +25,15 @@ export default async function setPage(searchManager: SearchManager, page: number
     else data = await result.json();
 
     // Run parser
-    const parsedData: CachedResult = searchManager.parser(data);
+    if (!searchManager.command.parser) return;
+    const parsedData: any = searchManager.command.parser(data);
 
     // Add to cache
     searchManager.cache.set(page, parsedData);
 
     // Get embed
-    const embed: Embed = searchManager.getEmbed(searchManager, parsedData);
+    const embed: Embed = searchManager.command.getEmbed(searchManager.command, parsedData);
 
-    // Send or edit
-    if (searchManager.command.responseMessage) searchManager.command.responseMessage.edit(embed);
-    else {
-
-        // Send
-        const m = await searchManager.command.message.channel.sendMessage(embed);
-
-        // Set data
-        m.command = searchManager.command;
-        searchManager.command.responseMessage = m;
-
-        // React
-        await m.addReaction(`left_arrow:${searchManager.command.client.eutenlyEmojis.get("left_arrow")}`);
-        await m.addReaction(`right_arrow:${searchManager.command.client.eutenlyEmojis.get("right_arrow")}`);
-    }
+    // Send
+    searchManager.command.send(embed);
 }

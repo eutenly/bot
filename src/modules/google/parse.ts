@@ -1,5 +1,4 @@
 import cheerio from "cheerio";
-import { CachedResult } from "../../classes/Command/SearchManager/SearchManager";
 import parseItemList from "./parse/itemList";
 import parseKnowledgePanel from "./parse/knowledgePanel/main";
 import parseList from "./parse/list";
@@ -7,7 +6,7 @@ import parseMain from "./parse/main";
 import parseQuestions from "./parse/questions";
 import parseTwitter from "./parse/twitter";
 
-export default function parse(data: string): CachedResult {
+export default function parse(data: string): any {
 
     // Parse
     const dom: any = cheerio.load(data);
@@ -45,10 +44,8 @@ export default function parse(data: string): CachedResult {
 
     // Return
     return {
-        metadata: {
-            totalResults: dom("#result-stats").text().split(" ").slice(1, 2).join(" "),
-            knowledgePanel
-        },
+        totalResults: dom("#result-stats").text().split(" ").slice(1, 2).join(" "),
+        knowledgePanel,
         results
     };
 }

@@ -5,7 +5,7 @@ export default async function reactionAdded(reaction: Reaction) {
 
     // Get command
     const command: Command | undefined = reaction.message.command;
-    if (!command) return;
+    if ((!command) || (!command.searchManager)) return;
 
     // Restrict to command author
     if (reaction.user.id !== command.message.author.id) return;

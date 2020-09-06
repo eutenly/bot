@@ -1,30 +1,30 @@
-import SearchManager, { CachedResult } from "../../classes/Command/SearchManager/SearchManager";
+import Command from "../../classes/Command/Command";
 import Embed from "../../classes/Embed/Embed";
 
-export default function embed(searchManager: SearchManager, cachedResult: CachedResult): Embed {
+export default function embed(command: Command, data: any): Embed {
 
     // Get prefix
-    const prefix: string = searchManager.command.message.guild?.prefix || process.env.DEFAULT_PREFIX || "";
+    const prefix: string = command.message.guild?.prefix || process.env.DEFAULT_PREFIX || "";
 
     // Embed
     const embed = new Embed()
-        .setAuthor(`Google Search: ${searchManager.query}`, "http://pluspng.com/img-png/google-logo-png-open-2000.png")
-        .setDescription(`Page ${searchManager.page}, About ${cachedResult.metadata.totalResults} results`)
+        .setAuthor(`Google Search: ${command.searchManager?.query}`, "http://pluspng.com/img-png/google-logo-png-open-2000.png")
+        .setDescription(`Page ${command.searchManager?.page}, About ${data.totalResults} results`)
         .setColor(0x4086f4)
         .setBranding();
 
     // No data
-    if (cachedResult.results.length === 0) return embed
+    if (data.results.length === 0) return embed
         .setDescription("Your search didn't match any results")
         .setColor(0xf44242);
 
     // Build embed
-    if (cachedResult.metadata.knowledgePanel) embed
+    if (data.knowledgePanel) embed
         .addField(null, null, true)
-        .addField(null, `**${cachedResult.metadata.knowledgePanel.link ? `[${cachedResult.metadata.knowledgePanel.title.title}](${cachedResult.metadata.knowledgePanel.link})` : cachedResult.metadata.knowledgePanel.title.title}**${cachedResult.metadata.knowledgePanel.title.label ? `\n${cachedResult.metadata.knowledgePanel.title.label}\n` : ""}\n*Use the \`${prefix}view knowledge panel\` command to get more info about this knowledge panel*`, true)
+        .addField(null, `**${data.knowledgePanel.link ? `[${data.knowledgePanel.title.title}](${data.knowledgePanel.link})` : data.knowledgePanel.title.title}**${data.knowledgePanel.title.label ? `\n${data.knowledgePanel.title.label}\n` : ""}\n*Use the \`${prefix}view knowledge panel\` command to get more info about this knowledge panel*`, true)
         .addField(null, null, true);
 
-    cachedResult.results.forEach((r: any, i: number) => {
+    data.results.forEach((r: any, i: number) => {
 
         /**
          * Normal

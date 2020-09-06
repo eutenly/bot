@@ -1,5 +1,4 @@
 import Command from "../classes/Command/Command";
-import { CachedResult } from "../classes/Command/SearchManager/SearchManager";
 import Message from "../classes/Message/Message";
 
 export default async function view(message: Message) {
@@ -8,7 +7,14 @@ export default async function view(message: Message) {
     const command: Command | undefined = message.author.command;
     if (!command) return message.channel.sendMessage(":x:  **|  You haven't searched anything recently**");
 
+    // Nothing to view
+    if (!command.view) return message.channel.sendMessage(":x:  **|  There's nothing to view**");
+
+    // Get data
+    let data: any;
+    if (command.data) data = command.data;
+    else data = command.searchManager?.cache.get(command.searchManager.page || 0);
+
     // Run module
-    const cachedResult: CachedResult | undefined = command.searchManager.cache.get(command.searchManager.page || 0);
-    if (cachedResult) command.view(cachedResult, message);
+    command.view(data, message);
 }

@@ -1,18 +1,25 @@
 import Client from "../Client/Client";
+import Embed from "../Embed/Embed";
 import Message from "../Message/Message";
-import SearchManager, { CachedResult, GetEmbed, GetURL, Parser } from "./SearchManager/SearchManager";
+import SearchManager, { GetURL } from "./SearchManager/SearchManager";
+import send from "./send";
 
-export type View = (cachedResult: CachedResult, message: Message) => void;
+export type Parser = (data: any) => any;
+
+export type GetEmbed = (command: Command, data: any) => Embed;
+
+export type View = (data: any, message: Message) => void;
 
 interface CommandData {
     name: string;
     message: Message;
     webScraper?: Boolean;
-    searchQuery: string;
-    getURL: GetURL;
-    parser: Parser;
+    searchQuery?: string;
+    getURL?: GetURL;
+    data?: any;
+    parser?: Parser;
     getEmbed: GetEmbed;
-    view: View;
+    view?: View;
 }
 
 export default class Command {
@@ -20,16 +27,24 @@ export default class Command {
     // The client
     client: Client;
 
-    // Data about the command
+    // Data about this command
     name: string;
     message: Message;
     responseMessage?: Message;
     webScraper?: Boolean;
 
-    searchManager: SearchManager;
+    // Functions to use this command
+    parser?: Parser;
+    getEmbed: GetEmbed;
+    view?: View;
 
-    view: View;
+    // The result of this command
+    data?: any;
 
+    // The search manager for search based commands
+    searchManager?: SearchManager;
+
+    // When this command expires
     expireTimestamp: number;
 
     // Constructor
@@ -42,18 +57,23 @@ export default class Command {
         this.message = data.message;
         this.webScraper = data.webScraper;
 
-        this.searchManager = new SearchManager(this, {
-            query: data.searchQuery,
-            getURL: data.getURL,
-            parser: data.parser,
-            getEmbed: data.getEmbed
-        });
-
+        this.parser = data.parser;
+        this.getEmbed = data.getEmbed;
         this.view = data.view;
+
+        this.data = data.data;
+
+        if ((data.searchQuery) && (data.getURL)) this.searchManager = new SearchManager(this, {
+            query: data.searchQuery,
+            getURL: data.getURL
+        });
 
         this.expireTimestamp = Date.now() + 180000;
 
         // Set user command
         this.message.author.command = this;
     }
+
+    // Send or edit the command message
+    send = (embed: Embed): Promise<void> => send(this, embed);
 }

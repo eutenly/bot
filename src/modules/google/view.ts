@@ -1,4 +1,3 @@
-import { CachedResult } from "../../classes/Command/SearchManager/SearchManager";
 import Message from "../../classes/Message/Message";
 import google from "./google";
 import knowledgePanel from "./knowledgePanel/main";
@@ -7,7 +6,7 @@ import knowledgePanel from "./knowledgePanel/main";
 const website = (m: any, link: any) => console.log(link);
 // TMP
 
-export default function view(cachedResult: CachedResult, message: Message) {
+export default function view(data: any, message: Message) {
 
     // Get prefix
     const prefix: string = message.guild?.prefix || process.env.DEFAULT_PREFIX || "";
@@ -20,10 +19,10 @@ export default function view(cachedResult: CachedResult, message: Message) {
     if (input.toLowerCase().replace(/\s+/g, "") === "knowledgepanel") {
 
         // No knowledge panel
-        if (!cachedResult.metadata.knowledgePanel) return message.channel.sendMessage(":x:  **|  There isn't a knowledge panel**");
+        if (!data.knowledgePanel) return message.channel.sendMessage(":x:  **|  There isn't a knowledge panel**");
 
         // Run module
-        return knowledgePanel(message, cachedResult.metadata.knowledgePanel);
+        return knowledgePanel(message, data.knowledgePanel);
     }
 
     // Get results
@@ -34,7 +33,7 @@ export default function view(cachedResult: CachedResult, message: Message) {
     if ((!resultNumber) || (resultNumber < 1)) return message.channel.sendMessage(":x:  **|  That result number is invalid**");
 
     // Get result
-    const result: any = cachedResult.results[resultNumber - 1];
+    const result: any = data.results[resultNumber - 1];
     if (!result) return message.channel.sendMessage(":x:  **|  That result number is invalid**");
 
     // Normal

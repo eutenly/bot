@@ -7,7 +7,7 @@ import view from "./view";
 export default async function google(message: Message, query: string) {
 
     // Create command
-    const command = new Command(message.client, {
+    const command: Command = new Command(message.client, {
         name: "google",
         message,
         webScraper: true,
@@ -19,5 +19,5 @@ export default async function google(message: Message, query: string) {
     });
 
     // Search
-    command.searchManager.setPage(1);
+    command.searchManager?.setPage(1);
 }
