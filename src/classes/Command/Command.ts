@@ -103,6 +103,7 @@ export default class Command {
         // Add to user's command history
         const commandHistoryEntry: CommandHistoryEntry = {
             run: runCommand,
+            timestamp: Date.now(),
             latest: true
         };
 

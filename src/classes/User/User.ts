@@ -7,6 +7,7 @@ export type RunCommand = (message: Message, commandHistoryIndex: number) => void
 
 export interface CommandHistoryEntry {
     run: RunCommand;
+    timestamp: number;
     latest?: boolean;
 }
 

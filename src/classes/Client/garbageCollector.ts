@@ -49,10 +49,21 @@ function collectGarbage(client: Client) {
          * This assumes that a user's cooldown and command are the only reason a user would be cached long-term
          * Regular command uses (ie. ping, help, etc) only keep the user object in the message object which gets cleared by the garbage collector
          */
+        // If the user's cooldown is done, set it to `0`
         if (user.checkCooldown()) user.cooldown = 0;
+
+        // If the user's command has expired, remove it
         if ((user.command) && (user.command.expireTimestamp <= Date.now())) delete user.command;
 
-        if ((!user.cooldown) && (!user.command)) client.users.delete(user.id);
+        // If the user's latest command history entry is also 30 minutes old, remove the user from cache
+        if (
+            !user.cooldown &&
+            !user.command &&
+            (
+                !user.commandHistory[user.commandHistory.length - 1] ||
+                user.commandHistory[user.commandHistory.length - 1].timestamp + 1800000 <= Date.now()
+            )
+        ) client.users.delete(user.id);
     });
 }
 
