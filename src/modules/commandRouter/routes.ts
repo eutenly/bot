@@ -1,8 +1,36 @@
 import Message from "../../classes/Message/Message";
 import evalCommand from "../eval";
+import googleCommand from "../google/main";
+import moveCommand from "../move";
+import pageCommand from "../page";
+import viewCommand from "../view";
 
 // Define routes
 export const routes: Command[] = [
+    {
+        name: "Google",
+        information: "Search Google",
+        inputs: ["google", "search"],
+        module: googleCommand
+    },
+    {
+        name: "Page",
+        information: "Jump to a page",
+        inputs: ["page", "next", "previous"],
+        module: pageCommand
+    },
+    {
+        name: "Move",
+        information: "Move through your recent command history",
+        inputs: ["back", "forward"],
+        module: moveCommand
+    },
+    {
+        name: "View",
+        information: "View more info about a result",
+        inputs: ["view", "result"],
+        module: viewCommand
+    },
     {
         name: "Eval",
         information: "Owner JavaScript Eval",
@@ -11,7 +39,7 @@ export const routes: Command[] = [
     }
 ];
 
-type CommandRoute = (message: Message) => Promise<void>;
+type CommandRoute = (message: Message) => Promise<any>;
 
 export interface Command {
     name: string;

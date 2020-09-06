@@ -213,6 +213,14 @@ export default class Embed {
         return this;
     };
 
+    // Set branding
+    setBranding = (): Embed => {
+
+        // Set footer
+        this.setFooter("Eutenly.com", "https://eutenly.com/assets/avatar.png");
+        return this;
+    };
+
     // Set timestamp
     setTimestamp = (timestamp?: Date): Embed => {
 

@@ -1,22 +1,25 @@
 import Channel from "../Channel/Channel";
 import Message from "../Message/Message";
+import User from "../User/User";
 import Client from "./Client";
 
 export default function activateGarbageCollection(client: Client) {
     // Setup Garbage Collection to run every 60 seconds
-    setInterval(function() {
+    setInterval(() => {
         collectGarbage(client);
     }, 60000);
 }
 
-export function collectGarbage(client: Client) {
-    const exclusions = [client.serverJoinLeave.id];
+function collectGarbage(client: Client) {
+
+    // Define exclusions
+    const exclusions: string[] = [client.serverJoinLeave.id];
 
     // Cycle through cached channels
-    client.channels.forEach(async (channel: Channel) => {
+    client.channels.forEach((channel: Channel) => {
 
         // Cycle through messages within channel
-        channel.messages.forEach(async (message: Message) => {
+        channel.messages.forEach((message: Message) => {
             // Get Timestamp
             const timestamp = convertToTimestamp(message.id);
 
@@ -35,6 +38,32 @@ export function collectGarbage(client: Client) {
             // Delete channel cache
             client.channels.delete(channel.id);
         }
+    });
+
+    // Loop through users
+    client.users.forEach((user: User) => {
+
+        /**
+         * If the user's cooldown or command has expired, remove it from cache
+         *
+         * This assumes that a user's cooldown and command are the only reason a user would be cached long-term
+         * Regular command uses (ie. ping, help, etc) only keep the user object in the message object which gets cleared by the garbage collector
+         */
+        // If the user's cooldown is done, set it to `0`
+        if (user.checkCooldown()) user.cooldown = 0;
+
+        // If the user's command has expired, remove it
+        if ((user.command) && (user.command.expireTimestamp <= Date.now())) delete user.command;
+
+        // If the user's latest command history entry is also 30 minutes old, remove the user from cache
+        if (
+            !user.cooldown &&
+            !user.command &&
+            (
+                !user.commandHistory[user.commandHistory.length - 1] ||
+                user.commandHistory[user.commandHistory.length - 1].timestamp + 1800000 <= Date.now()
+            )
+        ) client.users.delete(user.id);
     });
 }
 

@@ -91,6 +91,7 @@ export default async function calculateDeniedPermissions(guild: Guild, rawData: 
         ADD_REACTIONS: 0x40,
         VIEW_CHANNEL: 0x400,
         SEND_MESSAGES: 0x800,
+        MANAGE_MESSAGES: 0x2000,
         EMBED_LINKS: 0x4000,
         READ_MESSAGE_HISTORY: 0x10000,
         USE_EXTERNAL_EMOJIS: 0x40000

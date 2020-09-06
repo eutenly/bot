@@ -7,6 +7,7 @@ import connect from "../../gateway/socket/connect";
 import Channel from "../Channel/Channel";
 import FetchQueue from "../FetchQueue/FetchQueue";
 import Guild from "../Guild/Guild";
+import User from "../User/User";
 import RateLimit from "../common/RateLimit";
 import connectMongoDB from "./connectMongoDB";
 import fetch from "./fetch";
@@ -61,6 +62,9 @@ export default class Client extends EventEmitter {
     channels: Map<string, Channel>;
     serverJoinLeave: Channel;
 
+    // Users mapped to their command
+    users: Map<string, User>;
+
     // The names of emojis on the Eutenland server mapped to their emoji IDs
     eutenlyEmojis: Map<string, string>;
 
@@ -82,6 +86,8 @@ export default class Client extends EventEmitter {
         this.loadingGuilds = new Map();
         this.guilds = new Map();
         this.channels = new Map();
+
+        this.users = new Map();
 
         this.eutenlyEmojis = new Map();
 
