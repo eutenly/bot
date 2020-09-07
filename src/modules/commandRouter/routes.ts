@@ -4,6 +4,7 @@ import googleCommand from "../google/main";
 import moveCommand from "../move";
 import pageCommand from "../page";
 import viewCommand from "../view";
+import youtubeCommand from "../youtube/main";
 
 // Define routes
 export const routes: Command[] = [
@@ -12,6 +13,12 @@ export const routes: Command[] = [
         information: "Search Google",
         inputs: ["google", "search"],
         module: googleCommand
+    },
+    {
+        name: "YouTube",
+        information: "Search YouTube",
+        inputs: ["youtube"],
+        module: youtubeCommand
     },
     {
         name: "Page",

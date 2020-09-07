@@ -13,20 +13,50 @@ export default async function setPage(searchManager: SearchManager, page: number
     // Set page
     searchManager.page = page;
 
-    // Make request
-    const result: Response = await fetch(searchManager.getURL(searchManager.query, page), {
-        headers: searchManager.command.webScraper ? { "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" } : {}
-    });
+    // Get from cache
+    const cachedData: any = searchManager.cache.get(page);
+    if (cachedData) {
 
-    // Parse result
+        // Get embed
+        const embed: Embed = searchManager.command.getEmbed(searchManager.command, cachedData);
+
+        // Send
+        searchManager.command.send(embed);
+
+        // Return
+        return;
+    }
+
+    // Define data
     let data: any;
-    if (result.status === 204) data = {};
-    else if (searchManager.command.webScraper) data = await result.text();
-    else data = await result.json();
+
+    // Get next page token
+    const nextPageToken: string | undefined = searchManager.orderedPages ? searchManager.nextPageToken : undefined;
+
+    // Regular commands
+    if (searchManager.command.getURL) {
+
+        // Make request
+        const result: Response = await fetch(searchManager.command.getURL(searchManager.query, page, nextPageToken), {
+            headers: searchManager.command.webScraper ? { "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" } : {}
+        });
+
+        // Parse result
+        if (result.status === 204) data = {};
+        else if (searchManager.command.webScraper) data = await result.text();
+        else data = await result.json();
+    }
+
+    // Commands that have a custom function for getting data
+    else if (searchManager.command.getData) data = await searchManager.command.getData(searchManager.query, page, nextPageToken);
 
     // Run parser
     if (!searchManager.command.parser) return;
-    const parsedData: any = searchManager.command.parser(data);
+    const parserData: any = searchManager.command.parser(data);
+    const parsedData: any = searchManager.orderedPages ? parserData.data : parserData;
+
+    // Set next page token
+    if (searchManager.orderedPages) searchManager.nextPageToken = parserData.nextPageToken;
 
     // Add to cache
     searchManager.cache.set(page, parsedData);

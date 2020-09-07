@@ -2,9 +2,20 @@ import Client from "../Client/Client";
 import Embed from "../Embed/Embed";
 import Message from "../Message/Message";
 import { CommandHistoryEntry, RunCommand } from "../User/User";
-import SearchManager, { GetURL } from "./SearchManager/SearchManager";
+import SearchManager from "./SearchManager/SearchManager";
+import fetch from "./fetch";
 import send from "./send";
 
+export type GetURL = (query?: string, page?: number, nextPageToken?: string) => string;
+
+export type GetData = (query?: string, page?: number, nextPageToken?: string) => Promise<any>;
+
+/**
+ * Parser
+ *
+ * For commands with unordered pages, the return type is expected to have a `data` and `nextPageToken` property
+ * The `data` property is what the return data would be for a command with ordered pages
+ */
 export type Parser = (data: any) => any;
 
 export type GetEmbed = (command: Command, data: any) => Embed;
@@ -16,7 +27,9 @@ interface CommandData {
     message: Message;
     webScraper?: Boolean;
     searchQuery?: string;
+    orderedPages?: boolean;
     getURL?: GetURL;
+    getData?: GetData;
     data?: any;
     parser?: Parser;
     getEmbed: GetEmbed;
@@ -35,6 +48,8 @@ export default class Command {
     webScraper?: Boolean;
 
     // Functions to use this command
+    getURL?: GetURL;
+    getData?: GetData;
     parser?: Parser;
     getEmbed: GetEmbed;
     view?: View;
@@ -58,15 +73,17 @@ export default class Command {
         this.message = data.message;
         this.webScraper = data.webScraper;
 
+        this.getURL = data.getURL;
+        this.getData = data.getData;
         this.parser = data.parser;
         this.getEmbed = data.getEmbed;
         this.view = data.view;
 
         this.data = data.data;
 
-        if ((data.searchQuery) && (data.getURL)) this.searchManager = new SearchManager(this, {
+        if (data.searchQuery) this.searchManager = new SearchManager(this, {
             query: data.searchQuery,
-            getURL: data.getURL
+            orderedPages: data.orderedPages
         });
 
         this.expireTimestamp = Date.now() + 180000;
@@ -113,6 +130,9 @@ export default class Command {
         // Limit command history to 10 commands
         if (this.message.author.commandHistory.length >= 10) this.message.author.commandHistory.splice(0, this.message.author.commandHistory.length - 10);
     }
+
+    // Fetch this command's data
+    fetch = (): Promise<any> => fetch(this);
 
     // Send or edit the command message
     send = (embed: Embed): Promise<void> => send(this, embed);
