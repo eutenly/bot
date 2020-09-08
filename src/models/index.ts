@@ -1,10 +1,10 @@
-import { typedModel } from "ts-mongoose";
-import { dataSchema } from "./data";
-import { serversSchema } from "./servers";
-import { usersSchema } from "./users";
-import { websitesSchema } from "./websites";
+import { model, Model } from "mongoose";
+import { dataSchema, IData } from "./data";
+import { serversSchema, IServer } from "./servers";
+import { usersSchema, IUser } from "./users";
+import { websitesSchema, IWebsite } from "./websites";
 
-export const Data = typedModel("data", dataSchema, "data");
-export const Servers = typedModel("servers", serversSchema, "servers");
-export const Users = typedModel("users", usersSchema, "users");
-export const Websites = typedModel("websites", websitesSchema, "websites");
+export const Data = model<IData, Model<IData>>("data", dataSchema);
+export const Servers = model<IServer, Model<IServer>>("servers", serversSchema);
+export const Users = model<IUser, Model<IUser>>("users", usersSchema);
+export const Websites = model<IWebsite, Model<IWebsite>>("websites", websitesSchema);

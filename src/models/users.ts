@@ -1,58 +1,85 @@
-import { createSchema, Type } from "ts-mongoose";
+import { Document, Schema, Types } from "mongoose";
 
-export const usersSchema = createSchema({
+interface SavedLink {
+    url: string;
+    note?: string;
+}
 
-    // User ID
-    _id: Type.string(),
-
-    // The user's connections
+export interface IUser extends Document {
+    _id: string;
     connections: {
-
         twitter: {
-            id: Type.string(),
-            accessToken: Type.string(),
-            accessSecret: Type.string()
+            id?: string;
+            accessToken?: string;
+            accessSecret?: string;
         },
-
         reddit: {
-            id: Type.string(),
-            accessToken: Type.string(),
-            refreshToken: Type.string()
+            id?: string;
+            accessToken?: string;
+            refreshToken?: string;
         },
-
         spotify: {
-            id: Type.string(),
-            accessToken: Type.string(),
-            refreshToken: Type.string()
+            id?: string;
+            accessToken?: string;
+            refreshToken?: string;
         },
-
         twitch: {
-            id: Type.string(),
-            accessToken: Type.string(),
-            refreshToken: Type.string()
+            id?: string;
+            accessToken?: string;
+            refreshToken?: string;
         },
-
         github: {
-            id: Type.string(),
-            accessToken: Type.string()
+            id?: string;
+            accessToken?: string;
         },
-
         wakatime: {
-            id: Type.string(),
-            accessToken: Type.string(),
-            refreshToken: Type.string()
+            id?: string;
+            accessToken?: string;
+            refreshToken?: string;
+        };
+    };
+    savedLinks: Types.Array<SavedLink>;
+    voteExpireTimestamp?: number;
+    patreonTier?: number;
+}
+
+export const usersSchema: Schema = new Schema({
+    _id: String,
+    connections: {
+        twitter: {
+            id: String,
+            accessToken: String,
+            accessSecret: String
+        },
+        reddit: {
+            id: String,
+            accessToken: String,
+            refreshToken: String
+        },
+        spotify: {
+            id: String,
+            accessToken: String,
+            refreshToken: String
+        },
+        twitch: {
+            id: String,
+            accessToken: String,
+            refreshToken: String
+        },
+        github: {
+            id: String,
+            accessToken: String
+        },
+        wakatime: {
+            id: String,
+            accessToken: String,
+            refreshToken: String
         }
     },
-
-    // The user's saved links
-    savedLinks: Type.array().of({
-        url: Type.string(),
-        note: Type.string()
-    }),
-
-    // When this user's vote expires
-    voteExpireTimestamp: Type.number(),
-
-    // What tier this user is on Patreon
-    patreonTier: Type.number(),
+    savedLinks: [{
+        url: String,
+        note: String
+    }],
+    voteExpireTimestamp: Number,
+    patreonTier: Number
 });
