@@ -1,8 +1,8 @@
 import Message from "../../../classes/Message/Message";
-import channel from "../channel/main";
-import { YouTubeVideo } from "./parse";
+// import videos from "../videos/main";
+import { YouTubeChannel } from "./parse";
 
-export default function view(data: YouTubeVideo | undefined, message: Message) {
+export default function view(data: YouTubeChannel | undefined, message: Message) {
 
     // Get prefix
     const prefix: string = message.guild?.prefix || process.env.DEFAULT_PREFIX || "";
@@ -14,9 +14,9 @@ export default function view(data: YouTubeVideo | undefined, message: Message) {
     const input: string = message.content.split(" ").slice(1).join(" ");
     if (!input) return message.channel.sendMessage(":x:  **|  Which result would you like to view?**");
 
-    // Channel
-    if (input.toLowerCase().replace(/\s+/g, "") === "channel") return channel(message, data.channel.id);
+    // Videos
+    // if (input.toLowerCase().replace(/\s+/g, "") === "videos") return videos(message, data.id);
 
     // Invalid type
-    else message.channel.sendMessage(`:x:  **|  You can view the channel with \`${prefix}view channel\`**`);
+    else message.channel.sendMessage(`:x:  **|  You can view this channel's videos with \`${prefix}view videos\`**`);
 }

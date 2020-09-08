@@ -5,20 +5,20 @@ import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
 
-export default async function main(message: Message, videoID: string, commandHistoryIndex?: number) {
+export default async function main(message: Message, channelID: string, commandHistoryIndex?: number) {
 
     // Create command
     const command: Command = new Command(message.client, {
-        name: "youtubeVideo",
+        name: "youtubeChannel",
         message,
-        getData: async (): Promise<any> => await message.client.youtube.videos.list({
-            part: ["snippet", "contentDetails", "statistics"],
-            id: [videoID]
+        getData: async (): Promise<any> => await message.client.youtube.channels.list({
+            part: ["snippet", "statistics"],
+            id: [channelID]
         }),
         parser: parse,
         getEmbed: embed,
         view
-    }, (m: Message, chIndex: number) => main(m, videoID, chIndex), commandHistoryIndex);
+    }, (m: Message, chIndex: number) => main(m, channelID, chIndex), commandHistoryIndex);
 
     // Fetch
     await command.fetch();

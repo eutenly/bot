@@ -1,5 +1,5 @@
 import Message from "../../../classes/Message/Message";
-// import channel from "../channel/main";
+import channel from "../channel/main";
 // import playlist from "../playlist/main";
 import video from "../video/main";
 import { YouTubeSearchResult } from "./parse";
@@ -20,6 +20,6 @@ export default function view(data: YouTubeSearchResult[], message: Message) {
 
     // Run module
     if (result.type === "video") video(message, result.id);
-    // else if (result.type === "channel") channel(message, result.id);
+    else if (result.type === "channel") channel(message, result.id);
     // else if (result.type === "playlist") playlist(message, result.id);
 }
