@@ -1,12 +1,14 @@
 import Client from "../Client/Client";
 import Embed from "../Embed/Embed";
 import Message from "../Message/Message";
-import { CommandHistoryEntry, RunCommand } from "../User/User";
+import { CommandHistoryEntry, Connection, RunCommand } from "../User/User";
 import SearchManager from "./SearchManager/SearchManager";
 import fetch from "./fetch";
 import send from "./send";
 
 export type GetURL = (input?: string, page?: number, nextPageToken?: string) => string;
+
+export type GetAuthorizationHeader = (connection: Connection | undefined, url: string, method: string) => Promise<string> | string;
 
 export type GetData = (input?: string, page?: number, nextPageToken?: string) => Promise<any>;
 
@@ -29,6 +31,8 @@ interface CommandData {
     input?: string;
     orderedPages?: boolean;
     getURL?: GetURL;
+    connectionName?: string;
+    getAuthorizationHeader?: GetAuthorizationHeader;
     getData?: GetData;
     data?: any;
     parser?: Parser;
@@ -47,8 +51,13 @@ export default class Command {
     responseMessage?: Message;
     webScraper?: Boolean;
 
+    // A promise for when the connection has loaded
+    uninitializedConnection?: Promise<any>;
+
     // Functions to use this command
     getURL?: GetURL;
+    connectionName?: string;
+    getAuthorizationHeader?: GetAuthorizationHeader;
     getData?: GetData;
     parser?: Parser;
     getEmbed: GetEmbed;
@@ -72,8 +81,10 @@ export default class Command {
         this.name = data.name;
         this.message = data.message;
         this.webScraper = data.webScraper;
+        this.connectionName = data.connectionName;
 
         this.getURL = data.getURL;
+        this.getAuthorizationHeader = data.getAuthorizationHeader;
         this.getData = data.getData;
         this.parser = data.parser;
         this.getEmbed = data.getEmbed;
@@ -87,6 +98,9 @@ export default class Command {
         });
 
         this.expireTimestamp = Date.now() + 180000;
+
+        // Get connection
+        if ((this.connectionName) && (!this.message.author.connections[this.connectionName])) this.uninitializedConnection = this.message.author.getConnection(this.connectionName);
 
         // Set user's command
         this.message.author.command = this;

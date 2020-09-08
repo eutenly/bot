@@ -3,6 +3,7 @@ import evalCommand from "../eval";
 import googleCommand from "../google/main";
 import moveCommand from "../move";
 import pageCommand from "../page";
+import twitterCommand from "../twitter/main";
 import viewCommand from "../view";
 import youtubeCommand from "../youtube/main";
 
@@ -19,6 +20,12 @@ export const routes: Command[] = [
         information: "Search YouTube",
         inputs: ["youtube"],
         module: youtubeCommand
+    },
+    {
+        name: "Twitter",
+        information: "Search Twitter",
+        inputs: ["twitter"],
+        module: twitterCommand
     },
     {
         name: "Page",

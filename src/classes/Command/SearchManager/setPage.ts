@@ -1,5 +1,6 @@
-import fetch, { Response } from "node-fetch";
+import fetch, { Headers, Response } from "node-fetch";
 import Embed from "../../Embed/Embed";
+import { Connection } from "../../User/User";
 import SearchManager from "./SearchManager";
 
 export default async function setPage(searchManager: SearchManager, page: number): Promise<void> {
@@ -40,12 +41,23 @@ export default async function setPage(searchManager: SearchManager, page: number
     // Regular commands
     if ((searchManager.command.getURL) && (nextPageToken !== null)) {
 
+        // Get url
+        const url: string = searchManager.command.getURL(searchManager.input, page, nextPageToken);
+
+        // Define headers
+        const headers: Headers = new Headers();
+
+        // Set user agent header
+        headers.set("User-Agent", searchManager.command.webScraper ? "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" : "Eutenly");
+
+        // Set authorization header
+        if ((searchManager.command.getAuthorizationHeader) && (searchManager.command.connectionName)) {
+            const connection: Connection | undefined = searchManager.command.message.author.connections[searchManager.command.connectionName];
+            headers.set("Authorization", await searchManager.command.getAuthorizationHeader(connection, url, "GET"));
+        }
+
         // Make request
-        const result: Response = await fetch(searchManager.command.getURL(searchManager.input, page, nextPageToken), {
-            headers: {
-                "User-Agent": searchManager.command.webScraper ? "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" : "Eutenly"
-            }
-        });
+        const result: Response = await fetch(url, { headers });
 
         // Parse result
         if (result.status === 204) data = {};
