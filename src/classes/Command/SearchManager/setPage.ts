@@ -35,10 +35,10 @@ export default async function setPage(searchManager: SearchManager, page: number
     let data: any;
 
     // Get next page token
-    const nextPageToken: string | undefined = searchManager.orderedPages ? searchManager.nextPageToken : undefined;
+    const nextPageToken: string | null | undefined = searchManager.orderedPages ? searchManager.nextPageToken : undefined;
 
     // Regular commands
-    if (searchManager.command.getURL) {
+    if ((searchManager.command.getURL) && (nextPageToken !== null)) {
 
         // Make request
         const result: Response = await fetch(searchManager.command.getURL(searchManager.input, page, nextPageToken), {
@@ -52,7 +52,7 @@ export default async function setPage(searchManager: SearchManager, page: number
     }
 
     // Commands that have a custom function for getting data
-    else if (searchManager.command.getData) data = await searchManager.command.getData(searchManager.input, page, nextPageToken);
+    else if ((searchManager.command.getData) && (nextPageToken !== null)) data = await searchManager.command.getData(searchManager.input, page, nextPageToken);
 
     // Run parser
     if (!searchManager.command.parser) return;

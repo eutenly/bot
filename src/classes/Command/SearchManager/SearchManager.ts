@@ -15,7 +15,7 @@ export default class SearchManager {
     input: string;
     orderedPages?: boolean;
     page?: number;
-    nextPageToken?: string;
+    nextPageToken?: string | null;
 
     cache: Map<number, any>;
 

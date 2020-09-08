@@ -7,10 +7,16 @@ export interface YouTubeSearchResult {
 
 interface YouTubeSearchData {
     data: YouTubeSearchResult[];
-    nextPageToken: string;
+    nextPageToken: string | null;
 }
 
-export default function parse(data: any): YouTubeSearchData {
+export default function parse(data?: any): YouTubeSearchData {
+
+    // No data
+    if (!data) return {
+        data: [],
+        nextPageToken: null
+    };
 
     // Return
     return {
@@ -20,6 +26,6 @@ export default function parse(data: any): YouTubeSearchData {
             description: d.snippet.description,
             uploadedOn: d.snippet.publishedAt
         })),
-        nextPageToken: data.data.nextPageToken
+        nextPageToken: data.data.nextPageToken || null
     };
 }
