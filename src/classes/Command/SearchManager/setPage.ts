@@ -42,7 +42,9 @@ export default async function setPage(searchManager: SearchManager, page: number
 
         // Make request
         const result: Response = await fetch(searchManager.command.getURL(searchManager.input, page, nextPageToken), {
-            headers: searchManager.command.webScraper ? { "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" } : {}
+            headers: {
+                "User-Agent": searchManager.command.webScraper ? "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" : "Eutenly"
+            }
         });
 
         // Parse result
