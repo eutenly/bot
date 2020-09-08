@@ -6,9 +6,9 @@ import SearchManager from "./SearchManager/SearchManager";
 import fetch from "./fetch";
 import send from "./send";
 
-export type GetURL = (query?: string, page?: number, nextPageToken?: string) => string;
+export type GetURL = (input?: string, page?: number, nextPageToken?: string) => string;
 
-export type GetData = (query?: string, page?: number, nextPageToken?: string) => Promise<any>;
+export type GetData = (input?: string, page?: number, nextPageToken?: string) => Promise<any>;
 
 /**
  * Parser
@@ -26,7 +26,7 @@ interface CommandData {
     name: string;
     message: Message;
     webScraper?: Boolean;
-    searchQuery?: string;
+    input?: string;
     orderedPages?: boolean;
     getURL?: GetURL;
     getData?: GetData;
@@ -81,8 +81,8 @@ export default class Command {
 
         this.data = data.data;
 
-        if (data.searchQuery) this.searchManager = new SearchManager(this, {
-            query: data.searchQuery,
+        if (data.input) this.searchManager = new SearchManager(this, {
+            input: data.input,
             orderedPages: data.orderedPages
         });
 

@@ -37,7 +37,7 @@ export default async function setPage(searchManager: SearchManager, page: number
     if (searchManager.command.getURL) {
 
         // Make request
-        const result: Response = await fetch(searchManager.command.getURL(searchManager.query, page, nextPageToken), {
+        const result: Response = await fetch(searchManager.command.getURL(searchManager.input, page, nextPageToken), {
             headers: searchManager.command.webScraper ? { "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" } : {}
         });
 
@@ -48,7 +48,7 @@ export default async function setPage(searchManager: SearchManager, page: number
     }
 
     // Commands that have a custom function for getting data
-    else if (searchManager.command.getData) data = await searchManager.command.getData(searchManager.query, page, nextPageToken);
+    else if (searchManager.command.getData) data = await searchManager.command.getData(searchManager.input, page, nextPageToken);
 
     // Run parser
     if (!searchManager.command.parser) return;

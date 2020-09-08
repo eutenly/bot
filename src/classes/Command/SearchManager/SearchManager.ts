@@ -2,7 +2,7 @@ import Command from "../Command";
 import setPage from "./setPage";
 
 interface SearchManagerData {
-    query: string;
+    input: string;
     orderedPages?: boolean;
 }
 
@@ -12,7 +12,7 @@ export default class SearchManager {
     command: Command;
 
     // Data about the search manager
-    query: string;
+    input: string;
     orderedPages?: boolean;
     page?: number;
     nextPageToken?: string;
@@ -25,7 +25,7 @@ export default class SearchManager {
         // Set data
         this.command = command;
 
-        this.query = data.query;
+        this.input = data.input;
         this.orderedPages = data.orderedPages;
         this.cache = new Map();
     }

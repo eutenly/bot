@@ -11,7 +11,7 @@ export default async function google(message: Message, query: string, commandHis
         name: "google",
         message,
         webScraper: true,
-        searchQuery: query,
+        input: query,
         getURL: (query: string = "", page: number = 1): string => `https://google.com/search?q=${encodeURIComponent(query)}&num=5&start=${(page - 1) * 5}`,
         parser: parse,
         getEmbed: embed,

@@ -4,23 +4,25 @@ import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
 
-export default async function main(message: Message, query: string, commandHistoryIndex?: number) {
+export default async function main(message: Message, channelID: string, commandHistoryIndex?: number) {
 
     // Create command
     const command: Command = new Command(message.client, {
-        name: "youtubeSearch",
+        name: "youtubeVideos",
         message,
-        input: query,
+        input: channelID,
         orderedPages: true,
-        getData: async (query?: string, page?: number, nextPageToken?: string): Promise<any> => await message.client.youtube.search.list({
+        getData: async (channelID?: string, page?: number, nextPageToken?: string): Promise<any> => await message.client.youtube.search.list({
             part: ["snippet"],
-            q: query,
+            channelId: channelID,
+            type: ["video"],
+            order: "date",
             pageToken: nextPageToken
         }),
         parser: parse,
         getEmbed: embed,
         view
-    }, (m: Message, chIndex: number) => main(m, query, chIndex), commandHistoryIndex);
+    }, (m: Message, chIndex: number) => main(m, channelID, chIndex), commandHistoryIndex);
 
     // Search
     command.searchManager?.setPage(1);
