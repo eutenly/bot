@@ -10,12 +10,12 @@ export default async function setPage(searchManager: SearchManager, page: number
     // Invalid page
     if (page < 1) page = 1;
 
-    // Set page
-    searchManager.page = page;
-
     // Get from cache
     const cachedData: any = searchManager.cache.get(page);
     if (cachedData) {
+
+        // Set page
+        searchManager.page = page;
 
         // Get embed
         const embed: Embed = searchManager.command.getEmbed(searchManager.command, cachedData);
@@ -26,6 +26,10 @@ export default async function setPage(searchManager: SearchManager, page: number
         // Return
         return;
     }
+
+    // Set page
+    if (searchManager.orderedPages) searchManager.page = (searchManager.cache.size ? Math.max(...searchManager.cache.keys()) : 0) + 1;
+    else searchManager.page = page;
 
     // Define data
     let data: any;
