@@ -3,12 +3,19 @@ import evalCommand from "../eval";
 import googleCommand from "../google/main";
 import moveCommand from "../move";
 import pageCommand from "../page";
+import pingCommand from "../ping";
 import twitterCommand from "../twitter/main";
 import viewCommand from "../view";
 import youtubeCommand from "../youtube/main";
 
 // Define routes
 export const routes: Command[] = [
+    {
+        name: "Ping",
+        information: "Check how responsive the bot is",
+        inputs: ["ping"],
+        module: pingCommand
+    },
     {
         name: "Google",
         information: "Search Google",
