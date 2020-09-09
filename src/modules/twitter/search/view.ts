@@ -1,5 +1,5 @@
 import Message from "../../../classes/Message/Message";
-// import tweet from "../tweet/main";
+import tweet from "../tweet/main";
 import { TwitterSearchResult } from "./parse";
 
 export default function view(data: TwitterSearchResult[], message: Message) {
@@ -17,5 +17,5 @@ export default function view(data: TwitterSearchResult[], message: Message) {
     if (!result) return message.channel.sendMessage(":x:  **|  That result number is invalid**");
 
     // View tweet
-    // tweet(message, result.id);
+    tweet(message, result.id);
 }

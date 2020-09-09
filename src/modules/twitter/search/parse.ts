@@ -1,7 +1,7 @@
 import url from "url";
 import parseTweetText from "../parseTweetText";
 
-export interface TwitterUser {
+interface TwitterUser {
     id: string;
     name: string;
     handle: string;
