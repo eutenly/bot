@@ -807,11 +807,6 @@ tree-kit@^0.6.2:
   resolved "https://registry.yarnpkg.com/tree-kit/-/tree-kit-0.6.2.tgz#3608b7b4fb913a608192cb5abf6154e3921f3592"
   integrity sha512-95UzJA0EMbFfu5sGUUOoXixQMUGkwu82nGM4lmqLyQl+R4H3FK+lS0nT8TZJ5x7JhSHy+saVn7/AOqh6d+tmOg==
 
-ts-mongoose@^0.0.21:
-  version "0.0.21"
-  resolved "https://registry.yarnpkg.com/ts-mongoose/-/ts-mongoose-0.0.21.tgz#8be3769863e89919da8020351855726d09f7126a"
-  integrity sha512-pbRN2JJY9N7Z5ehyMo6PJ7hlftRdELzO5nh/XvS1y31TDbeefc/GjM7C7jWb6ESZz+KlOmYDUpAT/L8i4wFbmQ==
-
 uniq@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/uniq/-/uniq-1.0.1.tgz#b31c5ae8254844a3a8281541ce2b04b865a734ff"

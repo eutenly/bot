@@ -1,22 +1,27 @@
 import Client from "../Client/Client";
 import Embed from "../Embed/Embed";
 import Message from "../Message/Message";
-import { CommandHistoryEntry, RunCommand } from "../User/User";
+import { CommandHistoryEntry, Connection, RunCommand } from "../User/User";
 import SearchManager from "./SearchManager/SearchManager";
 import fetch from "./fetch";
+import getConnection from "./getConnection";
+import sendLoginEmbed from "./sendLoginEmbed";
 import send from "./send";
 
 export type GetURL = (input?: string, page?: number, nextPageToken?: string) => string;
 
+export type GetAuthorizationHeader = (connection: Connection | undefined, url: string, method: string) => Promise<string> | string;
+
 export type GetData = (input?: string, page?: number, nextPageToken?: string) => Promise<any>;
 
-/**
- * Parser
- *
- * For commands with unordered pages, the return type is expected to have a `data` and `nextPageToken` property
- * The `data` property is what the return data would be for a command with ordered pages
- */
-export type Parser = (data: any) => any;
+export interface ParserData {
+    data?: any;
+    nextPageToken?: string;
+    noData?: boolean;
+    authorizationFailed?: boolean;
+}
+
+export type Parser = (data: any) => ParserData;
 
 export type GetEmbed = (command: Command, data: any) => Embed;
 
@@ -29,6 +34,9 @@ interface CommandData {
     input?: string;
     orderedPages?: boolean;
     getURL?: GetURL;
+    connectionName?: string;
+    getAuthorizationHeader?: GetAuthorizationHeader;
+    splitPages?: number;
     getData?: GetData;
     data?: any;
     parser?: Parser;
@@ -47,8 +55,14 @@ export default class Command {
     responseMessage?: Message;
     webScraper?: Boolean;
 
+    // A promise for when the connection has loaded
+    uninitializedConnection?: Promise<any>;
+
     // Functions to use this command
     getURL?: GetURL;
+    connectionName?: string;
+    noConnection?: boolean;
+    getAuthorizationHeader?: GetAuthorizationHeader;
     getData?: GetData;
     parser?: Parser;
     getEmbed: GetEmbed;
@@ -72,8 +86,10 @@ export default class Command {
         this.name = data.name;
         this.message = data.message;
         this.webScraper = data.webScraper;
+        this.connectionName = data.connectionName;
 
         this.getURL = data.getURL;
+        this.getAuthorizationHeader = data.getAuthorizationHeader;
         this.getData = data.getData;
         this.parser = data.parser;
         this.getEmbed = data.getEmbed;
@@ -83,10 +99,14 @@ export default class Command {
 
         if (data.input) this.searchManager = new SearchManager(this, {
             input: data.input,
-            orderedPages: data.orderedPages
+            orderedPages: data.orderedPages,
+            splitPages: data.splitPages
         });
 
         this.expireTimestamp = Date.now() + 180000;
+
+        // Get connection
+        this.getConnection();
 
         // Set user's command
         this.message.author.command = this;
@@ -130,6 +150,12 @@ export default class Command {
         // Limit command history to 10 commands
         if (this.message.author.commandHistory.length >= 10) this.message.author.commandHistory.splice(0, this.message.author.commandHistory.length - 10);
     }
+
+    // Get connection
+    getConnection = (): void => getConnection(this);
+
+    // Send login embed
+    sendLoginEmbed = (): Promise<void> => sendLoginEmbed(this);
 
     // Fetch this command's data
     fetch = (): Promise<any> => fetch(this);

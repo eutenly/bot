@@ -1,10 +1,11 @@
-import { createSchema, Type } from "ts-mongoose";
+import { Document, Schema } from "mongoose";
 
-export const serversSchema = createSchema({
+export interface IServer extends Document {
+    _id: string;
+    prefix?: string;
+}
 
-    // Server ID
-    _id: Type.string(),
-
-    // The server's prefix
-    prefix: Type.string()
+export const serversSchema: Schema = new Schema({
+    _id: String,
+    prefix: String
 });

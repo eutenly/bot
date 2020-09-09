@@ -4,6 +4,7 @@ import setPage from "./setPage";
 interface SearchManagerData {
     input: string;
     orderedPages?: boolean;
+    splitPages?: number;
 }
 
 export default class SearchManager {
@@ -14,8 +15,9 @@ export default class SearchManager {
     // Data about the search manager
     input: string;
     orderedPages?: boolean;
+    splitPages?: number;
     page?: number;
-    nextPageToken?: string;
+    nextPageToken?: string | null;
 
     cache: Map<number, any>;
 
@@ -27,6 +29,7 @@ export default class SearchManager {
 
         this.input = data.input;
         this.orderedPages = data.orderedPages;
+        this.splitPages = data.splitPages;
         this.cache = new Map();
     }
 

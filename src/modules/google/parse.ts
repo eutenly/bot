@@ -1,4 +1,5 @@
 import cheerio from "cheerio";
+import { ParserData } from "../../classes/Command/Command";
 import parseItemList from "./parse/itemList";
 import parseKnowledgePanel from "./parse/knowledgePanel/main";
 import parseList from "./parse/list";
@@ -6,7 +7,7 @@ import parseMain from "./parse/main";
 import parseQuestions from "./parse/questions";
 import parseTwitter from "./parse/twitter";
 
-export default function parse(data: string): any {
+export default function parse(data: string): ParserData {
 
     // Parse
     const dom: any = cheerio.load(data);
@@ -44,8 +45,10 @@ export default function parse(data: string): any {
 
     // Return
     return {
-        totalResults: dom("#result-stats").text().split(" ").slice(1, 2).join(" "),
-        knowledgePanel,
-        results
+        data: {
+            totalResults: dom("#result-stats").text().split(" ").slice(1, 2).join(" "),
+            knowledgePanel,
+            results
+        }
     };
 }

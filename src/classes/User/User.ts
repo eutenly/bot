@@ -2,6 +2,7 @@ import Channel from "../Channel/Channel";
 import Client from "../Client/Client";
 import Command from "../Command/Command";
 import Message from "../Message/Message";
+import getConnection from "./getConnection";
 
 export type RunCommand = (message: Message, commandHistoryIndex: number) => void;
 
@@ -9,6 +10,23 @@ export interface CommandHistoryEntry {
     run: RunCommand;
     timestamp: number;
     latest?: boolean;
+}
+
+export interface Connection {
+    id?: string;
+    accessToken?: string;
+    accessSecret?: string;
+    refreshToken?: string;
+}
+
+interface Connections {
+    [index: string]: Connection | undefined;
+    twitter?: Connection;
+    reddit?: Connection;
+    spotify?: Connection;
+    twitch?: Connection;
+    github?: Connection;
+    wakatime?: Connection;
 }
 
 interface UserData {
@@ -30,6 +48,9 @@ export default class User {
     // The users command history
     commandHistory: CommandHistoryEntry[];
 
+    // The users connections
+    connections: Connections;
+
     // Constructor
     constructor(client: Client, data: UserData) {
 
@@ -40,6 +61,8 @@ export default class User {
         this.cooldown = 0;
 
         this.commandHistory = [];
+
+        this.connections = {};
 
         // Cache user
         this.client.users.set(this.id, this);
@@ -53,4 +76,7 @@ export default class User {
 
     // Get the DM channel with this user
     getDMChannel = (): Promise<Channel> => this.client.getDMChannel(this.id);
+
+    // Get a connection
+    getConnection = (name: string) => getConnection(this, name);
 }
