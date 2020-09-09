@@ -29,7 +29,7 @@ export default async function getAuthorizationHeader(connection: Connection = {}
     urlParams.sort();
 
     // Get signature base
-    const signatureBase: string = `${method}&${encodeURIComponent(`${parsedURL.origin}${parsedURL.pathname}`)}&${encodeURIComponent(urlParams.toString())}`;
+    const signatureBase: string = `${method}&${encodeURIComponent(`${parsedURL.origin}${parsedURL.pathname}`)}&${encodeURIComponent(urlParams.toString().replace(/\+/g, "%20"))}`;
 
     // Get signing key
     const signingKey: string = `${process.env.TWITTER_CLIENT_SECRET}&${connection.accessSecret}`;

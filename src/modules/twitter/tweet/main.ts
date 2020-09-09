@@ -21,6 +21,9 @@ export default async function main(message: Message, tweetID: string, commandHis
     }, (m: Message, chIndex: number) => main(m, tweetID, chIndex), commandHistoryIndex);
     await command.uninitializedConnection;
 
+    // No connection
+    if (command.noConnection) return;
+
     // Fetch
     await command.fetch();
 

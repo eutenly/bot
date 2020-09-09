@@ -1,6 +1,6 @@
 import nodeFetch, { Headers, Response } from "node-fetch";
 import { Connection } from "../User/User";
-import Command from "./Command";
+import Command, { ParserData } from "./Command";
 
 export default async function fetch(command: Command): Promise<any> {
 
@@ -39,8 +39,11 @@ export default async function fetch(command: Command): Promise<any> {
 
     // Run parser
     if (!command.parser) return;
-    const parsedData: any = command.parser(data);
+    const parserData: ParserData = command.parser(data);
+
+    // Authorization failed
+    if (parserData.authorizationFailed) return command.sendLoginEmbed();
 
     // Set data
-    command.data = parsedData;
+    command.data = parserData.data;
 }

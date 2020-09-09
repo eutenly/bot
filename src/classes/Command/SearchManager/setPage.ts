@@ -1,6 +1,7 @@
 import fetch, { Headers, Response } from "node-fetch";
 import Embed from "../../Embed/Embed";
 import { Connection } from "../../User/User";
+import { ParserData } from "../Command";
 import SearchManager from "./SearchManager";
 
 export default async function setPage(searchManager: SearchManager, page: number): Promise<void> {
@@ -70,19 +71,24 @@ export default async function setPage(searchManager: SearchManager, page: number
 
     // Run parser
     if (!searchManager.command.parser) return;
-    const parserData: any = searchManager.command.parser(data);
-    const parsedData: any = searchManager.orderedPages ? parserData.data : parserData;
+    const parserData: ParserData = searchManager.command.parser(data);
+
+    // Authorization failed
+    if (parserData.authorizationFailed) return searchManager.command.sendLoginEmbed();
+
+    // If theres no data, set it to an empty array
+    if (parserData.noData) parserData.data = [];
 
     // Set next page token
-    if (searchManager.orderedPages) searchManager.nextPageToken = parserData.nextPageToken;
+    if (searchManager.orderedPages) searchManager.nextPageToken = parserData.noData ? null : parserData.nextPageToken;
 
     // Split data into pages
-    if (searchManager.splitPages) for (let i = 0; i < Math.ceil(parsedData.length / searchManager.splitPages); i++) {
+    if (searchManager.splitPages) for (let i = 0; i < Math.ceil(parserData.data.length / searchManager.splitPages); i++) {
 
         // Add to cache
-        searchManager.cache.set(page + i, parsedData.slice(i * searchManager.splitPages, (i * searchManager.splitPages) + searchManager.splitPages));
+        searchManager.cache.set(page + i, parserData.data.slice(i * searchManager.splitPages, (i * searchManager.splitPages) + searchManager.splitPages));
     }
-    else searchManager.cache.set(page, parsedData);
+    else searchManager.cache.set(page, parserData.data);
 
     // Get embed
     const embed: Embed = searchManager.command.getEmbed(searchManager.command, searchManager.cache.get(page));

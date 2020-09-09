@@ -4,6 +4,8 @@ import Message from "../Message/Message";
 import { CommandHistoryEntry, Connection, RunCommand } from "../User/User";
 import SearchManager from "./SearchManager/SearchManager";
 import fetch from "./fetch";
+import getConnection from "./getConnection";
+import sendLoginEmbed from "./sendLoginEmbed";
 import send from "./send";
 
 export type GetURL = (input?: string, page?: number, nextPageToken?: string) => string;
@@ -12,13 +14,14 @@ export type GetAuthorizationHeader = (connection: Connection | undefined, url: s
 
 export type GetData = (input?: string, page?: number, nextPageToken?: string) => Promise<any>;
 
-/**
- * Parser
- *
- * For commands with unordered pages, the return type is expected to have a `data` and `nextPageToken` property
- * The `data` property is what the return data would be for a command with ordered pages
- */
-export type Parser = (data: any) => any;
+export interface ParserData {
+    data?: any;
+    nextPageToken?: string;
+    noData?: boolean;
+    authorizationFailed?: boolean;
+}
+
+export type Parser = (data: any) => ParserData;
 
 export type GetEmbed = (command: Command, data: any) => Embed;
 
@@ -58,6 +61,7 @@ export default class Command {
     // Functions to use this command
     getURL?: GetURL;
     connectionName?: string;
+    noConnection?: boolean;
     getAuthorizationHeader?: GetAuthorizationHeader;
     getData?: GetData;
     parser?: Parser;
@@ -102,7 +106,7 @@ export default class Command {
         this.expireTimestamp = Date.now() + 180000;
 
         // Get connection
-        if ((this.connectionName) && (!this.message.author.connections[this.connectionName])) this.uninitializedConnection = this.message.author.getConnection(this.connectionName);
+        this.getConnection();
 
         // Set user's command
         this.message.author.command = this;
@@ -146,6 +150,12 @@ export default class Command {
         // Limit command history to 10 commands
         if (this.message.author.commandHistory.length >= 10) this.message.author.commandHistory.splice(0, this.message.author.commandHistory.length - 10);
     }
+
+    // Get connection
+    getConnection = (): void => getConnection(this);
+
+    // Send login embed
+    sendLoginEmbed = (): Promise<void> => sendLoginEmbed(this);
 
     // Fetch this command's data
     fetch = (): Promise<any> => fetch(this);

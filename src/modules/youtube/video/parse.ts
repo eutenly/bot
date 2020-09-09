@@ -1,3 +1,5 @@
+import { ParserData } from "../../../classes/Command/Command";
+
 interface YouTubeChannel {
     id: string;
     name: string;
@@ -17,27 +19,29 @@ export interface YouTubeVideo {
     uploadedOn: string;
 }
 
-export default function parse(data: any): YouTubeVideo | undefined {
+export default function parse(data: any): ParserData {
 
     // Parse data
     data = data.data.items && data.data.items[0];
-    if (!data) return;
+    if (!data) return { noData: true };
 
     // Return
     return {
-        id: data.id,
-        title: data.snippet.title,
-        description: data.snippet.description,
-        views: parseInt(data.statistics.viewCount),
-        length: data.contentDetails.duration,
-        likes: parseInt(data.statistics.likeCount),
-        dislikes: parseInt(data.statistics.dislikeCount),
-        comments: parseInt(data.statistics.commentCount),
-        channel: {
-            id: data.snippet.channelId,
-            name: data.snippet.channelTitle
-        },
-        thumbnail: data.snippet.thumbnails.high.url,
-        uploadedOn: data.snippet.publishedAt
+        data: {
+            id: data.id,
+            title: data.snippet.title,
+            description: data.snippet.description,
+            views: parseInt(data.statistics.viewCount),
+            length: data.contentDetails.duration,
+            likes: parseInt(data.statistics.likeCount),
+            dislikes: parseInt(data.statistics.dislikeCount),
+            comments: parseInt(data.statistics.commentCount),
+            channel: {
+                id: data.snippet.channelId,
+                name: data.snippet.channelTitle
+            },
+            thumbnail: data.snippet.thumbnails.high.url,
+            uploadedOn: data.snippet.publishedAt
+        }
     };
 }

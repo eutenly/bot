@@ -23,6 +23,9 @@ export default async function main(message: Message, userID: string, commandHist
     }, (m: Message, chIndex: number) => main(m, userID, chIndex), commandHistoryIndex);
     await command.uninitializedConnection;
 
+    // No connection
+    if (command.noConnection) return;
+
     // Search
     command.searchManager?.setPage(1);
 }

@@ -21,6 +21,9 @@ export default async function main(message: Message, user: string, type: string,
     }, (m: Message, chIndex: number) => main(m, user, type, chIndex), commandHistoryIndex);
     await command.uninitializedConnection;
 
+    // No connection
+    if (command.noConnection) return;
+
     // Fetch
     await command.fetch();
 

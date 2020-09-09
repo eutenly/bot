@@ -1,3 +1,5 @@
+import { ParserData } from "../../../classes/Command/Command";
+
 export interface YouTubeSearchResult {
     id: string;
     title: string;
@@ -10,13 +12,10 @@ interface YouTubeSearchData {
     nextPageToken: string | null;
 }
 
-export default function parse(data?: any): YouTubeSearchData {
+export default function parse(data?: any): ParserData {
 
     // No data
-    if (!data) return {
-        data: [],
-        nextPageToken: null
-    };
+    if (!data) return { noData: true };
 
     // Return
     return {
