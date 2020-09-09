@@ -76,11 +76,16 @@ export default async function setPage(searchManager: SearchManager, page: number
     // Set next page token
     if (searchManager.orderedPages) searchManager.nextPageToken = parserData.nextPageToken;
 
-    // Add to cache
-    searchManager.cache.set(page, parsedData);
+    // Split data into pages
+    if (searchManager.splitPages) for (let i = 0; i < Math.ceil(parsedData.length / searchManager.splitPages); i++) {
+
+        // Add to cache
+        searchManager.cache.set(page + i, parsedData.slice(i * searchManager.splitPages, (i * searchManager.splitPages) + searchManager.splitPages));
+    }
+    else searchManager.cache.set(page, parsedData);
 
     // Get embed
-    const embed: Embed = searchManager.command.getEmbed(searchManager.command, parsedData);
+    const embed: Embed = searchManager.command.getEmbed(searchManager.command, searchManager.cache.get(page));
 
     // Send
     searchManager.command.send(embed);

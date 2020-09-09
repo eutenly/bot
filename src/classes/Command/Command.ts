@@ -33,6 +33,7 @@ interface CommandData {
     getURL?: GetURL;
     connectionName?: string;
     getAuthorizationHeader?: GetAuthorizationHeader;
+    splitPages?: number;
     getData?: GetData;
     data?: any;
     parser?: Parser;
@@ -94,7 +95,8 @@ export default class Command {
 
         if (data.input) this.searchManager = new SearchManager(this, {
             input: data.input,
-            orderedPages: data.orderedPages
+            orderedPages: data.orderedPages,
+            splitPages: data.splitPages
         });
 
         this.expireTimestamp = Date.now() + 180000;
