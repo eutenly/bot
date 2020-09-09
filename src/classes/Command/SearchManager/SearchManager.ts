@@ -1,11 +1,9 @@
 import Command from "../Command";
 import setPage from "./setPage";
 
-export type GetURL = (query: string, page: number) => string;
-
 interface SearchManagerData {
-    query: string;
-    getURL: GetURL;
+    input: string;
+    orderedPages?: boolean;
 }
 
 export default class SearchManager {
@@ -14,9 +12,10 @@ export default class SearchManager {
     command: Command;
 
     // Data about the search manager
-    query: string;
+    input: string;
+    orderedPages?: boolean;
     page?: number;
-    getURL: GetURL;
+    nextPageToken?: string;
 
     cache: Map<number, any>;
 
@@ -26,8 +25,8 @@ export default class SearchManager {
         // Set data
         this.command = command;
 
-        this.query = data.query;
-        this.getURL = data.getURL;
+        this.input = data.input;
+        this.orderedPages = data.orderedPages;
         this.cache = new Map();
     }
 

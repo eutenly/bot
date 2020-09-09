@@ -1,4 +1,5 @@
 import { EventEmitter } from "events";
+import { google, youtube_v3 } from "googleapis";
 import mongoose from "mongoose";
 import { RequestInit } from "node-fetch";
 import { Terminal } from "terminal-kit";
@@ -71,6 +72,9 @@ export default class Client extends EventEmitter {
     // Fetch queues
     fetchQueues: ClientFetchQueue;
 
+    // The youtube client
+    youtube: youtube_v3.Youtube;
+
     // Constructor
     constructor(token: string) {
 
@@ -96,6 +100,9 @@ export default class Client extends EventEmitter {
             getDMChannel: new FetchQueue(this),
             leaveGuild: new FetchQueue(this)
         };
+
+        // Set youtube client
+        this.youtube = google.youtube({ version: "v3", auth: process.env.YOUTUBE_API_KEY });
 
         // Connect
         this.connect();

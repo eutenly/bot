@@ -8,7 +8,7 @@ export default function embed(command: Command, data: any): Embed {
 
     // Embed
     const embed = new Embed()
-        .setAuthor(`Google Search: ${command.searchManager?.query}`, "http://pluspng.com/img-png/google-logo-png-open-2000.png")
+        .setAuthor(`Google Search: ${command.searchManager?.input}`, "http://pluspng.com/img-png/google-logo-png-open-2000.png")
         .setDescription(`Page ${command.searchManager?.page}, About ${data.totalResults} results`)
         .setColor(0x4086f4)
         .setBranding();
