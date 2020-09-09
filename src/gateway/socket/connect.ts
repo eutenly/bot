@@ -6,6 +6,7 @@ import event from "./event";
 import heartbeat from "./heartbeat";
 import identify from "./identify";
 import initializeHeartbeat from "./initializeHeartbeat";
+import ping from "./ping";
 import resume from "./resume";
 
 export default async function connect(client: Client) {
@@ -58,7 +59,14 @@ export default async function connect(client: Client) {
             // Log
             terminal("  - ").green("Sent resume payload\n");
         }
+
+        // Start pinging
+        ping(client);
+        client.pingInterval = setInterval(() => ping(client), 30000);
     });
+
+    // Pong
+    ws.on("pong", () => client.ping = Date.now() - client.lastPingTimestamp);
 
     // Heartbeat and events
     ws.on("message", (rawPacket: string) => {
@@ -95,6 +103,9 @@ export default async function connect(client: Client) {
 
         // Parse reason
         if (code === 4021) reason = "Session invalidated by Discord";
+
+        // Clear ping interval
+        clearInterval(client.pingInterval);
 
         // Log
         terminal.red.bold("\nGateway: Closed").styleReset(" - ").red.bold(code).red(` ${reason}\n`);

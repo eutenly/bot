@@ -32,11 +32,16 @@ interface ClientFetchQueue {
 
 export default class Client extends EventEmitter {
 
-    // The bots token
+    // The bot's token
     token: string;
 
     // The websocket between the client and Discord
     ws: WebSocket;
+
+    // The client's ping
+    ping: number;
+    lastPingTimestamp: number;
+    pingInterval: NodeJS.Timeout;
 
     // The last sequence number from Discord
     sequence: number | null;
