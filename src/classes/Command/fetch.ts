@@ -19,10 +19,10 @@ export default async function fetch(command: Command): Promise<any> {
         // Set user agent header
         headers.set("User-Agent", command.webScraper ? "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" : "Eutenly");
 
-        // Set authorization header
-        if ((command.getAuthorizationHeader) && (command.connectionName)) {
+        // Set headers
+        if ((command.setHeaders) && (command.connectionName)) {
             const connection: Connection | undefined = command.message.author.connections[command.connectionName];
-            headers.set("Authorization", await command.getAuthorizationHeader(connection, url, "GET"));
+            await command.setHeaders(headers, connection, url, "GET");
         }
 
         // Make request

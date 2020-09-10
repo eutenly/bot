@@ -1,7 +1,7 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import Message from "../../../classes/Message/Message";
-import getAuthorizationHeader from "../getAuthorizationHeader";
+import setHeaders from "../setHeaders";
 import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
@@ -14,7 +14,7 @@ export default async function main(message: Message, tweetID: string, commandHis
         message,
         getURL: (): string => `https://api.twitter.com/1.1/statuses/show.json?id=${encodeURIComponent(tweetID)}&tweet_mode=extended`,
         connectionName: "twitter",
-        getAuthorizationHeader,
+        setHeaders,
         parser: parse,
         getEmbed: embed,
         view

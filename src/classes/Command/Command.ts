@@ -1,3 +1,4 @@
+import { Headers } from "node-fetch";
 import Client from "../Client/Client";
 import Embed from "../Embed/Embed";
 import Message from "../Message/Message";
@@ -5,12 +6,12 @@ import { CommandHistoryEntry, Connection, RunCommand } from "../User/User";
 import SearchManager from "./SearchManager/SearchManager";
 import fetch from "./fetch";
 import getConnection from "./getConnection";
-import sendLoginEmbed from "./sendLoginEmbed";
 import send from "./send";
+import sendLoginEmbed from "./sendLoginEmbed";
 
 export type GetURL = (input?: string, page?: number, nextPageToken?: string) => string;
 
-export type GetAuthorizationHeader = (connection: Connection | undefined, url: string, method: string) => Promise<string> | string;
+export type SetHeaders = (headers: Headers, connection: Connection | undefined, url: string, method: string) => Promise<void> | void;
 
 export type GetData = (input?: string, page?: number, nextPageToken?: string) => Promise<any>;
 
@@ -35,7 +36,7 @@ interface CommandData {
     orderedPages?: boolean;
     getURL?: GetURL;
     connectionName?: string;
-    getAuthorizationHeader?: GetAuthorizationHeader;
+    setHeaders?: SetHeaders;
     splitPages?: number;
     getData?: GetData;
     data?: any;
@@ -62,7 +63,7 @@ export default class Command {
     getURL?: GetURL;
     connectionName?: string;
     noConnection?: boolean;
-    getAuthorizationHeader?: GetAuthorizationHeader;
+    setHeaders?: SetHeaders;
     getData?: GetData;
     parser?: Parser;
     getEmbed: GetEmbed;
@@ -89,7 +90,7 @@ export default class Command {
         this.connectionName = data.connectionName;
 
         this.getURL = data.getURL;
-        this.getAuthorizationHeader = data.getAuthorizationHeader;
+        this.setHeaders = data.setHeaders;
         this.getData = data.getData;
         this.parser = data.parser;
         this.getEmbed = data.getEmbed;
