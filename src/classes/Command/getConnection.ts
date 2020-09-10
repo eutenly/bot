@@ -1,4 +1,3 @@
-import Embed from "../Embed/Embed";
 import Command from "./Command";
 
 export default function getConnection(command: Command): void {
