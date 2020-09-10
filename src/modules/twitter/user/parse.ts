@@ -17,11 +17,11 @@ export interface TwitterUser {
 
 export default function parse(data: any): ParserData {
 
-    // No user
-    if (data.errors) return { noData: true };
-
     // Authorization failed
     if ((data.errors) && ([215, 32].includes(data.errors[0].code))) return { authorizationFailed: true };
+
+    // No user
+    if (data.errors) return { noData: true };
 
     // Return
     return {
