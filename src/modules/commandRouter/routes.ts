@@ -1,5 +1,6 @@
 import Message from "../../classes/Message/Message";
 import evalCommand from "../eval";
+import githubCommand from "../github/main";
 import googleCommand from "../google/main";
 import moveCommand from "../move";
 import pageCommand from "../page";
@@ -33,6 +34,12 @@ export const routes: Command[] = [
         information: "Search Twitter",
         inputs: ["twitter"],
         module: twitterCommand
+    },
+    {
+        name: "GitHub",
+        information: "Search GitHub",
+        inputs: ["github"],
+        module: githubCommand
     },
     {
         name: "Page",

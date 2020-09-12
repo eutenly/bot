@@ -26,13 +26,14 @@ export type Parser = (data: any) => ParserData;
 
 export type GetEmbed = (command: Command, data: any) => Embed;
 
-export type View = (data: any, message: Message) => void;
+export type View = (data: any, message: Message, metadata?: any) => void;
 
 interface CommandData {
     name: string;
     message: Message;
     webScraper?: Boolean;
     input?: string;
+    metadata?: any;
     orderedPages?: boolean;
     getURL?: GetURL;
     connectionName?: string;
@@ -55,6 +56,7 @@ export default class Command {
     message: Message;
     responseMessage?: Message;
     webScraper?: Boolean;
+    metadata?: any;
 
     // A promise for when the connection has loaded
     uninitializedConnection?: Promise<any>;
@@ -87,6 +89,7 @@ export default class Command {
         this.name = data.name;
         this.message = data.message;
         this.webScraper = data.webScraper;
+        this.metadata = data.metadata;
         this.connectionName = data.connectionName;
 
         this.getURL = data.getURL;

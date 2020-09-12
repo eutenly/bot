@@ -91,7 +91,7 @@ export default async function setPage(searchManager: SearchManager, page: number
     else searchManager.cache.set(page, parserData.data);
 
     // Get embed
-    const embed: Embed = searchManager.command.getEmbed(searchManager.command, searchManager.cache.get(page));
+    const embed: Embed = searchManager.command.getEmbed(searchManager.command, searchManager.cache.get(page) || []);
 
     // Send
     searchManager.command.send(embed);
