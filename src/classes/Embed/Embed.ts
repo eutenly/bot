@@ -118,13 +118,16 @@ export default class Embed {
     };
 
     // Set color
-    setColor = (color?: number | null): Embed => {
+    setColor = (color?: string | number | null): Embed => {
 
         // Remove color
         if ((color === undefined) || (color === null)) {
             delete this.color;
             return this;
         }
+
+        // Parse color
+        if (typeof color === "string") color = parseInt(color, 16);
 
         // Set data
         this.color = color;
