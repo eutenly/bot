@@ -63,10 +63,10 @@ export default class Embed {
     }
 
     // Set title
-    setTitle = (title?: string): Embed => {
+    setTitle = (title?: string | null): Embed => {
 
         // Remove title
-        if ((title === undefined) || (title.length === 0)) {
+        if ((title === undefined) || (title === null) || (title.length === 0)) {
             delete this.title;
             return this;
         }
@@ -80,10 +80,10 @@ export default class Embed {
     };
 
     // Set author
-    setAuthor = (name?: string, iconURL?: string, url?: string): Embed => {
+    setAuthor = (name?: string | null, iconURL?: string, url?: string): Embed => {
 
         // Remove author
-        if ((name === undefined) || (name.length === 0)) {
+        if ((name === undefined) || (name === null) || (name.length === 0)) {
             delete this.author;
             return this;
         }
@@ -101,10 +101,10 @@ export default class Embed {
     };
 
     // Set description
-    setDescription = (description?: string): Embed => {
+    setDescription = (description?: string | null): Embed => {
 
         // Remove description
-        if ((description === undefined) || (description.length === 0)) {
+        if ((description === undefined) || (description === null) || (description.length === 0)) {
             delete this.description;
             return this;
         }
@@ -118,10 +118,10 @@ export default class Embed {
     };
 
     // Set color
-    setColor = (color?: number): Embed => {
+    setColor = (color?: number | null): Embed => {
 
         // Remove color
-        if (color === undefined) {
+        if ((color === undefined) || (color === null)) {
             delete this.color;
             return this;
         }
@@ -152,10 +152,10 @@ export default class Embed {
     };
 
     // Set url
-    setURL = (url?: string): Embed => {
+    setURL = (url?: string | null): Embed => {
 
         // Remove url
-        if ((url === undefined) || (url.length === 0)) {
+        if ((url === undefined) || (url === null) || (url.length === 0)) {
             delete this.url;
             return this;
         }
@@ -166,10 +166,10 @@ export default class Embed {
     };
 
     // Set thumbnail
-    setThumbnail = (thumbnail?: string): Embed => {
+    setThumbnail = (thumbnail?: string | null): Embed => {
 
         // Remove thumbnail
-        if ((thumbnail === undefined) || (thumbnail.length === 0)) {
+        if ((thumbnail === undefined) || (thumbnail === null) || (thumbnail.length === 0)) {
             delete this.thumbnail;
             return this;
         }
@@ -180,10 +180,10 @@ export default class Embed {
     };
 
     // Set image
-    setImage = (image?: string): Embed => {
+    setImage = (image?: string | null): Embed => {
 
         // Remove image
-        if ((image === undefined) || (image.length === 0)) {
+        if ((image === undefined) || (image === null) || (image.length === 0)) {
             delete this.image;
             return this;
         }
@@ -194,10 +194,10 @@ export default class Embed {
     };
 
     // Set footer
-    setFooter = (text?: string, iconURL?: string): Embed => {
+    setFooter = (text?: string | null, iconURL?: string): Embed => {
 
         // Remove text
-        if ((text === undefined) || (text.length === 0)) {
+        if ((text === undefined) || (text === null) || (text.length === 0)) {
             delete this.footer;
             return this;
         }
