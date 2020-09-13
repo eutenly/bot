@@ -51,10 +51,10 @@ export default async function setPage(searchManager: SearchManager, page: number
         // Set user agent header
         headers.set("User-Agent", searchManager.command.webScraper ? "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" : "Eutenly");
 
-        // Set authorization header
-        if ((searchManager.command.getAuthorizationHeader) && (searchManager.command.connectionName)) {
+        // Set headers
+        if ((searchManager.command.setHeaders) && (searchManager.command.connectionName)) {
             const connection: Connection | undefined = searchManager.command.message.author.connections[searchManager.command.connectionName];
-            headers.set("Authorization", await searchManager.command.getAuthorizationHeader(connection, url, "GET"));
+            await searchManager.command.setHeaders(headers, connection, url, "GET");
         }
 
         // Make request
@@ -91,7 +91,7 @@ export default async function setPage(searchManager: SearchManager, page: number
     else searchManager.cache.set(page, parserData.data);
 
     // Get embed
-    const embed: Embed = searchManager.command.getEmbed(searchManager.command, searchManager.cache.get(page));
+    const embed: Embed = searchManager.command.getEmbed(searchManager.command, searchManager.cache.get(page) || []);
 
     // Send
     searchManager.command.send(embed);

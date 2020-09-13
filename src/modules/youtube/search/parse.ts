@@ -14,11 +14,6 @@ export interface YouTubeSearchResult {
     createdAt: string;
 }
 
-interface YouTubeSearchData {
-    data: YouTubeSearchResult[];
-    nextPageToken: string | null;
-}
-
 export default function parse(data?: any): ParserData {
 
     // No data

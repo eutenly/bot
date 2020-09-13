@@ -16,11 +16,6 @@ export interface TwitterSearchResult {
     user: TwitterUser;
 }
 
-interface TwitterTweetsData {
-    data: TwitterSearchResult[];
-    nextPageToken: string | null;
-}
-
 export default function parse(data?: any): ParserData {
 
     // No data

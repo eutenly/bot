@@ -110,6 +110,11 @@ bignumber.js@^9.0.0:
   resolved "https://registry.yarnpkg.com/bignumber.js/-/bignumber.js-9.0.0.tgz#805880f84a329b5eac6e7cb6f8274b6d82bdf075"
   integrity sha512-t/OYhhJ2SD+YGBQcjY8GzzDHEk9f3nerxjtfa6tlMXfe7frs/WozhvCNoGvpM0P3bNf3Gq5ZRMlGr5f3r4/N8A==
 
+binaryextensions@^4.14.0:
+  version "4.14.0"
+  resolved "https://registry.yarnpkg.com/binaryextensions/-/binaryextensions-4.14.0.tgz#83367ca2ef1ac853814b6dafdc5eb97c1e5949a8"
+  integrity sha512-UtjVslm7QYvKyVdoc1njm/L1tFUcx2m4x4ceGk/zqZXzdDYuH6/SasK4Bh5UltmObqBPbA9JH7f6Y0Igq2tF5w==
+
 bl@^2.2.0:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/bl/-/bl-2.2.1.tgz#8c11a7b730655c5d56898cdc871224f40fd901d5"
@@ -292,6 +297,14 @@ ecdsa-sig-formatter@1.0.11, ecdsa-sig-formatter@^1.0.11:
   dependencies:
     safe-buffer "^5.0.1"
 
+editions@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/editions/-/editions-4.2.0.tgz#36d11e1462a01bf96b087e8c9712ef096415516d"
+  integrity sha512-pmUkYpyeF6LY1tXXPaVr902upCeSAisp7vtY5udlSSj31emhRTNKBxEJk30sD6CJHbYSPAh+B3GDR4aJvXi/FQ==
+  dependencies:
+    errlop "^3.16.0"
+    semver "6.3.0"
+
 entities@^1.1.1, entities@~1.1.1:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/entities/-/entities-1.1.2.tgz#bdfa735299664dfafd34529ed4f8522a275fea56"
@@ -301,6 +314,11 @@ entities@^2.0.0:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/entities/-/entities-2.0.3.tgz#5c487e5742ab93c15abb5da22759b8590ec03b7f"
   integrity sha512-MyoZ0jgnLvB2X3Lg5HqpFmn1kybDiIfEQmKzTb5apr51Rb+T3KdmMiqa70T+bhGnyv7bQ6WMj2QMHpGMmlrUYQ==
+
+errlop@^3.16.0:
+  version "3.17.0"
+  resolved "https://registry.yarnpkg.com/errlop/-/errlop-3.17.0.tgz#74f3a576447c5023266faac16a21e081f3bd989a"
+  integrity sha512-TDlb+YMx08OiaLq1g7Hu0nDca/oLo+LpMEgEI2lybBKE1rB8qsqFgXzEbnn1LU6NfDCfIdVcl3073aO3ZLTYNg==
 
 event-target-shim@^5.0.0:
   version "5.0.1"
@@ -316,6 +334,11 @@ fast-text-encoding@^1.0.0:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/fast-text-encoding/-/fast-text-encoding-1.0.3.tgz#ec02ac8e01ab8a319af182dae2681213cfe9ce53"
   integrity sha512-dtm4QZH9nZtcDt8qJiOH9fcQd1NAgi+K1O2DbE6GG1PPCK/BWfOH3idCTRQ4ImXRUOyopDEgDEnVEE7Y/2Wrig==
+
+filesize@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/filesize/-/filesize-6.1.0.tgz#e81bdaa780e2451d714d71c0d7a4f3238d37ad00"
+  integrity sha512-LpCHtPQ3sFx67z+uh2HnSyWSLLu5Jxo21795uRDuar/EOuYWXib5EmPaGIBuSnRqH2IODiKA2k5re/K9OnN/Yg==
 
 form-data@^3.0.0:
   version "3.0.0"
@@ -451,6 +474,15 @@ iso8601-duration@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/iso8601-duration/-/iso8601-duration-1.2.0.tgz#5fa6fc180a8fe95ad6a6721c9bdd9069cb59e80e"
   integrity sha512-ErTBd++b17E8nmWII1K1uZtBgD1E8RjyvwmxlCjPHNqHMD7gmcMHOw0E8Ro/6+QT4PhHRSnnMo7bxa1vFPkwhg==
+
+istextorbinary@^5.11.0:
+  version "5.11.0"
+  resolved "https://registry.yarnpkg.com/istextorbinary/-/istextorbinary-5.11.0.tgz#d48dfde867adaefb6d93690c2ce53f423ffc8948"
+  integrity sha512-XTuf7WoQng9FOm3281KnNFV5WQ9kW3o896ktjD2XtKVNoB4n5E9SdkVfsQ10VVRqNMhpH33MlJU0USKlfC3DQw==
+  dependencies:
+    binaryextensions "^4.14.0"
+    editions "^4.2.0"
+    textextensions "^5.10.0"
 
 jpeg-js@^0.4.1:
   version "0.4.2"
@@ -723,6 +755,11 @@ saslprep@^1.0.0:
   dependencies:
     sparse-bitfield "^3.0.3"
 
+semver@6.3.0:
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/semver/-/semver-6.3.0.tgz#ee0a64c8af5e8ceea67687b133761e1becbd1d3d"
+  integrity sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==
+
 semver@^5.1.0:
   version "5.7.1"
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.7.1.tgz#a954f931aeba508d307bbf069eff0c01c96116f7"
@@ -801,6 +838,11 @@ terminal-kit@^1.43.0:
     seventh "^0.7.35"
     string-kit "^0.11.8"
     tree-kit "^0.6.2"
+
+textextensions@^5.10.0:
+  version "5.11.0"
+  resolved "https://registry.yarnpkg.com/textextensions/-/textextensions-5.11.0.tgz#0d85a62769940334c0a686efaffeee068d68a3d0"
+  integrity sha512-45T+YGh8oLVTvzBu6RxLEKVt+4XIAuGZislYVzbJg9z3isP1MFkKliiEDZ7haRQLnwfM5LduFYnYFktBRCjS4g==
 
 tree-kit@^0.6.2:
   version "0.6.2"
