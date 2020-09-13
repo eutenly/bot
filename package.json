@@ -21,6 +21,7 @@
     "istextorbinary": "^5.11.0",
     "mongoose": "^5.10.0",
     "node-fetch": "^2.6.0",
+    "node-vibrant": "^3.1.5",
     "terminal-kit": "^1.43.0",
     "ws": "^7.3.1"
   }
