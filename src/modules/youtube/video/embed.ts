@@ -1,7 +1,7 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
-import englishDate from "../../../util/englishDate";
-import englishISO8601 from "../../../util/englishISO8601";
+import parseDate from "../../../util/parseDate";
+import parseISO8601 from "../../../util/parseISO8601";
 import { YouTubeVideo } from "./parse";
 
 export default function embed(command: Command, data?: YouTubeVideo): Embed {
@@ -29,11 +29,11 @@ export default function embed(command: Command, data?: YouTubeVideo): Embed {
         .addField(null, null, true)
         .addField("Views", data.views.toLocaleString(), true)
         .addField("Uploaded By", `[${data.channel.name}](https://youtube.com/channel/${data.channel.id})\n(\`${prefix}view channel\`)`, true)
-        .addField("Length", englishISO8601(data.length), true)
+        .addField("Length", parseISO8601(data.length), true)
         .addField("Likes", data.likes.toLocaleString(), true)
         .addField("Comments", data.comments.toLocaleString(), true)
         .addField("Dislikes", data.dislikes.toLocaleString(), true)
-        .addField("Uploaded On", englishDate(data.uploadedOn))
+        .addField("Uploaded", parseDate(data.uploadedOn))
         .setImage(data.thumbnail);
 
     // Return

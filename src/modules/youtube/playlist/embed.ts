@@ -1,6 +1,6 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
-import englishDate from "../../../util/englishDate";
+import parseDate from "../../../util/parseDate";
 import { YouTubePlaylist } from "./parse";
 
 export default function embed(command: Command, data?: YouTubePlaylist): Embed {
@@ -28,7 +28,7 @@ export default function embed(command: Command, data?: YouTubePlaylist): Embed {
         .addField(null, null, true)
         .addField("Total Videos", data.videos.toLocaleString(), true)
         .addField("Channel", `[${data.channel.name}](https://youtube.com/channel/${data.channel.id})\n(\`${prefix}view channel\`)`, true)
-        .addField("Created On", englishDate(data.createdOn))
+        .addField("Created", parseDate(data.createdOn))
         .setImage(data.thumbnail);
 
     // Return

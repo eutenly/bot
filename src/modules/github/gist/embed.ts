@@ -1,6 +1,6 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
-import englishDate from "../../../util/englishDate";
+import parseDate from "../../../util/parseDate";
 import { GitHubGist } from "./parse";
 
 export default function embed(command: Command, data?: GitHubGist): Embed {
@@ -29,7 +29,7 @@ export default function embed(command: Command, data?: GitHubGist): Embed {
         .addField("Comments", data.comments.toLocaleString(), true)
         .addField("Files", data.files.length.toLocaleString(), true)
         .addField("Forks", data.forks.toLocaleString(), true)
-        .addField("Created On", englishDate(data.createdOn))
+        .addField("Created", parseDate(data.createdOn))
         .addField()
         .addField("More", `**\u2022 User:** \`${prefix}view user\`\n**\u2022 Gists:** \`${prefix}view gists\``);
 

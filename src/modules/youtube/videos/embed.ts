@@ -1,6 +1,6 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
-import englishDate from "../../../util/englishDate";
+import parseDate from "../../../util/parseDate";
 import { YouTubeSearchResult } from "./parse";
 
 export default function embed(command: Command, data: YouTubeSearchResult[]): Embed {
@@ -21,7 +21,7 @@ export default function embed(command: Command, data: YouTubeSearchResult[]): Em
         .setColor(0xf44242);
 
     // Build embed
-    data.forEach((d: YouTubeSearchResult, i: number) => embed.addField(null, `**${i + 1}. [${d.title}](https://youtube.com/watch?v=${d.id})**\n${d.description}\nUploaded On ${englishDate(d.uploadedOn)}`));
+    data.forEach((d: YouTubeSearchResult, i: number) => embed.addField(null, `**${i + 1}. [${d.title}](https://youtube.com/watch?v=${d.id})**\n${d.description}\nUploaded ${parseDate(d.uploadedOn)}`));
 
     embed
         .addField()

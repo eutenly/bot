@@ -1,6 +1,6 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
-import englishDate from "../../../util/englishDate";
+import parseDate from "../../../util/parseDate";
 import { YouTubeSearchResult } from "./parse";
 
 export default function embed(command: Command, data: YouTubeSearchResult[]): Embed {
@@ -30,7 +30,7 @@ export default function embed(command: Command, data: YouTubeSearchResult[]): Em
          * A short video about how Google Search works, including how Google's software indexes the web, ranks sites, and flags spam.
          * [Google](https://youtube.com/channel/UCK8sQmJBp8GCxrOtXWBpyEA) - Uploaded On Thursday, October 24, 2019 at 2:57:25 PM (GMT+0000, UTC)
          */
-        if (d.type === "video") embed.addField(null, `**${i + 1}. [${d.title}](https://youtube.com/watch?v=${d.id})**\n${d.description}\n[${d.channel.name}](https://youtube.com/channel/${d.channel.id}) - Uploaded On ${englishDate(d.createdAt)}`);
+        if (d.type === "video") embed.addField(null, `**${i + 1}. [${d.title}](https://youtube.com/watch?v=${d.id})**\n${d.description}\n[${d.channel.name}](https://youtube.com/channel/${d.channel.id}) - Uploaded ${parseDate(d.createdAt)}`);
 
         /**
          * Channel

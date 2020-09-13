@@ -1,6 +1,6 @@
 import iso8601, { Duration } from "iso8601-duration";
 
-export default function englishISO8601(input: string): string {
+export default function parseISO8601(input: string): string {
 
     // Parse
     const data: Duration = iso8601.parse(input);

@@ -1,6 +1,6 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
-import englishDate from "../../../util/englishDate";
+import parseDate from "../../../util/parseDate";
 import { TwitterTweet } from "./parse";
 
 export default function embed(command: Command, data?: TwitterTweet): Embed {
@@ -28,7 +28,7 @@ export default function embed(command: Command, data?: TwitterTweet): Embed {
         .addField(null, null, true)
         .addField("Likes", data.likes.toLocaleString(), true)
         .addField("Retweets", data.retweets.toLocaleString(), true)
-        .addField("Sent On", englishDate(data.sentOn))
+        .addField("Sent", parseDate(data.sentOn))
         .addField()
         .addField("User", `View info about the person who sent this tweet with the \`${prefix}view user\` command`)
         .setImage(data.image);
