@@ -1,6 +1,6 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
-import englishDate from "../../../util/englishDate";
+import parseDate from "../../../util/parseDate";
 import formatURL from "../../../util/formatURL";
 import { GitHubUser } from "./parse";
 
@@ -34,7 +34,7 @@ export default function embed(command: Command, data?: GitHubUser): Embed {
         .addField("Location", data.location || "*None*", true)
         .addField("Website", data.website ? formatURL(data.website) : "*None*", true)
         .addField("Company", data.company || "*None*", true)
-        .addField("Created On", englishDate(data.createdOn))
+        .addField("Created", parseDate(data.createdOn))
         .addField()
         .addField("Events", `View ${data.name}'s events with the \`${prefix}view events\` command`);
 

@@ -1,6 +1,6 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
-import englishDate from "../../../util/englishDate";
+import parseDate from "../../../util/parseDate";
 import formatURL from "../../../util/formatURL";
 import { GitHubRepo } from "./parse";
 
@@ -34,7 +34,7 @@ export default function embed(command: Command, data?: GitHubRepo): Embed {
         .addField("License", data.license || "*None*", true)
         .addField("Language", data.language ? `${data.language}\n(\`${prefix}view languages\`)` : "*None*", true)
         .addField("Website", data.website ? formatURL(data.website) : "*None*", true)
-        .addField("Created On", englishDate(data.createdOn))
+        .addField("Created", parseDate(data.createdOn))
         .addField()
         .addField("More", `**\u2022 User:** \`${prefix}view user\`\n**\u2022 Files:** \`${prefix}view files\`${data.hasIssues ? `\n**\u2022 Issues:** \`${prefix}view issues\`` : ""}\n**\u2022 Pull Requests:** \`${prefix}view prs\`\n**\u2022 Releases:** \`${prefix}view releases\`\n**\u2022 Events:** \`${prefix}view events\``);
 

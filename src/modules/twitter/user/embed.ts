@@ -1,6 +1,6 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
-import englishDate from "../../../util/englishDate";
+import parseDate from "../../../util/parseDate";
 import { TwitterUser } from "./parse";
 
 export default function embed(command: Command, data?: TwitterUser): Embed {
@@ -37,7 +37,7 @@ export default function embed(command: Command, data?: TwitterUser): Embed {
     if (data.url) embed.addField("URL", data.url, true);
 
     embed
-        .addField("Created On", englishDate(data.createdOn))
+        .addField("Created", parseDate(data.createdOn))
         .addField()
         .addField("Tweets", `View ${data.name}'s tweets with the \`${prefix}view tweets\` command`)
         .setImage(data.banner);

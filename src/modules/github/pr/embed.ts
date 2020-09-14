@@ -1,6 +1,6 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
-import englishDate from "../../../util/englishDate";
+import parseDate from "../../../util/parseDate";
 import { GitHubPR } from "./parse";
 
 export default function embed(command: Command, data?: GitHubPR): Embed {
@@ -30,7 +30,7 @@ export default function embed(command: Command, data?: GitHubPR): Embed {
         .addField("User", `${data.user}\n(\`${prefix}view user\`)`, true)
         .addField("Locked", data.locked ? "Yes" : "No", true)
         .addField("Labels", data.labels.join(", ") || "*None*")
-        .addField("Created On", englishDate(data.createdOn))
+        .addField("Created", parseDate(data.createdOn))
         .addField()
         .addField("More", `**\u2022 Repo:** \`${prefix}view repo\`\n**\u2022 Pull Requests:** \`${prefix}view prs\``);
 

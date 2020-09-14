@@ -1,14 +1,19 @@
 import Message from "../../classes/Message/Message";
+import linkChecker from "../linkCheckers/github";
 import search from "./search/main";
 
 export default async function main(message: Message) {
 
-    // Get query
-    const query = message.content.split(" ").slice(1).join(" ");
+    // Get input
+    const input = message.content.split(" ").slice(1).join(" ");
 
-    // No query
-    if (!query) return message.channel.sendMessage(":x:  **|  What would you like to search?**");
+    // No input
+    if (!input) return message.channel.sendMessage(":x:  **|  What would you like to search?**");
 
-    // Run module
-    search(message, query);
+    // Link checker
+    const runModule: Function | undefined = linkChecker(input);
+    if (runModule) return runModule(message);
+
+    // Search
+    search(message, input);
 }

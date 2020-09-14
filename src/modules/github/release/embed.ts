@@ -1,6 +1,6 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
-import englishDate from "../../../util/englishDate";
+import parseDate from "../../../util/parseDate";
 import { GitHubRelease } from "./parse";
 
 export default function embed(command: Command, data?: GitHubRelease): Embed {
@@ -29,7 +29,7 @@ export default function embed(command: Command, data?: GitHubRelease): Embed {
         .addField("Zipball", `[github.com...](${data.zipball})`, true)
         .addField("User", `${data.user}\n(\`${prefix}view user\`)`, true)
         .addField("Tarball", `[github.com...](${data.tarball})`, true)
-        .addField("Created On", englishDate(data.createdOn))
+        .addField("Created", parseDate(data.createdOn))
         .addField()
         .addField("More", `**\u2022 Repo:** \`${prefix}view repo\`\n**\u2022 Releases:** \`${prefix}view releases\``);
 

@@ -1,7 +1,6 @@
 import filesize from "filesize";
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
-import englishDate from "../../../util/englishDate";
 import { GitHubLanguages } from "./parse";
 
 export default function embed(command: Command, data?: GitHubLanguages): Embed {

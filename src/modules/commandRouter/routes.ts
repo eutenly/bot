@@ -7,6 +7,7 @@ import pageCommand from "../page";
 import pingCommand from "../ping";
 import twitterCommand from "../twitter/main";
 import viewCommand from "../view";
+import websiteCommand from "../website/main";
 import youtubeCommand from "../youtube/main";
 
 // Define routes
@@ -16,6 +17,12 @@ export const routes: Command[] = [
         information: "Check how responsive the bot is",
         inputs: ["ping"],
         module: pingCommand
+    },
+    {
+        name: "Website",
+        information: "View details about a website",
+        inputs: ["website", "websiteinfo", "site", "siteinfo"],
+        module: websiteCommand
     },
     {
         name: "Google",
