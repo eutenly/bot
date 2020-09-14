@@ -6,8 +6,18 @@ import Message from "../../classes/Message/Message";
 import { Websites } from "../../models/index";
 import catchPromise from "../../util/catchPromise";
 import getColor from "../../util/getColor";
+import githubLinkChecker from "../linkCheckers/github";
+import twitterLinkChecker from "../linkCheckers/twitter";
+import youtubeLinkChecker from "../linkCheckers/youtube";
 
 export default async function website(message: Message, url: string) {
+
+    // Link checkers
+    const linkCheckers: Function[] = [youtubeLinkChecker, twitterLinkChecker, githubLinkChecker];
+    for (let lc of linkCheckers) {
+        const runModule: Function | undefined = lc(url, true);
+        if (runModule) return runModule(message);
+    }
 
     // Fetch
     const result: Response = await catchPromise(fetch(url, {
