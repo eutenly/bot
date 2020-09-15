@@ -11,6 +11,8 @@ import sendLoginEmbed from "./sendLoginEmbed";
 
 export type GetURL = (input?: string, page?: number, nextPageToken?: string) => string;
 
+export type GetExtraData = (data: any) => string;
+
 export type SetHeaders = (headers: Headers, connection: Connection | undefined, url: string, method: string) => Promise<void> | void;
 
 export type RefreshToken = (command: Command) => Promise<void>;
@@ -25,7 +27,7 @@ export interface ParserData {
     tokenExpired?: boolean;
 }
 
-export type Parser = (data: any) => ParserData;
+export type Parser = (data: any, extraData?: any[]) => ParserData;
 
 export type GetEmbed = (command: Command, data: any) => Embed;
 
@@ -39,6 +41,7 @@ interface CommandData {
     metadata?: any;
     orderedPages?: boolean;
     getURL?: GetURL;
+    getExtraData?: GetExtraData[];
     connectionName?: string;
     setHeaders?: SetHeaders;
     refreshToken?: RefreshToken;
@@ -67,6 +70,7 @@ export default class Command {
 
     // Functions to use this command
     getURL?: GetURL;
+    getExtraData?: GetExtraData[];
     connectionName?: string;
     noConnection?: boolean;
     setHeaders?: SetHeaders;
@@ -98,6 +102,7 @@ export default class Command {
         this.connectionName = data.connectionName;
 
         this.getURL = data.getURL;
+        this.getExtraData = data.getExtraData;
         this.setHeaders = data.setHeaders;
         this.refreshToken = data.refreshToken;
         this.getData = data.getData;

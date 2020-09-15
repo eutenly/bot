@@ -1,11 +1,12 @@
 import nodeFetch, { Headers, Response } from "node-fetch";
 import { Connection } from "../User/User";
-import Command, { ParserData } from "./Command";
+import Command, { GetExtraData, ParserData } from "./Command";
 
 export default async function fetch(command: Command, input?: string, page?: number, nextPageToken?: string | null): Promise<ParserData | undefined> {
 
     // Define data
     let data: any;
+    let extraData: any[] | undefined;
 
     // Regular commands
     if ((command.getURL) && (nextPageToken !== null)) {
@@ -32,6 +33,22 @@ export default async function fetch(command: Command, input?: string, page?: num
         if (result.status === 204) data = {};
         else if (command.webScraper) data = await result.text();
         else data = await result.json();
+
+        // Get extra data
+        const extraDataPromises: Array<Promise<Response>> | undefined = command.getExtraData?.map((d: GetExtraData) => {
+
+            // Get url
+            const extraDataURL: string = d(data);
+
+            // Return requests
+            return nodeFetch(extraDataURL, { headers });
+        });
+
+        // Await requests
+        const extraDataResponses: Response[] | undefined = extraDataPromises && await Promise.all(extraDataPromises);
+
+        // Parse data
+        if (extraDataResponses) extraData = await Promise.all(extraDataResponses.map((d: Response) => d.json()));
     }
 
     // Commands that have a custom function for getting data
@@ -39,7 +56,7 @@ export default async function fetch(command: Command, input?: string, page?: num
 
     // Run parser
     if (!command.parser) return;
-    const parserData: ParserData = command.parser(data);
+    const parserData: ParserData = command.parser(data, extraData);
 
     // Authorization failed
     if (parserData.authorizationFailed) {
