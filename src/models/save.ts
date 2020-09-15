@@ -1,5 +1,5 @@
 import { Document, Model } from "mongoose";
-import { Data, Servers, Websites } from "./index";
+import { Data, Servers, Users, Websites } from "./index";
 
 interface DocumentObject {
     [key: string]: any;
@@ -27,6 +27,7 @@ export default async function save(...rawDocs: Document[]) {
         let model: Model<Document> | undefined;
         if (modelName === "data") model = Data;
         else if (modelName === "servers") model = Servers;
+        else if (modelName === "users") model = Users;
         else if (modelName === "websites") model = Websites;
         if (!model) continue;
 
