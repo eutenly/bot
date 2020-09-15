@@ -76,6 +76,17 @@ export default async function setPage(searchManager: SearchManager, page: number
     // Authorization failed
     if (parserData.authorizationFailed) return searchManager.command.sendLoginEmbed();
 
+    // Token expired
+    if (parserData.tokenExpired) {
+
+        // Refresh token
+        if (!searchManager.command.refreshToken) return;
+        await searchManager.command.refreshToken(searchManager.command);
+
+        // Set page
+        return setPage(searchManager, page);
+    }
+
     // If theres no data, set it to an empty array
     if (parserData.noData) parserData.data = [];
 

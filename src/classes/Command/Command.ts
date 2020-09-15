@@ -13,6 +13,8 @@ export type GetURL = (input?: string, page?: number, nextPageToken?: string) => 
 
 export type SetHeaders = (headers: Headers, connection: Connection | undefined, url: string, method: string) => Promise<void> | void;
 
+export type RefreshToken = (command: Command) => Promise<void>;
+
 export type GetData = (input?: string, page?: number, nextPageToken?: string) => Promise<any>;
 
 export interface ParserData {
@@ -20,6 +22,7 @@ export interface ParserData {
     nextPageToken?: string;
     noData?: boolean;
     authorizationFailed?: boolean;
+    tokenExpired?: boolean;
 }
 
 export type Parser = (data: any) => ParserData;
@@ -38,6 +41,7 @@ interface CommandData {
     getURL?: GetURL;
     connectionName?: string;
     setHeaders?: SetHeaders;
+    refreshToken?: RefreshToken;
     splitPages?: number;
     getData?: GetData;
     data?: any;
@@ -66,6 +70,7 @@ export default class Command {
     connectionName?: string;
     noConnection?: boolean;
     setHeaders?: SetHeaders;
+    refreshToken?: RefreshToken;
     getData?: GetData;
     parser?: Parser;
     getEmbed: GetEmbed;
@@ -94,6 +99,7 @@ export default class Command {
 
         this.getURL = data.getURL;
         this.setHeaders = data.setHeaders;
+        this.refreshToken = data.refreshToken;
         this.getData = data.getData;
         this.parser = data.parser;
         this.getEmbed = data.getEmbed;

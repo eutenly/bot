@@ -5,6 +5,7 @@ import googleCommand from "../google/main";
 import moveCommand from "../move";
 import pageCommand from "../page";
 import pingCommand from "../ping";
+import spotifyCommand from "../spotify/main";
 import twitterCommand from "../twitter/main";
 import viewCommand from "../view";
 import websiteCommand from "../website/main";
@@ -41,6 +42,12 @@ export const routes: Command[] = [
         information: "Search Twitter",
         inputs: ["twitter"],
         module: twitterCommand
+    },
+    {
+        name: "Spotify",
+        information: "Search Spotify",
+        inputs: ["spotify"],
+        module: spotifyCommand
     },
     {
         name: "GitHub",

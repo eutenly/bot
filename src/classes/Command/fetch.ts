@@ -44,6 +44,17 @@ export default async function fetch(command: Command): Promise<any> {
     // Authorization failed
     if (parserData.authorizationFailed) return command.sendLoginEmbed();
 
+    // Token expired
+    if (parserData.tokenExpired) {
+
+        // Refresh token
+        if (!command.refreshToken) return;
+        await command.refreshToken(command);
+
+        // Fetch
+        return fetch(command);
+    }
+
     // Set data
     command.data = parserData.data;
 }
