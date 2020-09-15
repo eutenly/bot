@@ -2,16 +2,16 @@ import nodeFetch, { Headers, Response } from "node-fetch";
 import { Connection } from "../User/User";
 import Command, { ParserData } from "./Command";
 
-export default async function fetch(command: Command): Promise<any> {
+export default async function fetch(command: Command, input?: string, page?: number, nextPageToken?: string | null): Promise<ParserData | undefined> {
 
     // Define data
     let data: any;
 
     // Regular commands
-    if (command.getURL) {
+    if ((command.getURL) && (nextPageToken !== null)) {
 
         // Get url
-        const url: string = command.getURL();
+        const url: string = command.getURL(input, page, nextPageToken);
 
         // Define headers
         const headers: Headers = new Headers();
@@ -35,14 +35,17 @@ export default async function fetch(command: Command): Promise<any> {
     }
 
     // Commands that have a custom function for getting data
-    else if (command.getData) data = await command.getData();
+    else if ((command.getData) && (nextPageToken !== null)) data = await command.getData(input, page, nextPageToken);
 
     // Run parser
     if (!command.parser) return;
     const parserData: ParserData = command.parser(data);
 
     // Authorization failed
-    if (parserData.authorizationFailed) return command.sendLoginEmbed();
+    if (parserData.authorizationFailed) {
+        command.sendLoginEmbed();
+        return;
+    }
 
     // Token expired
     if (parserData.tokenExpired) {
@@ -52,9 +55,16 @@ export default async function fetch(command: Command): Promise<any> {
         await command.refreshToken(command);
 
         // Fetch
-        return fetch(command);
+        return await fetch(command, input, page, nextPageToken);
     }
 
+    // If theres no data, set it to an empty array
+    if (parserData.noData) parserData.data = [];
+
     // Set data
-    command.data = parserData.data;
+    // Only run if this module wasnt called via `SearchManager.setPage`
+    if (!input) command.data = parserData.data;
+
+    // Return
+    return parserData;
 }

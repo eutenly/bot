@@ -168,7 +168,7 @@ export default class Command {
     sendLoginEmbed = (): Promise<void> => sendLoginEmbed(this);
 
     // Fetch this command's data
-    fetch = (): Promise<any> => fetch(this);
+    fetch = (input?: string, page?: number, nextPageToken?: string | null): Promise<ParserData | undefined> => fetch(this, input, page, nextPageToken);
 
     // Send or edit the command message
     send = (embed: Embed): Promise<void> => send(this, embed);
