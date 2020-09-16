@@ -13,7 +13,7 @@ export default function view(data: SpotifyPlaylist | undefined, message: Message
     if (!input) return message.channel.sendMessage(":x:  **|  What would you like to view?**");
 
     // Tracks
-    if (input.toLowerCase().replace(/\s+/g, "") === "tracks") return tracks(message, data.id, "playlist");
+    if (input.toLowerCase().replace(/\s+/g, "") === "tracks") return tracks(message, data.id, data.name, "playlist");
 
     // Get track number
     const trackNumber: number = parseInt(input.split("-").slice(1).join("-"));

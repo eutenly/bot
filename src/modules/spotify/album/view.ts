@@ -14,7 +14,7 @@ export default function view(data: SpotifyAlbum | undefined, message: Message) {
     if (!input) return message.channel.sendMessage(":x:  **|  What would you like to view?**");
 
     // Tracks
-    if (input.toLowerCase().replace(/\s+/g, "") === "tracks") return tracks(message, data.id, "album");
+    if (input.toLowerCase().replace(/\s+/g, "") === "tracks") return tracks(message, data.id, data.name, "album");
 
     // Artist
     else if (input.toLowerCase().replace(/\s+/g, "") === "artist") return artist(message, data.artist.id);

@@ -56,7 +56,7 @@ export default async function fetch(command: Command, input?: string, page?: num
 
     // Run parser
     if (!command.parser) return;
-    const parserData: ParserData = command.parser(data, extraData);
+    const parserData: ParserData = command.parser(data, extraData, command.metadata);
 
     // Authorization failed
     if (parserData.authorizationFailed) {

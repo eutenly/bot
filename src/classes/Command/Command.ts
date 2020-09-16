@@ -27,7 +27,7 @@ export interface ParserData {
     tokenExpired?: boolean;
 }
 
-export type Parser = (data: any, extraData?: any[]) => ParserData;
+export type Parser = (data: any, extraData?: any[], metadata?: any) => ParserData;
 
 export type GetEmbed = (command: Command, data: any) => Embed;
 
