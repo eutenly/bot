@@ -24,5 +24,5 @@ export default function view(data: SpotifyArtist | undefined, message: Message) 
     if (!albumResult) return message.channel.sendMessage(":x:  **|  That album number is invalid**");
 
     // Run module
-    album(message, albumResult.id);
+    album(message, albumResult.id, data.name);
 }
