@@ -3,7 +3,7 @@ import spotifyAlbum from "../spotify/album/main";
 import spotifyArtist from "../spotify/artist/main";
 import spotifyCurrent from "../spotify/current";
 import spotifyEpisode from "../spotify/episode/main";
-import spotifyHistory from "../spotify/history";
+import spotifyHistory from "../spotify/history/main";
 import spotifyPlaylist from "../spotify/playlist/main";
 import spotifyTop from "../spotify/top/main";
 import spotifyTrack from "../spotify/track/main";
