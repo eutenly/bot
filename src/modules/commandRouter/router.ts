@@ -1,5 +1,5 @@
 import Message from "../../classes/Message/Message";
-import { routes, Command } from "./routes";
+import { routes, BaseCommand } from "./routes";
 
 export default function routeMessage(message: Message) {
 
@@ -12,9 +12,13 @@ export default function routeMessage(message: Message) {
     // Get command
     const requestedCommand = message.content.substring(prefix.length, message.content.length);
 
+    // Parse routes
+    let allRoutes: BaseCommand[] = routes;
+    if (message.channel.commands) allRoutes = allRoutes.concat(message.channel.commands.commands);
+
     // Get command route
-    const route = routes.find(
-        (route: Command) => route.inputs.some((routeInput: string) => requestedCommand.startsWith(routeInput))
+    const route = allRoutes.find(
+        (route: BaseCommand) => route.inputs.some((routeInput: string) => requestedCommand.startsWith(routeInput))
     );
 
     if (!route) return;

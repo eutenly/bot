@@ -18,6 +18,9 @@ function collectGarbage(client: Client) {
     // Cycle through cached channels
     client.channels.forEach((channel: Channel) => {
 
+        // If the channel's commands' source command (`Channel.commands.sourceCommand`) has expired, remove it
+        if ((channel.commands) && (channel.commands.sourceCommand.expireTimestamp <= Date.now())) delete channel.commands;
+
         // Cycle through messages within channel
         channel.messages.forEach((message: Message) => {
             // Get Timestamp
@@ -30,8 +33,8 @@ function collectGarbage(client: Client) {
             }
         });
 
-        // Check if channels have no cached messages
-        if (channel.messages.size === 0) {
+        // Check if the channel doesn't have any cached messages and doesn't have any commands
+        if ((channel.messages.size === 0) && (!channel.commands)) {
             // Check for exclusions
             if (exclusions.includes(channel.id)) return;
 

@@ -1,6 +1,8 @@
+import ChannelCommands from "../../../classes/Channel/ChannelCommands/ChannelCommands";
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import Message from "../../../classes/Message/Message";
+import add from "../add";
 import fetch from "../fetch";
 import embed from "./embed";
 import parse from "./parse";
@@ -24,6 +26,15 @@ export default async function main(message: Message, episodeID: string, commandH
 
     // Fetch
     await command.fetchData();
+
+    // Channel commands
+    message.channel.commands = new ChannelCommands(message.channel, {
+        sourceCommand: command,
+        commands: [{
+            inputs: ["add", "save"],
+            module: (msg: Message) => add(msg, command.data.id, command.data.name, "episode")
+        }]
+    });
 
     // Get embed
     const commandEmbed: Embed = command.getEmbed(command, command.data);

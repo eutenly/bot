@@ -12,7 +12,7 @@ import websiteCommand from "../website/main";
 import youtubeCommand from "../youtube/main";
 
 // Define routes
-export const routes: Command[] = [
+export const routes: CommandRoute[] = [
     {
         name: "Ping",
         information: "Check how responsive the bot is",
@@ -81,11 +81,14 @@ export const routes: Command[] = [
     }
 ];
 
-type CommandRoute = (message: Message) => Promise<any>;
+type CommandModule = (message: Message) => Promise<any>;
 
-export interface Command {
+export interface BaseCommand {
+    inputs: string[];
+    module: CommandModule;
+}
+
+export interface CommandRoute extends BaseCommand {
     name: string;
     information: string;
-    inputs: string[];
-    module: CommandRoute;
 }
