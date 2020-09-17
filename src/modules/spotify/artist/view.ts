@@ -13,7 +13,7 @@ export default function view(data: SpotifyArtist | undefined, message: Message) 
     if (!input) return message.channel.sendMessage(":x:  **|  What would you like to view?**");
 
     // Albums
-    if (input.toLowerCase().replace(/\s+/g, "") === "albums") return albums(message, data.id);
+    if (input.toLowerCase().replace(/\s+/g, "") === "albums") return albums(message, data.id, data.name);
 
     // Get album number
     const albumNumber: number = parseInt(input.split("-").slice(1).join("-"));
@@ -24,5 +24,5 @@ export default function view(data: SpotifyArtist | undefined, message: Message) 
     if (!albumResult) return message.channel.sendMessage(":x:  **|  That album number is invalid**");
 
     // Run module
-    album(message, albumResult.id, data.name);
+    album(message, albumResult.id);
 }
