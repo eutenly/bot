@@ -1,8 +1,6 @@
 import Message from "../../classes/Message/Message";
 import evalCommand from "../eval";
-<<<<<<< HEAD
 import helpCommand from "../help";
-=======
 import githubCommand from "../github/main";
 import googleCommand from "../google/main";
 import moveCommand from "../move";
@@ -12,7 +10,6 @@ import twitterCommand from "../twitter/main";
 import viewCommand from "../view";
 import websiteCommand from "../website/main";
 import youtubeCommand from "../youtube/main";
->>>>>>> c9e324bfcc72c8f623b2282e3658b191ad42398b
 
 // Define routes
 export const routes: Command[] = [
@@ -20,62 +17,71 @@ export const routes: Command[] = [
         name: "Ping",
         information: "Check how responsive the bot is",
         inputs: ["ping"],
-        module: pingCommand
+        module: pingCommand,
+        private: false
     },
     {
         name: "Website",
         information: "View details about a website",
         inputs: ["website", "websiteinfo", "site", "siteinfo"],
-        module: websiteCommand
+        module: websiteCommand,
+        private: false
     },
     {
         name: "Google",
         information: "Search Google",
         inputs: ["google", "search"],
-        module: googleCommand
+        module: googleCommand,
+        private: false
     },
     {
         name: "YouTube",
         information: "Search YouTube",
         inputs: ["youtube"],
-        module: youtubeCommand
+        module: youtubeCommand,
+        private: false
     },
     {
         name: "Twitter",
         information: "Search Twitter",
         inputs: ["twitter"],
-        module: twitterCommand
+        module: twitterCommand,
+        private: false
     },
     {
         name: "GitHub",
         information: "Search GitHub",
         inputs: ["github"],
-        module: githubCommand
+        module: githubCommand,
+        private: false
     },
     {
         name: "Page",
         information: "Jump to a page",
         inputs: ["page", "next", "previous"],
-        module: pageCommand
+        module: pageCommand,
+        private: false
     },
     {
         name: "Move",
         information: "Move through your recent command history",
         inputs: ["back", "forward"],
-        module: moveCommand
+        module: moveCommand,
+        private: false
     },
     {
         name: "View",
         information: "View more info about a result",
         inputs: ["view", "result"],
-        module: viewCommand
+        module: viewCommand,
+        private: false
     },
     {
         name: "Eval",
         information: "Owner JavaScript Eval",
         inputs: ["eval"],
         module: evalCommand,
-        private: true
+        private: true,
     },
     {
         name: "Help",

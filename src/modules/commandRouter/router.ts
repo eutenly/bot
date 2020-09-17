@@ -21,7 +21,7 @@ export default function routeMessage(message: Message) {
 
     // Check for private commands
     if (route.private) {
-        if ((!process.env.OWNERS) || (!process.env.OWNERS.split(",").includes(message.authorID))) return;
+        if ((!process.env.OWNERS) || (!process.env.OWNERS.split(",").includes(message.author.id))) return;
     }
 
     // Get input
