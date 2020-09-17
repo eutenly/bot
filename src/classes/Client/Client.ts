@@ -1,4 +1,5 @@
 import { EventEmitter } from "events";
+import { google, youtube_v3 } from "googleapis";
 import mongoose from "mongoose";
 import { RequestInit } from "node-fetch";
 import { Terminal } from "terminal-kit";
@@ -7,6 +8,7 @@ import connect from "../../gateway/socket/connect";
 import Channel from "../Channel/Channel";
 import FetchQueue from "../FetchQueue/FetchQueue";
 import Guild from "../Guild/Guild";
+import User from "../User/User";
 import RateLimit from "../common/RateLimit";
 import connectMongoDB from "./connectMongoDB";
 import fetch from "./fetch";
@@ -30,11 +32,16 @@ interface ClientFetchQueue {
 
 export default class Client extends EventEmitter {
 
-    // The bots token
+    // The bot's token
     token: string;
 
     // The websocket between the client and Discord
     ws: WebSocket;
+
+    // The client's ping
+    ping: number;
+    lastPingTimestamp: number;
+    pingInterval: NodeJS.Timeout;
 
     // The last sequence number from Discord
     sequence: number | null;
@@ -61,11 +68,17 @@ export default class Client extends EventEmitter {
     channels: Map<string, Channel>;
     serverJoinLeave: Channel;
 
+    // Users mapped to their command
+    users: Map<string, User>;
+
     // The names of emojis on the Eutenland server mapped to their emoji IDs
     eutenlyEmojis: Map<string, string>;
 
     // Fetch queues
     fetchQueues: ClientFetchQueue;
+
+    // The youtube client
+    youtube: youtube_v3.Youtube;
 
     // Constructor
     constructor(token: string) {
@@ -83,6 +96,8 @@ export default class Client extends EventEmitter {
         this.guilds = new Map();
         this.channels = new Map();
 
+        this.users = new Map();
+
         this.eutenlyEmojis = new Map();
 
         // Set fetch queues
@@ -90,6 +105,9 @@ export default class Client extends EventEmitter {
             getDMChannel: new FetchQueue(this),
             leaveGuild: new FetchQueue(this)
         };
+
+        // Set youtube client
+        this.youtube = google.youtube({ version: "v3", auth: process.env.YOUTUBE_API_KEY });
 
         // Connect
         this.connect();

@@ -7,7 +7,7 @@ import Message from "../classes/Message/Message";
 export default async function (message: Message) {
 
     // Ignore non owners
-    if ((!process.env.OWNERS) || (!process.env.OWNERS.split(",").includes(message.authorID))) return;
+    if ((!process.env.OWNERS) || (!process.env.OWNERS.split(",").includes(message.author.id))) return;
 
     // Get code
     const code = message.content.split("eval").slice(1).join("eval");
@@ -39,7 +39,7 @@ export default async function (message: Message) {
             .setTitle("Message")
             .setDescription(`\`\`\`\n${result.content}\`\`\``)
             .addField("Guild", result.guild ? `${result.guild.name} (${result.guild.id})` : "DMs", true)
-            .addField("Author", `<@${result.authorID}> (${result.authorID})`, true)
+            .addField("Author", `<@${result.author.id}> (${result.author.id})`, true)
             .addField("Channel", `<#${result.channel.id}> (${result.channel.id})`, true);
 
         // Channels

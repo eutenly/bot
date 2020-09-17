@@ -25,6 +25,7 @@ interface ChannelData {
 interface ChannelFetchQueue {
     sendMessage: FetchQueue;
     addReaction: FetchQueue;
+    removeReaction: FetchQueue;
     fetchMessage: FetchQueue;
 }
 
@@ -56,6 +57,7 @@ export default class Channel {
         this.fetchQueues = {
             sendMessage: new FetchQueue(client),
             addReaction: new FetchQueue(client),
+            removeReaction: new FetchQueue(client),
             fetchMessage: new FetchQueue(client)
         };
 

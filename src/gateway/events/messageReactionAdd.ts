@@ -19,6 +19,7 @@ export default async function messageReactionAdd(client: Client, data: MessageRe
     // Create reaction
     const reaction: Reaction = new Reaction(client, {
         id: data.emoji.id || data.emoji.name,
+        name: data.emoji.id ? data.emoji.name : undefined,
         messageID: data.message_id,
         userID: data.user_id,
         channelID: data.channel_id,

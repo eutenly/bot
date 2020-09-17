@@ -1,14 +1,21 @@
-import { createSchema, Type } from "ts-mongoose";
+import { Document, Schema, Types } from "mongoose";
 
-export const websitesSchema = createSchema({
+interface Field {
+    title?: string;
+    description?: string;
+    inline?: boolean;
+}
 
-    // The URL for the website
-    _id: Type.string(),
+export interface IWebsite extends Document {
+    _id: string;
+    fields: Types.Array<Field>;
+}
 
-    // Custom fields for the embed
-    fields: Type.array().of({
-        title: Type.string(),
-        description: Type.string(),
-        inline: Type.boolean()
-    })
+export const websitesSchema: Schema = new Schema({
+    _id: String,
+    fields: [{
+        title: String,
+        description: String,
+        inline: Boolean
+    }]
 });

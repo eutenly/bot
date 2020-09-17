@@ -31,6 +31,16 @@ export default function routeMessage(message: Message) {
     // ie. `e;helpgoogle` instead of `e;help google`
     if ((requestedCommand !== input) && (!requestedCommand.startsWith(`${input} `))) return;
 
+    // Cooldown not done
+    if (!message.author.checkCooldown()) {
+
+        // Get cooldown
+        const cooldown: number = Math.ceil((message.author.cooldown - Date.now()) / 1000);
+
+        // Send
+        return message.channel.sendMessage(`:x:  **|  Please wait another ${cooldown} second${cooldown === 1 ? "" : "s"} before using commands**`);
+    }
+
     // Run module
     route.module(message);
 }

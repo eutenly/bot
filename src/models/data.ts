@@ -1,22 +1,26 @@
-import { createSchema, Type } from "ts-mongoose";
+import { Document, Schema, Types } from "mongoose";
 
-export const dataSchema = createSchema({
+interface BlacklistedItem {
+    id: string;
+    reason: string;
+}
 
-    // ID
-    _id: Type.string(),
+export interface IData extends Document {
+    _id: string;
+    blacklistedUsers: Types.Array<BlacklistedItem>;
+    blacklistedServers: Types.Array<BlacklistedItem>;
+    botFarmWhitelist: Types.Array<string>;
+}
 
-    // Users blacklisted for spam
-    blacklistedUsers: Type.array().of({
-        id: Type.string(),
-        reason: Type.string()
-    }),
-
-    // Servers blacklisted for spam
-    blacklistedServers: Type.array().of({
-        id: Type.string(),
-        reason: Type.string()
-    }),
-
-    // Exceptions for bot farm detection
-    botFarmWhitelist: Type.array().of(Type.string())
+export const dataSchema: Schema = new Schema({
+    _id: String,
+    blacklistedUsers: [{
+        id: String,
+        reason: String
+    }],
+    blacklistedServers: [{
+        id: String,
+        reason: String
+    }],
+    botFarmWhitelist: [String]
 });

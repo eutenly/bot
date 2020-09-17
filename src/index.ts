@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import { terminal } from "terminal-kit";
 import Client from "./classes/Client/Client";
 import routeMessage from "./modules/commandRouter/router";
+import reactionAdded from "./modules/reactionAdded";
 import serverJoin from "./modules/serverJoin";
 import serverLeave from "./modules/serverLeave";
 
@@ -23,6 +24,9 @@ client.on("ready", () => {
 
 // Message
 client.on("message", routeMessage);
+
+// Reaction Added
+client.on("messageReactionAdd", reactionAdded);
 
 // Server Joined
 client.on("guildCreate", serverJoin);
