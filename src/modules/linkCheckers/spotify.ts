@@ -5,7 +5,7 @@ import spotifyCurrent from "../spotify/current";
 import spotifyEpisode from "../spotify/episode/main";
 import spotifyHistory from "../spotify/history";
 import spotifyPlaylist from "../spotify/playlist/main";
-import spotifyTop from "../spotify/top";
+import spotifyTop from "../spotify/top/main";
 import spotifyTrack from "../spotify/track/main";
 
 export default function spotify(input: string, linksOnly?: boolean): Function | undefined {
