@@ -11,8 +11,9 @@ export default function getConnection(command: Command): void {
         // Connection found
         if (command.message.author.connections[command.connectionName]) return resolve();
 
-        // Send login embed
-        sendLoginEmbed(command.message, command.connectionName);
+        // Send embed
+        if (command.homeEmbed) command.message.channel.sendMessage(command.homeEmbed);
+        else sendLoginEmbed(command.message, command.connectionName);
 
         // Set no connection
         command.noConnection = true;

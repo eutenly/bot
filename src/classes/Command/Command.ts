@@ -1,7 +1,7 @@
 import Client from "../Client/Client";
 import Embed from "../Embed/Embed";
 import Message from "../Message/Message";
-import { CommandHistoryEntry, Connection, RunCommand } from "../User/User";
+import { CommandHistoryEntry, RunCommand } from "../User/User";
 import SearchManager from "./SearchManager/SearchManager";
 import fetchData from "./fetchData";
 import getConnection from "./getConnection";
@@ -37,6 +37,7 @@ interface CommandData {
     getURL?: GetURL;
     getExtraData?: GetExtraData[];
     connectionName?: string;
+    homeEmbed?: Embed;
     fetch?: Fetch;
     splitPages?: number;
     getData?: GetData;
@@ -66,6 +67,7 @@ export default class Command {
     getExtraData?: GetExtraData[];
     connectionName?: string;
     noConnection?: boolean;
+    homeEmbed?: Embed;
     fetch?: Fetch;
     getData?: GetData;
     parser?: Parser;
@@ -92,6 +94,7 @@ export default class Command {
         this.webScraper = data.webScraper;
         this.metadata = data.metadata;
         this.connectionName = data.connectionName;
+        this.homeEmbed = data.homeEmbed;
 
         this.getURL = data.getURL;
         this.getExtraData = data.getExtraData;
