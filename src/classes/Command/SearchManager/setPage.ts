@@ -37,7 +37,7 @@ export default async function setPage(searchManager: SearchManager, page: number
     const nextPageToken: string | null | undefined = searchManager.orderedPages ? searchManager.nextPageToken : undefined;
 
     // Fetch data
-    const parserData: ParserData | undefined = await searchManager.command.fetch(searchManager.input, page, nextPageToken);
+    const parserData: ParserData | undefined = await searchManager.command.fetchData(searchManager.input, page, nextPageToken);
     if (!parserData) return;
 
     // Set next page token

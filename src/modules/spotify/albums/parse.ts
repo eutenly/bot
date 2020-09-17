@@ -8,12 +8,6 @@ export interface SpotifyAlbum {
 
 export default function parse(data?: any): ParserData {
 
-    // Authorization failed
-    if (data.error?.message === "Invalid access token") return { authorizationFailed: true };
-
-    // Token expired
-    if (data.error?.message === "The access token expired") return { tokenExpired: true };
-
     // No data
     if (data.items.length === 0) return { noData: true };
 

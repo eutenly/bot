@@ -1,7 +1,7 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import Message from "../../../classes/Message/Message";
-import setHeaders from "../setHeaders";
+import fetch from "../fetch";
 import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
@@ -18,7 +18,7 @@ export default async function main(message: Message, ownerName: string, name: st
         },
         getURL: (): string => `https://api.github.com/repos/${encodeURIComponent(ownerName)}/${encodeURIComponent(name)}/pulls/${encodeURIComponent(prNumber)}`,
         connectionName: "github",
-        setHeaders,
+        fetch,
         parser: parse,
         getEmbed: embed,
         view
@@ -29,7 +29,7 @@ export default async function main(message: Message, ownerName: string, name: st
     if (command.noConnection) return;
 
     // Fetch
-    await command.fetch();
+    await command.fetchData();
 
     // Get embed
     const commandEmbed: Embed = command.getEmbed(command, command.data);

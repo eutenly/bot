@@ -21,7 +21,7 @@ export default async function main(message: Message, channelID: string, commandH
     }, (m: Message, chIndex: number) => main(m, channelID, chIndex), commandHistoryIndex);
 
     // Fetch
-    await command.fetch();
+    await command.fetchData();
 
     // Get embed
     const commandEmbed: Embed = command.getEmbed(command, command.data);

@@ -1,8 +1,7 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import Message from "../../../classes/Message/Message";
-import refreshToken from "../refreshToken";
-import setHeaders from "../setHeaders";
+import fetch from "../fetch";
 import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
@@ -18,8 +17,7 @@ export default async function main(message: Message, query: string, commandHisto
         },
         getURL: (): string => `https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=track,artist,album&limit=5`,
         connectionName: "spotify",
-        setHeaders,
-        refreshToken,
+        fetch,
         parser: parse,
         getEmbed: embed,
         view
@@ -30,7 +28,7 @@ export default async function main(message: Message, query: string, commandHisto
     if (command.noConnection) return;
 
     // Fetch
-    await command.fetch();
+    await command.fetchData();
 
     // Get embed
     const commandEmbed: Embed = command.getEmbed(command, command.data);

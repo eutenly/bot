@@ -18,12 +18,6 @@ export interface SpotifySearchResult {
 
 export default function parse(data?: any): ParserData {
 
-    // Authorization failed
-    if (data.error?.message === "Invalid access token") return { authorizationFailed: true };
-
-    // Token expired
-    if (data.error?.message === "The access token expired") return { tokenExpired: true };
-
     // Get results
     const results: any[] = (data.tracks || data.artists || data.albums || data.playlists || data.episodes).items;
 

@@ -1,10 +1,9 @@
-import { Headers } from "node-fetch";
 import Client from "../Client/Client";
 import Embed from "../Embed/Embed";
 import Message from "../Message/Message";
 import { CommandHistoryEntry, Connection, RunCommand } from "../User/User";
 import SearchManager from "./SearchManager/SearchManager";
-import fetch from "./fetch";
+import fetchData from "./fetchData";
 import getConnection from "./getConnection";
 import send from "./send";
 import sendLoginEmbed from "./sendLoginEmbed";
@@ -13,9 +12,7 @@ export type GetURL = (input?: string, page?: number, nextPageToken?: string) => 
 
 export type GetExtraData = (data: any) => string;
 
-export type SetHeaders = (headers: Headers, connection: Connection | undefined, url: string, method: string) => Promise<void> | void;
-
-export type RefreshToken = (command: Command) => Promise<void>;
+export type Fetch = (command: Command, url: string, method?: string, connection?: Connection) => Promise<any>;
 
 export type GetData = (input?: string, page?: number, nextPageToken?: string) => Promise<any>;
 
@@ -23,8 +20,6 @@ export interface ParserData {
     data?: any;
     nextPageToken?: string;
     noData?: boolean;
-    authorizationFailed?: boolean;
-    tokenExpired?: boolean;
 }
 
 export type Parser = (data: any, extraData?: any[], metadata?: any) => ParserData;
@@ -43,8 +38,7 @@ interface CommandData {
     getURL?: GetURL;
     getExtraData?: GetExtraData[];
     connectionName?: string;
-    setHeaders?: SetHeaders;
-    refreshToken?: RefreshToken;
+    fetch?: Fetch;
     splitPages?: number;
     getData?: GetData;
     data?: any;
@@ -73,8 +67,7 @@ export default class Command {
     getExtraData?: GetExtraData[];
     connectionName?: string;
     noConnection?: boolean;
-    setHeaders?: SetHeaders;
-    refreshToken?: RefreshToken;
+    fetch?: Fetch;
     getData?: GetData;
     parser?: Parser;
     getEmbed: GetEmbed;
@@ -103,8 +96,7 @@ export default class Command {
 
         this.getURL = data.getURL;
         this.getExtraData = data.getExtraData;
-        this.setHeaders = data.setHeaders;
-        this.refreshToken = data.refreshToken;
+        this.fetch = data.fetch;
         this.getData = data.getData;
         this.parser = data.parser;
         this.getEmbed = data.getEmbed;
@@ -173,7 +165,7 @@ export default class Command {
     sendLoginEmbed = (): Promise<void> => sendLoginEmbed(this);
 
     // Fetch this command's data
-    fetch = (input?: string, page?: number, nextPageToken?: string | null): Promise<ParserData | undefined> => fetch(this, input, page, nextPageToken);
+    fetchData = (input?: string, page?: number, nextPageToken?: string | null): Promise<ParserData | undefined> => fetchData(this, input, page, nextPageToken);
 
     // Send or edit the command message
     send = (embed: Embed): Promise<void> => send(this, embed);

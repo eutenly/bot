@@ -1,6 +1,7 @@
 import Command from "../../classes/Command/Command";
 import Message from "../../classes/Message/Message";
 import embed from "./embed";
+import fetch from "./fetch";
 import parse from "./parse";
 import view from "./view";
 
@@ -13,6 +14,7 @@ export default async function google(message: Message, query: string, commandHis
         webScraper: true,
         input: query,
         getURL: (query: string = "", page: number = 1): string => `https://google.com/search?q=${encodeURIComponent(query)}&num=5&start=${(page - 1) * 5}`,
+        fetch,
         parser: parse,
         getEmbed: embed,
         view

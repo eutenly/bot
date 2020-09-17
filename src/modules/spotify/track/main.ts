@@ -1,8 +1,9 @@
+import ChannelCommands from "../../../classes/Channel/ChannelCommands/ChannelCommands";
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import Message from "../../../classes/Message/Message";
-import refreshToken from "../refreshToken";
-import setHeaders from "../setHeaders";
+import add from "../add";
+import fetch from "../fetch";
 import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
@@ -19,8 +20,7 @@ export default async function main(message: Message, trackID: string, commandHis
             (data: any): string => `https://api.spotify.com/v1/albums/${data.album.id}`
         ],
         connectionName: "spotify",
-        setHeaders,
-        refreshToken,
+        fetch,
         parser: parse,
         getEmbed: embed,
         view
@@ -31,7 +31,16 @@ export default async function main(message: Message, trackID: string, commandHis
     if (command.noConnection) return;
 
     // Fetch
-    await command.fetch();
+    await command.fetchData();
+
+    // Channel commands
+    message.channel.commands = new ChannelCommands(message.channel, {
+        sourceCommand: command,
+        commands: [{
+            inputs: ["add", "save"],
+            module: (msg: Message) => add(msg, command.data.id, command.data.name, "track")
+        }]
+    });
 
     // Get embed
     const commandEmbed: Embed = command.getEmbed(command, command.data);

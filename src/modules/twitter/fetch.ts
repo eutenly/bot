@@ -1,10 +1,11 @@
 import crypto from "crypto";
-import { Headers } from "node-fetch";
+import nodeFetch, { Response } from "node-fetch";
 import { URL, URLSearchParams } from "url";
+import Command from "../../classes/Command/Command";
 import { Connection } from "../../classes/User/User";
 import randomString from "../../util/randomString";
 
-export default async function setHeaders(headers: Headers, connection: Connection = {}, url: string, method: string) {
+export default async function fetch(command: Command, url: string, method: string = "GET", connection: Connection = {}): Promise<any> {
 
     // Get data
     const CONSUMER_KEY: string = process.env.TWITTER_API_KEY || "";
@@ -38,6 +39,24 @@ export default async function setHeaders(headers: Headers, connection: Connectio
     // Sign signature base with signing key
     const signature: string = crypto.createHmac("sha1", signingKey).update(signatureBase).digest("base64");
 
-    // Set header
-    headers.set("Authorization", `OAuth oauth_consumer_key="${CONSUMER_KEY}", oauth_nonce="${nonce}", oauth_signature="${encodeURIComponent(signature)}", oauth_signature_method="${SIGNATURE_METHOD}", oauth_timestamp="${timestamp}", oauth_token="${token}", oauth_version="${VERSION}"`);
+    // Make request
+    const result: Response = await nodeFetch(url, {
+        method,
+        headers: {
+            "User-Agent": "Eutenly",
+            "Authorization": `OAuth oauth_consumer_key="${CONSUMER_KEY}", oauth_nonce="${nonce}", oauth_signature="${encodeURIComponent(signature)}", oauth_signature_method="${SIGNATURE_METHOD}", oauth_timestamp="${timestamp}", oauth_token="${token}", oauth_version="${VERSION}"`
+        }
+    });
+
+    // Parse data
+    const data: any = result.status === 204 ? {} : await result.json();
+
+    // Authorization failed
+    if ((data.errors) && ([215, 32].includes(data.errors[0].code))) {
+        command.sendLoginEmbed();
+        return;
+    }
+
+    // Return
+    return data;
 }

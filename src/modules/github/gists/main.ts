@@ -1,6 +1,6 @@
 import Command from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
-import setHeaders from "../setHeaders";
+import fetch from "../fetch";
 import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
@@ -17,7 +17,7 @@ export default async function main(message: Message, name: string, commandHistor
         },
         getURL: (input: string = "", page: number = 1): string => `https://api.github.com/users/${encodeURIComponent(name)}/gists?per_page=5${page ? `&page=${page}` : ""}`,
         connectionName: "github",
-        setHeaders,
+        fetch,
         parser: parse,
         getEmbed: embed,
         view

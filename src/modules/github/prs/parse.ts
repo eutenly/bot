@@ -8,9 +8,6 @@ export interface GitHubSearchResult {
 
 export default function parse(data?: any): ParserData {
 
-    // Authorization failed
-    if (data.message === "Bad credentials") return { authorizationFailed: true };
-
     // No data
     if (data.message) return { noData: true };
 

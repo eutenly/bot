@@ -21,9 +21,6 @@ export default function parse(data?: any): ParserData {
     // No data
     if (!data) return { noData: true };
 
-    // Authorization failed
-    if ((data.errors) && ([215, 32].includes(data.errors[0].code))) return { authorizationFailed: true };
-
     // Get next page token
     const maxID: string[] | string | undefined = data.search_metadata.next_results && url.parse(data.search_metadata.next_results, true).query.max_id;
     const nextPageToken: string | undefined = maxID instanceof Array ? maxID.join() : maxID;

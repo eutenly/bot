@@ -1,8 +1,7 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import Message from "../../../classes/Message/Message";
-import refreshToken from "../refreshToken";
-import setHeaders from "../setHeaders";
+import fetch from "../fetch";
 import embed from "./embed";
 import parse from "./parse";
 
@@ -14,8 +13,7 @@ export default async function main(message: Message, episodeID: string, commandH
         message,
         getURL: (): string => `https://api.spotify.com/v1/episodes/${encodeURIComponent(episodeID)}`,
         connectionName: "spotify",
-        setHeaders,
-        refreshToken,
+        fetch,
         parser: parse,
         getEmbed: embed
     }, (m: Message, chIndex: number) => main(m, episodeID, chIndex), commandHistoryIndex);
@@ -25,7 +23,7 @@ export default async function main(message: Message, episodeID: string, commandH
     if (command.noConnection) return;
 
     // Fetch
-    await command.fetch();
+    await command.fetchData();
 
     // Get embed
     const commandEmbed: Embed = command.getEmbed(command, command.data);
