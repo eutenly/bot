@@ -1,12 +1,16 @@
 import nodeFetch, { Response } from "node-fetch";
-import Command from "../../classes/Command/Command";
+import Message from "../../classes/Message/Message";
 import { Connection } from "../../classes/User/User";
+import sendLoginEmbed from "../../util/sendLoginEmbed";
 
-export default async function fetch(command: Command, url: string, method: string = "GET", connection: Connection = {}): Promise<any> {
+export default async function fetch(message: Message, url: string): Promise<any> {
+
+    // Get connection
+    const connection: Connection | undefined = message.author.connections["github"];
+    if (!connection) return;
 
     // Make request
     const result: Response = await nodeFetch(url, {
-        method,
         headers: {
             "User-Agent": "Eutenly",
             "Authorization": `token ${connection.accessToken}`,
@@ -19,7 +23,7 @@ export default async function fetch(command: Command, url: string, method: strin
 
     // Authorization failed
     if (data.message === "Bad credentials") {
-        command.sendLoginEmbed();
+        sendLoginEmbed(message, "github");
         return;
     }
 

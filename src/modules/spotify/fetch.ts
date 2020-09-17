@@ -1,9 +1,14 @@
 import nodeFetch, { Response } from "node-fetch";
-import Command from "../../classes/Command/Command";
+import Message from "../../classes/Message/Message";
 import { Connection } from "../../classes/User/User";
+import sendLoginEmbed from "../../util/sendLoginEmbed";
 import refreshToken from "./refreshToken";
 
-export default async function fetch(command: Command, url: string, method: string = "GET", connection: Connection = {}): Promise<any> {
+export default async function fetch(message: Message, url: string, method: string = "GET", body?: any): Promise<any> {
+
+    // Get connection
+    const connection: Connection | undefined = message.author.connections["spotify"];
+    if (!connection) return;
 
     // Make request
     const result: Response = await nodeFetch(url, {
@@ -11,7 +16,8 @@ export default async function fetch(command: Command, url: string, method: strin
         headers: {
             "User-Agent": "Eutenly",
             "Authorization": `Bearer ${connection.accessToken}`
-        }
+        },
+        body: body && JSON.stringify(body)
     });
 
     // Parse data
@@ -19,7 +25,7 @@ export default async function fetch(command: Command, url: string, method: strin
 
     // Authorization failed
     if (data.error?.message === "Invalid access token") {
-        command.sendLoginEmbed();
+        sendLoginEmbed(message, "spotify");
         return;
     }
 
@@ -27,10 +33,10 @@ export default async function fetch(command: Command, url: string, method: strin
     if (data.error?.message === "The access token expired") {
 
         // Refresh token
-        await refreshToken(command);
+        await refreshToken(message.author);
 
         // Fetch
-        return await fetch(command, url, method, connection);
+        return await fetch(message, url, method);
     }
 
     // Return

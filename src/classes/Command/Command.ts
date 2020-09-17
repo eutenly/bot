@@ -6,13 +6,12 @@ import SearchManager from "./SearchManager/SearchManager";
 import fetchData from "./fetchData";
 import getConnection from "./getConnection";
 import send from "./send";
-import sendLoginEmbed from "./sendLoginEmbed";
 
 export type GetURL = (input?: string, page?: number, nextPageToken?: string) => string;
 
 export type GetExtraData = (data: any) => string;
 
-export type Fetch = (command: Command, url: string, method?: string, connection?: Connection) => Promise<any>;
+export type Fetch = (message: Message, url: string, method?: string, body?: any) => Promise<any>;
 
 export type GetData = (input?: string, page?: number, nextPageToken?: string) => Promise<any>;
 
@@ -160,9 +159,6 @@ export default class Command {
 
     // Get connection
     getConnection = (): void => getConnection(this);
-
-    // Send login embed
-    sendLoginEmbed = (): Promise<void> => sendLoginEmbed(this);
 
     // Fetch this command's data
     fetchData = (input?: string, page?: number, nextPageToken?: string | null): Promise<ParserData | undefined> => fetchData(this, input, page, nextPageToken);

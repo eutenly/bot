@@ -1,14 +1,13 @@
 import btoa from "btoa";
 import fetch, { Response } from "node-fetch";
-import Command from "../../classes/Command/Command";
-import { Connection } from "../../classes/User/User";
+import User, { Connection } from "../../classes/User/User";
 import { Users } from "../../models/index";
 import save from "../../models/save";
 
-export default async function refreshToken(command: Command) {
+export default async function refreshToken(user: User) {
 
     // Get connection
-    const connection: Connection | undefined = command.message.author.connections[command.connectionName || ""];
+    const connection: Connection | undefined = user.connections["spotify"];
     if (!connection) return;
 
     // Get access token
@@ -29,7 +28,7 @@ export default async function refreshToken(command: Command) {
     connection.accessToken = accessToken;
 
     // Save data
-    const userData = await Users.findById(command.message.author.id);
+    const userData = await Users.findById(user.id);
     if (userData) {
         userData.connections.spotify.accessToken = accessToken;
         await save(userData);

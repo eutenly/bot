@@ -13,11 +13,8 @@ export default async function fetchData(command: Command, input?: string, page?:
         // Get url
         const url: string = command.getURL(input, page, nextPageToken);
 
-        // Get connection
-        const connection: Connection | undefined = command.message.author.connections[command.connectionName || ""];
-
         // Fetch
-        data = await command.fetch(command, url, "GET", connection);
+        data = await command.fetch(command.message, url, "GET");
         if (!data) return;
 
         // Get extra data
@@ -28,7 +25,7 @@ export default async function fetchData(command: Command, input?: string, page?:
 
             // Return
             if (!command.fetch) return new Promise((resolve) => resolve());
-            return command.fetch(command, extraDataURL, "GET", connection);
+            return command.fetch(command.message, extraDataURL, "GET");
         });
 
         // Await extra data
