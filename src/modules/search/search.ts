@@ -5,7 +5,7 @@ import fetch from "./fetch";
 import parse from "./parse";
 import view from "./view";
 
-export default async function google(message: Message, query: string, commandHistoryIndex?: number) {
+export default async function search(message: Message, query: string, commandHistoryIndex?: number) {
 
     // Create command
     const command: Command = new Command(message.client, {
@@ -18,7 +18,7 @@ export default async function google(message: Message, query: string, commandHis
         parser: parse,
         getEmbed: embed,
         view
-    }, (m: Message, chIndex: number) => google(m, query, chIndex), commandHistoryIndex);
+    }, (m: Message, chIndex: number) => search(m, query, chIndex), commandHistoryIndex);
 
     // Search
     command.searchManager?.setPage(1);

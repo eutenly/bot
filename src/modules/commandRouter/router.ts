@@ -27,7 +27,7 @@ export default function routeMessage(message: Message) {
     const input = route.inputs.find((routeInput: string) => requestedCommand.startsWith(routeInput));
 
     // Invalid format
-    // ie. `e;helpgoogle` instead of `e;help google`
+    // ie. `e;helpsearch` instead of `e;help search`
     if ((requestedCommand !== input) && (!requestedCommand.startsWith(`${input} `))) return;
 
     // Cooldown not done

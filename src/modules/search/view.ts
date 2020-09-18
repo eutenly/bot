@@ -1,6 +1,6 @@
 import Message from "../../classes/Message/Message";
-import google from "./google";
-import knowledgePanel from "./knowledgePanel/main";
+import richPanel from "./richPanel/main";
+import search from "./search";
 
 // TMP
 const website = (m: any, link: any) => console.log(link);
@@ -15,14 +15,14 @@ export default function view(data: any, message: Message) {
     const input: string = message.content.split(" ").slice(1).join(" ");
     if (!input) return message.channel.sendMessage(":x:  **|  Which result would you like to view?**");
 
-    // Knowledge panel
-    if (input.toLowerCase().replace(/\s+/g, "") === "knowledgepanel") {
+    // Rich panel
+    if (input.toLowerCase().replace(/\s+/g, "") === "richpanel") {
 
-        // No knowledge panel
-        if (!data.knowledgePanel) return message.channel.sendMessage(":x:  **|  There isn't a knowledge panel**");
+        // No rich panel
+        if (!data.richPanel) return message.channel.sendMessage(":x:  **|  There isn't a rich panel**");
 
         // Run module
-        return knowledgePanel(message, data.knowledgePanel);
+        return richPanel(message, data.richPanel);
     }
 
     // Get results
@@ -57,6 +57,6 @@ export default function view(data: any, message: Message) {
 
         // Run module
         if (typeof subresult.link === "string") website(message, subresult.link);
-        else google(message, subresult.query || subresult);
+        else search(message, subresult.query || subresult);
     }
 }

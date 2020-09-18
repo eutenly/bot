@@ -1,6 +1,6 @@
 import Embed from "../../classes/Embed/Embed";
 import Message from "../../classes/Message/Message";
-import google from "./google";
+import search from "./search";
 
 export default async function main(message: Message) {
 
@@ -15,13 +15,13 @@ export default async function main(message: Message) {
 
         // Embed
         const embed: Embed = new Embed()
-            .setAuthor("Google", "http://pluspng.com/img-png/google-logo-png-open-2000.png")
+            .setAuthor("Search", "https://i.imgur.com/JiBDG3o.png")
             .setColor(0x4086f4)
-            .addField("Search Google", `Use the \`${prefix}google <Search Query>\` command to search Google`)
-            .addField("Knowledge Panels", `Search results with Knowledge Panels can easily be viewed with the \`${prefix}view knowledge panel\` command`)
+            .addField("Search the Internet", `Use the \`${prefix}search <Search Query>\` command to search the internet`)
+            .addField("Rich Panels", `Some search results have Rich Panels which can easily be viewed with the \`${prefix}view rich panel\` command`)
             .addField("Embeds", `Twitter results, videos, news articles, and more are treated uniquely to display content in an easy to read way`)
-            .addField("Lyrics", `Knowledge Panels with song lyrics can be viewed with the \`${prefix}view lyrics\` command`)
-            .addField("Ready to Try It?", `Search for something with the \`${prefix}google <Search Query>\` command`)
+            .addField("Lyrics", `Rich Panels with song lyrics can be viewed with the \`${prefix}view lyrics\` command`)
+            .addField("Ready to Try It?", `Search for something with the \`${prefix}search <Search Query>\` command`)
             .setBranding();
 
         // Send
@@ -29,5 +29,5 @@ export default async function main(message: Message) {
     }
 
     // Run module
-    google(message, query);
+    search(message, query);
 }

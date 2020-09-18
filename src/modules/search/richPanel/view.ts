@@ -1,5 +1,5 @@
 import Message from "../../../classes/Message/Message";
-import google from "../google";
+import search from "../search";
 import lyrics from "./lyrics/main";
 
 export default function view(data: any, message: Message) {
@@ -62,5 +62,5 @@ export default function view(data: any, message: Message) {
     if (!resultItem) return message.channel.sendMessage(":x:  **|  That result number is invalid**");
 
     // Run module
-    google(message, resultItem.query);
+    search(message, resultItem.query);
 }

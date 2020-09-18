@@ -1,12 +1,12 @@
 import Message from "../../classes/Message/Message";
 import evalCommand from "../eval";
 import githubCommand from "../github/main";
-import googleCommand from "../google/main";
 import infoCommand from "../info";
 import inviteCommand from "../invite";
 import moveCommand from "../move";
 import pageCommand from "../page";
 import pingCommand from "../ping";
+import searchCommand from "../search/main";
 import spotifyCommand from "../spotify/main";
 import supportCommand from "../support";
 import twitterCommand from "../twitter/main";
@@ -35,10 +35,10 @@ export const routes: CommandRoute[] = [
         module: websiteCommand
     },
     {
-        name: "Google",
-        information: "Search Google",
-        inputs: ["google", "search"],
-        module: googleCommand
+        name: "Search",
+        information: "Search the internet",
+        inputs: ["search"],
+        module: searchCommand
     },
     {
         name: "YouTube",

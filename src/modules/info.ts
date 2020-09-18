@@ -14,7 +14,7 @@ export default async function info(message: Message) {
     // Embed
     const embed: Embed = new Embed()
         .setAuthor("Eutenly", message.client.avatarURL, "https://eutenly.com")
-        .setDescription("Eutenly is a universal search bot for Discord. Search Google, YouTube, Twitter, Reddit, and a ton more services. We integrate with services allowing for rich displays of information, right in Discord.")
+        .setDescription("Eutenly is a universal search bot for Discord. Search the internet, YouTube, Twitter, Reddit, and a ton more services. We integrate with services allowing for rich displays of information, right in Discord.")
         .setColor(0xf40b3d)
         .addField("Credits", `Developed by [APixel Visuals#2820](https://apixel.me) and [Maia#1234](https://maia.codes)\nHosted by [DigitalOcean](https://m.do.co/c/d3fadd98f126)\nDomain reserved by [NameCheap](https://namecheap.com)`, true)
         .addField("Technical Stats", `**${message.client.guilds.size.toLocaleString()}** Servers\n**${memoryUsage} MB** of memory usage\n**${dbSize} MB** of database space used`, true)

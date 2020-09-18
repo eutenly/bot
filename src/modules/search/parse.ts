@@ -1,10 +1,10 @@
 import cheerio from "cheerio";
 import { ParserData } from "../../classes/Command/Command";
 import parseItemList from "./parse/itemList";
-import parseKnowledgePanel from "./parse/knowledgePanel/main";
 import parseList from "./parse/list";
 import parseMain from "./parse/main";
 import parseQuestions from "./parse/questions";
+import parseRichPanel from "./parse/richPanel/main";
 import parseTwitter from "./parse/twitter";
 
 export default function parse(data: string): ParserData {
@@ -16,7 +16,7 @@ export default function parse(data: string): ParserData {
     let results: any = dom(".g, g-section-with-header");
 
     // Map results
-    let knowledgePanel: any;
+    let richPanel: any;
     results = results.map((_index: any, result: any) => {
 
         // Get result from dom
@@ -29,9 +29,9 @@ export default function parse(data: string): ParserData {
         let classes: any = result.attr("class");
         classes = classes ? classes.split(" ") : [];
 
-        // Knowledge panel
+        // Rich panel
         if (classes.includes("liYKde")) {
-            knowledgePanel = parseKnowledgePanel(result);
+            richPanel = parseRichPanel(result);
             return;
         }
 
@@ -47,7 +47,7 @@ export default function parse(data: string): ParserData {
     return {
         data: {
             totalResults: dom("#result-stats").text().split(" ").slice(1, 2).join(" "),
-            knowledgePanel,
+            richPanel,
             results
         }
     };

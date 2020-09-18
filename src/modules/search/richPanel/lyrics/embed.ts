@@ -5,7 +5,7 @@ export default function embed(command: Command, data: any): Embed {
 
     // Embed
     const embed = new Embed()
-        .setAuthor(`Lyrics: ${data.title.title}`, "http://pluspng.com/img-png/google-logo-png-open-2000.png", data.link)
+        .setAuthor(`Lyrics: ${data.title.title}`, "https://i.imgur.com/JiBDG3o.png", data.link)
         .setColor(0x4086f4)
         .setBranding();
 

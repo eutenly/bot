@@ -8,7 +8,7 @@ export default function embed(command: Command, data: any): Embed {
 
     // Embed
     const embed = new Embed()
-        .setAuthor(`Google Search: ${command.searchManager?.input}`, "http://pluspng.com/img-png/google-logo-png-open-2000.png")
+        .setAuthor(`Search: ${command.searchManager?.input}`, "https://i.imgur.com/JiBDG3o.png")
         .setDescription(`Page ${command.searchManager?.page}, About ${data.totalResults} results`)
         .setColor(0x4086f4)
         .setBranding();
@@ -19,9 +19,9 @@ export default function embed(command: Command, data: any): Embed {
         .setColor(0xf44242);
 
     // Build embed
-    if (data.knowledgePanel) embed
+    if (data.richPanel) embed
         .addField(null, null, true)
-        .addField(null, `**${data.knowledgePanel.link ? `[${data.knowledgePanel.title.title}](${data.knowledgePanel.link})` : data.knowledgePanel.title.title}**${data.knowledgePanel.title.label ? `\n${data.knowledgePanel.title.label}\n` : ""}\n*Use the \`${prefix}view knowledge panel\` command to get more info about this knowledge panel*`, true)
+        .addField(null, `**${data.richPanel.link ? `[${data.richPanel.title.title}](${data.richPanel.link})` : data.richPanel.title.title}**${data.richPanel.title.label ? `\n${data.richPanel.title.label}\n` : ""}\n*Use the \`${prefix}view rich panel\` command to get more info about this rich panel*`, true)
         .addField(null, null, true);
 
     data.results.forEach((r: any, i: number) => {
