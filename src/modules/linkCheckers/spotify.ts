@@ -7,6 +7,7 @@ import spotifyHistory from "../spotify/history/main";
 import spotifyPlaylist from "../spotify/playlist/main";
 import spotifyTop from "../spotify/top/main";
 import spotifyTrack from "../spotify/track/main";
+import spotifyUpdatePlayer from "../spotify/updatePlayer";
 
 export default function spotify(input: string, linksOnly?: boolean): Function | undefined {
 
@@ -31,6 +32,18 @@ export default function spotify(input: string, linksOnly?: boolean): Function | 
     if (episode) return (message: Message) => spotifyEpisode(message, episode[1]);
 
     if (!linksOnly) {
+
+        // Check if input is resume
+        if (["resume", "play"].includes(input.toLowerCase().replace(/\s+/g, ""))) return (message: Message) => spotifyUpdatePlayer(message, "play");
+
+        // Check if input is pause
+        if (input.toLowerCase().replace(/\s+/g, "") === "pause") return (message: Message) => spotifyUpdatePlayer(message, "pause");
+
+        // Check if input is skip
+        if (["skip", "next"].includes(input.toLowerCase().replace(/\s+/g, ""))) return (message: Message) => spotifyUpdatePlayer(message, "next");
+
+        // Check if input is previous
+        if (["previous", "back"].includes(input.toLowerCase().replace(/\s+/g, ""))) return (message: Message) => spotifyUpdatePlayer(message, "previous");
 
         // Check if input is current track
         if (input.toLowerCase().replace(/\s+/g, "") === "current") return (message: Message) => spotifyCurrent(message);
