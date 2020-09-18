@@ -15,7 +15,7 @@ export default async function main(message: Message) {
 
         // Embed
         const embed: Embed = new Embed()
-            .setAuthor("Search", "https://i.imgur.com/JiBDG3o.png")
+            .setAuthor("Search", "https://eutenly.com/assets/search-colored.png ")
             .setColor(0x4086f4)
             .addField("Search the Internet", `Use the \`${prefix}search <Search Query>\` command to search the internet`)
             .addField("Rich Panels", `Some search results have Rich Panels which can easily be viewed with the \`${prefix}view rich panel\` command`)
