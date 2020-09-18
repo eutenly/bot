@@ -1,10 +1,7 @@
 import Message from "../../classes/Message/Message";
+import website from "../website/website";
 import richPanel from "./richPanel/main";
 import search from "./search";
-
-// TMP
-const website = (m: any, link: any) => console.log(link);
-// TMP
 
 export default function view(data: any, message: Message) {
 
