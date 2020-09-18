@@ -8,6 +8,7 @@ import moveCommand from "../move";
 import pageCommand from "../page";
 import pingCommand from "../ping";
 import spotifyCommand from "../spotify/main";
+import supportCommand from "../support";
 import twitterCommand from "../twitter/main";
 import viewCommand from "../view";
 import websiteCommand from "../website/main";
@@ -86,6 +87,12 @@ export const routes: CommandRoute[] = [
         information: "Get a link to add Eutenly to your server",
         inputs: ["invite"],
         module: inviteCommand
+    },
+    {
+        name: "Support",
+        information: "Join Eutenly's support server",
+        inputs: ["support"],
+        module: supportCommand
     },
     {
         name: "Eval",
