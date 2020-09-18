@@ -2,6 +2,7 @@ import Message from "../../classes/Message/Message";
 import evalCommand from "../eval";
 import githubCommand from "../github/main";
 import googleCommand from "../google/main";
+import infoCommand from "../info";
 import moveCommand from "../move";
 import pageCommand from "../page";
 import pingCommand from "../ping";
@@ -18,6 +19,12 @@ export const routes: CommandRoute[] = [
         information: "Check how responsive the bot is",
         inputs: ["ping"],
         module: pingCommand
+    },
+    {
+        name: "Info",
+        information: "View info about Eutenly",
+        inputs: ["info"],
+        module: infoCommand
     },
     {
         name: "Website",
