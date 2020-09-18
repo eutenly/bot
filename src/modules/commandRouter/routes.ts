@@ -3,6 +3,7 @@ import evalCommand from "../eval";
 import githubCommand from "../github/main";
 import googleCommand from "../google/main";
 import infoCommand from "../info";
+import inviteCommand from "../invite";
 import moveCommand from "../move";
 import pageCommand from "../page";
 import pingCommand from "../ping";
@@ -79,6 +80,12 @@ export const routes: CommandRoute[] = [
         information: "View more info about a result",
         inputs: ["view", "result"],
         module: viewCommand
+    },
+    {
+        name: "Invite",
+        information: "Get a link to add Eutenly to your server",
+        inputs: ["invite"],
+        module: inviteCommand
     },
     {
         name: "Eval",
