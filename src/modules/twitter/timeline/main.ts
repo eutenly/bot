@@ -1,6 +1,6 @@
 import Command from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
-import setHeaders from "../setHeaders";
+import fetch from "../fetch";
 import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
@@ -13,9 +13,9 @@ export default async function main(message: Message, userID: string, commandHist
         message,
         input: userID,
         orderedPages: true,
-        getURL: (userID: string = "", page?: number, nextPageToken?: string): string => `https://api.twitter.com/1.1/statuses/user_timeline.json?user_id=${encodeURIComponent(userID)}&count=50&tweet_mode=extended${nextPageToken ? `&max_id=${nextPageToken}` : ""}`,
+        getURL: (userID: string = "", page?: number, nextPageToken?: string): string => `https://api.twitter.com/1.1/statuses/${userID === "home" ? "home" : "user"}_timeline.json?${userID === "home" ? "" : `user_id=${encodeURIComponent(userID)}&`}count=50&tweet_mode=extended${nextPageToken ? `&max_id=${nextPageToken}` : ""}`,
         connectionName: "twitter",
-        setHeaders,
+        fetch,
         splitPages: 5,
         parser: parse,
         getEmbed: embed,

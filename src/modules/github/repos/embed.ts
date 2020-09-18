@@ -19,9 +19,15 @@ export default function embed(command: Command, data: GitHubSearchResult[]): Emb
         .setDescription("Your search didn't match any results")
         .setColor(0xf44242);
 
+    // Get type
+    let type: string | undefined;
+    if (command.metadata?.type === "repos") type = "Repos";
+    else if (command.metadata?.type === "subscriptions") type = "Watched Repos";
+    else if (command.metadata?.type === "starred") type = "Starred Repos";
+
     // Build embed
     embed
-        .setAuthor(`${command.searchManager?.input}'s Repos`, "https://getdrawings.com/free-icon-bw/github-icon-23.png", `https://github.com/${command.searchManager?.input}?tab=repositories`)
+        .setAuthor(`${command.searchManager?.input}'s ${type}`, "https://getdrawings.com/free-icon-bw/github-icon-23.png", `https://github.com/${command.searchManager?.input}?tab=repositories`)
         .addField(null, null, true)
         .addField("Link", `[github.com...](https://github.com/${command.searchManager?.input}?tab=repositories)`, true)
         .addField(null, null, true);

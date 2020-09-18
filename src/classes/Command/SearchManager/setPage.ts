@@ -33,51 +33,12 @@ export default async function setPage(searchManager: SearchManager, page: number
     if (searchManager.orderedPages) searchManager.page = (searchManager.cache.size ? Math.max(...searchManager.cache.keys()) : 0) + 1;
     else searchManager.page = page;
 
-    // Define data
-    let data: any;
-
     // Get next page token
     const nextPageToken: string | null | undefined = searchManager.orderedPages ? searchManager.nextPageToken : undefined;
 
-    // Regular commands
-    if ((searchManager.command.getURL) && (nextPageToken !== null)) {
-
-        // Get url
-        const url: string = searchManager.command.getURL(searchManager.input, page, nextPageToken);
-
-        // Define headers
-        const headers: Headers = new Headers();
-
-        // Set user agent header
-        headers.set("User-Agent", searchManager.command.webScraper ? "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" : "Eutenly");
-
-        // Set headers
-        if ((searchManager.command.setHeaders) && (searchManager.command.connectionName)) {
-            const connection: Connection | undefined = searchManager.command.message.author.connections[searchManager.command.connectionName];
-            await searchManager.command.setHeaders(headers, connection, url, "GET");
-        }
-
-        // Make request
-        const result: Response = await fetch(url, { headers });
-
-        // Parse result
-        if (result.status === 204) data = {};
-        else if (searchManager.command.webScraper) data = await result.text();
-        else data = await result.json();
-    }
-
-    // Commands that have a custom function for getting data
-    else if ((searchManager.command.getData) && (nextPageToken !== null)) data = await searchManager.command.getData(searchManager.input, page, nextPageToken);
-
-    // Run parser
-    if (!searchManager.command.parser) return;
-    const parserData: ParserData = searchManager.command.parser(data);
-
-    // Authorization failed
-    if (parserData.authorizationFailed) return searchManager.command.sendLoginEmbed();
-
-    // If theres no data, set it to an empty array
-    if (parserData.noData) parserData.data = [];
+    // Fetch data
+    const parserData: ParserData | undefined = await searchManager.command.fetchData(searchManager.input, page, nextPageToken);
+    if (!parserData) return;
 
     // Set next page token
     if (searchManager.orderedPages) searchManager.nextPageToken = parserData.noData ? null : parserData.nextPageToken;

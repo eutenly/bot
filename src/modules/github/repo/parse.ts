@@ -16,9 +16,6 @@ export interface GitHubRepo {
 
 export default function parse(data: any): ParserData {
 
-    // Authorization failed
-    if (data.message === "Bad credentials") return { authorizationFailed: true };
-
     // No repo
     if (data.message) return { noData: true };
 

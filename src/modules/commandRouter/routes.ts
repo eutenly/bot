@@ -1,22 +1,32 @@
 import Message from "../../classes/Message/Message";
 import evalCommand from "../eval";
 import githubCommand from "../github/main";
-import googleCommand from "../google/main";
+import infoCommand from "../info";
+import inviteCommand from "../invite";
 import moveCommand from "../move";
 import pageCommand from "../page";
 import pingCommand from "../ping";
+import searchCommand from "../search/main";
+import spotifyCommand from "../spotify/main";
+import supportCommand from "../support";
 import twitterCommand from "../twitter/main";
 import viewCommand from "../view";
 import websiteCommand from "../website/main";
 import youtubeCommand from "../youtube/main";
 
 // Define routes
-export const routes: Command[] = [
+export const routes: CommandRoute[] = [
     {
         name: "Ping",
         information: "Check how responsive the bot is",
         inputs: ["ping"],
         module: pingCommand
+    },
+    {
+        name: "Info",
+        information: "View info about Eutenly",
+        inputs: ["info"],
+        module: infoCommand
     },
     {
         name: "Website",
@@ -25,10 +35,10 @@ export const routes: Command[] = [
         module: websiteCommand
     },
     {
-        name: "Google",
-        information: "Search Google",
-        inputs: ["google", "search"],
-        module: googleCommand
+        name: "Search",
+        information: "Search the internet",
+        inputs: ["search"],
+        module: searchCommand
     },
     {
         name: "YouTube",
@@ -41,6 +51,12 @@ export const routes: Command[] = [
         information: "Search Twitter",
         inputs: ["twitter"],
         module: twitterCommand
+    },
+    {
+        name: "Spotify",
+        information: "Search Spotify",
+        inputs: ["spotify"],
+        module: spotifyCommand
     },
     {
         name: "GitHub",
@@ -67,6 +83,18 @@ export const routes: Command[] = [
         module: viewCommand
     },
     {
+        name: "Invite",
+        information: "Get a link to add Eutenly to your server",
+        inputs: ["invite"],
+        module: inviteCommand
+    },
+    {
+        name: "Support",
+        information: "Join Eutenly's support server",
+        inputs: ["support"],
+        module: supportCommand
+    },
+    {
         name: "Eval",
         information: "Owner JavaScript Eval",
         inputs: ["eval"],
@@ -74,11 +102,14 @@ export const routes: Command[] = [
     }
 ];
 
-type CommandRoute = (message: Message) => Promise<any>;
+type CommandModule = (message: Message) => Promise<any>;
 
-export interface Command {
+export interface BaseCommand {
+    inputs: string[];
+    module: CommandModule;
+}
+
+export interface CommandRoute extends BaseCommand {
     name: string;
     information: string;
-    inputs: string[];
-    module: CommandRoute;
 }

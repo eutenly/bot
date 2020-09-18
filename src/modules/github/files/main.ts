@@ -1,6 +1,6 @@
 import Command from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
-import setHeaders from "../setHeaders";
+import fetch from "../fetch";
 import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
@@ -19,7 +19,7 @@ export default async function main(message: Message, ownerName: string, name: st
         },
         getURL: (input: string = ""): string => `https://api.github.com/repos/${encodeURIComponent(ownerName)}/${encodeURIComponent(name)}/contents${path ? `/${path}` : ""}`,
         connectionName: "github",
-        setHeaders,
+        fetch,
         splitPages: 15,
         parser: parse,
         getEmbed: embed,

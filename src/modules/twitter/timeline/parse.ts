@@ -21,9 +21,6 @@ export default function parse(data?: any): ParserData {
     // No data
     if (!data) return { noData: true };
 
-    // Authorization failed
-    if ((data.errors) && ([215, 32].includes(data.errors[0].code))) return { authorizationFailed: true };
-
     // Get next page token
     const nextPageToken: string = data[data.length - 1].id_str;
 

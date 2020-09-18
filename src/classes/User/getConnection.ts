@@ -3,6 +3,9 @@ import User from "./User";
 
 export default async function getConnection(user: User, name: string): Promise<void> {
 
+    // No need to get connection
+    if (user.connections[name]) return;
+
     // Get user data
     const userData = await Users.findById(user.id);
 

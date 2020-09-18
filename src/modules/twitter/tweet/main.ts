@@ -1,7 +1,7 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import Message from "../../../classes/Message/Message";
-import setHeaders from "../setHeaders";
+import fetch from "../fetch";
 import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
@@ -14,7 +14,7 @@ export default async function main(message: Message, tweetID: string, commandHis
         message,
         getURL: (): string => `https://api.twitter.com/1.1/statuses/show.json?id=${encodeURIComponent(tweetID)}&tweet_mode=extended`,
         connectionName: "twitter",
-        setHeaders,
+        fetch,
         parser: parse,
         getEmbed: embed,
         view
@@ -25,7 +25,7 @@ export default async function main(message: Message, tweetID: string, commandHis
     if (command.noConnection) return;
 
     // Fetch
-    await command.fetch();
+    await command.fetchData();
 
     // Get embed
     const commandEmbed: Embed = command.getEmbed(command, command.data);

@@ -63,7 +63,10 @@ export default class Embed {
     }
 
     // Set title
-    setTitle = (title?: string | null): Embed => {
+    setTitle = (title?: string | number | null): Embed => {
+
+        // Parse title
+        if (typeof title === "number") title = title.toString();
 
         // Remove title
         if ((title === undefined) || (title === null) || (title.length === 0)) {
@@ -80,7 +83,10 @@ export default class Embed {
     };
 
     // Set author
-    setAuthor = (name?: string | null, iconURL?: string, url?: string): Embed => {
+    setAuthor = (name?: string | number | null, iconURL?: string, url?: string): Embed => {
+
+        // Parse name
+        if (typeof name === "number") name = name.toString();
 
         // Remove author
         if ((name === undefined) || (name === null) || (name.length === 0)) {
@@ -101,7 +107,10 @@ export default class Embed {
     };
 
     // Set description
-    setDescription = (description?: string | null): Embed => {
+    setDescription = (description?: string | number | null): Embed => {
+
+        // Parse description
+        if (typeof description === "number") description = description.toString();
 
         // Remove description
         if ((description === undefined) || (description === null) || (description.length === 0)) {
@@ -135,11 +144,17 @@ export default class Embed {
     };
 
     // Add field
-    addField = (name?: string | null, value?: string | null, inline: boolean = false): Embed => {
+    addField = (name?: string | number | null, value?: string | number | null, inline: boolean = false): Embed => {
 
         // Parse data
         if ((name === undefined) || (name === null)) name = "\u200b";
         if ((value === undefined) || (value === null)) value = "\u200b";
+
+        // Parse name
+        if (typeof name === "number") name = name.toString();
+
+        // Parse value
+        if (typeof value === "number") value = value.toString();
 
         // Validate data
         if (name.length > 256) throw new Error("Embed field names can't be more than 256 characters");
@@ -197,7 +212,10 @@ export default class Embed {
     };
 
     // Set footer
-    setFooter = (text?: string | null, iconURL?: string): Embed => {
+    setFooter = (text?: string | number | null, iconURL?: string): Embed => {
+
+        // Parse text
+        if (typeof text === "number") text = text.toString();
 
         // Remove text
         if ((text === undefined) || (text === null) || (text.length === 0)) {

@@ -21,7 +21,7 @@ export default async function main(message: Message, playlistID: string, command
     }, (m: Message, chIndex: number) => main(m, playlistID, chIndex), commandHistoryIndex);
 
     // Fetch
-    await command.fetch();
+    await command.fetchData();
 
     // Get embed
     const commandEmbed: Embed = command.getEmbed(command, command.data);

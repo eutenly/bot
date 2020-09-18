@@ -1,8 +1,9 @@
+import Command from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
 import gist from "../gist/main";
 import { GitHubSearchResult } from "./parse";
 
-export default function view(data: GitHubSearchResult[], message: Message, metadata: any) {
+export default function view(data: GitHubSearchResult[], message: Message, command: Command) {
 
     // Get params
     const input: string = message.content.split(" ").slice(1).join(" ");
@@ -17,5 +18,5 @@ export default function view(data: GitHubSearchResult[], message: Message, metad
     if (!result) return message.channel.sendMessage(":x:  **|  That result number is invalid**");
 
     // View gist
-    gist(message, metadata.name, result.id);
+    gist(message, command.metadata.name, result.id);
 }

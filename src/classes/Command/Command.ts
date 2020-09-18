@@ -1,17 +1,17 @@
-import { Headers } from "node-fetch";
 import Client from "../Client/Client";
 import Embed from "../Embed/Embed";
 import Message from "../Message/Message";
-import { CommandHistoryEntry, Connection, RunCommand } from "../User/User";
+import User, { CommandHistoryEntry, RunCommand } from "../User/User";
 import SearchManager from "./SearchManager/SearchManager";
-import fetch from "./fetch";
+import fetchData from "./fetchData";
 import getConnection from "./getConnection";
 import send from "./send";
-import sendLoginEmbed from "./sendLoginEmbed";
 
-export type GetURL = (input?: string, page?: number, nextPageToken?: string) => string;
+export type GetURL = (input?: string, page?: number, nextPageToken?: string, user?: User) => string;
 
-export type SetHeaders = (headers: Headers, connection: Connection | undefined, url: string, method: string) => Promise<void> | void;
+export type GetExtraData = (data: any) => string;
+
+export type Fetch = (message: Message, url: string, method?: string, body?: any) => Promise<any>;
 
 export type GetData = (input?: string, page?: number, nextPageToken?: string) => Promise<any>;
 
@@ -19,10 +19,9 @@ export interface ParserData {
     data?: any;
     nextPageToken?: string;
     noData?: boolean;
-    authorizationFailed?: boolean;
 }
 
-export type Parser = (data: any) => ParserData;
+export type Parser = (data: any, extraData?: any[], metadata?: any) => ParserData;
 
 export type GetEmbed = (command: Command, data: any) => Embed;
 
@@ -36,8 +35,10 @@ interface CommandData {
     metadata?: any;
     orderedPages?: boolean;
     getURL?: GetURL;
+    getExtraData?: GetExtraData[];
     connectionName?: string;
-    setHeaders?: SetHeaders;
+    homeEmbed?: Embed;
+    fetch?: Fetch;
     splitPages?: number;
     getData?: GetData;
     data?: any;
@@ -63,9 +64,11 @@ export default class Command {
 
     // Functions to use this command
     getURL?: GetURL;
+    getExtraData?: GetExtraData[];
     connectionName?: string;
     noConnection?: boolean;
-    setHeaders?: SetHeaders;
+    homeEmbed?: Embed;
+    fetch?: Fetch;
     getData?: GetData;
     parser?: Parser;
     getEmbed: GetEmbed;
@@ -91,9 +94,11 @@ export default class Command {
         this.webScraper = data.webScraper;
         this.metadata = data.metadata;
         this.connectionName = data.connectionName;
+        this.homeEmbed = data.homeEmbed;
 
         this.getURL = data.getURL;
-        this.setHeaders = data.setHeaders;
+        this.getExtraData = data.getExtraData;
+        this.fetch = data.fetch;
         this.getData = data.getData;
         this.parser = data.parser;
         this.getEmbed = data.getEmbed;
@@ -158,11 +163,8 @@ export default class Command {
     // Get connection
     getConnection = (): void => getConnection(this);
 
-    // Send login embed
-    sendLoginEmbed = (): Promise<void> => sendLoginEmbed(this);
-
     // Fetch this command's data
-    fetch = (): Promise<any> => fetch(this);
+    fetchData = (input?: string, page?: number, nextPageToken?: string | null): Promise<ParserData | undefined> => fetchData(this, input, page, nextPageToken);
 
     // Send or edit the command message
     send = (embed: Embed): Promise<void> => send(this, embed);

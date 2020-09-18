@@ -1,4 +1,5 @@
 import Message from "../../classes/Message/Message";
+import twitterTimeline from "../twitter/timeline/main";
 import twitterTweet from "../twitter/tweet/main";
 import twitterUser from "../twitter/user/main";
 
@@ -17,5 +18,8 @@ export default function twitter(input: string, linksOnly?: boolean): Function | 
         // Check if input is a user @
         const username = input.match(/@(.+)/);
         if (username) return (message: Message) => twitterUser(message, username[1], "username");
+
+        // Check if input is timeline
+        if (input.toLowerCase().replace(/\s+/g, "") === "timeline") return (message: Message) => twitterTimeline(message, "home");
     }
 }

@@ -1,5 +1,6 @@
 import Message from "../../classes/Message/Message";
 import linkChecker from "../linkCheckers/twitter";
+import home from "./home/main";
 import search from "./search/main";
 
 export default async function main(message: Message) {
@@ -8,7 +9,7 @@ export default async function main(message: Message) {
     const input = message.content.split(" ").slice(1).join(" ");
 
     // No input
-    if (!input) return message.channel.sendMessage(":x:  **|  What would you like to search?**");
+    if (!input) return home(message);
 
     // Link checker
     const runModule: Function | undefined = linkChecker(input);
