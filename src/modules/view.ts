@@ -16,5 +16,5 @@ export default async function view(message: Message) {
     else data = command.searchManager?.cache.get(command.searchManager.page || 0);
 
     // Run module
-    command.view(data, message, command.metadata);
+    command.view(data, message, command);
 }

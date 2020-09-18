@@ -1,3 +1,4 @@
+import Command from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
 import album from "../album/main";
 import artist from "../artist/main";
@@ -6,7 +7,7 @@ import playlist from "../playlist/main";
 import track from "../track/main";
 import { SpotifySearchResult } from "./parse";
 
-export default function view(data: SpotifySearchResult[], message: Message, metadata: any) {
+export default function view(data: SpotifySearchResult[], message: Message, command: Command) {
 
     // Get params
     const input: string = message.content.split(" ").slice(1).join(" ");
@@ -21,9 +22,9 @@ export default function view(data: SpotifySearchResult[], message: Message, meta
     if (!result) return message.channel.sendMessage(":x:  **|  That result number is invalid**");
 
     // Run module
-    if (metadata.type === "track") track(message, result.id);
-    else if (metadata.type === "artist") artist(message, result.id);
-    else if (metadata.type === "album") album(message, result.id);
-    else if (metadata.type === "playlist") playlist(message, result.id);
-    else if (metadata.type === "episode") episode(message, result.id);
+    if (command.metadata.type === "track") track(message, result.id);
+    else if (command.metadata.type === "artist") artist(message, result.id);
+    else if (command.metadata.type === "album") album(message, result.id);
+    else if (command.metadata.type === "playlist") playlist(message, result.id);
+    else if (command.metadata.type === "episode") episode(message, result.id);
 }

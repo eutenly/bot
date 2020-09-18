@@ -1,13 +1,13 @@
 import Client from "../Client/Client";
 import Embed from "../Embed/Embed";
 import Message from "../Message/Message";
-import { CommandHistoryEntry, RunCommand } from "../User/User";
+import User, { CommandHistoryEntry, RunCommand } from "../User/User";
 import SearchManager from "./SearchManager/SearchManager";
 import fetchData from "./fetchData";
 import getConnection from "./getConnection";
 import send from "./send";
 
-export type GetURL = (input?: string, page?: number, nextPageToken?: string) => string;
+export type GetURL = (input?: string, page?: number, nextPageToken?: string, user?: User) => string;
 
 export type GetExtraData = (data: any) => string;
 

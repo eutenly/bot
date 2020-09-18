@@ -1,4 +1,3 @@
-import { Connection } from "../User/User";
 import Command, { GetExtraData, ParserData } from "./Command";
 
 export default async function fetchData(command: Command, input?: string, page?: number, nextPageToken?: string | null): Promise<ParserData | undefined> {
@@ -11,7 +10,7 @@ export default async function fetchData(command: Command, input?: string, page?:
     if ((command.fetch) && (command.getURL) && (nextPageToken !== null)) {
 
         // Get url
-        const url: string = command.getURL(input, page, nextPageToken);
+        const url: string = command.getURL(input, page, nextPageToken, command.message.author);
 
         // Fetch
         data = await command.fetch(command.message, url, "GET");
