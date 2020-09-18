@@ -1,7 +1,6 @@
 import Message from "../../../classes/Message/Message";
 import repo from "../repo/main";
-import starredRepos from "../starredRepos/main";
-import watchedRepos from "../watchedRepos/main";
+import repos from "../repos/main";
 import { GitHubHome, GitHubRepo } from "./parse";
 
 export default function view(data: GitHubHome | undefined, message: Message) {
@@ -14,10 +13,10 @@ export default function view(data: GitHubHome | undefined, message: Message) {
     if (!input) return message.channel.sendMessage(":x:  **|  What would you like to view?**");
 
     // Watched repos
-    if (input.toLowerCase().replace(/\s+/g, "") === "watchedrepos") return watchedRepos(message, data.username);
+    if (input.toLowerCase().replace(/\s+/g, "") === "watchedrepos") return repos(message, data.username, "subscriptions");
 
     // Starred repos
-    else if (input.toLowerCase().replace(/\s+/g, "") === "starredrepos") return starredRepos(message, data.username);
+    else if (input.toLowerCase().replace(/\s+/g, "") === "starredrepos") return repos(message, data.username, "starred");
 
     // Get item type
     const itemType: string = input.split("-")[0].toLowerCase();

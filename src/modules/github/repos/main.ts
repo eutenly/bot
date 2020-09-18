@@ -5,20 +5,23 @@ import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
 
-export default async function main(message: Message, user: string, commandHistoryIndex?: number) {
+export default async function main(message: Message, user: string, type: string = "repos", commandHistoryIndex?: number) {
 
     // Create command
     const command: Command = new Command(message.client, {
         name: "githubRepos",
         message,
         input: user,
-        getURL: (user: string = "", page: number = 1): string => `https://api.github.com/users/${encodeURIComponent(user)}/repos?per_page=5${page ? `&page=${page}` : ""}`,
+        metadata: {
+            type
+        },
+        getURL: (user: string = "", page: number = 1): string => `https://api.github.com/users/${encodeURIComponent(user)}/${type}?per_page=5${page ? `&page=${page}` : ""}`,
         connectionName: "github",
         fetch,
         parser: parse,
         getEmbed: embed,
         view
-    }, (m: Message, chIndex: number) => main(m, user, chIndex), commandHistoryIndex);
+    }, (m: Message, chIndex: number) => main(m, user, type, chIndex), commandHistoryIndex);
     await command.uninitializedConnection;
 
     // No connection
