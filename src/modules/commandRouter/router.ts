@@ -7,10 +7,10 @@ export default function routeMessage(message: Message) {
     const prefix: string = message.guild?.prefix || process.env.DEFAULT_PREFIX || "";
 
     // Ignore if message doesn't start with the prefix
-    if (!message.content.startsWith(prefix)) return;
+    if (!message.content.toLowerCase().startsWith(prefix)) return;
 
     // Get command
-    const requestedCommand = message.content.substring(prefix.length, message.content.length);
+    const requestedCommand = message.content.toLowerCase().substring(prefix.length, message.content.length);
 
     // Parse routes
     let allRoutes: BaseCommand[] = routes;
