@@ -20,7 +20,10 @@ export default async function reactionAdded(reaction: Reaction) {
         command.searchManager.setPage(command.searchManager.page - 1);
 
         // Remove reaction
-        return reaction.remove();
+        if (reaction.guild) reaction.remove();
+
+        // Return
+        return;
     }
 
     // Next page
@@ -30,6 +33,9 @@ export default async function reactionAdded(reaction: Reaction) {
         command.searchManager.setPage(command.searchManager.page + 1);
 
         // Remove reaction
-        return reaction.remove();
+        if (reaction.guild) reaction.remove();
+
+        // Return
+        return;
     }
 }
