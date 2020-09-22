@@ -30,3 +30,8 @@ export default async function main(message: Message, user: string, type: string 
     // Search
     command.searchManager?.setPage(1);
 }
+
+export function url(user: string): string {
+
+    return `https://github.com/${user}?tab=repositories`;
+}

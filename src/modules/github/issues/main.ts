@@ -32,3 +32,8 @@ export default async function main(message: Message, ownerName: string, name: st
     // Search
     command.searchManager?.setPage(1);
 }
+
+export function url(ownerName: string, name: string): string {
+
+    return `https://github.com/${ownerName}/${name}/issues`;
+}

@@ -29,3 +29,8 @@ export default async function main(message: Message, userID: string, commandHist
     // Search
     command.searchManager?.setPage(1);
 }
+
+export function url(userID: string): string {
+
+    return `eutenly://twitter/timeline/${userID}`;
+}

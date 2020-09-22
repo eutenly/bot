@@ -36,3 +36,8 @@ export default async function main(message: Message, name: string, gistID: numbe
     // Send
     command.send(commandEmbed);
 }
+
+export function url(name: string, gistID: number): string {
+
+    return `https://gist.github.com/${name}/${gistID}`;
+}

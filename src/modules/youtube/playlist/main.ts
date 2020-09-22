@@ -29,3 +29,8 @@ export default async function main(message: Message, playlistID: string, command
     // Send
     command.send(commandEmbed);
 }
+
+export function url(playlistID: string): string {
+
+    return `https://youtube.com/playlist?list=${playlistID}`;
+}

@@ -33,3 +33,8 @@ export default async function main(message: Message, albumID: string, commandHis
     // Send
     command.send(commandEmbed);
 }
+
+export function url(albumID: string): string {
+
+    return `https://open.spotify.com/album/${albumID}`;
+}

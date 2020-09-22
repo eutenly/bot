@@ -30,3 +30,8 @@ export default async function main(message: Message, artistID: string, artistNam
     // Search
     command.searchManager?.setPage(1);
 }
+
+export function url(artistID: string): string {
+
+    return `https://open.spotify.com/artist/${artistID}`;
+}

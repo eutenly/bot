@@ -25,7 +25,13 @@ export type Parser = (data: any, extraData?: any[], metadata?: any) => ParserDat
 
 export type GetEmbed = (command: Command, data: any) => Embed;
 
-export type View = (data: any, message: Message, metadata?: any) => void;
+export interface ViewData {
+    module?: Function;
+    url?: string;
+    error?: string;
+}
+
+export type View = (data: any, message: Message, metadata?: any) => ViewData | undefined;
 
 interface CommandData {
     name: string;

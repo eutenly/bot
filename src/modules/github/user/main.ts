@@ -33,3 +33,8 @@ export default async function main(message: Message, name: string, commandHistor
     // Send
     command.send(commandEmbed);
 }
+
+export function url(name: string): string {
+
+    return `https://github.com/${name}`;
+}

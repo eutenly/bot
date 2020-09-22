@@ -25,3 +25,8 @@ export default async function main(message: Message, name: string, type: string,
     // Search
     command.searchManager?.setPage(1);
 }
+
+export function url(name: string): string {
+
+    return `https://github.com/${name}`;
+}

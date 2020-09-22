@@ -29,3 +29,8 @@ export default async function main(message: Message, channelID: string, commandH
     // Send
     command.send(commandEmbed);
 }
+
+export function url(channelID: string): string {
+
+    return `https://youtube.com/channel/${channelID}`;
+}

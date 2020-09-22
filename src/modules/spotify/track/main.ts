@@ -48,3 +48,8 @@ export default async function main(message: Message, trackID: string, commandHis
     // Send
     command.send(commandEmbed);
 }
+
+export function url(trackID: string): string {
+
+    return `https://open.spotify.com/track/${trackID}`;
+}

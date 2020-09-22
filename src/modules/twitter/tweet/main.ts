@@ -33,3 +33,8 @@ export default async function main(message: Message, tweetID: string, commandHis
     // Send
     command.send(commandEmbed);
 }
+
+export function url(user: string, tweetID: string): string {
+
+    return `https://twitter.com/${user}/status/${tweetID}`;
+}

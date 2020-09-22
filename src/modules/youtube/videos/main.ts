@@ -27,3 +27,8 @@ export default async function main(message: Message, channelID: string, commandH
     // Search
     command.searchManager?.setPage(1);
 }
+
+export function url(channelID: string): string {
+
+    return `https://youtube.com/channel/${channelID}/videos`;
+}

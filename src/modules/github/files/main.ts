@@ -33,3 +33,8 @@ export default async function main(message: Message, ownerName: string, name: st
     // Search
     command.searchManager?.setPage(1);
 }
+
+export function url(ownerName: string, name: string, path?: string): string {
+
+    return `https://github.com/${ownerName}/${name}/tree/master${path ? `/${path}` : ""}`;
+}

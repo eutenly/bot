@@ -33,3 +33,8 @@ export default async function main(message: Message, user: string, type: string,
     // Send
     command.send(commandEmbed);
 }
+
+export function url(user: string): string {
+
+    return `https://twitter.com/${user}`;
+}

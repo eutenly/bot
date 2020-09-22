@@ -6,6 +6,7 @@ import inviteCommand from "../invite";
 import moveCommand from "../move";
 import pageCommand from "../page";
 import pingCommand from "../ping";
+import saveCommand from "../save";
 import searchCommand from "../search/main";
 import spotifyCommand from "../spotify/main";
 import supportCommand from "../support";
@@ -81,6 +82,12 @@ export const routes: CommandRoute[] = [
         information: "View more info about a result",
         inputs: ["view", "result"],
         module: viewCommand
+    },
+    {
+        name: "Save",
+        information: "Save a link to view later",
+        inputs: ["save"],
+        module: saveCommand
     },
     {
         name: "Invite",

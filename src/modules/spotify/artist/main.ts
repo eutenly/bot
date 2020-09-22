@@ -34,3 +34,8 @@ export default async function main(message: Message, artistID: string, commandHi
     // Send
     command.send(commandEmbed);
 }
+
+export function url(artistID: string): string {
+
+    return `https://open.spotify.com/artist/${artistID}`;
+}

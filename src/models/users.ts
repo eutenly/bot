@@ -1,8 +1,9 @@
 import { Document, Schema, Types } from "mongoose";
 
 interface SavedLink {
+    title?: string;
+    description?: string;
     url: string;
-    note?: string;
 }
 
 export interface IUser extends Document {
@@ -77,8 +78,9 @@ export const usersSchema: Schema = new Schema({
         }
     },
     savedLinks: [{
-        url: String,
-        note: String
+        title: String,
+        description: String,
+        url: String
     }],
     voteExpireTimestamp: Number,
     patreonTier: Number

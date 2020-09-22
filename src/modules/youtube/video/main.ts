@@ -29,3 +29,8 @@ export default async function main(message: Message, videoID: string, commandHis
     // Send
     command.send(commandEmbed);
 }
+
+export function url(videoID: string): string {
+
+    return `https://youtube.com/watch?v=${videoID}`;
+}

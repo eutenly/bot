@@ -30,3 +30,8 @@ export default async function main(message: Message, name: string, commandHistor
     // Search
     command.searchManager?.setPage(1);
 }
+
+export function url(name: string): string {
+
+    return `https://gist.github.com/${name}`;
+}

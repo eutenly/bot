@@ -23,3 +23,8 @@ export default async function search(message: Message, query: string, commandHis
     // Search
     command.searchManager?.setPage(1);
 }
+
+export function url(query: string): string {
+
+    return `eutenly://search?query=${encodeURIComponent(query)}`;
+}

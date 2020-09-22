@@ -37,3 +37,8 @@ export default async function main(message: Message, ownerName: string, name: st
     // Send
     command.send(commandEmbed);
 }
+
+export function url(ownerName: string, name: string, tag: string): string {
+
+    return `https://github.com/${ownerName}/${name}/releases/tag/${tag}`;
+}

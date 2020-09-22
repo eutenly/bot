@@ -1,9 +1,9 @@
-import Command from "../../../classes/Command/Command";
+import Command, { ViewData } from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
-import repo from "../repo/main";
+import repo, { url as repoURL } from "../repo/main";
 import { GitHubLanguages } from "./parse";
 
-export default function view(data: GitHubLanguages | undefined, message: Message, command: Command) {
+export default function view(data: GitHubLanguages | undefined, message: Message, command: Command): ViewData | undefined {
 
     // Get prefix
     const prefix: string = message.guild?.prefix || process.env.DEFAULT_PREFIX || "";
@@ -13,11 +13,14 @@ export default function view(data: GitHubLanguages | undefined, message: Message
 
     // Get params
     const input: string = message.content.split(" ").slice(1).join(" ");
-    if (!input) return message.channel.sendMessage(":x:  **|  Which result would you like to view?**");
+    if (!input) return { error: ":x:  **|  Which result would you like to view?**" };
 
     // Repo
-    if (input.toLowerCase().replace(/\s+/g, "") === "repo") return repo(message, command.metadata.ownerName, command.metadata.name);
+    if (input.toLowerCase().replace(/\s+/g, "") === "repo") return {
+        module: () => repo(message, command.metadata.ownerName, command.metadata.name),
+        url: repoURL(command.metadata.ownerName, command.metadata.name)
+    };
 
     // Invalid type
-    else message.channel.sendMessage(`:x:  **|  You can view the repo with \`${prefix}view repo\`**`);
+    return { error: `:x:  **|  You can view the repo with \`${prefix}view repo\`**` };
 }

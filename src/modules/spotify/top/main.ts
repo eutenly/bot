@@ -30,3 +30,8 @@ export default async function main(message: Message, type: string, commandHistor
     // Search
     command.searchManager?.setPage(1);
 }
+
+export function url(type: string): string {
+
+    return `eutenly://spotify/top/${type}`;
+}

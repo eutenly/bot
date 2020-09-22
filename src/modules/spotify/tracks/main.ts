@@ -31,3 +31,8 @@ export default async function main(message: Message, itemID: string, itemName: s
     // Search
     command.searchManager?.setPage(1);
 }
+
+export function url(itemID: string, type: string): string {
+
+    return `https://open.spotify.com/${type}/${itemID}`;
+}

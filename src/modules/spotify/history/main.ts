@@ -28,3 +28,8 @@ export default async function main(message: Message, commandHistoryIndex?: numbe
     // Search
     command.searchManager?.setPage(1);
 }
+
+export function url(): string {
+
+    return "eutenly://spotify/history";
+}

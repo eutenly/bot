@@ -42,3 +42,8 @@ export default async function main(message: Message, episodeID: string, commandH
     // Send
     command.send(commandEmbed);
 }
+
+export function url(episodeID: string): string {
+
+    return `https://open.spotify.com/episode/${episodeID}`;
+}

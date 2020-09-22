@@ -50,3 +50,8 @@ export default async function main(message: Message, commandHistoryIndex?: numbe
     // Send
     command.send(commandEmbed);
 }
+
+export function url(): string {
+
+    return "eutenly://twitter";
+}
