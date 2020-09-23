@@ -14,6 +14,7 @@ import supportCommand from "../support";
 import twitterCommand from "../twitter/main";
 import viewCommand from "../view";
 import websiteCommand from "../website/main";
+import wikipediaCommand from "../wikipedia/main";
 import youtubeCommand from "../youtube/main";
 
 // Define routes
@@ -65,6 +66,12 @@ export const routes: CommandRoute[] = [
         information: "Search GitHub",
         inputs: ["github"],
         module: githubCommand
+    },
+    {
+        name: "Wikipedia",
+        information: "Search Wikipedia",
+        inputs: ["wikipedia"],
+        module: wikipediaCommand
     },
     {
         name: "Page",
