@@ -1,6 +1,6 @@
 import { Document, Schema, Types } from "mongoose";
 
-interface SavedLink {
+export interface SavedLink {
     title?: string;
     description?: string;
     url: string;

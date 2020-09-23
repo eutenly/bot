@@ -7,6 +7,7 @@ import moveCommand from "../move";
 import pageCommand from "../page";
 import pingCommand from "../ping";
 import saveCommand from "../save";
+import savedLinksCommand from "../savedLinks/main";
 import searchCommand from "../search/main";
 import spotifyCommand from "../spotify/main";
 import supportCommand from "../support";
@@ -82,6 +83,12 @@ export const routes: CommandRoute[] = [
         information: "View more info about a result",
         inputs: ["view", "result"],
         module: viewCommand
+    },
+    {
+        name: "Saved Links",
+        information: "View your saved links",
+        inputs: ["savedlinks"],
+        module: savedLinksCommand
     },
     {
         name: "Save",
