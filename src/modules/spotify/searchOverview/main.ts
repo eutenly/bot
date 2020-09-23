@@ -36,3 +36,8 @@ export default async function main(message: Message, query: string, commandHisto
     // Send
     command.send(commandEmbed);
 }
+
+export function url(query: string): string {
+
+    return `eutenly://spotify/searchOverview?query=${encodeURIComponent(query)}`;
+}
