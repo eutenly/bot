@@ -12,6 +12,7 @@ export default async function main(message: Message, user: string, type: string,
     const command: Command = new Command(message.client, {
         name: "twitterUser",
         message,
+        url: url(user),
         getURL: (): string => `https://api.twitter.com/1.1/users/show.json?${type === "id" ? "user_id" : "screen_name"}=${encodeURIComponent(user)}`,
         connectionName: "twitter",
         fetch,

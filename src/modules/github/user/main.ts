@@ -12,6 +12,7 @@ export default async function main(message: Message, name: string, commandHistor
     const command: Command = new Command(message.client, {
         name: "githubUser",
         message,
+        url: url(name),
         getURL: (): string => `https://api.github.com/users/${encodeURIComponent(name)}`,
         connectionName: "github",
         fetch,

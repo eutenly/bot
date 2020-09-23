@@ -6,19 +6,20 @@ import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
 
-export default async function main(message: Message, tweetID: string, commandHistoryIndex?: number) {
+export default async function main(message: Message, tweetID: string, user: string, commandHistoryIndex?: number) {
 
     // Create command
     const command: Command = new Command(message.client, {
         name: "twitterTweet",
         message,
+        url: url(user, tweetID),
         getURL: (): string => `https://api.twitter.com/1.1/statuses/show.json?id=${encodeURIComponent(tweetID)}&tweet_mode=extended`,
         connectionName: "twitter",
         fetch,
         parser: parse,
         getEmbed: embed,
         view
-    }, (m: Message, chIndex: number) => main(m, tweetID, chIndex), commandHistoryIndex);
+    }, (m: Message, chIndex: number) => main(m, tweetID, user, chIndex), commandHistoryIndex);
     await command.uninitializedConnection;
 
     // No connection

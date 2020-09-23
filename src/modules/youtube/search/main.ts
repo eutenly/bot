@@ -11,6 +11,7 @@ export default async function main(message: Message, query: string, commandHisto
         name: "youtubeSearch",
         message,
         input: query,
+        url: url(query),
         orderedPages: true,
         getData: async (query?: string, page?: number, nextPageToken?: string): Promise<any> => await message.client.youtube.search.list({
             part: ["snippet"],

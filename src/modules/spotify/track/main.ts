@@ -14,6 +14,7 @@ export default async function main(message: Message, trackID: string, commandHis
     const command: Command = new Command(message.client, {
         name: "spotifyTrack",
         message,
+        url: url(trackID),
         getURL: (): string => `https://api.spotify.com/v1/tracks/${encodeURIComponent(trackID)}`,
         getExtraData: [
             (data: any): string => `https://api.spotify.com/v1/audio-features/${data.id}`,

@@ -12,6 +12,7 @@ export default async function main(message: Message, commandHistoryIndex?: numbe
         name: "spotifyPlaylists",
         message,
         input: "me",
+        url: url(),
         getURL: (input: string = "", page: number = 1): string => `https://api.spotify.com/v1/me/playlists?limit=5${page ? `&offset=${(page - 1) * 5}` : ""}`,
         connectionName: "spotify",
         fetch,

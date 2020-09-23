@@ -12,6 +12,7 @@ export default async function main(message: Message, query: string, commandHisto
         name: "githubSearch",
         message,
         input: query,
+        url: url(query),
         getURL: (query: string = "", page: number = 1): string => `https://api.github.com/search/repositories?q=${encodeURIComponent(query)}&per_page=5${page ? `&page=${page}` : ""}`,
         connectionName: "github",
         fetch,

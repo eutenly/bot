@@ -37,11 +37,11 @@ export default function view(data: TwitterHome | undefined, message: Message, co
 
     // Run module
     if (itemType === "t") return {
-        module: () => tweet(message, itemResult.id),
-        url: tweetURL(command.message.author.connections["twitter"]?.id || "", itemResult.id)
+        module: () => tweet(message, itemResult.id, itemResult.user.handle),
+        url: tweetURL(itemResult.user.handle, itemResult.id)
     };
     else if (itemType === "tl") return {
-        module: () => tweet(message, itemResult.id),
-        url: tweetURL(command.message.author.connections["twitter"]?.id || "", itemResult.id)
+        module: () => tweet(message, itemResult.id, itemResult.user.handle),
+        url: tweetURL(itemResult.user.handle, itemResult.id)
     };
 }

@@ -27,6 +27,7 @@ export default async function main(message: Message, commandHistoryIndex?: numbe
     const command: Command = new Command(message.client, {
         name: "spotifyHome",
         message,
+        url: url(),
         getURL: (): string => "https://api.spotify.com/v1/me/playlists?limit=5",
         getExtraData: [
             (): string => "https://api.spotify.com/v1/me/top/tracks?limit=5",

@@ -15,6 +15,7 @@ export default async function main(message: Message, type: string, commandHistor
         metadata: {
             type
         },
+        url: url(type),
         getURL: (input: string = "", page: number = 1): string => `https://api.spotify.com/v1/me/top/${type}?limit=5${page ? `&offset=${(page - 1) * 5}` : ""}`,
         connectionName: "spotify",
         fetch,

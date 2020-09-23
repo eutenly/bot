@@ -12,6 +12,7 @@ export default async function main(message: Message, commandHistoryIndex?: numbe
         name: "spotifyHistory",
         message,
         input: "me",
+        url: url(),
         orderedPages: true,
         getURL: (input?: string, page?: number, nextPageToken?: string): string => `https://api.spotify.com/v1/me/player/recently-played?limit=5${nextPageToken ? `&before=${nextPageToken}` : ""}`,
         connectionName: "spotify",

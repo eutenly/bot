@@ -15,6 +15,7 @@ export default async function main(message: Message, name: string, commandHistor
         metadata: {
             name
         },
+        url: url(name),
         getURL: (input: string = "", page: number = 1): string => `https://api.github.com/users/${encodeURIComponent(name)}/gists?per_page=5${page ? `&page=${page}` : ""}`,
         connectionName: "github",
         fetch,

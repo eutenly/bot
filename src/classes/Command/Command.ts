@@ -39,6 +39,7 @@ interface CommandData {
     webScraper?: Boolean;
     input?: string;
     metadata?: any;
+    url?: string;
     orderedPages?: boolean;
     getURL?: GetURL;
     getExtraData?: GetExtraData[];
@@ -64,6 +65,7 @@ export default class Command {
     responseMessage?: Message;
     webScraper?: Boolean;
     metadata?: any;
+    url?: string;
 
     // A promise for when the connection has loaded
     uninitializedConnection?: Promise<any>;
@@ -99,6 +101,7 @@ export default class Command {
         this.message = data.message;
         this.webScraper = data.webScraper;
         this.metadata = data.metadata;
+        this.url = data.url;
         this.connectionName = data.connectionName;
         this.homeEmbed = data.homeEmbed;
 

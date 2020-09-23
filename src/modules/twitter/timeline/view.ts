@@ -19,7 +19,7 @@ export default function view(data: TwitterSearchResult[], message: Message): Vie
 
     // View tweet
     return {
-        module: () => tweet(message, result.id),
+        module: () => tweet(message, result.id, result.user.handle),
         url: tweetURL(result.user.handle, result.id)
     };
 }

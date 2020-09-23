@@ -12,6 +12,7 @@ export default async function main(message: Message, artistID: string, commandHi
     const command: Command = new Command(message.client, {
         name: "spotifyArtist",
         message,
+        url: url(artistID),
         getURL: (): string => `https://api.spotify.com/v1/artists/${encodeURIComponent(artistID)}`,
         getExtraData: [(data: any): string => `https://api.spotify.com/v1/artists/${data.id}/albums?limit=5&include_groups=album,single`],
         connectionName: "spotify",

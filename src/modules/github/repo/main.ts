@@ -12,6 +12,7 @@ export default async function main(message: Message, ownerName: string, name: st
     const command: Command = new Command(message.client, {
         name: "githubRepo",
         message,
+        url: url(ownerName, name),
         getURL: (): string => `https://api.github.com/repos/${encodeURIComponent(ownerName)}/${encodeURIComponent(name)}`,
         connectionName: "github",
         fetch,

@@ -16,6 +16,7 @@ export default async function main(message: Message, ownerName: string, name: st
             ownerName,
             name
         },
+        url: url(ownerName, name),
         getURL: (input: string = "", page: number = 1): string => `https://api.github.com/repos/${encodeURIComponent(ownerName)}/${encodeURIComponent(name)}/releases?per_page=5${page ? `&page=${page}` : ""}`,
         connectionName: "github",
         fetch,

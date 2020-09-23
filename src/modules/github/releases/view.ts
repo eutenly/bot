@@ -19,7 +19,7 @@ export default function view(data: GitHubSearchResult[], message: Message, comma
 
     // View release
     return {
-        module: () => release(message, command.metadata.ownerName, command.metadata.name, result.id),
+        module: () => release(message, command.metadata.ownerName, command.metadata.name, result.id, result.tag),
         url: releaseURL(command.metadata.ownerName, command.metadata.name, result.tag)
     };
 }

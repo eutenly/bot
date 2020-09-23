@@ -27,7 +27,7 @@ export default function view(data: TwitterTweet | undefined, message: Message): 
 
         // View tweet
         return {
-            module: () => tweet(message, data.quotedTweet?.id || ""),
+            module: () => tweet(message, data.quotedTweet?.id || "", data.quotedTweet?.user.handle || ""),
             url: tweetURL(data.quotedTweet.user.handle, data.quotedTweet.id)
         };
     }

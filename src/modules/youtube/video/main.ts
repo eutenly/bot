@@ -11,6 +11,7 @@ export default async function main(message: Message, videoID: string, commandHis
     const command: Command = new Command(message.client, {
         name: "youtubeVideo",
         message,
+        url: url(videoID),
         getData: async (): Promise<any> => await message.client.youtube.videos.list({
             part: ["snippet", "contentDetails", "statistics"],
             id: [videoID]

@@ -6,7 +6,7 @@ import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
 
-export default async function main(message: Message, ownerName: string, name: string, releaseID: number, commandHistoryIndex?: number) {
+export default async function main(message: Message, ownerName: string, name: string, releaseID: number, tag: string, commandHistoryIndex?: number) {
 
     // Create command
     const command: Command = new Command(message.client, {
@@ -16,13 +16,14 @@ export default async function main(message: Message, ownerName: string, name: st
             ownerName,
             name
         },
+        url: url(ownerName, name, tag),
         getURL: (): string => `https://api.github.com/repos/${encodeURIComponent(ownerName)}/${encodeURIComponent(name)}/releases/${encodeURIComponent(releaseID)}`,
         connectionName: "github",
         fetch,
         parser: parse,
         getEmbed: embed,
         view
-    }, (m: Message, chIndex: number) => main(m, ownerName, name, releaseID, chIndex), commandHistoryIndex);
+    }, (m: Message, chIndex: number) => main(m, ownerName, name, releaseID, tag, chIndex), commandHistoryIndex);
     await command.uninitializedConnection;
 
     // No connection
