@@ -25,3 +25,8 @@ export default async function main(message: Message, query: string, commandHisto
     // Search
     command.searchManager?.setPage(1);
 }
+
+export function url(query: string): string {
+
+    return `eutenly://youtube/search?query=${encodeURIComponent(query)}`;
+}
