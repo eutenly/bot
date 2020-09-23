@@ -8,7 +8,7 @@ export default function embed(command: Command, data: any): Embed {
 
     // Embed
     const embed = new Embed()
-        .setAuthor(data.title.title, "https://eutenly.com/assets/search-colored.png ", data.link)
+        .setAuthor(data.title.title, "https://eutenly.com/assets/search-colored.png", data.link)
         .setColor(0x4086f4)
         .setBranding();
 
