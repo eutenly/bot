@@ -30,18 +30,21 @@ export const routes: CommandRoute[] = [
     {
         name: "Ping",
         information: "Check how responsive the bot is",
+        description: "The Ping command let's you make sure the bot is online and can send messages. It will also tell you the connection speed to Discord and to our database.",
         inputs: ["ping"],
         module: pingCommand
     },
     {
         name: "Info",
         information: "View info about Eutenly",
+        description: "View info about Eutenly and get some helpful links.",
         inputs: ["info"],
         module: infoCommand
     },
     {
         name: "Website",
         information: "View details about a website",
+        description: "Enter a link to view details about any website.",
         inputs: ["website", "websiteinfo", "site", "siteinfo"],
         module: websiteCommand
     },
@@ -89,13 +92,15 @@ export const routes: CommandRoute[] = [
     },
     {
         name: "Page",
-        information: "Jump to a page",
+        information: "Navigate between pages",
+        description: "When viewing something with multiple pages, use the `next` and `previous` commands to navigate between pages You can also use the `page` command to jump to a page.",
         inputs: ["page", "next", "previous"],
         module: pageCommand
     },
     {
         name: "Move",
         information: "Move through your recent command history",
+        description: "Use the `back` and `forward` commands to navigate through your recently used commands.",
         inputs: ["back", "forward"],
         module: moveCommand
     },
@@ -161,5 +166,6 @@ export interface BaseCommand {
 export interface CommandRoute extends BaseCommand {
     name: string;
     information: string;
+    description?: string,
     helpEmbed?: Function;
 }
