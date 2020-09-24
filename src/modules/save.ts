@@ -44,6 +44,9 @@ export default async function save(message: Message) {
         if ((viewData) && (viewData.url)) url = viewData.url;
     }
 
+    // Input is url
+    if (input) url = input;
+
     // No url
     if (!url) return message.channel.sendMessage(":x:  **|  You must provide a link to save**");
 
