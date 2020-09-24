@@ -12,7 +12,7 @@ export default function getConnection(command: Command): void {
         if (command.message.author.connections[command.connectionName]) return resolve();
 
         // Send embed
-        if (command.homeEmbed) command.message.channel.sendMessage(command.homeEmbed);
+        if (command.helpEmbed) command.message.channel.sendMessage(command.helpEmbed);
         else sendLoginEmbed(command.message, command.connectionName);
 
         // Set no connection

@@ -42,6 +42,9 @@ export default async function (message: Message) {
                 return;
             }
 
+            // If there's a help embed, send it
+            if (route.helpEmbed) return message.channel.sendMessage(route.helpEmbed(activePrevix));
+
             // If command present, display information
             embed.setDescription("Information about `" + route.name + "`")
                 .addField("Description", route.information)

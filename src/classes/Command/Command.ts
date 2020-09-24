@@ -44,7 +44,7 @@ interface CommandData {
     getURL?: GetURL;
     getExtraData?: GetExtraData[];
     connectionName?: string;
-    homeEmbed?: Embed;
+    helpEmbed?: Embed;
     fetch?: Fetch;
     splitPages?: number;
     getData?: GetData;
@@ -75,7 +75,7 @@ export default class Command {
     getExtraData?: GetExtraData[];
     connectionName?: string;
     noConnection?: boolean;
-    homeEmbed?: Embed;
+    helpEmbed?: Embed;
     fetch?: Fetch;
     getData?: GetData;
     parser?: Parser;
@@ -103,7 +103,7 @@ export default class Command {
         this.metadata = data.metadata;
         this.url = data.url;
         this.connectionName = data.connectionName;
-        this.homeEmbed = data.homeEmbed;
+        this.helpEmbed = data.helpEmbed;
 
         this.getURL = data.getURL;
         this.getExtraData = data.getExtraData;
