@@ -6,6 +6,7 @@ import inviteCommand from "../invite";
 import moveCommand from "../move";
 import pageCommand from "../page";
 import pingCommand from "../ping";
+import removeCommand from "../remove";
 import saveCommand from "../save";
 import savedLinksCommand from "../savedLinks/main";
 import searchCommand from "../search/main";
@@ -90,6 +91,12 @@ export const routes: CommandRoute[] = [
         information: "View more info about a result",
         inputs: ["view", "result"],
         module: viewCommand
+    },
+    {
+        name: "Remove",
+        information: "Remove a saved link",
+        inputs: ["remove"],
+        module: removeCommand
     },
     {
         name: "Saved Links",
