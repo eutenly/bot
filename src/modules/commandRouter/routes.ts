@@ -1,7 +1,7 @@
 import Message from "../../classes/Message/Message";
 import evalCommand from "../eval";
-import helpCommand from "../help";
 import githubCommand from "../github/main";
+import helpCommand from "../help";
 import infoCommand from "../info";
 import inviteCommand from "../invite";
 import moveCommand from "../move";
@@ -25,120 +25,103 @@ export const routes: CommandRoute[] = [
         name: "Ping",
         information: "Check how responsive the bot is",
         inputs: ["ping"],
-        module: pingCommand,
-        private: false
+        module: pingCommand
     },
     {
         name: "Info",
         information: "View info about Eutenly",
         inputs: ["info"],
-        module: infoCommand,
-        private: false
+        module: infoCommand
     },
     {
         name: "Website",
         information: "View details about a website",
         inputs: ["website", "websiteinfo", "site", "siteinfo"],
-        module: websiteCommand,
-        private: false
+        module: websiteCommand
     },
     {
         name: "Search",
         information: "Search the internet",
         inputs: ["search"],
-        module: searchCommand,
-        private: false
+        module: searchCommand
     },
     {
         name: "YouTube",
         information: "Search YouTube",
         inputs: ["youtube"],
-        module: youtubeCommand,
-        private: false
+        module: youtubeCommand
     },
     {
         name: "Twitter",
         information: "Search Twitter",
         inputs: ["twitter"],
-        module: twitterCommand,
-        private: false
+        module: twitterCommand
     },
     {
         name: "Spotify",
         information: "Search Spotify",
         inputs: ["spotify"],
-        module: spotifyCommand,
-        private: false
+        module: spotifyCommand
     },
     {
         name: "GitHub",
         information: "Search GitHub",
         inputs: ["github"],
-        module: githubCommand,
-        private: false
+        module: githubCommand
     },
     {
         name: "Wikipedia",
         information: "Search Wikipedia",
         inputs: ["wikipedia"],
-        module: wikipediaCommand,
-        private: false
+        module: wikipediaCommand
     },
     {
         name: "Page",
         information: "Jump to a page",
         inputs: ["page", "next", "previous"],
-        module: pageCommand,
-        private: false
+        module: pageCommand
     },
     {
         name: "Move",
         information: "Move through your recent command history",
         inputs: ["back", "forward"],
-        module: moveCommand,
-        private: false
+        module: moveCommand
     },
     {
         name: "View",
         information: "View more info about a result",
         inputs: ["view", "result"],
-        module: viewCommand,
-        private: false
+        module: viewCommand
     },
     {
         name: "Remove",
         information: "Remove a saved link",
         inputs: ["remove"],
-        module: removeCommand,
-        private: false
+        module: removeCommand
     },
     {
         name: "Saved Links",
         information: "View your saved links",
         inputs: ["savedlinks"],
-        module: savedLinksCommand,
-        private: false
+        module: savedLinksCommand
     },
     {
         name: "Save",
         information: "Save a link to view later",
         inputs: ["save"],
-        module: saveCommand,
-        private: false
+        module: saveCommand
     },
     {
         name: "Invite",
         information: "Get a link to add Eutenly to your server",
         inputs: ["invite"],
-        module: inviteCommand,
-        private: false
+        module: inviteCommand
     },
     {
         name: "Support",
         information: "Join Eutenly's support server",
         inputs: ["support"],
-        module: supportCommand,
-        private: false
+        module: supportCommand
     },
     {
         name: "Eval",
@@ -151,8 +134,7 @@ export const routes: CommandRoute[] = [
         name: "Help",
         information: "Help about eutenly",
         inputs: ["help", "h", "?"],
-        module: helpCommand,
-        private: false
+        module: helpCommand
     }
 ];
 
@@ -161,10 +143,10 @@ type CommandModule = (message: Message) => Promise<any>;
 export interface BaseCommand {
     inputs: string[];
     module: CommandModule;
+    private?: boolean;
 }
 
 export interface CommandRoute extends BaseCommand {
     name: string;
     information: string;
-    private: boolean;
 }
