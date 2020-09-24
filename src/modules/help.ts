@@ -13,7 +13,8 @@ export default async function (message: Message) {
     // Embed
     const embed: Embed = new Embed()
         .setTitle("Eutenly Help Center")
-        .setColor(0x820020);
+        .setColor(0xf40b3d)
+        .setBranding();
 
     // Switch for amount of arguments
     switch (args.length) {
@@ -24,13 +25,14 @@ export default async function (message: Message) {
                 if (route.private) return;
 
                 // Add field
-                embed.addField(activePrevix + route.inputs[0], `**${route.name}:** ${route.information}`);
+                embed.addField(route.name, `${route.information} (\`${activePrevix}${route.inputs[0]}\`)`);
             });
 
-            embed.addField("Learn more about a command", "Run `" + activePrevix + "help <command>`");
+            embed
+                .addField("Learn more about a command", "Run `" + activePrevix + "help <command>`")
+                .addField(null, "[Add Eutenly](https://eutenly.com/invite) \u2022 [Support Server](https://discord.gg/feE2vaR) \u2022 [Website](https://eutenly.com) \u2022 [Vote](https://discordbots.org/bot/733753582507261999) \u2022 [Voter Perks](https://eutenly.com/voter-perks)");
 
-            await message.channel.sendMessage(embed);
-            return;
+            return message.channel.sendMessage(embed);
         case 2:
             // When there are arguments, search for the command
             const route = routes.find((route: CommandRoute) => route.name.toLowerCase() === args[1].toLowerCase());
@@ -42,11 +44,15 @@ export default async function (message: Message) {
                 return;
             }
 
+            // If there's a help embed, send it
+            if (route.helpEmbed) return message.channel.sendMessage(route.helpEmbed(activePrevix));
+
             // If command present, display information
             embed.setDescription("Information about `" + route.name + "`")
-                .addField("Description", route.information)
-                .addField("Usage", route.inputs.join(", "));
-            await message.channel.sendMessage(embed);
-            return;
+                .addField("Description", route.description || route.information)
+                .addField("Command Aliases", route.inputs.join(", "))
+                .addField(null, "[Add Eutenly](https://eutenly.com/invite) \u2022 [Support Server](https://discord.gg/feE2vaR) \u2022 [Website](https://eutenly.com) \u2022 [Vote](https://discordbots.org/bot/733753582507261999) \u2022 [Voter Perks](https://eutenly.com/voter-perks)");
+
+            return message.channel.sendMessage(embed);
     }
 }
