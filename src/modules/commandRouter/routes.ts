@@ -1,11 +1,15 @@
 import Message from "../../classes/Message/Message";
 import evalCommand from "../eval";
 import githubCommand from "../github/main";
+import helpCommand from "../help";
 import infoCommand from "../info";
 import inviteCommand from "../invite";
 import moveCommand from "../move";
 import pageCommand from "../page";
 import pingCommand from "../ping";
+import removeCommand from "../remove";
+import saveCommand from "../save";
+import savedLinksCommand from "../savedLinks/main";
 import searchCommand from "../search/main";
 import spotifyCommand from "../spotify/main";
 import supportCommand from "../support";
@@ -90,6 +94,24 @@ export const routes: CommandRoute[] = [
         module: viewCommand
     },
     {
+        name: "Remove",
+        information: "Remove a saved link",
+        inputs: ["remove"],
+        module: removeCommand
+    },
+    {
+        name: "Saved Links",
+        information: "View your saved links",
+        inputs: ["savedlinks"],
+        module: savedLinksCommand
+    },
+    {
+        name: "Save",
+        information: "Save a link to view later",
+        inputs: ["save"],
+        module: saveCommand
+    },
+    {
         name: "Invite",
         information: "Get a link to add Eutenly to your server",
         inputs: ["invite"],
@@ -105,7 +127,14 @@ export const routes: CommandRoute[] = [
         name: "Eval",
         information: "Owner JavaScript Eval",
         inputs: ["eval"],
-        module: evalCommand
+        module: evalCommand,
+        private: true,
+    },
+    {
+        name: "Help",
+        information: "Help about eutenly",
+        inputs: ["help", "h", "?"],
+        module: helpCommand
     }
 ];
 
@@ -114,6 +143,7 @@ type CommandModule = (message: Message) => Promise<any>;
 export interface BaseCommand {
     inputs: string[];
     module: CommandModule;
+    private?: boolean;
 }
 
 export interface CommandRoute extends BaseCommand {

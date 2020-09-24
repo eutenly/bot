@@ -15,6 +15,7 @@ export default async function main(message: Message, artistID: string, artistNam
         metadata: {
             artistName
         },
+        url: url(artistID),
         getURL: (artistID: string = "", page: number = 1): string => `https://api.spotify.com/v1/artists/${artistID}/albums?include_groups=album,single&limit=5${page ? `&offset=${(page - 1) * 5}` : ""}`,
         connectionName: "spotify",
         fetch,
@@ -29,4 +30,9 @@ export default async function main(message: Message, artistID: string, artistNam
 
     // Search
     command.searchManager?.setPage(1);
+}
+
+export function url(artistID: string): string {
+
+    return `https://open.spotify.com/artist/${artistID}`;
 }

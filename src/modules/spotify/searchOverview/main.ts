@@ -15,6 +15,7 @@ export default async function main(message: Message, query: string, commandHisto
         metadata: {
             query
         },
+        url: url(query),
         getURL: (): string => `https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=track,artist,album&limit=5`,
         connectionName: "spotify",
         fetch,
@@ -35,4 +36,9 @@ export default async function main(message: Message, query: string, commandHisto
 
     // Send
     command.send(commandEmbed);
+}
+
+export function url(query: string): string {
+
+    return `eutenly://spotify/searchOverview?query=${encodeURIComponent(query)}`;
 }

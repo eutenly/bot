@@ -11,6 +11,7 @@ export default async function main(message: Message, name: string, type: string,
         name: "githubEvents",
         message,
         input: name,
+        url: url(name),
         getURL: (input: string = "", page: number = 1): string => `https://api.github.com/${type === "repo" ? `repos/${encodeURIComponent(name.split("/")[0])}/${encodeURIComponent(name.split("/")[1])}` : `users/${encodeURIComponent(name)}`}/events?per_page=5${page ? `&page=${page}` : ""}`,
         connectionName: "github",
         fetch,
@@ -24,4 +25,9 @@ export default async function main(message: Message, name: string, type: string,
 
     // Search
     command.searchManager?.setPage(1);
+}
+
+export function url(name: string): string {
+
+    return `https://github.com/${name}`;
 }

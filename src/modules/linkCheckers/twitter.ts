@@ -7,7 +7,7 @@ export default function twitter(input: string, linksOnly?: boolean): Function | 
 
     // Check if input is a tweet link
     const tweet = input.match(/twitter\.com\/(.+)\/status\/(.+)/);
-    if (tweet) return (message: Message) => twitterTweet(message, tweet[2]);
+    if (tweet) return (message: Message) => twitterTweet(message, tweet[2], tweet[1]);
 
     // Check if input is a user link
     const user = input.match(/twitter\.com\/(.+)/);

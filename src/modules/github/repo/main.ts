@@ -12,6 +12,7 @@ export default async function main(message: Message, ownerName: string, name: st
     const command: Command = new Command(message.client, {
         name: "githubRepo",
         message,
+        url: url(ownerName, name),
         getURL: (): string => `https://api.github.com/repos/${encodeURIComponent(ownerName)}/${encodeURIComponent(name)}`,
         connectionName: "github",
         fetch,
@@ -32,4 +33,9 @@ export default async function main(message: Message, ownerName: string, name: st
 
     // Send
     command.send(commandEmbed);
+}
+
+export function url(ownerName: string, name: string): string {
+
+    return `https://github.com/${ownerName}/${name}`;
 }

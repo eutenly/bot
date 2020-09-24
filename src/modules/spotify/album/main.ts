@@ -12,6 +12,7 @@ export default async function main(message: Message, albumID: string, commandHis
     const command: Command = new Command(message.client, {
         name: "spotifyAlbum",
         message,
+        url: url(albumID),
         getURL: (): string => `https://api.spotify.com/v1/albums/${encodeURIComponent(albumID)}`,
         connectionName: "spotify",
         fetch,
@@ -32,4 +33,9 @@ export default async function main(message: Message, albumID: string, commandHis
 
     // Send
     command.send(commandEmbed);
+}
+
+export function url(albumID: string): string {
+
+    return `https://open.spotify.com/album/${albumID}`;
 }

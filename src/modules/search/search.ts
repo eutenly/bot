@@ -13,6 +13,7 @@ export default async function search(message: Message, query: string, commandHis
         message,
         webScraper: true,
         input: query,
+        url: url(query),
         getURL: (query: string = "", page: number = 1): string => `https://google.com/search?q=${encodeURIComponent(query)}&num=5&start=${(page - 1) * 5}`,
         fetch,
         parser: parse,
@@ -22,4 +23,9 @@ export default async function search(message: Message, query: string, commandHis
 
     // Search
     command.searchManager?.setPage(1);
+}
+
+export function url(query: string): string {
+
+    return `eutenly://search?query=${encodeURIComponent(query)}`;
 }

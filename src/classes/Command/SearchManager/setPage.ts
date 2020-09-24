@@ -1,6 +1,4 @@
-import fetch, { Headers, Response } from "node-fetch";
 import Embed from "../../Embed/Embed";
-import { Connection } from "../../User/User";
 import { ParserData } from "../Command";
 import SearchManager from "./SearchManager";
 

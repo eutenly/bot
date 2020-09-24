@@ -15,6 +15,7 @@ export default async function main(message: Message, user: string, type: string 
         metadata: {
             type
         },
+        url: url(user),
         getURL: (user: string = "", page: number = 1): string => `https://api.github.com/users/${encodeURIComponent(user)}/${type}?per_page=5${page ? `&page=${page}` : ""}`,
         connectionName: "github",
         fetch,
@@ -29,4 +30,9 @@ export default async function main(message: Message, user: string, type: string 
 
     // Search
     command.searchManager?.setPage(1);
+}
+
+export function url(user: string): string {
+
+    return `https://github.com/${user}?tab=repositories`;
 }

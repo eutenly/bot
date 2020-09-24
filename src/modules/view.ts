@@ -1,4 +1,4 @@
-import Command from "../classes/Command/Command";
+import Command, { ViewData } from "../classes/Command/Command";
 import Message from "../classes/Message/Message";
 
 export default async function view(message: Message) {
@@ -16,5 +16,9 @@ export default async function view(message: Message) {
     else data = command.searchManager?.cache.get(command.searchManager.page || 0);
 
     // Run module
-    command.view(data, message, command);
+    const viewData: ViewData | undefined = command.view(data, message, command);
+    if (!viewData) return;
+
+    if (viewData.error) message.channel.sendMessage(viewData.error);
+    else if (viewData.module) viewData.module();
 }

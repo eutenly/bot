@@ -11,6 +11,7 @@ export default async function main(message: Message, channelID: string, commandH
         name: "youtubeVideos",
         message,
         input: channelID,
+        url: url(channelID),
         orderedPages: true,
         getData: async (channelID?: string, page?: number, nextPageToken?: string): Promise<any> => await message.client.youtube.search.list({
             part: ["snippet"],
@@ -26,4 +27,9 @@ export default async function main(message: Message, channelID: string, commandH
 
     // Search
     command.searchManager?.setPage(1);
+}
+
+export function url(channelID: string): string {
+
+    return `https://youtube.com/channel/${channelID}/videos`;
 }

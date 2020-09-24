@@ -3,6 +3,7 @@ import Client from "../Client/Client";
 import Command from "../Command/Command";
 import Message from "../Message/Message";
 import getConnection from "./getConnection";
+import getData from "./getData";
 
 export type RunCommand = (message: Message, commandHistoryIndex: number) => void;
 
@@ -76,6 +77,9 @@ export default class User {
 
     // Get the DM channel with this user
     getDMChannel = (): Promise<Channel> => this.client.getDMChannel(this.id);
+
+    // Get data
+    getData = (upsert?: boolean) => getData(this, upsert);
 
     // Get a connection
     getConnection = (name: string) => getConnection(this, name);

@@ -17,6 +17,7 @@ export default async function main(message: Message, ownerName: string, name: st
             name,
             path
         },
+        url: url(ownerName, name, path),
         getURL: (input: string = ""): string => `https://api.github.com/repos/${encodeURIComponent(ownerName)}/${encodeURIComponent(name)}/contents${path ? `/${path}` : ""}`,
         connectionName: "github",
         fetch,
@@ -32,4 +33,9 @@ export default async function main(message: Message, ownerName: string, name: st
 
     // Search
     command.searchManager?.setPage(1);
+}
+
+export function url(ownerName: string, name: string, path?: string): string {
+
+    return `https://github.com/${ownerName}/${name}/tree/master${path ? `/${path}` : ""}`;
 }

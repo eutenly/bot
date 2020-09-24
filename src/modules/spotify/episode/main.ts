@@ -13,6 +13,7 @@ export default async function main(message: Message, episodeID: string, commandH
     const command: Command = new Command(message.client, {
         name: "spotifyEpisode",
         message,
+        url: url(episodeID),
         getURL: (): string => `https://api.spotify.com/v1/episodes/${encodeURIComponent(episodeID)}`,
         connectionName: "spotify",
         fetch,
@@ -41,4 +42,9 @@ export default async function main(message: Message, episodeID: string, commandH
 
     // Send
     command.send(commandEmbed);
+}
+
+export function url(episodeID: string): string {
+
+    return `https://open.spotify.com/episode/${episodeID}`;
 }

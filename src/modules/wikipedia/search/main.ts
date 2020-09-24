@@ -12,6 +12,7 @@ export default async function main(message: Message, query: string, commandHisto
         name: "wikipediaSearch",
         message,
         input: query,
+        url: url(query),
         getURL: (query: string = "", page: number = 1): string => `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(query)}&format=json&srlimit=5&sroffset=${(page - 1) * 5}`,
         fetch,
         parser: parse,
@@ -25,4 +26,9 @@ export default async function main(message: Message, query: string, commandHisto
 
     // Search
     command.searchManager?.setPage(1);
+}
+
+export function url(query: string): string {
+
+    return `eutenly://wikipedia/search?query=${encodeURIComponent(query)}`;
 }

@@ -1,9 +1,9 @@
-import { ViewData } from "../../../classes/Command/Command";
-import Message from "../../../classes/Message/Message";
-import album, { url as albumURL } from "../album/main";
-import { SpotifyAlbum } from "./parse";
+import { ViewData } from "../../classes/Command/Command";
+import Message from "../../classes/Message/Message";
+import { SavedLink } from "../../models/users";
+import website from "../website/website";
 
-export default function view(data: SpotifyAlbum[], message: Message): ViewData | undefined {
+export default function view(data: SavedLink[], message: Message): ViewData | undefined {
 
     // Get params
     const input: string = message.content.split(" ").slice(1).join(" ");
@@ -14,12 +14,11 @@ export default function view(data: SpotifyAlbum[], message: Message): ViewData |
     if ((!resultNumber) || (resultNumber < 1)) return { error: ":x:  **|  That result number is invalid**" };
 
     // Get result
-    const result: SpotifyAlbum = data[resultNumber - 1];
+    const result: SavedLink = data[resultNumber - 1];
     if (!result) return { error: ":x:  **|  That result number is invalid**" };
 
-    // View album
+    // View website
     return {
-        module: () => album(message, result.id),
-        url: albumURL(result.id)
+        module: () => website(message, result.url)
     };
 }

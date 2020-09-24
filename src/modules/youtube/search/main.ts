@@ -11,6 +11,7 @@ export default async function main(message: Message, query: string, commandHisto
         name: "youtubeSearch",
         message,
         input: query,
+        url: url(query),
         orderedPages: true,
         getData: async (query?: string, page?: number, nextPageToken?: string): Promise<any> => await message.client.youtube.search.list({
             part: ["snippet"],
@@ -24,4 +25,9 @@ export default async function main(message: Message, query: string, commandHisto
 
     // Search
     command.searchManager?.setPage(1);
+}
+
+export function url(query: string): string {
+
+    return `eutenly://youtube/search?query=${encodeURIComponent(query)}`;
 }

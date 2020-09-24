@@ -27,6 +27,7 @@ export default async function main(message: Message, commandHistoryIndex?: numbe
     const command: Command = new Command(message.client, {
         name: "twitterHome",
         message,
+        url: url(),
         getURL: (input?: string, page?: number, nextPageToken?: string, user?: User): string => `https://api.twitter.com/1.1/statuses/user_timeline.json?user_id=${user?.connections["twitter"]?.id}&tweet_mode=extended&count=5`,
         getExtraData: [(): string => "https://api.twitter.com/1.1/statuses/home_timeline.json?tweet_mode=extended&count=5"],
         connectionName: "twitter",
@@ -49,4 +50,9 @@ export default async function main(message: Message, commandHistoryIndex?: numbe
 
     // Send
     command.send(commandEmbed);
+}
+
+export function url(): string {
+
+    return "eutenly://twitter";
 }

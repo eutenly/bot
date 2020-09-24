@@ -12,6 +12,7 @@ export default async function main(message: Message, query: string, commandHisto
         name: "githubSearch",
         message,
         input: query,
+        url: url(query),
         getURL: (query: string = "", page: number = 1): string => `https://api.github.com/search/repositories?q=${encodeURIComponent(query)}&per_page=5${page ? `&page=${page}` : ""}`,
         connectionName: "github",
         fetch,
@@ -26,4 +27,9 @@ export default async function main(message: Message, query: string, commandHisto
 
     // Search
     command.searchManager?.setPage(1);
+}
+
+export function url(query: string): string {
+
+    return `eutenly://github/search?query=${encodeURIComponent(query)}`;
 }

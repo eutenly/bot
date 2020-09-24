@@ -6,9 +6,6 @@ import Message from "../classes/Message/Message";
 
 export default async function (message: Message) {
 
-    // Ignore non owners
-    if ((!process.env.OWNERS) || (!process.env.OWNERS.split(",").includes(message.author.id))) return;
-
     // Get code
     const code = message.content.split("eval").slice(1).join("eval");
 

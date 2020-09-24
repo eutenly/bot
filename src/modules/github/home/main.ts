@@ -27,6 +27,7 @@ export default async function main(message: Message, commandHistoryIndex?: numbe
     const command: Command = new Command(message.client, {
         name: "githubHome",
         message,
+        url: url(),
         getURL: (): string => "https://api.github.com/user",
         getExtraData: [
             (): string => "https://api.github.com/user/subscriptions?per_page=5",
@@ -53,4 +54,9 @@ export default async function main(message: Message, commandHistoryIndex?: numbe
 
     // Send
     command.send(commandEmbed);
+}
+
+export function url(): string {
+
+    return "eutenly://github";
 }

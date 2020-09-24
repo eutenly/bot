@@ -11,6 +11,7 @@ export default async function main(message: Message, channelID: string, commandH
     const command: Command = new Command(message.client, {
         name: "youtubeChannel",
         message,
+        url: url(channelID),
         getData: async (): Promise<any> => await message.client.youtube.channels.list({
             part: ["snippet", "statistics"],
             id: [channelID]
@@ -28,4 +29,9 @@ export default async function main(message: Message, channelID: string, commandH
 
     // Send
     command.send(commandEmbed);
+}
+
+export function url(channelID: string): string {
+
+    return `https://youtube.com/channel/${channelID}`;
 }

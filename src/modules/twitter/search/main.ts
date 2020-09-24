@@ -12,6 +12,7 @@ export default async function main(message: Message, query: string, commandHisto
         name: "twitterSearch",
         message,
         input: query,
+        url: url(query),
         orderedPages: true,
         getURL: (query: string = "", page?: number, nextPageToken?: string): string => `https://api.twitter.com/1.1/search/tweets.json?q=${encodeURIComponent(query)}&count=5&result_type=popular&tweet_mode=extended${nextPageToken ? `&max_id=${nextPageToken}` : ""}`,
         connectionName: "twitter",
@@ -27,4 +28,9 @@ export default async function main(message: Message, query: string, commandHisto
 
     // Search
     command.searchManager?.setPage(1);
+}
+
+export function url(query: string): string {
+
+    return `eutenly://twitter/search?query=${encodeURIComponent(query)}`;
 }

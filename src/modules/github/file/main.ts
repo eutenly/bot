@@ -16,6 +16,7 @@ export default async function main(message: Message, ownerName: string, name: st
             ownerName,
             name
         },
+        url: url(ownerName, name, path),
         getURL: (): string => `https://api.github.com/repos/${encodeURIComponent(ownerName)}/${encodeURIComponent(name)}/contents/${path}`,
         connectionName: "github",
         fetch,
@@ -36,4 +37,9 @@ export default async function main(message: Message, ownerName: string, name: st
 
     // Send
     command.send(commandEmbed);
+}
+
+export function url(ownerName: string, name: string, path: string): string {
+
+    return `https://github.com/${ownerName}/${name}/blob/master/${path}`;
 }

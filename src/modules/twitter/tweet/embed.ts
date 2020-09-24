@@ -33,7 +33,7 @@ export default function embed(command: Command, data?: TwitterTweet): Embed {
         .addField("User", `View info about the person who sent this tweet with the \`${prefix}view user\` command`)
         .setImage(data.image);
 
-    if (data.quotedTweetID) embed.addField("Quoted Tweet", `View the quoted tweet with the \`${prefix}view quoted tweet\` command`);
+    if (data.quotedTweet) embed.addField("Quoted Tweet", `View the quoted tweet with the \`${prefix}view quoted tweet\` command`);
 
     // Return
     return embed;

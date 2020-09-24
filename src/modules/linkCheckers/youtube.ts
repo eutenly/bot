@@ -2,6 +2,7 @@ import Message from "../../classes/Message/Message";
 import youtubeChannel from "../youtube/channel/main";
 import youtubePlaylist from "../youtube/playlist/main";
 import youtubeVideo from "../youtube/video/main";
+import youtubeVideos from "../youtube/videos/main";
 
 export default function youtube(input: string): Function | undefined {
 
@@ -16,4 +17,8 @@ export default function youtube(input: string): Function | undefined {
     // Check if input is a playlist link
     const playlist = input.match(/youtube\.com\/playlist\?list=(.+)/);
     if (playlist) return (message: Message) => youtubePlaylist(message, playlist[1]);
+
+    // Check if input is a videos link
+    const videos = input.match(/youtube\.com\/channel\/(.+)\/videos/);
+    if (videos) return (message: Message) => youtubeVideos(message, videos[1]);
 }

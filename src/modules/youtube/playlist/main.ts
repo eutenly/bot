@@ -11,6 +11,7 @@ export default async function main(message: Message, playlistID: string, command
     const command: Command = new Command(message.client, {
         name: "youtubePlaylist",
         message,
+        url: url(playlistID),
         getData: async (): Promise<any> => await message.client.youtube.playlists.list({
             part: ["snippet", "contentDetails"],
             id: [playlistID]
@@ -28,4 +29,9 @@ export default async function main(message: Message, playlistID: string, command
 
     // Send
     command.send(commandEmbed);
+}
+
+export function url(playlistID: string): string {
+
+    return `https://youtube.com/playlist?list=${playlistID}`;
 }

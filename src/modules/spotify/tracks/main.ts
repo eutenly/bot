@@ -16,6 +16,7 @@ export default async function main(message: Message, itemID: string, itemName: s
             type,
             itemName
         },
+        url: url(itemID, type),
         getURL: (itemID: string = "", page: number = 1): string => `https://api.spotify.com/v1/${type === "album" ? "albums" : "playlists"}/${itemID}/tracks?limit=5${page ? `&offset=${(page - 1) * 5}` : ""}`,
         connectionName: "spotify",
         fetch,
@@ -30,4 +31,9 @@ export default async function main(message: Message, itemID: string, itemName: s
 
     // Search
     command.searchManager?.setPage(1);
+}
+
+export function url(itemID: string, type: string): string {
+
+    return `https://open.spotify.com/${type}/${itemID}`;
 }

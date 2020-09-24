@@ -12,6 +12,7 @@ export default async function main(message: Message, userID: string, commandHist
         name: "twitterTimeline",
         message,
         input: userID,
+        url: url(userID),
         orderedPages: true,
         getURL: (userID: string = "", page?: number, nextPageToken?: string): string => `https://api.twitter.com/1.1/statuses/${userID === "home" ? "home" : "user"}_timeline.json?${userID === "home" ? "" : `user_id=${encodeURIComponent(userID)}&`}count=50&tweet_mode=extended${nextPageToken ? `&max_id=${nextPageToken}` : ""}`,
         connectionName: "twitter",
@@ -28,4 +29,9 @@ export default async function main(message: Message, userID: string, commandHist
 
     // Search
     command.searchManager?.setPage(1);
+}
+
+export function url(userID: string): string {
+
+    return `eutenly://twitter/timeline/${userID}`;
 }
