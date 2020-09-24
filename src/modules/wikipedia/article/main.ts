@@ -11,6 +11,7 @@ export default async function main(message: Message, title: string, commandHisto
     const command: Command = new Command(message.client, {
         name: "wikipediaArticle",
         message,
+        url: url(title),
         getURL: (): string => `https://en.wikipedia.org/w/api.php?action=parse&format=json&page=${encodeURIComponent(title)}&redirects=true`,
         fetch,
         parser: parse,
@@ -25,4 +26,9 @@ export default async function main(message: Message, title: string, commandHisto
 
     // Send
     command.send(commandEmbed);
+}
+
+export function url(title: string): string {
+
+    return `https://en.wikipedia.org/wiki/${encodeURIComponent(title)}`;
 }
