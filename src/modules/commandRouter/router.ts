@@ -24,9 +24,13 @@ export default function routeMessage(message: Message) {
     if (!route) return;
 
     // Check for private commands
-    if (route.private) {
-        if ((!process.env.OWNERS) || (!process.env.OWNERS.split(",").includes(message.author.id))) return;
-    }
+    if (
+        route.private &&
+        (
+            !process.env.OWNERS ||
+            !process.env.OWNERS.split(",").includes(message.author.id)
+        )
+    ) return;
 
     // Get input
     const input = route.inputs.find((routeInput: string) => requestedCommand.startsWith(routeInput));
