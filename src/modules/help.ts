@@ -13,7 +13,8 @@ export default async function (message: Message) {
     // Embed
     const embed: Embed = new Embed()
         .setTitle("Eutenly Help Center")
-        .setColor(0x820020);
+        .setColor(0xf40b3d)
+        .setBranding();
 
     // Switch for amount of arguments
     switch (args.length) {
@@ -27,7 +28,9 @@ export default async function (message: Message) {
                 embed.addField(activePrevix + route.inputs[0], `**${route.name}:** ${route.information}`);
             });
 
-            embed.addField("Learn more about a command", "Run `" + activePrevix + "help <command>`");
+            embed
+                .addField("Learn more about a command", "Run `" + activePrevix + "help <command>`")
+                .addField(null, "[Add Eutenly](https://eutenly.com/invite) \u2022 [Support Server](https://discord.gg/feE2vaR) \u2022 [Website](https://eutenly.com) \u2022 [Vote](https://discordbots.org/bot/733753582507261999) \u2022 [Voter Perks](https://eutenly.com/voter-perks)");
 
             await message.channel.sendMessage(embed);
             return;
@@ -48,8 +51,9 @@ export default async function (message: Message) {
             // If command present, display information
             embed.setDescription("Information about `" + route.name + "`")
                 .addField("Description", route.information)
-                .addField("Usage", route.inputs.join(", "));
-            await message.channel.sendMessage(embed);
-            return;
+                .addField("Usage", route.inputs.join(", "))
+                .addField(null, "[Add Eutenly](https://eutenly.com/invite) \u2022 [Support Server](https://discord.gg/feE2vaR) \u2022 [Website](https://eutenly.com) \u2022 [Vote](https://discordbots.org/bot/733753582507261999) \u2022 [Voter Perks](https://eutenly.com/voter-perks)");
+
+            return message.channel.sendMessage(embed);
     }
 }
