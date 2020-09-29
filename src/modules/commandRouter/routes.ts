@@ -8,6 +8,8 @@ import inviteCommand from "../invite";
 import moveCommand from "../move";
 import pageCommand from "../page";
 import pingCommand from "../ping";
+import redditHelpEmbed from "../reddit/helpEmbed";
+import redditCommand from "../reddit/main";
 import removeCommand from "../remove";
 import saveCommand from "../save";
 import savedLinksCommand from "../savedLinks/main";
@@ -68,6 +70,13 @@ export const routes: CommandRoute[] = [
         inputs: ["twitter"],
         module: twitterCommand,
         helpEmbed: twitterHelpEmbed
+    },
+    {
+        name: "Reddit",
+        information: "Search Reddit",
+        inputs: ["reddit"],
+        module: redditCommand,
+        helpEmbed: redditHelpEmbed
     },
     {
         name: "Spotify",
@@ -166,6 +175,6 @@ export interface BaseCommand {
 export interface CommandRoute extends BaseCommand {
     name: string;
     information: string;
-    description?: string,
+    description?: string;
     helpEmbed?: Function;
 }
