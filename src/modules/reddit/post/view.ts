@@ -15,8 +15,8 @@ export default function view(data: RedditPost | undefined, message: Message): Vi
 
     // Subreddit
     if (input.toLowerCase().replace(/\s+/g, "") === "subreddit") return {
-        module: () => subreddit(message, data.subreddit.id),
-        url: subredditURL(data.subreddit.id)
+        module: () => subreddit(message, data.subredditName),
+        url: subredditURL(data.subredditName)
     };
 
     // User

@@ -10,7 +10,6 @@ export interface RedditSearchResult {
     awards: number;
     nsfw: boolean;
     spoiler: boolean;
-    linkPath: string;
     user: string;
 }
 
@@ -31,7 +30,6 @@ export default function parse(data?: any): ParserData {
             awards: d.data.total_awards_received,
             nsfw: d.data.over_18,
             spoiler: d.data.spoiler,
-            linkPath: d.data.permalink,
             user: d.data.author
         })),
         nextPageToken: data.data.after

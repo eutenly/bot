@@ -1,10 +1,5 @@
 import { ParserData } from "../../../classes/Command/Command";
 
-interface RedditSubreddit {
-    id: string;
-    name: string;
-}
-
 interface RedditUser {
     id: string;
     name: string;
@@ -14,7 +9,7 @@ export interface RedditPost {
     id: string;
     title: string;
     text: string;
-    subreddit: RedditSubreddit;
+    subredditName: string;
     score: number;
     comments: number;
     awards: number;
@@ -40,10 +35,7 @@ export default function parse(data: any): ParserData {
             id: result.data.name.split("_")[1],
             title: result.data.title,
             text: result.data.selftext,
-            subreddit: {
-                id: result.data.subreddit_id.split("_")[1],
-                name: result.data.subreddit
-            },
+            subredditName: result.data.subreddit,
             score: result.data.score,
             comments: result.data.num_comments,
             awards: result.data.total_awards_received,
