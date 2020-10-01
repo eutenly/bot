@@ -1,10 +1,5 @@
 import { ParserData } from "../../../classes/Command/Command";
 
-interface RedditUser {
-    id: string;
-    name: string;
-}
-
 export interface RedditPost {
     id: string;
     title: string;
@@ -16,7 +11,7 @@ export interface RedditPost {
     nsfw: boolean;
     spoiler: boolean;
     linkPath: string;
-    user: RedditUser;
+    user: string;
     image?: string;
     postedAt: number;
 }
@@ -42,10 +37,7 @@ export default function parse(data: any): ParserData {
             nsfw: result.data.over_18,
             spoiler: result.data.spoiler,
             linkPath: result.data.permalink,
-            user: {
-                id: result.data.author_fullname.split("_")[1],
-                name: result.data.author
-            },
+            user: result.data.author,
             image: result.data.preview?.images[0]?.source.url,
             postedAt: result.data.created * 1000
         }

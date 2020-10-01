@@ -21,8 +21,8 @@ export default function view(data: RedditPost | undefined, message: Message): Vi
 
     // User
     else if (input.toLowerCase().replace(/\s+/g, "") === "user") return {
-        module: () => user(message, data.user.id),
-        url: userURL(data.user.id)
+        module: () => user(message, data.user),
+        url: userURL(data.user)
     };
 
     // Invalid type
