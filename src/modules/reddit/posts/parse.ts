@@ -22,8 +22,8 @@ export default function parse(data?: any): ParserData {
     return {
         data: data.data.children.slice(0, 5).map((d: any) => ({
             id: d.data.name.split("_")[1],
-            title: d.data.title || d.data.link_title,
-            text: d.data.selftext || d.data.body,
+            title: d.data.title,
+            text: d.data.selftext,
             subredditName: d.data.subreddit,
             score: d.data.score,
             comments: d.data.num_comments,
