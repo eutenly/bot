@@ -29,7 +29,7 @@ export default function view(data: RedditUser | undefined, message: Message): Vi
 
     // Run module
     return {
-        module: () => post(message, postResult.id, data.name),
+        module: () => post(message, postResult.id, postResult.subredditName),
         url: postURL(postResult.id, data.name)
     };
 }

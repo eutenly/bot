@@ -3,6 +3,7 @@ import { ParserData } from "../../../classes/Command/Command";
 export interface RedditPost {
     id: string;
     title: string;
+    subredditName: string;
     score: number;
 }
 
@@ -41,6 +42,7 @@ export default function parse(data: any, extraData?: any[]): ParserData {
             posts: postsData.data.children.slice(0, 5).map((d: any) => ({
                 id: d.data.name.split("_")[1],
                 title: d.data.title,
+                subredditName: d.data.subreddit,
                 score: d.data.score
             })),
             createdAt: data.data.created * 1000
