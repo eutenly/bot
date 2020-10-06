@@ -21,10 +21,10 @@ export default function embed(command: Command, data?: RedditPost): Embed {
 
     // Build embed
     embed
-        .setAuthor(`${data.title.substring(0, 50)}${data.title.length > 50 ? "..." : ""}`, "https://i.imgur.com/YKUi7bl.png", `http://reddit.com/r/${data.subredditName}/comments/${data.id}`)
+        .setAuthor(`${data.title.substring(0, 50)}${data.title.length > 50 ? "..." : ""}`, "https://i.imgur.com/YKUi7bl.png", `https://reddit.com/r/${data.subredditName}/comments/${data.id}`)
         .setDescription(`${(data.nsfw || data.spoiler) ? "||" : ""}${data.text.substring(0, 500)}${data.text.length > 500 ? "..." : ""}${(data.nsfw || data.spoiler) ? "||" : ""}`)
         .addField(null, null, true)
-        .addField("Link", `[reddit.com...](http://reddit.com/r/${data.subredditName}/comments/${data.id})`, true)
+        .addField("Link", `[reddit.com...](https://reddit.com/r/${data.subredditName}/comments/${data.id})`, true)
         .addField(null, null, true)
         .addField("Comments", data.comments.toLocaleString(), true)
         .addField("Score", data.score.toLocaleString(), true)

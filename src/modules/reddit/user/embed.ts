@@ -21,14 +21,14 @@ export default function embed(command: Command, data?: RedditUser): Embed {
 
     // Build embed
     embed
-        .setAuthor(`u/${data.name}`, "https://i.imgur.com/YKUi7bl.png", `http://reddit.com/u/${data.name}`)
+        .setAuthor(`u/${data.name}`, "https://i.imgur.com/YKUi7bl.png", `https://reddit.com/u/${data.name}`)
         .setDescription(data.bio)
         .addField(null, null, true)
-        .addField("Link", `[reddit.com...](http://reddit.com/u/${data.name})`, true)
+        .addField("Link", `[reddit.com...](https://reddit.com/u/${data.name})`, true)
         .addField(null, null, true)
         .addField("Karma", `Post Karma: **${data.postKarma.toLocaleString()}**\nComment Karma: **${data.commentKarma.toLocaleString()}**\nAwardee Karma: **${data.awardeeKarma.toLocaleString()}**\nAwarder Karma: **${data.awarderKarma.toLocaleString()}**\n**Total Karma: ${data.totalKarma.toLocaleString()}**`, true)
         .addField("Has Gold", data.hasGold ? "Yes" : "No", true)
-        .addField("Posts", `${data.posts.map((p: RedditPost, i: number) => `**p-${i + 1}. [${p.title.substring(0, 35)}${p.title.length > 35 ? "..." : ""}](http://reddit.com/r/${data.name}/comments/${p.id})** - ${p.score.toLocaleString()} Point${p.score === 1 ? "" : "s"}`).join("\n")}\n\n\u2022 Use \`${prefix}view <Post Number>\` to view a post\n\u2022 Use \`${prefix}view posts\` to view more posts`)
+        .addField("Posts", `${data.posts.map((p: RedditPost, i: number) => `**p-${i + 1}. [${p.title.substring(0, 35)}${p.title.length > 35 ? "..." : ""}](https://reddit.com/r/${data.name}/comments/${p.id})** - ${p.score.toLocaleString()} Point${p.score === 1 ? "" : "s"}`).join("\n")}\n\n\u2022 Use \`${prefix}view <Post Number>\` to view a post\n\u2022 Use \`${prefix}view posts\` to view more posts`)
         .addField("Created", parseDate(data.createdAt));
 
     // Return
