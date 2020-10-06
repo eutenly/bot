@@ -15,8 +15,8 @@ export default function view(data: RedditUser | undefined, message: Message): Vi
 
     // Posts
     if (input.toLowerCase().replace(/\s+/g, "") === "posts") return {
-        module: () => posts(message, data.name),
-        url: postsURL(data.name)
+        module: () => posts(message, data.name, "user"),
+        url: postsURL(data.name, "user")
     };
 
     // Get post number

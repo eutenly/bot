@@ -12,6 +12,8 @@ export default async function main(message: Message, query: string, commandHisto
         name: "redditSearch",
         message,
         input: query,
+        url: url(query),
+        orderedPages: true,
         getURL: (query: string = "", page?: number, nextPageToken?: string): string => `https://oauth.reddit.com/search?q=${encodeURIComponent(query)}&raw_json=1&limit=5${nextPageToken ? `&after=${nextPageToken}` : ""}`,
         connectionName: "reddit",
         fetch,
