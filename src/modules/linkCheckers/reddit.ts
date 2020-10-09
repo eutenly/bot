@@ -1,4 +1,5 @@
 import Message from "../../classes/Message/Message";
+import redditFeed from "../reddit/feed/main";
 import redditPost from "../reddit/post/main";
 import redditPosts from "../reddit/posts/main";
 import redditSubreddit from "../reddit/subreddit/main";
@@ -31,5 +32,8 @@ export default function reddit(input: string, linksOnly?: boolean): Function | u
         // Check if input is a u/user
         const username = input.match(/r\/(.+)/);
         if (username) return (message: Message) => redditSubreddit(message, username[1]);
+
+        // Check if input is feed
+        if (input.toLowerCase().replace(/\s+/g, "") === "feed") return (message: Message) => redditFeed(message);
     }
 }

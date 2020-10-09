@@ -1,6 +1,5 @@
 import { ViewData } from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
-import feed, { url as feedURL } from "../feed/main";
 import post, { url as postURL } from "../post/main";
 import posts, { url as postsURL } from "../posts/main";
 import { RedditHome, RedditPost } from "./parse";
@@ -18,12 +17,6 @@ export default function view(data: RedditHome | undefined, message: Message): Vi
     if (input.toLowerCase().replace(/\s+/g, "") === "posts") return {
         module: () => posts(message, data.name, "user"),
         url: postsURL(data.name, "user")
-    };
-
-    // Feed
-    if (input.toLowerCase().replace(/\s+/g, "") === "feed") return {
-        module: () => feed(message),
-        url: feedURL()
     };
 
     // Get item type
