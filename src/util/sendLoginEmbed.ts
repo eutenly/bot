@@ -11,12 +11,14 @@ export default async function sendLoginEmbed(message: Message, connectionName: s
     if (connectionName === "twitter") name = "Twitter";
     else if (connectionName === "github") name = "GitHub";
     else if (connectionName === "spotify") name = "Spotify";
+    else if (connectionName === "reddit") name = "Reddit";
 
     // Get color
     let color: number | undefined;
     if (connectionName === "twitter") color = 0x1da1f2;
     else if (connectionName === "github") color = 0x000000;
     else if (connectionName === "spotify") color = 0x1ed760;
+    else if (connectionName === "reddit") color = 0xff3f18;
 
     // Embed
     const embed = new Embed()

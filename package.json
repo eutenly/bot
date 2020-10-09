@@ -8,7 +8,7 @@
     "license": "Private",
     "private": true,
     "scripts": {
-        "dev": "echo \"Building...\" && tsc && echo \"Running...\" && node out/index.js",
+        "dev": "echo \"Building...\"; tsc; echo \"Running...\"; node out/index.js",
         "build": "echo \"Building...\" && tsc",
         "start": "node out/index.js"
     },

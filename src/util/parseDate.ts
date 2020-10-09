@@ -1,9 +1,9 @@
 import moment, { Moment } from "moment";
 
-export default function parseDate(input: string): string {
+export default function parseDate(input: string | number): string {
 
     // Create date object
-    const date: Moment = moment(new Date(input.toString()));
+    const date: Moment = moment(new Date(input));
 
     // Get absolute time
     const absoluteTime: string = date.format("ddd, MMM Do, YYYY, [at] h:mm:ss A");
