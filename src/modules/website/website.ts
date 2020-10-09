@@ -55,7 +55,7 @@ export default async function website(message: Message, url: string) {
     const iconImage: Response = await fetch(icon);
 
     // Set icon url
-    icon = `https://imageproxy.eutenly.com/ico?url=${encodeURIComponent(iconImage.url)}`;
+    icon = `https://res.cloudinary.com/eutenly/image/fetch/f_auto,w_100/${iconImage.url}`;
 
     // No image
     if (!iconImage.ok) icon = null;
