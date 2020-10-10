@@ -7,8 +7,8 @@ export default async function serverJoin(guild: Guild) {
     // Get data
     const data = await Data.findOne();
 
-    // Server blacklisted
-    if (data?.blacklistedServers?.find((s) => s.id === guild.id)) return;
+    // Server blocklisted
+    if (data?.blocklistedServers?.find((s) => s.id === guild.id)) return;
 
     // Server join/leave embed
     const joinLeaveEmbed: Embed = new Embed()
