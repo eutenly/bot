@@ -1,5 +1,6 @@
 import { EventEmitter } from "events";
 import { google, youtube_v3 } from "googleapis";
+import { InfluxDB } from "influx";
 import mongoose from "mongoose";
 import { RequestInit } from "node-fetch";
 import { Terminal } from "terminal-kit";
@@ -10,11 +11,13 @@ import FetchQueue from "../FetchQueue/FetchQueue";
 import Guild from "../Guild/Guild";
 import User from "../User/User";
 import RateLimit from "../common/RateLimit";
+import connectInfluxDB from "./connectInfluxDB";
 import connectMongoDB from "./connectMongoDB";
 import fetch from "./fetch";
 import activateGarbageCollection from "./garbageCollector";
 import getDMChannel from "./getDMChannel";
 import leaveGuild from "./leaveGuild";
+import resourceUsage from "./resourceUsage";
 
 export interface ServerData {
     prefix?: string;
@@ -50,6 +53,9 @@ export default class Client extends EventEmitter {
     id: string;
     avatarURL: string;
     sessionID: string | undefined;
+
+    // The InfluxDB connection
+    influxDB: InfluxDB;
 
     // Whether or not the client is ready to handle events from Discord
     ready: boolean;
@@ -131,11 +137,17 @@ export default class Client extends EventEmitter {
         // Connect to MongoDB
         await connectMongoDB();
 
+        // Connect to InfluxDB
+        connectInfluxDB(this);
+
         // Activate the Garbage Collector
         activateGarbageCollection(this);
 
         // Connect to Discord
         connect(this);
+
+        // Resource usage
+        resourceUsage(this);
     };
 
     // Update the sequence

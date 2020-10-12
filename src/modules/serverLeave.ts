@@ -1,6 +1,7 @@
 import Embed from "../classes/Embed/Embed";
 import Guild from "../classes/Guild/Guild";
 import { Data } from "../models";
+import collectStat from "../util/collectStat";
 
 export default async function serverJoin(guild: Guild) {
 
@@ -9,6 +10,17 @@ export default async function serverJoin(guild: Guild) {
 
     // Server blocklisted
     if (data?.blocklistedServers?.find((s) => s.id === guild.id)) return;
+
+    // Collect stats
+    collectStat(guild.client, {
+        measurement: "server_join_leaves",
+        tags: {
+            type: "leave"
+        },
+        fields: {
+            totalServers: guild.client.guilds.size
+        }
+    });
 
     // Server join/leave embed
     const joinLeaveEmbed: Embed = new Embed()

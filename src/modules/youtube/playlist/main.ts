@@ -5,11 +5,12 @@ import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
 
-export default async function main(message: Message, playlistID: string, commandHistoryIndex?: number) {
+export default async function main(message: Message, playlistID: string, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Create command
     const command: Command = new Command(message.client, {
-        name: "youtubePlaylist",
+        name: "playlist",
+        type: "youtube",
         message,
         url: url(playlistID),
         getData: async (): Promise<any> => await message.client.youtube.playlists.list({
@@ -29,6 +30,9 @@ export default async function main(message: Message, playlistID: string, command
 
     // Send
     command.send(commandEmbed);
+
+    // Return
+    return command;
 }
 
 export function url(playlistID: string): string {

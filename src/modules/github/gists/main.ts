@@ -5,11 +5,12 @@ import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
 
-export default async function main(message: Message, name: string, commandHistoryIndex?: number) {
+export default async function main(message: Message, name: string, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Create command
     const command: Command = new Command(message.client, {
-        name: "githubGists",
+        name: "gists",
+        type: "github",
         message,
         input: name,
         metadata: {
@@ -30,6 +31,9 @@ export default async function main(message: Message, name: string, commandHistor
 
     // Search
     command.searchManager?.setPage(1);
+
+    // Return
+    return command;
 }
 
 export function url(name: string): string {

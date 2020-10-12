@@ -5,11 +5,12 @@ import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
 
-export default async function main(message: Message, commandHistoryIndex?: number) {
+export default async function main(message: Message, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Create command
     const command: Command = new Command(message.client, {
-        name: "redditFeed",
+        name: "feed",
+        type: "reddit",
         message,
         input: "feed",
         url: url(),
@@ -28,6 +29,9 @@ export default async function main(message: Message, commandHistoryIndex?: numbe
 
     // Search
     command.searchManager?.setPage(1);
+
+    // Return
+    return command;
 }
 
 export function url(): string {

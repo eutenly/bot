@@ -5,11 +5,12 @@ import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
 
-export default async function main(message: Message, itemID: string, itemName: string, type: string, commandHistoryIndex?: number) {
+export default async function main(message: Message, itemID: string, itemName: string, type: string, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Create command
     const command: Command = new Command(message.client, {
-        name: "spotifyTracks",
+        name: "tracks",
+        type: "spotify",
         message,
         input: itemID,
         metadata: {
@@ -31,6 +32,9 @@ export default async function main(message: Message, itemID: string, itemName: s
 
     // Search
     command.searchManager?.setPage(1);
+
+    // Return
+    return command;
 }
 
 export function url(itemID: string, type: string): string {

@@ -4,11 +4,12 @@ import fetch from "../fetch";
 import embed from "./embed";
 import parse from "./parse";
 
-export default async function main(message: Message, name: string, type: string, commandHistoryIndex?: number) {
+export default async function main(message: Message, name: string, type: string, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Create command
     const command: Command = new Command(message.client, {
-        name: "githubEvents",
+        name: "events",
+        type: "github",
         message,
         input: name,
         url: url(name),
@@ -25,6 +26,9 @@ export default async function main(message: Message, name: string, type: string,
 
     // Search
     command.searchManager?.setPage(1);
+
+    // Return
+    return command;
 }
 
 export function url(name: string): string {

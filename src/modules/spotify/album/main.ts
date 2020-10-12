@@ -6,11 +6,12 @@ import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
 
-export default async function main(message: Message, albumID: string, commandHistoryIndex?: number) {
+export default async function main(message: Message, albumID: string, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Create command
     const command: Command = new Command(message.client, {
-        name: "spotifyAlbum",
+        name: "album",
+        type: "spotify",
         message,
         url: url(albumID),
         getURL: (): string => `https://api.spotify.com/v1/albums/${encodeURIComponent(albumID)}`,
@@ -33,6 +34,9 @@ export default async function main(message: Message, albumID: string, commandHis
 
     // Send
     command.send(commandEmbed);
+
+    // Return
+    return command;
 }
 
 export function url(albumID: string): string {

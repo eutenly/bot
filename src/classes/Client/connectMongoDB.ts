@@ -14,5 +14,5 @@ export default async function connectMongoDB() {
     });
 
     // Log
-    terminal.column(1).up(1).right("MongoDB: Connecting".length)(" - ").green(`Done! (${Date.now() - start}ms)\n\n`);
+    terminal.column(1).up(1).right("MongoDB: Connecting".length)(" - ").green(`Done! (${Date.now() - start}ms)\n`);
 }
