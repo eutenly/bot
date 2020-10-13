@@ -4,11 +4,12 @@ import Message from "../../../classes/Message/Message";
 import embed from "./embed";
 import view from "./view";
 
-export default async function main(message: Message, data: any, commandHistoryIndex?: number) {
+export default async function main(message: Message, data: any, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Create command
     const command: Command = new Command(message.client, {
-        name: "googleKnowledgePanel",
+        name: "knowledgePanel",
+        type: "google",
         message,
         data,
         getEmbed: embed,
@@ -20,4 +21,7 @@ export default async function main(message: Message, data: any, commandHistoryIn
 
     // Send
     command.send(commandEmbed);
+
+    // Return
+    return command;
 }

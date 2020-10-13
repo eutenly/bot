@@ -5,11 +5,12 @@ import fetch from "../fetch";
 import embed from "./embed";
 import parse from "./parse";
 
-export default async function main(message: Message, title: string, commandHistoryIndex?: number) {
+export default async function main(message: Message, title: string, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Create command
     const command: Command = new Command(message.client, {
-        name: "wikipediaArticle",
+        name: "article",
+        type: "wikipedia",
         message,
         url: url(title),
         getURL: (): string => `https://en.wikipedia.org/w/api.php?action=parse&format=json&page=${encodeURIComponent(title)}&redirects=true`,
@@ -26,6 +27,9 @@ export default async function main(message: Message, title: string, commandHisto
 
     // Send
     command.send(commandEmbed);
+
+    // Return
+    return command;
 }
 
 export function url(title: string): string {

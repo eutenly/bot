@@ -6,11 +6,12 @@ import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
 
-export default async function main(message: Message, postID: string, subredditName: string, commandHistoryIndex?: number) {
+export default async function main(message: Message, postID: string, subredditName: string, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Create command
     const command: Command = new Command(message.client, {
-        name: "redditPost",
+        name: "post",
+        type: "reddit",
         message,
         url: url(postID, subredditName),
         getURL: (): string => `https://oauth.reddit.com/api/info?id=t3_${encodeURIComponent(postID)}&raw_json=1`,
@@ -33,6 +34,9 @@ export default async function main(message: Message, postID: string, subredditNa
 
     // Send
     command.send(commandEmbed);
+
+    // Return
+    return command;
 }
 
 export function url(postID: string, subredditName: string): string {

@@ -4,11 +4,12 @@ import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
 
-export default async function main(message: Message, channelID: string, commandHistoryIndex?: number) {
+export default async function main(message: Message, channelID: string, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Create command
     const command: Command = new Command(message.client, {
-        name: "youtubeVideos",
+        name: "videos",
+        type: "youtube",
         message,
         input: channelID,
         url: url(channelID),
@@ -27,6 +28,9 @@ export default async function main(message: Message, channelID: string, commandH
 
     // Search
     command.searchManager?.setPage(1);
+
+    // Return
+    return command;
 }
 
 export function url(channelID: string): string {

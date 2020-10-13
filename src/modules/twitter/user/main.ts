@@ -6,11 +6,12 @@ import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
 
-export default async function main(message: Message, user: string, type: string, commandHistoryIndex?: number) {
+export default async function main(message: Message, user: string, type: string, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Create command
     const command: Command = new Command(message.client, {
-        name: "twitterUser",
+        name: "user",
+        type: "twitter",
         message,
         url: url(user),
         getURL: (): string => `https://api.twitter.com/1.1/users/show.json?${type === "id" ? "user_id" : "screen_name"}=${encodeURIComponent(user)}`,
@@ -33,6 +34,9 @@ export default async function main(message: Message, user: string, type: string,
 
     // Send
     command.send(commandEmbed);
+
+    // Return
+    return command;
 }
 
 export function url(user: string): string {

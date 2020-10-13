@@ -4,6 +4,7 @@ import Command, { ViewData } from "../classes/Command/Command";
 import Message from "../classes/Message/Message";
 import saveDocument from "../models/save";
 import catchPromise from "../util/catchPromise";
+import collectStat from "../util/collectStat";
 
 export default async function save(message: Message) {
 
@@ -95,6 +96,15 @@ export default async function save(message: Message) {
 
     // Save
     await saveDocument(userData);
+
+    // Collect stats
+    collectStat(message.client, {
+        measurement: "saved_links_updated",
+        tags: {
+            action: "add",
+            dms: message.guild ? undefined : true
+        }
+    });
 
     // Send
     message.channel.sendMessage(`:white_check_mark:  **|  Saved link! View your saved links with \`${prefix}savedlinks\`**`);

@@ -6,11 +6,12 @@ import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
 
-export default async function main(message: Message, artistID: string, commandHistoryIndex?: number) {
+export default async function main(message: Message, artistID: string, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Create command
     const command: Command = new Command(message.client, {
-        name: "spotifyArtist",
+        name: "artist",
+        type: "spotify",
         message,
         url: url(artistID),
         getURL: (): string => `https://api.spotify.com/v1/artists/${encodeURIComponent(artistID)}`,
@@ -34,6 +35,9 @@ export default async function main(message: Message, artistID: string, commandHi
 
     // Send
     command.send(commandEmbed);
+
+    // Return
+    return command;
 }
 
 export function url(artistID: string): string {

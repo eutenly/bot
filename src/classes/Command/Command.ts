@@ -1,3 +1,4 @@
+import collectStat from "../../util/collectStat";
 import Client from "../Client/Client";
 import Embed from "../Embed/Embed";
 import Message from "../Message/Message";
@@ -35,6 +36,7 @@ export type View = (data: any, message: Message, metadata?: any) => ViewData | u
 
 interface CommandData {
     name: string;
+    type: string;
     message: Message;
     webScraper?: Boolean;
     input?: string;
@@ -61,6 +63,7 @@ export default class Command {
 
     // Data about this command
     name: string;
+    type: string;
     message: Message;
     responseMessage?: Message;
     webScraper?: Boolean;
@@ -98,6 +101,7 @@ export default class Command {
         this.client = client;
 
         this.name = data.name;
+        this.type = data.type;
         this.message = data.message;
         this.webScraper = data.webScraper;
         this.metadata = data.metadata;
@@ -167,6 +171,19 @@ export default class Command {
 
         // Limit command history to 10 commands
         if (this.message.author.commandHistory.length >= 10) this.message.author.commandHistory.splice(0, this.message.author.commandHistory.length - 10);
+
+        // Collect stats
+        collectStat(this.client, {
+            measurement: "commands_used",
+            tags: {
+                dms: this.message.guild ? undefined : true,
+                viaHistory: commandHistoryIndex !== undefined ? true : undefined
+            },
+            fields: {
+                command: this.name,
+                commandType: this.type
+            }
+        });
     }
 
     // Get connection

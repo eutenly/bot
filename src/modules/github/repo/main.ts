@@ -6,11 +6,12 @@ import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
 
-export default async function main(message: Message, ownerName: string, name: string, commandHistoryIndex?: number) {
+export default async function main(message: Message, ownerName: string, name: string, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Create command
     const command: Command = new Command(message.client, {
-        name: "githubRepo",
+        name: "repo",
+        type: "github",
         message,
         url: url(ownerName, name),
         getURL: (): string => `https://api.github.com/repos/${encodeURIComponent(ownerName)}/${encodeURIComponent(name)}`,
@@ -33,6 +34,9 @@ export default async function main(message: Message, ownerName: string, name: st
 
     // Send
     command.send(commandEmbed);
+
+    // Return
+    return command;
 }
 
 export function url(ownerName: string, name: string): string {

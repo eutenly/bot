@@ -7,14 +7,15 @@ import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
 
-export default async function main(message: Message, commandHistoryIndex?: number) {
+export default async function main(message: Message, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Get prefix
     const prefix: string = message.guild?.prefix || process.env.DEFAULT_PREFIX || "";
 
     // Create command
     const command: Command = new Command(message.client, {
-        name: "spotifyHome",
+        name: "home",
+        type: "spotify",
         message,
         url: url(),
         getURL: (): string => "https://api.spotify.com/v1/me/playlists?limit=5",
@@ -43,6 +44,9 @@ export default async function main(message: Message, commandHistoryIndex?: numbe
 
     // Send
     command.send(commandEmbed);
+
+    // Return
+    return command;
 }
 
 export function url(): string {

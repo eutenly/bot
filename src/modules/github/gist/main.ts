@@ -6,11 +6,12 @@ import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
 
-export default async function main(message: Message, name: string, gistID: number, commandHistoryIndex?: number) {
+export default async function main(message: Message, name: string, gistID: number, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Create command
     const command: Command = new Command(message.client, {
-        name: "githubGist",
+        name: "gist",
+        type: "github",
         message,
         metadata: {
             name
@@ -36,6 +37,9 @@ export default async function main(message: Message, name: string, gistID: numbe
 
     // Send
     command.send(commandEmbed);
+
+    // Return
+    return command;
 }
 
 export function url(name: string, gistID: number): string {

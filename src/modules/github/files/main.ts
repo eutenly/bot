@@ -5,11 +5,12 @@ import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
 
-export default async function main(message: Message, ownerName: string, name: string, path?: string, commandHistoryIndex?: number) {
+export default async function main(message: Message, ownerName: string, name: string, path?: string, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Create command
     const command: Command = new Command(message.client, {
-        name: "githubFiles",
+        name: "files",
+        type: "github",
         message,
         input: name,
         metadata: {
@@ -33,6 +34,9 @@ export default async function main(message: Message, ownerName: string, name: st
 
     // Search
     command.searchManager?.setPage(1);
+
+    // Return
+    return command;
 }
 
 export function url(ownerName: string, name: string, path?: string): string {
