@@ -13,6 +13,8 @@
         "start": "node out/index.js"
     },
     "dependencies": {
+        "@sentry/node": "^5.26.0",
+        "@sentry/tracing": "^5.26.0",
         "@types/btoa": "^1.2.3",
         "@types/cheerio": "^0.22.21",
         "@types/mongoose": "^5.7.36",

@@ -1,3 +1,4 @@
+import * as Sentry from "@sentry/node";
 import dotenv from "dotenv";
 import { terminal } from "terminal-kit";
 import Client from "./classes/Client/Client";
@@ -8,6 +9,12 @@ import serverLeave from "./modules/serverLeave";
 
 // Configure env variables
 dotenv.config();
+
+// Enable Sentry
+Sentry.init({
+    dsn: process.env.SENTRY_DSN,
+    tracesSampleRate: 1.0,
+});
 
 // Clear dev logs
 if (process.env.DEV === "true") terminal.up(1).eraseLine().up(1).eraseLine();
