@@ -13,30 +13,24 @@ export interface IUser extends Document {
             id?: string;
             accessToken?: string;
             accessSecret?: string;
+            connectedAt?: number;
         },
         reddit: {
             id?: string;
             accessToken?: string;
             refreshToken?: string;
+            connectedAt?: number;
         },
         spotify: {
             id?: string;
             accessToken?: string;
             refreshToken?: string;
-        },
-        twitch: {
-            id?: string;
-            accessToken?: string;
-            refreshToken?: string;
+            connectedAt?: number;
         },
         github: {
             id?: string;
             accessToken?: string;
-        },
-        wakatime: {
-            id?: string;
-            accessToken?: string;
-            refreshToken?: string;
+            connectedAt?: number;
         };
     };
     savedLinks: Types.Array<SavedLink>;
@@ -50,31 +44,25 @@ export const usersSchema: Schema = new Schema({
         twitter: {
             id: String,
             accessToken: String,
-            accessSecret: String
+            accessSecret: String,
+            connectedAt: Number
         },
         reddit: {
             id: String,
             accessToken: String,
-            refreshToken: String
+            refreshToken: String,
+            connectedAt: Number
         },
         spotify: {
             id: String,
             accessToken: String,
-            refreshToken: String
-        },
-        twitch: {
-            id: String,
-            accessToken: String,
-            refreshToken: String
+            refreshToken: String,
+            connectedAt: Number
         },
         github: {
             id: String,
-            accessToken: String
-        },
-        wakatime: {
-            id: String,
             accessToken: String,
-            refreshToken: String
+            connectedAt: Number
         }
     },
     savedLinks: [{
