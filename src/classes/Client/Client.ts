@@ -11,6 +11,7 @@ import FetchQueue from "../FetchQueue/FetchQueue";
 import Guild from "../Guild/Guild";
 import User from "../User/User";
 import RateLimit from "../common/RateLimit";
+import botInteractionAPI from "./botInteractionAPI";
 import connectInfluxDB from "./connectInfluxDB";
 import connectMongoDB from "./connectMongoDB";
 import fetch from "./fetch";
@@ -142,6 +143,9 @@ export default class Client extends EventEmitter {
 
         // Activate the Garbage Collector
         activateGarbageCollection(this);
+
+        // Create bot interaction api
+        botInteractionAPI(this);
 
         // Connect to Discord
         connect(this);
