@@ -33,6 +33,15 @@ export interface IUser extends Document {
             connectedAt?: number;
         };
     };
+    commandsUsed: {
+        google?: number;
+        youtube?: number;
+        twitter?: number;
+        spotify?: number;
+        reddit?: number;
+        github?: number;
+        wikipedia?: number;
+    };
     savedLinks: Types.Array<SavedLink>;
     voteExpireTimestamp?: number;
     patreonTier?: number;
@@ -67,6 +76,15 @@ export const usersSchema: Schema = new Schema({
             accessToken: String,
             connectedAt: Number
         }
+    },
+    commandsUsed: {
+        google: Number,
+        youtube: Number,
+        twitter: Number,
+        spotify: Number,
+        reddit: Number,
+        github: Number,
+        wikipedia: Number
     },
     savedLinks: [{
         title: String,
