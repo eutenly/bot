@@ -36,6 +36,9 @@ export interface IUser extends Document {
     savedLinks: Types.Array<SavedLink>;
     voteExpireTimestamp?: number;
     patreonTier?: number;
+    alphaTester?: boolean;
+    betaTester?: boolean;
+    betaServerOwner?: boolean;
 }
 
 export const usersSchema: Schema = new Schema({
@@ -71,5 +74,8 @@ export const usersSchema: Schema = new Schema({
         url: String
     }],
     voteExpireTimestamp: Number,
-    patreonTier: Number
+    patreonTier: Number,
+    alphaTester: Boolean,
+    betaTester: Boolean,
+    betaServerOwner: Boolean
 });
