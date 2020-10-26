@@ -172,6 +172,9 @@ export default class Command {
         // Limit command history to 10 commands
         if (this.message.author.commandHistory.length >= 10) this.message.author.commandHistory.splice(0, this.message.author.commandHistory.length - 10);
 
+        // Command used
+        if (["google", "youtube", "twitter", "spotify", "reddit", "github", "wikipedia"].includes(this.type)) this.message.author.commandUsed(this.type);
+
         // Collect stats
         collectStat(this.client, {
             measurement: "commands_used",
