@@ -25,9 +25,7 @@ interface Connections {
     twitter?: Connection;
     reddit?: Connection;
     spotify?: Connection;
-    twitch?: Connection;
     github?: Connection;
-    wakatime?: Connection;
 }
 
 interface UserData {
