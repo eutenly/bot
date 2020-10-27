@@ -12,6 +12,7 @@ interface PermissionOverwrites {
 interface EventDataChannel {
     id: string;
     type: number;
+    name: string;
     parent_id?: string;
     permission_overwrites: PermissionOverwrites[];
 }

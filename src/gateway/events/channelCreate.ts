@@ -15,6 +15,6 @@ export default function channelCreate(client: Client, data: EventData) {
     // Ignore voice channels
     if (data.type === 2) return;
 
-    // Calculate denied permissions
-    guild.calculateDeniedPermissions();
+    // Calculate bot permissions
+    guild.calculateBotPermissions();
 }
