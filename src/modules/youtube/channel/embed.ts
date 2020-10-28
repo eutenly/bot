@@ -1,6 +1,7 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import parseDate from "../../../util/parseDate";
+import truncateString from "../../../util/truncateString";
 import { YouTubeChannel } from "./parse";
 
 export default function embed(command: Command, data?: YouTubeChannel): Embed {
@@ -22,7 +23,7 @@ export default function embed(command: Command, data?: YouTubeChannel): Embed {
     // Build embed
     embed
         .setAuthor(data.name, "https://i0.wp.com/www.vectorico.com/wp-content/uploads/2018/02/youtube-red-square.png", `https://youtube.com/channel/${data.id}`)
-        .setDescription(`${data.description.substring(0, 500)}${data.description.length > 500 ? "..." : ""}`)
+        .setDescription(truncateString(data.description, 500))
         .addField(null, null, true)
         .addField("Link", `[youtube.com...](https://youtube.com/channel/${data.id})`, true)
         .addField(null, null, true)

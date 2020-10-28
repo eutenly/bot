@@ -6,6 +6,7 @@ import { RequestInit } from "node-fetch";
 import { Terminal } from "terminal-kit";
 import WebSocket from "ws";
 import connect from "../../gateway/socket/connect";
+import { CompactMode } from "../../models/servers";
 import Channel from "../Channel/Channel";
 import FetchQueue from "../FetchQueue/FetchQueue";
 import Guild from "../Guild/Guild";
@@ -22,6 +23,7 @@ import resourceUsage from "./resourceUsage";
 
 export interface ServerData {
     prefix?: string;
+    compactMode: CompactMode[];
 }
 
 export interface EventQueueEvent {

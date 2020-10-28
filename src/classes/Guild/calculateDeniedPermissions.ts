@@ -12,10 +12,12 @@ export interface Permissions {
     [key: string]: number;
 }
 
-export default function calculateDeniedPermissions(guild: Guild, data: PermissionsGuildData): Map<string, number> {
+export interface DeniedPermissionsData {
+    deniedPermissions: Map<string, number>;
+    guildDeniedPermissions: number;
+}
 
-    // Define denied permissions
-    const deniedPermissions: Map<string, number> = new Map();
+export default function calculateDeniedPermissions(guild: Guild, data: PermissionsGuildData): DeniedPermissionsData {
 
     // Add the @everyone role to `memberRoles`
     // The @everyone role ID is the same as the guild ID
@@ -39,11 +41,15 @@ export default function calculateDeniedPermissions(guild: Guild, data: Permissio
         const perms = parseInt(r.permissions_new);
 
         // If the (allowed) permissions include the admin permission, assume that no perms are denied
-        if ((perms & 0x8) === 0x8) return new Map();
+        if ((perms & 0x8) === 0x8) return {
+            deniedPermissions: new Map(),
+            guildDeniedPermissions: 0
+        };
     }
 
     // Define permissions
     const PERMISSIONS: Permissions = {
+        MANAGE_CHANNEL: 0x10,
         ADD_REACTIONS: 0x40,
         VIEW_CHANNEL: 0x400,
         SEND_MESSAGES: 0x800,
@@ -52,6 +58,36 @@ export default function calculateDeniedPermissions(guild: Guild, data: Permissio
         READ_MESSAGE_HISTORY: 0x10000,
         USE_EXTERNAL_EMOJIS: 0x40000
     };
+
+    // Define denied permissions
+    const deniedPermissions: Map<string, number> = new Map();
+
+    // Define guild permissions
+    const GUILD_PERMISSIONS: Permissions = {
+        MANAGE_GUILD: 0x20
+    };
+
+    /**
+     * Define denied permissions for this guild
+     *
+     * Start by assuming that all permissions are denied
+     * As we process permissions, the ones that are found to be allowed will be removed from this list
+     */
+    let guildDeniedPermissions: number = Object.values(GUILD_PERMISSIONS).reduce((all, intent) => all | intent);
+
+    // Loop through the roles that the member has
+    data.roles.forEach((r: GuildDataRole) => {
+
+        // Parse permissions into integers
+        const perms = parseInt(r.permissions_new);
+
+        // Loop through permissions
+        for (let permission in PERMISSIONS) {
+
+            // If the (allowed) permissions include the permission, remove it from the denied permissions
+            if ((perms & PERMISSIONS[permission]) === PERMISSIONS[permission]) guildDeniedPermissions &= ~PERMISSIONS[permission];
+        }
+    });
 
     // Calculate denied permissions
     data.channels.forEach((c: GuildDataChannel) => {
@@ -67,7 +103,7 @@ export default function calculateDeniedPermissions(guild: Guild, data: Permissio
          */
         let thisDeniedPermissions: number = Object.values(PERMISSIONS).reduce((all, intent) => all | intent);
 
-        // Loop through the roles that the bot has
+        // Loop through the roles that the member has
         data.roles.forEach((r: GuildDataRole) => {
 
             // Parse permissions into integers
@@ -99,5 +135,8 @@ export default function calculateDeniedPermissions(guild: Guild, data: Permissio
     });
 
     // Return
-    return deniedPermissions;
+    return {
+        deniedPermissions,
+        guildDeniedPermissions
+    };
 }

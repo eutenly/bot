@@ -1,7 +1,7 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
-import parseDate from "../../../util/parseDate";
 import formatURL from "../../../util/formatURL";
+import parseDate from "../../../util/parseDate";
 import { GitHubUser } from "./parse";
 
 export default function embed(command: Command, data?: GitHubUser): Embed {

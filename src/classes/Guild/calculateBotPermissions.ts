@@ -51,7 +51,7 @@ export default async function calculateBotPermissions(guild: Guild, rawData: Par
     };
 
     // Calculate denied permissions
-    guild.deniedPermissions = calculateDeniedPermissions(guild, data);
+    guild.deniedPermissions = calculateDeniedPermissions(guild, data).deniedPermissions;
 
     // Set processing bot permissions
     guild.processingBotPermissions = false;

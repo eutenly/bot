@@ -1,5 +1,6 @@
 import Command from "../../classes/Command/Command";
 import Embed from "../../classes/Embed/Embed";
+import truncateString from "../../util/truncateString";
 
 export default function embed(command: Command, data: any): Embed {
 
@@ -68,7 +69,7 @@ export default function embed(command: Command, data: any): Embed {
         else if (r.type === "twitter") {
 
             // Get items
-            const items: string[] = r.items.map((item: any, ii: number) => `**[${i + 1}-${ii + 1}.](${item.link})** ${item.text.replace(/\n/g, " ").substring(0, 80)}${item.text.length > 80 ? "..." : ""} - ${item.time}`);
+            const items: string[] = r.items.map((item: any, ii: number) => `**[${i + 1}-${ii + 1}.](${item.link})** ${truncateString(item.text, 80)} - ${item.time}`);
 
             // Add field
             embed.addField(null, `**${i + 1}. [${r.title}](${r.link})**\n\n${items.join("\n\n")}`);

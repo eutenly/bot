@@ -1,5 +1,6 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
+import truncateString from "../../../util/truncateString";
 import { RedditSearchResult } from "./parse";
 
 export default function embed(command: Command, data: RedditSearchResult[]): Embed {
@@ -20,7 +21,7 @@ export default function embed(command: Command, data: RedditSearchResult[]): Emb
         .setColor(0xf44242);
 
     // Build embed
-    data.forEach((d: RedditSearchResult, i: number) => embed.addField(null, `**${i + 1}. [${d.score.toLocaleString()}] [${d.title.substring(0, 50)}${d.title.length > 50 ? "..." : ""}](https://reddit.com/r/${d.subredditName}/comments/${d.id})** - [r/${d.subredditName}](https://reddit.com/r/${d.subredditName})\n${d.text ? `${(d.nsfw || d.spoiler) ? "||" : ""}${d.text.replace(/\n/g, " ").substring(0, 200)}${d.text.replace(/\n/g, " ").length > 200 ? "..." : ""}${(d.nsfw || d.spoiler) ? "||" : ""}\n` : ""}**[u/${d.user}](https://reddit.com/u/${d.user}) \u2022 ${d.comments.toLocaleString()} Comment${d.comments === 1 ? "" : "s"} \u2022 ${d.awards.toLocaleString()} Award${d.awards === 1 ? "" : "s"}**`));
+    data.forEach((d: RedditSearchResult, i: number) => embed.addField(null, `**${i + 1}. [${d.score.toLocaleString()}] [${truncateString(d.title, 50)}](https://reddit.com/r/${d.subredditName}/comments/${d.id})** - [r/${d.subredditName}](https://reddit.com/r/${d.subredditName})\n${d.text ? `${(d.nsfw || d.spoiler) ? "||" : ""}${truncateString(d.text.replace(/\n/g, " "), 200)}${(d.nsfw || d.spoiler) ? "||" : ""}\n` : ""}**[u/${d.user}](https://reddit.com/u/${d.user}) \u2022 ${d.comments.toLocaleString()} Comment${d.comments === 1 ? "" : "s"} \u2022 ${d.awards.toLocaleString()} Award${d.awards === 1 ? "" : "s"}**`));
 
     embed
         .addField()

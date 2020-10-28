@@ -1,5 +1,6 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
+import truncateString from "../../../util/truncateString";
 import { SpotifyPlaylist } from "./parse";
 
 export default function embed(command: Command, data: SpotifyPlaylist[]): Embed {
@@ -20,7 +21,7 @@ export default function embed(command: Command, data: SpotifyPlaylist[]): Embed 
         .setColor(0xf44242);
 
     // Build embed
-    data.forEach((d: SpotifyPlaylist, i: number) => embed.addField(null, `**${i + 1}. [${d.name}](https://open.spotify.com/playlist/${d.id})**\n${d.description ? `${d.description.substring(0, 200)}${d.description.length > 200 ? "..." : ""}\n` : ""}[${d.owner.name}](https://open.spotify.com/user/${d.owner.id}) - ${d.tracks.toLocaleString()} Track${d.tracks === 1 ? "" : "s"}`));
+    data.forEach((d: SpotifyPlaylist, i: number) => embed.addField(null, `**${i + 1}. [${d.name}](https://open.spotify.com/playlist/${d.id})**\n${d.description ? `${truncateString(d.description, 200)}\n` : ""}[${d.owner.name}](https://open.spotify.com/user/${d.owner.id}) - ${d.tracks.toLocaleString()} Track${d.tracks === 1 ? "" : "s"}`));
 
     embed
         .addField()

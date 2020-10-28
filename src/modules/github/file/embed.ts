@@ -2,6 +2,7 @@ import filesize from "filesize";
 import { isBinary } from "istextorbinary";
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
+import truncateString from "../../../util/truncateString";
 import { GitHubFile } from "./parse";
 
 export default function embed(command: Command, data?: GitHubFile): Embed {
@@ -27,7 +28,7 @@ export default function embed(command: Command, data?: GitHubFile): Embed {
     // Build embed
     embed
         .setAuthor(`${command.metadata?.ownerName}/${command.metadata?.name}: ${data.name}`, "https://getdrawings.com/free-icon-bw/github-icon-23.png", `https://github.com/${command.metadata?.ownerName}/${command.metadata?.name}/blob/master/${data.path}`)
-        .setDescription(`\`\`\`\n${content.substring(0, 500)}${content.length > 500 ? "..." : ""}\`\`\``)
+        .setDescription(`\`\`\`\n${truncateString(content, 500)}\`\`\``)
         .addField(null, null, true)
         .addField("Link", `[github.com...](https://github.com/${command.metadata?.ownerName}/${command.metadata?.name}/blob/master/${data.path})`, true)
         .addField(null, null, true)

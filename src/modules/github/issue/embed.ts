@@ -1,6 +1,7 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import parseDate from "../../../util/parseDate";
+import truncateString from "../../../util/truncateString";
 import { GitHubIssue } from "./parse";
 
 export default function embed(command: Command, data?: GitHubIssue): Embed {
@@ -22,7 +23,7 @@ export default function embed(command: Command, data?: GitHubIssue): Embed {
     // Build embed
     embed
         .setAuthor(data.title, "https://getdrawings.com/free-icon-bw/github-icon-23.png", `https://github.com/${command.metadata?.ownerName}/${command.metadata?.name}/issues/${data.number}`)
-        .setDescription(`${data.text.substring(0, 500)}${data.text.length > 500 ? "..." : ""}`)
+        .setDescription(truncateString(data.text, 500))
         .addField(null, null, true)
         .addField("Link", `[github.com...](https://github.com/${command.metadata?.ownerName}/${command.metadata?.name}/issues/${data.number})`, true)
         .addField(null, null, true)

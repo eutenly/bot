@@ -3,6 +3,7 @@ import { terminal } from "terminal-kit";
 import Client from "./classes/Client/Client";
 import routeMessage from "./modules/commandRouter/router";
 import reactionAdded from "./modules/reactionAdded";
+import reactionRemoved from "./modules/reactionRemoved";
 import serverJoin from "./modules/serverJoin";
 import serverLeave from "./modules/serverLeave";
 
@@ -27,6 +28,9 @@ client.on("message", routeMessage);
 
 // Reaction Added
 client.on("messageReactionAdd", reactionAdded);
+
+// Reaction Removed
+client.on("messageReactionRemove", reactionRemoved);
 
 // Server Joined
 client.on("guildCreate", serverJoin);

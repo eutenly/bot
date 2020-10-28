@@ -1,7 +1,7 @@
 import Guild, { GuildDataChannel, GuildDataMember, GuildDataRole } from "./Guild";
-import calculateDeniedPermissions from "./calculateDeniedPermissions";
+import calculateDeniedPermissions, { DeniedPermissionsData } from "./calculateDeniedPermissions";
 
-export default async function getDeniedPermissions(guild: Guild, userID: string, channelData: GuildDataChannel): Promise<number> {
+export default async function getDeniedPermissions(guild: Guild, userID: string, channelData?: GuildDataChannel): Promise<number> {
 
     // Get role data
     let roleData: GuildDataRole[] = await guild.getRoles();
@@ -9,11 +9,14 @@ export default async function getDeniedPermissions(guild: Guild, userID: string,
     // Get member data
     const memberData: GuildDataMember = await guild.getMember(userID);
 
-    // Return denied permissions
-    return calculateDeniedPermissions(guild, {
-        channels: [channelData],
+    // Calculate denied permissions
+    const deniedPermissionsData: DeniedPermissionsData = calculateDeniedPermissions(guild, {
+        channels: channelData ? [channelData] : [],
         roles: roleData,
         userID,
         memberRoles: memberData.roles
-    }).get(channelData.id) || 0;
+    });
+
+    // Return
+    return channelData ? (deniedPermissionsData.deniedPermissions.get(channelData.id) || 0) : deniedPermissionsData.guildDeniedPermissions;
 }

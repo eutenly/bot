@@ -88,6 +88,9 @@ export default class Command {
     // The result of this command
     data?: any;
 
+    // Whether or not compact mode is enabled
+    compactMode: boolean;
+
     // The search manager for search based commands
     searchManager?: SearchManager;
 
@@ -118,6 +121,9 @@ export default class Command {
         this.view = data.view;
 
         this.data = data.data;
+
+        const compactModeByName: boolean = !(["bot", "command"].find((i: string) => this.message.guild?.channelNames.get(this.message.channel.id)?.includes(i)));
+        this.compactMode = this.message.channel.compactMode === undefined ? compactModeByName : this.message.channel.compactMode;
 
         if (data.input) this.searchManager = new SearchManager(this, {
             input: data.input,

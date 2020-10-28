@@ -1,6 +1,7 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import parseDuration from "../../../util/parseDuration";
+import truncateString from "../../../util/truncateString";
 import { SpotifyEpisode } from "./parse";
 
 export default function embed(command: Command, data?: SpotifyEpisode): Embed {
@@ -22,7 +23,7 @@ export default function embed(command: Command, data?: SpotifyEpisode): Embed {
     // Build embed
     embed
         .setAuthor(data.name, "https://i.imgur.com/tiqno7l.png", `https://open.spotify.com/episode/${data.id}`)
-        .setDescription(`${data.description.substring(0, 500)}${data.description.length > 500 ? "..." : ""}`)
+        .setDescription(truncateString(data.description, 500))
         .addField(null, null, true)
         .addField("Link", `[spotify.com...](https://open.spotify.com/episode/${data.id})`, true)
         .addField(null, null, true)
