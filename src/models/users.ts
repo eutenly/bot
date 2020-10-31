@@ -11,24 +11,28 @@ export interface IUser extends Document {
     connections: {
         twitter: {
             id?: string;
+            username?: string;
             accessToken?: string;
             accessSecret?: string;
             connectedAt?: number;
         },
         reddit: {
             id?: string;
+            username?: string;
             accessToken?: string;
             refreshToken?: string;
             connectedAt?: number;
         },
         spotify: {
             id?: string;
+            username?: string;
             accessToken?: string;
             refreshToken?: string;
             connectedAt?: number;
         },
         github: {
             id?: string;
+            username?: string;
             accessToken?: string;
             connectedAt?: number;
         };
@@ -55,24 +59,28 @@ export const usersSchema: Schema = new Schema({
     connections: {
         twitter: {
             id: String,
+            username: String,
             accessToken: String,
             accessSecret: String,
             connectedAt: Number
         },
         reddit: {
             id: String,
+            username: String,
             accessToken: String,
             refreshToken: String,
             connectedAt: Number
         },
         spotify: {
             id: String,
+            username: String,
             accessToken: String,
             refreshToken: String,
             connectedAt: Number
         },
         github: {
             id: String,
+            username: String,
             accessToken: String,
             connectedAt: Number
         }
