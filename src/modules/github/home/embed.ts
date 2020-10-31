@@ -25,12 +25,17 @@ export default function embed(command: Command, data?: GitHubHome): Embed {
 
     // Embed
     if (!data) return new Embed();
+
+    const watchedRepos: GitHubRepo[] = command.compactMode ? data.watchedRepos.slice(0, 3) : data.watchedRepos;
+    const starredRepos: GitHubRepo[] = command.compactMode ? data.starredRepos.slice(0, 3) : data.starredRepos;
+    const notifications: GitHubNotification[] = command.compactMode ? data.notifications.slice(0, 3) : data.notifications;
+
     const embed = new Embed()
         .setAuthor("GitHub", "https://getdrawings.com/free-icon-bw/github-icon-23.png")
         .setColor(0x000000)
-        .addField("Your Watched Repos", `${data.watchedRepos.map((r: GitHubRepo, i: number) => `**w-${i + 1}. [${r.ownerName}/${r.name}](https://github.com/${r.ownerName}/${r.name})**\n${r.description ? truncateString(r.description, 50) : ""}`).join("\n")}\n\n\u2022 Use \`${prefix}view <Repo Number>\` to view a repo\n\u2022 Use \`${prefix}view watched repos\` to view more of your watched repos\n\u200b`)
-        .addField("Your Starred Repos", `${data.starredRepos.map((r: GitHubRepo, i: number) => `**s-${i + 1}. [${r.ownerName}/${r.name}](https://github.com/${r.ownerName}/${r.name})**\n${r.description ? truncateString(r.description, 50) : ""}`).join("\n")}\n\n\u2022 Use \`${prefix}view <Repo Number>\` to view a repo\n\u2022 Use \`${prefix}view starred repos\` to view more of your starred repos\n\u200b`)
-        .addField("Your Notifications", `${data.notifications.map((n: GitHubNotification, i: number) => `**${i + 1}. [${n.repoOwnerName}/${n.repoName}](https://github.com/${n.repoOwnerName}/${n.repoName})** - ${parseType(n.type)}`).join("\n")}`)
+        .addField("Your Watched Repos", `${watchedRepos.map((r: GitHubRepo, i: number) => `**w-${i + 1}. [${r.ownerName}/${r.name}](https://github.com/${r.ownerName}/${r.name})**\n${r.description ? truncateString(r.description, 50) : ""}`).join("\n")}\n\n\u2022 Use \`${prefix}view <Repo Number>\` to view a repo\n\u2022 Use \`${prefix}view watched repos\` to view more of your watched repos\n\u200b`)
+        .addField("Your Starred Repos", `${starredRepos.map((r: GitHubRepo, i: number) => `**s-${i + 1}. [${r.ownerName}/${r.name}](https://github.com/${r.ownerName}/${r.name})**\n${r.description ? truncateString(r.description, 50) : ""}`).join("\n")}\n\n\u2022 Use \`${prefix}view <Repo Number>\` to view a repo\n\u2022 Use \`${prefix}view starred repos\` to view more of your starred repos\n\u200b`)
+        .addField("Your Notifications", `${notifications.map((n: GitHubNotification, i: number) => `**${i + 1}. [${n.repoOwnerName}/${n.repoName}](https://github.com/${n.repoOwnerName}/${n.repoName})** - ${parseType(n.type)}`).join("\n")}`)
         .setBranding();
 
     // Return

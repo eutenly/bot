@@ -23,13 +23,21 @@ export default function embed(command: Command, data?: SpotifyArtist): Embed {
         .setAuthor(data.name, "https://i.imgur.com/tiqno7l.png", `https://open.spotify.com/artist/${data.id}`)
         .addField(null, null, true)
         .addField("Link", `[spotify.com...](https://open.spotify.com/artist/${data.id})`, true)
-        .addField(null, null, true)
+        .addField(null, null, true);
+
+    if (command.compactMode) embed
+        .addField(null, `**Followers:** ${data.followers.toLocaleString()}\n**Genres:** ${data.genres.join(", ")}`)
+        .setThumbnail(data.avatar);
+
+    else embed
         .addField(null, null, true)
         .addField("Followers", `${data.followers.toLocaleString()} Follower${data.followers === 1 ? "" : "s"}`, true)
         .addField(null, null, true)
-        .addField("Albums", `${data.albums.map((a: SpotifyAlbum, i: number) => `**a-${i + 1}.** [${a.name}](https://open.spotify.com/album/${a.id}) - ${a.tracks.toLocaleString()} Track${a.tracks === 1 ? "" : "s"}`).join("\n")}\n\n\u2022 Use \`${prefix}view <Album Number>\` to view an album\n\u2022 Use \`${prefix}view albums\` to view more albums`)
-        .addField("Genres", data.genres.join(", "))
         .setImage(data.avatar);
+
+    embed.addField("Albums", `${data.albums.map((a: SpotifyAlbum, i: number) => `**a-${i + 1}.** [${a.name}](https://open.spotify.com/album/${a.id}) - ${a.tracks.toLocaleString()} Track${a.tracks === 1 ? "" : "s"}`).join("\n")}\n\n\u2022 Use \`${prefix}view <Album Number>\` to view an album\n\u2022 Use \`${prefix}view albums\` to view more albums`);
+
+    if (!command.compactMode) embed.addField("Genres", data.genres.join(", "));
 
     // Return
     return embed;

@@ -31,7 +31,11 @@ export default function embed(command: Command, data?: GitHubFile): Embed {
         .setDescription(`\`\`\`\n${truncateString(content, 500)}\`\`\``)
         .addField(null, null, true)
         .addField("Link", `[github.com...](https://github.com/${command.metadata?.ownerName}/${command.metadata?.name}/blob/master/${data.path})`, true)
-        .addField(null, null, true)
+        .addField(null, null, true);
+
+    if (command.compactMode) embed.addField(null, `**Size:** ${filesize(data.size)}\n**Repo:** To view this file's repo, use the \`${prefix}view repo\` command`);
+
+    else embed
         .addField(null, null, true)
         .addField("Size", filesize(data.size), true)
         .addField(null, null, true)

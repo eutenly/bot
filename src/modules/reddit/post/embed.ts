@@ -26,7 +26,13 @@ export default function embed(command: Command, data?: RedditPost): Embed {
         .setDescription(`${(data.nsfw || data.spoiler) ? "||" : ""}${truncateString(data.text, 500)}${(data.nsfw || data.spoiler) ? "||" : ""}`)
         .addField(null, null, true)
         .addField("Link", `[reddit.com...](https://reddit.com/r/${data.subredditName}/comments/${data.id})`, true)
-        .addField(null, null, true)
+        .addField(null, null, true);
+
+    if (command.compactMode) embed
+        .addField(null, `**Score:** ${data.score.toLocaleString()}\n**Comments:** ${data.comments.toLocaleString()}\n**Awards:** ${data.awards.toLocaleString()}\n**Subreddit:** r/${data.subredditName} (\`${prefix}view subreddit\`)\n**NSFW:** ${data.nsfw ? "Yes" : "No"}\n**Spoiler:** ${data.spoiler ? "Yes" : "No"}\n**User:** View info about the person who created this post with the \`${prefix}view user\` command\n**Posted:** ${parseDate(data.postedAt)}`)
+        .setThumbnail(data.image);
+
+    else embed
         .addField("Comments", data.comments.toLocaleString(), true)
         .addField("Score", data.score.toLocaleString(), true)
         .addField("Awards", data.awards.toLocaleString(), true)

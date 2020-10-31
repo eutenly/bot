@@ -26,21 +26,28 @@ export default function embed(command: Command, data?: TwitterUser): Embed {
         .addField(null, null, true)
         .addField("Link", `[twitter.com...](https://twitter.com/${data.handle})`, true)
         .addField(null, null, true)
-        .addField("Followers", data.followers.toLocaleString(), true)
-        .addField("Tweets", data.tweets.toLocaleString(), true)
-        .addField("Following", data.following.toLocaleString(), true)
-        .addField(null, null, true)
-        .addField("Likes", data.likes.toLocaleString(), true)
-        .addField(null, null, true);
-
-    if (data.location) embed.addField("Location", data.location, true);
-    if (data.url) embed.addField("URL", data.url, true);
-
-    embed
-        .addField("Created", parseDate(data.createdOn))
-        .addField()
-        .addField("Tweets", `View ${data.name}'s tweets with the \`${prefix}view tweets\` command`)
         .setImage(data.banner);
+
+    if (command.compactMode) embed.addField(null, `**Tweets:**: ${data.tweets.toLocaleString()}\n**Followers:** ${data.followers.toLocaleString()}\n**Following:** ${data.following.toLocaleString()}\n**Likes:** ${data.likes.toLocaleString()}\n**Tweets:** View ${data.name}'s tweets with the \`${prefix}view tweets\` command${data.location ? `\n**Location:** ${data.location}` : ""}${data.url ? `\n**URL:** ${data.url}` : ""}\n**Created:** ${parseDate(data.createdOn)}`);
+
+    else {
+
+        embed
+            .addField("Followers", data.followers.toLocaleString(), true)
+            .addField("Tweets", data.tweets.toLocaleString(), true)
+            .addField("Following", data.following.toLocaleString(), true)
+            .addField(null, null, true)
+            .addField("Likes", data.likes.toLocaleString(), true)
+            .addField(null, null, true);
+
+        if (data.location) embed.addField("Location", data.location, true);
+        if (data.url) embed.addField("URL", data.url, true);
+
+        embed
+            .addField("Created", parseDate(data.createdOn))
+            .addField()
+            .addField("Tweets", `View ${data.name}'s tweets with the \`${prefix}view tweets\` command`);
+    }
 
     // Return
     return embed;

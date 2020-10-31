@@ -26,7 +26,11 @@ export default function embed(command: Command, data?: GitHubRelease): Embed {
         .setDescription(truncateString(data.text, 500))
         .addField(null, null, true)
         .addField("Link", `[github.com...](https://github.com/${command.metadata?.ownerName}/${command.metadata?.name}/releases/tag/${data.tag})`, true)
-        .addField(null, null, true)
+        .addField(null, null, true);
+
+    if (command.compactMode) embed.addField(null, `**User:** ${data.user} (\`${prefix}view user\`)\n**Zipball:** [github.com...](${data.zipball})\n**Tarball:** [github.com...](${data.tarball})\n**Repo:** \`${prefix}view repo\`\n**Releases:** \`${prefix}view releases\`\n**Created:** ${parseDate(data.createdOn)}`);
+
+    else embed
         .addField("Zipball", `[github.com...](${data.zipball})`, true)
         .addField("User", `${data.user}\n(\`${prefix}view user\`)`, true)
         .addField("Tarball", `[github.com...](${data.tarball})`, true)

@@ -26,7 +26,11 @@ export default function embed(command: Command, data?: GitHubIssue): Embed {
         .setDescription(truncateString(data.text, 500))
         .addField(null, null, true)
         .addField("Link", `[github.com...](https://github.com/${command.metadata?.ownerName}/${command.metadata?.name}/issues/${data.number})`, true)
-        .addField(null, null, true)
+        .addField(null, null, true);
+
+    if (command.compactMode) embed.addField(null, `**User:** ${data.user} (\`${prefix}view user\`)\n**State:** ${data.state.charAt(0).toUpperCase()}${data.state.substring(1)}\n**Locked:** ${data.locked ? "Yes" : "No"}\n**Labels:** ${data.labels.join(", ") || "*None*"}\n**Repo:** \`${prefix}view repo\`\n**Issues:** \`${prefix}view issues\`\n**Created:** ${parseDate(data.createdOn)}`);
+
+    else embed
         .addField("State", `${data.state.charAt(0).toUpperCase()}${data.state.substring(1)}`, true)
         .addField("User", `${data.user}\n(\`${prefix}view user\`)`, true)
         .addField("Locked", data.locked ? "Yes" : "No", true)
