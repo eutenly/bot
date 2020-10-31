@@ -1,23 +1,23 @@
-import Guild, { PermissionOverwrites } from "./Guild";
-import { Permissions, PermissionsGuildData } from "./calculateDeniedPermissions";
+import Guild, { GuildDataRole, PermissionOverwrites } from "./Guild";
+import { Permissions } from "./calculateDeniedPermissions";
 
-export default function calculatePermissionOverwrites(guild: Guild, data: PermissionsGuildData, deniedPermissions: number, permOverwrites: PermissionOverwrites[], PERMISSIONS: Permissions): number {
+export default function calculatePermissionOverwrites(guild: Guild, userID: string, roles: Map<string, GuildDataRole>, deniedPermissions: number, permOverwrites: PermissionOverwrites[], PERMISSIONS: Permissions): number {
 
     /**
      * Filter permission overwrites
      *
-     * We only need the permission overwrites that apply to the bot
-     * For example, if the bot doesn't have a role, we don't need to process the permission overwrites for it
-     * We also don't need to process permission overwrites for members that aren't the bot itself
+     * We only need the permission overwrites that apply to the member
+     * For example, if the member doesn't have a role, we don't need to process the permission overwrites for it
+     * We also don't need to process permission overwrites for members that aren't the member itself
      */
-    permOverwrites = permOverwrites.filter((o: PermissionOverwrites) => o.id === guild.client.id || data.roles.has(o.id));
+    permOverwrites = permOverwrites.filter((o: PermissionOverwrites) => o.id === userID || roles.has(o.id));
 
     // Set permission overwrite role positions
     // A `PermissionOverwrites` object doesn't have role positions, so we need to set them
     permOverwrites.forEach((o: PermissionOverwrites) => {
 
         // Get role
-        const role = data.roles.get(o.id);
+        const role = roles.get(o.id);
         if (!role) {
 
             // If the role doesn't exist, that means that it's a member

@@ -26,14 +26,23 @@ export default function embed(command: Command, data?: TwitterTweet): Embed {
         .addField(null, null, true)
         .addField("Link", `[twitter.com...](https://twitter.com/${data.user.handle}/status/${data.id})`, true)
         .addField(null, null, true)
-        .addField("Likes", data.likes.toLocaleString(), true)
-        .addField("Retweets", data.retweets.toLocaleString(), true)
-        .addField("Sent", parseDate(data.sentOn))
-        .addField()
-        .addField("User", `View info about the person who sent this tweet with the \`${prefix}view user\` command`)
-        .setImage(data.image);
 
-    if (data.quotedTweet) embed.addField("Quoted Tweet", `View the quoted tweet with the \`${prefix}view quoted tweet\` command`);
+    if (command.compactMode) embed
+        .addField(null, `**Likes:**: ${data.likes.toLocaleString()}\n**Retweets:** ${data.retweets.toLocaleString()}\n**User:** View info about the person who sent this tweet with the \`${prefix}view user\` command${data.quotedTweet ? `\n**Quoted Tweet:** View the quoted tweet with the \`${prefix}view quoted tweet\` command` : ""}\n**Sent:** ${parseDate(data.sentOn)}`)
+        .setThumbnail(data.image);
+
+    else {
+
+        embed
+            .addField("Likes", data.likes.toLocaleString(), true)
+            .addField("Retweets", data.retweets.toLocaleString(), true)
+            .addField("Sent", parseDate(data.sentOn))
+            .addField()
+            .addField("User", `View info about the person who sent this tweet with the \`${prefix}view user\` command`)
+            .setImage(data.image);
+
+        if (data.quotedTweet) embed.addField("Quoted Tweet", `View the quoted tweet with the \`${prefix}view quoted tweet\` command`);
+    }
 
     // Return
     return embed;

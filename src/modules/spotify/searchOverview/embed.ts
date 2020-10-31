@@ -47,7 +47,8 @@ export default function embed(command: Command, data?: SpotifySearchOverview[]):
         else if (d.type === "album") embed.addField(null, `**${i + 1}. [${d.name}](https://open.spotify.com/album/${d.id})**\n[${d.artist.name}](https://open.spotify.com/artist/${d.artist.id}) - ${d.tracks?.toLocaleString()} Track${d.tracks === 1 ? "" : "s"}`);
     });
 
-    embed
+    if (command.compactMode) embed.addField("More", `\u2022 Use the \`${prefix}view <Result Number>\` command to get more info about a result\n\u2022 Use the \`${prefix}view tracks/artists/albums/playlists/episodes\` command to see more results`);
+    else embed
         .addField()
         .addField("View", `Use the \`${prefix}view <Result Number>\` command to get more info about a result`)
         .addField("More", `**\u2022 Tracks:** \`${prefix}view tracks\`\n**\u2022 Artists:** \`${prefix}view artists\`\n**\u2022 Albums:** \`${prefix}view albums\`\n**\u2022 Playlists:** \`${prefix}view playlists\`\n**\u2022 Episodes:** \`${prefix}view episodes\``)

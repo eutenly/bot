@@ -1,7 +1,7 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
-import parseDate from "../../../util/parseDate";
 import formatURL from "../../../util/formatURL";
+import parseDate from "../../../util/parseDate";
 import { GitHubUser } from "./parse";
 
 export default function embed(command: Command, data?: GitHubUser): Embed {
@@ -27,7 +27,11 @@ export default function embed(command: Command, data?: GitHubUser): Embed {
         .setAuthor(`GitHub: ${data.name}`, "https://getdrawings.com/free-icon-bw/github-icon-23.png", `https://github.com/${data.name}`)
         .addField(null, null, true)
         .addField("Link", `[github.com...](https://github.com/${data.name})`, true)
-        .addField(null, null, true)
+        .addField(null, null, true);
+
+    if (command.compactMode) embed.addField(null, `**Followers:** ${data.followers.toLocaleString()}\n**Public Repos:** ${data.repos.toLocaleString()} Repos (\`${prefix}view repos\`)\n**Public Gists:** ${data.gists.toLocaleString()} Gists (\`${prefix}view gists\`)\n**Location:** ${data.location || "*None*"}\n**Website:** ${data.website ? formatURL(data.website) : "*None*"}\n**Company:** ${data.company || "*None*"}\n**Events:** View ${data.name}'s events with the \`${prefix}view events\` command\n**Created:** ${parseDate(data.createdOn)}`);
+
+    else embed
         .addField("Public Repos", `${data.repos.toLocaleString()} Repos\n(\`${prefix}view repos\`)`, true)
         .addField("Followers", data.followers.toLocaleString(), true)
         .addField("Public Gists", `${data.gists.toLocaleString()} Gists\n(\`${prefix}view gists\`)`, true)

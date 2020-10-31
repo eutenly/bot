@@ -47,6 +47,11 @@ export default class Channel {
     // For example, the spotify `add` command lets any user add a track to a playlist
     commands?: ChannelCommands;
 
+    // Compact mode
+    get compactMode(): boolean | undefined {
+        return this.guild ? this.guild.compactMode.get(this.id) : false;
+    }
+
     // Constructor
     constructor(client: Client, data: ChannelData) {
 

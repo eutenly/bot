@@ -1,5 +1,6 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
+import truncateString from "../../../util/truncateString";
 
 export default function embed(command: Command, data?: any): Embed {
 
@@ -17,7 +18,7 @@ export default function embed(command: Command, data?: any): Embed {
     // Build embed
     embed
         .setAuthor(data.title, "https://upload.wikimedia.org/wikipedia/en/thumb/8/80/Wikipedia-logo-v2.svg/1200px-Wikipedia-logo-v2.svg.png", `https://en.wikipedia.org/wiki/${encodeURIComponent(data.title)}`)
-        .setDescription(data.snippet)
+        .setDescription(command.compactMode ? truncateString(data.snippet, 500) : data.snippet)
         .addField(null, null, true)
         .addField("Link", `[wikipedia.org...](https://en.wikipedia.org/wiki/${encodeURIComponent(data.title)})`, true)
         .addField(null, null, true);

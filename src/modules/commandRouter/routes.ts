@@ -1,4 +1,5 @@
 import Message from "../../classes/Message/Message";
+import compactCommand from "../compact";
 import evalCommand from "../eval";
 import githubHelpEmbed from "../github/helpEmbed";
 import githubCommand from "../github/main";
@@ -136,6 +137,12 @@ export const routes: CommandRoute[] = [
         information: "Save a link to view later",
         inputs: ["save"],
         module: saveCommand
+    },
+    {
+        name: "Compact",
+        information: "Enable or disable compact mode for a channel. You need to be a moderator to use this command",
+        inputs: ["compact"],
+        module: compactCommand
     },
     {
         name: "Invite",

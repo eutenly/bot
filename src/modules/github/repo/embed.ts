@@ -27,7 +27,11 @@ export default function embed(command: Command, data?: GitHubRepo): Embed {
         .setAuthor(`${data.ownerName}/${data.name}`, "https://getdrawings.com/free-icon-bw/github-icon-23.png", `https://github.com/${data.ownerName}/${data.name}`)
         .addField(null, null, true)
         .addField("Link", `[github.com...](https://github.com/${data.ownerName}/${data.name})`, true)
-        .addField(null, null, true)
+        .addField(null, null, true);
+
+    if (command.compactMode) embed.addField(null, `**Stars:** ${data.stars.toLocaleString()}\n**Watchers:** ${data.watchers.toLocaleString()}\n**Forks:** ${data.forks.toLocaleString()}\n**Language:** ${data.language ? `${data.language} (\`${prefix}view languages\`)` : "*None*"}\n**License:** ${data.license || "*None*"}\n**Website:** ${data.website ? formatURL(data.website) : "*None*"}\n**User:** \`${prefix}view user\`\n**Files:** \`${prefix}view files\`\n**Issues:** \`${prefix}view issues\`\n**Pull Requests:** \`${prefix}view prs\`\n**Releases:** \`${prefix}view releases\`\n**Events:** \`${prefix}view events\`\n**Created:** ${parseDate(data.createdOn)}`);
+
+    else embed
         .addField("Stars", data.stars.toLocaleString(), true)
         .addField("Watchers", data.watchers.toLocaleString(), true)
         .addField("Forks", data.forks.toLocaleString(), true)

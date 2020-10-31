@@ -16,6 +16,9 @@ export default function channelDelete(client: Client, data: EventData) {
     // Ignore non text channels
     if ([2, 4].includes(data.type)) return;
 
+    // Remove name
+    guild.channelNames.delete(data.id);
+
     // Remove from denied permissions cache
     guild.deniedPermissions.delete(data.id);
 }

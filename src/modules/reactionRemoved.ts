@@ -2,7 +2,7 @@ import Command from "../classes/Command/Command";
 import Embed from "../classes/Embed/Embed";
 import Reaction from "../classes/Reaction/Reaction";
 
-export default async function reactionAdded(reaction: Reaction) {
+export default async function reactionRemoved(reaction: Reaction) {
 
     // Get command
     const command: Command | undefined = reaction.message.command;
@@ -14,31 +14,11 @@ export default async function reactionAdded(reaction: Reaction) {
     // Cooldown not done
     if (!reaction.user.checkCooldown()) return;
 
-    // Previous page
-    if ((reaction.id === reaction.client.eutenlyEmojis.get("left_arrow")) && (command.searchManager) && (command.searchManager.page)) {
-
-        // Set page
-        command.searchManager.setPage(command.searchManager.page - 1);
-
-        // Remove reaction
-        if (reaction.guild) reaction.remove();
-    }
-
-    // Next page
-    else if ((reaction.id === reaction.client.eutenlyEmojis.get("right_arrow")) && (command.searchManager) && (command.searchManager.page)) {
-
-        // Set page
-        command.searchManager.setPage(command.searchManager.page + 1);
-
-        // Remove reaction
-        if (reaction.guild) reaction.remove();
-    }
-
     // Compact
-    else if ((reaction.id === reaction.client.eutenlyEmojis.get("compact")) && (!command.compactMode)) {
+    if ((reaction.id === reaction.client.eutenlyEmojis.get("compact")) && (command.compactMode)) {
 
         // Set compact mode
-        command.compactMode = true;
+        command.compactMode = false;
 
         // Get embed
         const embed: Embed = command.getEmbed(command, command.searchManager ? (command.searchManager.cache.get(command.searchManager.page as number) || []) : command.data);
@@ -48,10 +28,10 @@ export default async function reactionAdded(reaction: Reaction) {
     }
 
     // Expand
-    else if ((reaction.id === reaction.client.eutenlyEmojis.get("expand")) && (command.compactMode)) {
+    else if ((reaction.id === reaction.client.eutenlyEmojis.get("expand")) && (!command.compactMode)) {
 
         // Set compact mode
-        command.compactMode = false;
+        command.compactMode = true;
 
         // Get embed
         const embed: Embed = command.getEmbed(command, command.searchManager ? (command.searchManager.cache.get(command.searchManager.page as number) || []) : command.data);

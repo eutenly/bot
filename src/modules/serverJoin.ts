@@ -23,7 +23,7 @@ export default async function serverJoin(guild: Guild) {
     ) return guild.leave(":x:  **|  I have left your server due to it being detected as an unauthorized clone of my official server. If you think that this is a mistake, please let my Support Team know in the `#support` channel of my support server at https://discord.gg/feE2vaR**");
 
     // Create server doc
-    Servers.create({ _id: guild.id }).catch(() => { });
+    Servers.create({ _id: guild.id, compactMode: [] }).catch(() => { });
 
     // Collect stats
     collectStat(guild.client, {

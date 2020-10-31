@@ -7,6 +7,7 @@ import guildDelete from "../events/guildDelete";
 import guildMemberUpdate from "../events/guildMemberUpdate";
 import messageCreate from "../events/messageCreate";
 import messageReactionAdd from "../events/messageReactionAdd";
+import messageReactionRemove from "../events/messageReactionRemove";
 import ready from "../events/ready";
 import roleDelete from "../events/roleDelete";
 import roleUpdate from "../events/roleUpdate";
@@ -30,6 +31,9 @@ export default function event(client: Client, type: string, data: any) {
 
     // Message Reaction Add
     else if (type === "MESSAGE_REACTION_ADD") messageReactionAdd(client, data);
+
+    // Message Reaction Remove
+    else if (type === "MESSAGE_REACTION_REMOVE") messageReactionRemove(client, data);
 
     // Role update
     else if (type === "GUILD_ROLE_UPDATE") roleUpdate(client, data);
