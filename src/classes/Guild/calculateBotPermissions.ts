@@ -38,10 +38,20 @@ export default async function calculateBotPermissions(guild: Guild, rawData: Par
     let selfData: Promise<GuildDataMember> | undefined;
     if (!rawData.myRoles) selfData = guild.getMember(guild.client.id);
 
+    /**
+     * Define not in guild
+     *
+     * If the bot is kicked, sometimes discord will fire role/channel delete events
+     */
+    let notInGuild: boolean = false;
+
     // Set data
-    if (channelData) rawData.channels = await channelData;
-    if (roleData) rawData.rawRoles = await roleData;
-    if (selfData) rawData.myRoles = (await selfData).roles;
+    if (channelData) rawData.channels = await channelData.catch(() => notInGuild = true) as GuildDataChannel[];
+    if (roleData) rawData.rawRoles = await roleData.catch(() => notInGuild = true) as GuildDataRole[];
+    if (selfData) rawData.myRoles = (await selfData.catch(() => notInGuild = true) as GuildDataMember | undefined)?.roles;
+
+    // Not in guild
+    if (notInGuild) return;
 
     const data: PermissionsGuildData = {
         channels: rawData.channels || [],
