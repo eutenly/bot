@@ -1,4 +1,3 @@
-import RateLimit from "../common/RateLimit";
 import FetchQueue, { RequestData } from "./FetchQueue";
 
 export default async function processRequests(fetchQueue: FetchQueue) {
@@ -20,13 +19,14 @@ export default async function processRequests(fetchQueue: FetchQueue) {
         if ((fetchQueue.rateLimit) && (fetchQueue.rateLimit.remaining === 0)) await sleep(fetchQueue.rateLimit.reset - Date.now());
 
         // Fetch
-        const { data, rateLimit }: { data: any; rateLimit: RateLimit | undefined; } = await fetchQueue.client.fetch(requestData.path, requestData.data);
+        const result = await fetchQueue.client.fetch(requestData.path, requestData.data).catch((err: Error) => requestData.reject(err));
+        if (!result) continue;
 
         // Update rate limit
-        if (rateLimit) fetchQueue.rateLimit = rateLimit;
+        if (result.rateLimit) fetchQueue.rateLimit = result.rateLimit;
 
         // Resolve
-        requestData.resolve(data);
+        requestData.resolve(result.data);
     }
 
     // Set processing requests
