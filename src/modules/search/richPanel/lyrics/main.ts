@@ -3,11 +3,12 @@ import Embed from "../../../../classes/Embed/Embed";
 import Message from "../../../../classes/Message/Message";
 import embed from "./embed";
 
-export default async function main(message: Message, data: any, commandHistoryIndex?: number) {
+export default async function main(message: Message, data: any, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Create command
     const command: Command = new Command(message.client, {
-        name: "googleLyrics",
+        name: "lyrics",
+        type: "google",
         message,
         data,
         getEmbed: embed
@@ -18,4 +19,7 @@ export default async function main(message: Message, data: any, commandHistoryIn
 
     // Send
     command.send(commandEmbed);
+
+    // Return
+    return command;
 }

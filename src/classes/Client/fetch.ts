@@ -12,10 +12,10 @@ export default async function fetch(client: Client, path: string, options: Reque
         headers: {
             "User-Agent": "Eutenly (https://eutenly.com, 1.0)",
             "Authorization": `Bot ${client.token}`,
-            "Content-Type": "application/json",
+            "Content-Type": options.method === "DELETE" ? undefined : "application/json",
             "X-RateLimit-Precision": "millisecond",
             ...headers
-        },
+        } as any,
         ...options
     });
 
@@ -39,7 +39,7 @@ export default async function fetch(client: Client, path: string, options: Reque
     };
 
     // API error
-    if (data.code !== undefined) throw new Error(`API Error: ${data.code} ${data.message}`);
+    if (data.code !== undefined) throw new Error(`API Error: ${data.code} ${data.message} at ${path}`);
 
     // Return
     return {

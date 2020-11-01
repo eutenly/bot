@@ -7,14 +7,15 @@ import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
 
-export default async function main(message: Message, commandHistoryIndex?: number) {
+export default async function main(message: Message, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Get prefix
     const prefix: string = message.guild?.prefix || process.env.DEFAULT_PREFIX || "";
 
     // Create command
     const command: Command = new Command(message.client, {
-        name: "redditHome",
+        name: "home",
+        type: "reddit",
         message,
         url: url(),
         getURL: (): string => "https://oauth.reddit.com/api/v1/me",
@@ -42,6 +43,9 @@ export default async function main(message: Message, commandHistoryIndex?: numbe
 
     // Send
     command.send(commandEmbed);
+
+    // Return
+    return command;
 }
 
 export function url(): string {

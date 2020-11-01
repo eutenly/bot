@@ -2,6 +2,7 @@ import Channel from "../Channel/Channel";
 import Client from "../Client/Client";
 import Command from "../Command/Command";
 import Message from "../Message/Message";
+import commandUsed from "./commandUsed";
 import getConnection from "./getConnection";
 import getData from "./getData";
 
@@ -25,9 +26,7 @@ interface Connections {
     twitter?: Connection;
     reddit?: Connection;
     spotify?: Connection;
-    twitch?: Connection;
     github?: Connection;
-    wakatime?: Connection;
 }
 
 interface UserData {
@@ -83,4 +82,7 @@ export default class User {
 
     // Get a connection
     getConnection = (name: string) => getConnection(this, name);
+
+    // Increment a command used stat
+    commandUsed = (type: string) => commandUsed(this, type);
 }

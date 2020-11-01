@@ -5,11 +5,12 @@ import fetch from "./fetch";
 import parse from "./parse";
 import view from "./view";
 
-export default async function search(message: Message, query: string, commandHistoryIndex?: number) {
+export default async function search(message: Message, query: string, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Create command
     const command: Command = new Command(message.client, {
-        name: "google",
+        name: "search",
+        type: "google",
         message,
         webScraper: true,
         input: query,
@@ -23,6 +24,9 @@ export default async function search(message: Message, query: string, commandHis
 
     // Search
     command.searchManager?.setPage(1);
+
+    // Return
+    return command;
 }
 
 export function url(query: string): string {

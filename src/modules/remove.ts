@@ -3,6 +3,7 @@ import Embed from "../classes/Embed/Embed";
 import Message from "../classes/Message/Message";
 import save from "../models/save";
 import { SavedLink } from "../models/users";
+import collectStat from "../util/collectStat";
 
 export default async function remove(message: Message) {
 
@@ -11,7 +12,7 @@ export default async function remove(message: Message) {
 
     // Get command
     const command: Command | undefined = message.author.command;
-    if ((!command) || (command.name !== "savedLinks")) return message.channel.sendMessage(":x:  **|  You aren't viewing your saved links**");
+    if ((!command) || (command.type !== "savedLinks")) return message.channel.sendMessage(":x:  **|  You aren't viewing your saved links**");
 
     // Get user data
     const userData = await message.author.getData();
@@ -57,6 +58,15 @@ export default async function remove(message: Message) {
 
     // Save
     await save(userData);
+
+    // Collect stats
+    collectStat(message.client, {
+        measurement: "saved_links_updated",
+        tags: {
+            action: "remove",
+            dms: message.guild ? undefined : true
+        }
+    });
 
     // Send
     message.channel.sendMessage(":white_check_mark:  **|  Removed link!**");

@@ -1,6 +1,7 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import parseDate from "../../../util/parseDate";
+import truncateString from "../../../util/truncateString";
 import { RedditPost } from "./parse";
 
 export default function embed(command: Command, data?: RedditPost): Embed {
@@ -21,11 +22,17 @@ export default function embed(command: Command, data?: RedditPost): Embed {
 
     // Build embed
     embed
-        .setAuthor(`${data.title.substring(0, 50)}${data.title.length > 50 ? "..." : ""}`, "https://i.imgur.com/YKUi7bl.png", `https://reddit.com/r/${data.subredditName}/comments/${data.id}`)
-        .setDescription(`${(data.nsfw || data.spoiler) ? "||" : ""}${data.text.substring(0, 500)}${data.text.length > 500 ? "..." : ""}${(data.nsfw || data.spoiler) ? "||" : ""}`)
+        .setAuthor(truncateString(data.title, 50), "https://i.imgur.com/YKUi7bl.png", `https://reddit.com/r/${data.subredditName}/comments/${data.id}`)
+        .setDescription(`${(data.nsfw || data.spoiler) ? "||" : ""}${truncateString(data.text, 500)}${(data.nsfw || data.spoiler) ? "||" : ""}`)
         .addField(null, null, true)
         .addField("Link", `[reddit.com...](https://reddit.com/r/${data.subredditName}/comments/${data.id})`, true)
-        .addField(null, null, true)
+        .addField(null, null, true);
+
+    if (command.compactMode) embed
+        .addField(null, `**Score:** ${data.score.toLocaleString()}\n**Comments:** ${data.comments.toLocaleString()}\n**Awards:** ${data.awards.toLocaleString()}\n**Subreddit:** r/${data.subredditName} (\`${prefix}view subreddit\`)\n**NSFW:** ${data.nsfw ? "Yes" : "No"}\n**Spoiler:** ${data.spoiler ? "Yes" : "No"}\n**User:** View info about the person who created this post with the \`${prefix}view user\` command\n**Posted:** ${parseDate(data.postedAt)}`)
+        .setThumbnail(data.image);
+
+    else embed
         .addField("Comments", data.comments.toLocaleString(), true)
         .addField("Score", data.score.toLocaleString(), true)
         .addField("Awards", data.awards.toLocaleString(), true)

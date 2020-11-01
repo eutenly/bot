@@ -25,7 +25,13 @@ export default function embed(command: Command, data?: SpotifyTrack): Embed {
         .setDescription(`${data.artists.map((a: SpotifyArtist, i: number) => `${data.artists.length > 1 ? `**[a-${i + 1}]** ` : ""}[${a.name}](https://open.spotify.com/artist/${a.id})`).join("\n")}${data.artists.length > 1 ? "\n\n" : " "}(\`${prefix}view ${data.artists.length > 1 ? "<Artist Number>" : "artist"}\`)`)
         .addField(null, null, true)
         .addField("Link", `[spotify.com...](https://open.spotify.com/track/${data.id})`, true)
-        .addField(null, null, true)
+        .addField(null, null, true);
+
+    if (command.compactMode) embed
+        .addField(null, `**Length:** ${parseDuration(data.length)}\n**Release Year:** ${(new Date(data.releasedOn)).getFullYear()}\n**Album:** ${data.album.name} (\`${prefix}view album\`)\n**Explicit:** ${data.explicit ? "Yes" : "No"}\n**Tempo:** ${data.tempo} BPM\n**Energy:** ${data.energy}%\n**Danceability:** ${data.danceability}%`)
+        .setThumbnail(data.albumArt);
+
+    else embed
         .addField("Explicit", data.explicit ? "Yes" : "No", true)
         .addField("Album", `${data.album.name}\n(\`${prefix}view album\`)`, true)
         .addField("Length", parseDuration(data.length), true)
@@ -35,8 +41,9 @@ export default function embed(command: Command, data?: SpotifyTrack): Embed {
         .addField(null, null, true)
         .addField("Release Year", (new Date(data.releasedOn)).getFullYear(), true)
         .addField(null, null, true)
-        .addField("Add This Track", `Use the \`${prefix}add <Playlist>\` command to add this track to a playlist`)
         .setImage(data.albumArt);
+
+    embed.addField("Add This Track", `Use the \`${prefix}add <Playlist>\` command to add this track to a playlist`);
 
     if (data.copyrights.length) embed.addField(null, data.copyrights.join("\n"));
 

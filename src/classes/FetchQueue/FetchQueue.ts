@@ -7,6 +7,7 @@ export interface RequestData {
     path: string;
     data?: object;
     resolve: Function;
+    reject: Function;
 }
 
 export default class FetchQueue {

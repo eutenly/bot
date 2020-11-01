@@ -1,3 +1,4 @@
+import collectStat from "../../../util/collectStat";
 import Embed from "../../Embed/Embed";
 import { ParserData } from "../Command";
 import SearchManager from "./SearchManager";
@@ -22,6 +23,18 @@ export default async function setPage(searchManager: SearchManager, page: number
 
         // Send
         searchManager.command.send(embed);
+
+        // Collect stats
+        collectStat(searchManager.command.client, {
+            measurement: "pages_cycled",
+            tags: {
+                dms: searchManager.command.message.guild ? undefined : true
+            },
+            fields: {
+                command: searchManager.command.name,
+                commandType: searchManager.command.type
+            }
+        });
 
         // Return
         return;
@@ -54,4 +67,16 @@ export default async function setPage(searchManager: SearchManager, page: number
 
     // Send
     searchManager.command.send(embed);
+
+    // Collect stats
+    collectStat(searchManager.command.client, {
+        measurement: "pages_cycled",
+        tags: {
+            dms: searchManager.command.message.guild ? undefined : true
+        },
+        fields: {
+            command: searchManager.command.name,
+            commandType: searchManager.command.type
+        }
+    });
 }

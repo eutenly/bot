@@ -4,11 +4,12 @@ import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
 
-export default async function main(message: Message, commandHistoryIndex?: number) {
+export default async function main(message: Message, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Create command
     const command: Command = new Command(message.client, {
-        name: "savedLinks",
+        name: "view",
+        type: "savedLinks",
         message,
         input: "links",
         getData: async (input?: string, page: number = 1): Promise<any> => {
@@ -31,4 +32,7 @@ export default async function main(message: Message, commandHistoryIndex?: numbe
 
     // Search
     command.searchManager?.setPage(1);
+
+    // Return
+    return command;
 }

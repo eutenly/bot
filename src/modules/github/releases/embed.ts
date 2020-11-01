@@ -1,5 +1,6 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
+import truncateString from "../../../util/truncateString";
 import { GitHubSearchResult } from "./parse";
 
 export default function embed(command: Command, data: GitHubSearchResult[]): Embed {
@@ -26,9 +27,10 @@ export default function embed(command: Command, data: GitHubSearchResult[]): Emb
         .addField("Link", `[github.com...](https://github.com/${command.metadata?.ownerName}/${command.metadata?.name}/releases)`, true)
         .addField(null, null, true);
 
-    data.forEach((d: GitHubSearchResult, i: number) => embed.addField(null, `**${i + 1}. [${d.name || d.tag}](https://github.com/${command.metadata?.ownerName}/${command.metadata?.name}/releases/tag/${d.tag})**\n${d.text.replace(/[\n\r]/g, " ").substring(0, 80)}${d.text.replace(/[\n\r]/g, " ").length > 80 ? "..." : ""}`));
+    data.forEach((d: GitHubSearchResult, i: number) => embed.addField(null, `**${i + 1}. [${d.name || d.tag}](https://github.com/${command.metadata?.ownerName}/${command.metadata?.name}/releases/tag/${d.tag})**\n${truncateString(d.text.replace(/[\n\r]/g, " "), 80)}`));
 
-    embed
+    if (command.compactMode) embed.addField(null, `*\u2022 React or use the \`${prefix}next\` and \`${prefix}previous\` commands to cycle through pages\n\u2022 Use the \`${prefix}view <Result Number>\` command to get more info about a result*`);
+    else embed
         .addField()
         .addField("Navigation", `\u2022 Use the reactions to cycle through pages\n\u2022 Alternatively, you can use the \`${prefix}next\` and \`${prefix}previous\` commands\n\u2022 Use the \`${prefix}view <Result Number>\` command to get more info about a result\n\u2022 *Navigation for this search times out in 3 minutes*`)
         .addField();

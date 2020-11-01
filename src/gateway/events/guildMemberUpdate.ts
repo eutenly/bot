@@ -12,8 +12,8 @@ export default function guildMemberUpdate(client: Client, data: EventData) {
     const guild: Guild | undefined = client.guilds.get(data.guild_id);
     if (!guild) return;
 
-    // Calculate denied permissions
-    guild.calculateDeniedPermissions({
+    // Calculate bot permissions
+    guild.calculateBotPermissions({
         myRoles: data.roles
     });
 }

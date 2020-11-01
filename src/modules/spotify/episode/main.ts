@@ -7,11 +7,12 @@ import fetch from "../fetch";
 import embed from "./embed";
 import parse from "./parse";
 
-export default async function main(message: Message, episodeID: string, commandHistoryIndex?: number) {
+export default async function main(message: Message, episodeID: string, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Create command
     const command: Command = new Command(message.client, {
-        name: "spotifyEpisode",
+        name: "episode",
+        type: "spotify",
         message,
         url: url(episodeID),
         getURL: (): string => `https://api.spotify.com/v1/episodes/${encodeURIComponent(episodeID)}`,
@@ -42,6 +43,9 @@ export default async function main(message: Message, episodeID: string, commandH
 
     // Send
     command.send(commandEmbed);
+
+    // Return
+    return command;
 }
 
 export function url(episodeID: string): string {

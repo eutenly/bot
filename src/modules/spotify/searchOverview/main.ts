@@ -6,11 +6,12 @@ import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
 
-export default async function main(message: Message, query: string, commandHistoryIndex?: number) {
+export default async function main(message: Message, query: string, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Create command
     const command: Command = new Command(message.client, {
-        name: "spotifySearchOverview",
+        name: "searchOverview",
+        type: "spotify",
         message,
         metadata: {
             query
@@ -36,6 +37,9 @@ export default async function main(message: Message, query: string, commandHisto
 
     // Send
     command.send(commandEmbed);
+
+    // Return
+    return command;
 }
 
 export function url(query: string): string {

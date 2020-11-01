@@ -1,4 +1,5 @@
 import Message from "../../classes/Message/Message";
+import collectStat from "../../util/collectStat";
 import fetch from "./fetch";
 
 export default async function add(message: Message, itemID: string, itemName: string, type: string) {
@@ -33,6 +34,18 @@ export default async function add(message: Message, itemID: string, itemName: st
     // Add item
     await fetch(message, `https://api.spotify.com/v1/playlists/${playlist.id}/tracks`, "POST", {
         uris: [`spotify:${type}:${itemID}`]
+    });
+
+    // Collect stats
+    collectStat(message.client, {
+        measurement: "commands_used",
+        tags: {
+            dms: message.guild ? undefined : true
+        },
+        fields: {
+            command: "add",
+            commandType: "spotify"
+        }
     });
 
     // Send

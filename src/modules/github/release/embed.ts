@@ -1,6 +1,7 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import parseDate from "../../../util/parseDate";
+import truncateString from "../../../util/truncateString";
 import { GitHubRelease } from "./parse";
 
 export default function embed(command: Command, data?: GitHubRelease): Embed {
@@ -22,10 +23,14 @@ export default function embed(command: Command, data?: GitHubRelease): Embed {
     // Build embed
     embed
         .setAuthor(data.name || data.tag, "https://getdrawings.com/free-icon-bw/github-icon-23.png", `https://github.com/${command.metadata?.ownerName}/${command.metadata?.name}/releases/tag/${data.tag}`)
-        .setDescription(`${data.text.substring(0, 500)}${data.text.length > 500 ? "..." : ""}`)
+        .setDescription(truncateString(data.text, 500))
         .addField(null, null, true)
         .addField("Link", `[github.com...](https://github.com/${command.metadata?.ownerName}/${command.metadata?.name}/releases/tag/${data.tag})`, true)
-        .addField(null, null, true)
+        .addField(null, null, true);
+
+    if (command.compactMode) embed.addField(null, `**User:** ${data.user} (\`${prefix}view user\`)\n**Zipball:** [github.com...](${data.zipball})\n**Tarball:** [github.com...](${data.tarball})\n**Repo:** \`${prefix}view repo\`\n**Releases:** \`${prefix}view releases\`\n**Created:** ${parseDate(data.createdOn)}`);
+
+    else embed
         .addField("Zipball", `[github.com...](${data.zipball})`, true)
         .addField("User", `${data.user}\n(\`${prefix}view user\`)`, true)
         .addField("Tarball", `[github.com...](${data.tarball})`, true)

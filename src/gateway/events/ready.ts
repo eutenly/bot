@@ -31,7 +31,8 @@ export default async function ready(client: Client, data: ReadyEventData) {
 
     // Set loading guilds
     serverData.forEach((s) => client.loadingGuilds?.set(s._id, {
-        prefix: s.prefix
+        prefix: s.prefix,
+        compactMode: s.compactMode
     }));
 
     // Log

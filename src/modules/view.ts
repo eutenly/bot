@@ -1,5 +1,6 @@
 import Command, { ViewData } from "../classes/Command/Command";
 import Message from "../classes/Message/Message";
+import collectStat from "../util/collectStat";
 
 export default async function view(message: Message) {
 
@@ -20,5 +21,24 @@ export default async function view(message: Message) {
     if (!viewData) return;
 
     if (viewData.error) message.channel.sendMessage(viewData.error);
-    else if (viewData.module) viewData.module();
+    else if (viewData.module) {
+
+        // Run module
+        const resultCommand: Command = await viewData.module();
+        if (!resultCommand) return;
+
+        // Collect stats
+        collectStat(message.client, {
+            measurement: "results_viewed",
+            tags: {
+                dms: message.guild ? undefined : true
+            },
+            fields: {
+                command: command.name,
+                commandType: command.type,
+                resultCommand: resultCommand.name,
+                resultCommandType: resultCommand.type
+            }
+        });
+    }
 }

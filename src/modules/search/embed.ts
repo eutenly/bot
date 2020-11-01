@@ -1,5 +1,6 @@
 import Command from "../../classes/Command/Command";
 import Embed from "../../classes/Embed/Embed";
+import truncateString from "../../util/truncateString";
 
 export default function embed(command: Command, data: any): Embed {
 
@@ -68,7 +69,7 @@ export default function embed(command: Command, data: any): Embed {
         else if (r.type === "twitter") {
 
             // Get items
-            const items: string[] = r.items.map((item: any, ii: number) => `**[${i + 1}-${ii + 1}.](${item.link})** ${item.text.replace(/\n/g, " ").substring(0, 80)}${item.text.length > 80 ? "..." : ""} - ${item.time}`);
+            const items: string[] = r.items.map((item: any, ii: number) => `**[${i + 1}-${ii + 1}.](${item.link})** ${truncateString(item.text, 80)} - ${item.time}`);
 
             // Add field
             embed.addField(null, `**${i + 1}. [${r.title}](${r.link})**\n\n${items.join("\n\n")}`);
@@ -109,7 +110,8 @@ export default function embed(command: Command, data: any): Embed {
         }
     });
 
-    embed
+    if (command.compactMode) embed.addField(null, `*\u2022 React or use the \`${prefix}next\` and \`${prefix}previous\` commands to cycle through pages\n\u2022 Use the \`${prefix}view <Result Number>\` command to get more info about a result*`);
+    else embed
         .addField()
         .addField("Navigation", `\u2022 Use the reactions to cycle through pages\n\u2022 Alternatively, you can use the \`${prefix}next\` and \`${prefix}previous\` commands\n\u2022 Use the \`${prefix}view <Result Number>\` command to get more info about a result\n\u2022 *Navigation for this search times out in 3 minutes*`)
         .addField();

@@ -25,7 +25,11 @@ export default function embed(command: Command, data?: GitHubGist): Embed {
         .setDescription(data.description)
         .addField(null, null, true)
         .addField("Link", `[gist.github.com...](https://gist.github.com/${command.metadata?.name}/${data.id})`, true)
-        .addField(null, null, true)
+        .addField(null, null, true);
+
+    if (command.compactMode) embed.addField(null, `**Files:** ${data.files.length.toLocaleString()}\n**Comments:** ${data.comments.toLocaleString()}\n**Forks:** ${data.forks.toLocaleString()}\n**User:** \`${prefix}view user\`\n**Gists:** \`${prefix}view gists\`\n**Created:** ${parseDate(data.createdOn)}`);
+
+    else embed
         .addField("Comments", data.comments.toLocaleString(), true)
         .addField("Files", data.files.length.toLocaleString(), true)
         .addField("Forks", data.forks.toLocaleString(), true)

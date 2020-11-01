@@ -1,6 +1,7 @@
 import Embed from "../classes/Embed/Embed";
 import Guild from "../classes/Guild/Guild";
 import { Data, Servers } from "../models";
+import collectStat from "../util/collectStat";
 
 export default async function serverJoin(guild: Guild) {
 
@@ -22,7 +23,18 @@ export default async function serverJoin(guild: Guild) {
     ) return guild.leave(":x:  **|  I have left your server due to it being detected as an unauthorized clone of my official server. If you think that this is a mistake, please let my Support Team know in the `#support` channel of my support server at https://discord.gg/feE2vaR**");
 
     // Create server doc
-    Servers.create({ _id: guild.id }).catch(() => { });
+    Servers.create({ _id: guild.id, compactMode: [] }).catch(() => { });
+
+    // Collect stats
+    collectStat(guild.client, {
+        measurement: "server_join_leaves",
+        tags: {
+            type: "join"
+        },
+        fields: {
+            totalServers: guild.client.guilds.size
+        }
+    });
 
     // Server join/leave embed
     const joinLeaveEmbed: Embed = new Embed()
