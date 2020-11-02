@@ -33,5 +33,5 @@ export default function view(data: TwitterTweet | undefined, message: Message): 
     }
 
     // Invalid type
-    else return { error: `:x:  **|  You can view the user${data.quotedTweet ? " or quoted tweet" : ""}**` };
+    else return { error: ":x:  **|  That's not something you can view**" };
 }
