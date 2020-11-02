@@ -78,4 +78,18 @@ export default async function botInteractionAPI(client: Client) {
         // Send status
         res.sendStatus(200);
     });
+
+    // Uncache Connection
+    app.post("/api/v1/uncacheConnection", (req, res) => {
+
+        // Get user
+        const user: User | undefined = client.users.get(req.body.user_id);
+        if (!user) return res.sendStatus(200);
+
+        // Uncache connection
+        user.uncacheConnection(req.body.connection);
+
+        // Send status
+        res.sendStatus(200);
+    });
 }
