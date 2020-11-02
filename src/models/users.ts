@@ -52,6 +52,8 @@ export interface IUser extends Document {
     alphaTester?: boolean;
     betaTester?: boolean;
     betaServerOwner?: boolean;
+    suggester?: boolean;
+    bugHunter?: boolean;
 }
 
 export const usersSchema: Schema = new Schema({
@@ -103,5 +105,7 @@ export const usersSchema: Schema = new Schema({
     patreonTier: Number,
     alphaTester: Boolean,
     betaTester: Boolean,
-    betaServerOwner: Boolean
+    betaServerOwner: Boolean,
+    suggester: Boolean,
+    bugHunter: Boolean
 });
