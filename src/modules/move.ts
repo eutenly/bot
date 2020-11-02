@@ -18,7 +18,7 @@ export default async function move(message: Message) {
     const commandHistoryIndex: number = latestCommandIndex + (type === "back" ? -1 : 1);
 
     const command: CommandHistoryEntry | undefined = message.author.commandHistory[commandHistoryIndex];
-    if (!command) return message.channel.sendMessage(`:x:  **|  Use another command to be able to use the ${type === "back" ? "back" : "forward"} command**`);
+    if (!command) return message.channel.sendMessage(`:x:  **|  Use another command to be able to use the ${type} command**`);
 
     // Run command
     command.run(message, commandHistoryIndex);
