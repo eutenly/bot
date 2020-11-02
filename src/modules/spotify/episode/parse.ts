@@ -26,7 +26,7 @@ export default function parse(data: any): ParserData {
             show: data.show.name,
             length: data.duration_ms,
             image: data.images[0] && data.images[0].url,
-            copyrights: data.show.copyrights.map((c: any) => c.text)
+            copyrights: [...new Set(data.show.copyrights.map((c: any) => c.text))]
         }
     };
 }
