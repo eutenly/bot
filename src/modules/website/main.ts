@@ -12,6 +12,9 @@ export default async function main(message: Message) {
     // Parse url
     if ((!url.startsWith("http://")) && (!url.startsWith("https://"))) url = `http://${url}`;
 
+    // Check for localhost
+    if (url.startsWith("http://localhost") || url.startsWith("https://localhost")) return message.channel.sendMessage(":x:  **|  This is not a valid URL!**");
+
     // Run module
     website(message, url);
 }
