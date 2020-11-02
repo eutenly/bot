@@ -48,7 +48,7 @@ export const routes: CommandRoute[] = [
         name: "Website",
         information: "View details about a website",
         description: "Enter a link to view details about any website.",
-        inputs: ["website", "websiteinfo", "site", "siteinfo"],
+        inputs: ["website", "websiteinfo", "site", "siteinfo", "web", "webinfo"],
         module: websiteCommand
     },
     {
@@ -61,14 +61,14 @@ export const routes: CommandRoute[] = [
     {
         name: "YouTube",
         information: "Search YouTube",
-        inputs: ["youtube"],
+        inputs: ["youtube", "yt"],
         module: youtubeCommand,
         helpEmbed: youtubeHelpEmbed
     },
     {
         name: "Twitter",
         information: "Search Twitter",
-        inputs: ["twitter"],
+        inputs: ["twitter", "twt"],
         module: twitterCommand,
         helpEmbed: twitterHelpEmbed
     },
@@ -89,14 +89,14 @@ export const routes: CommandRoute[] = [
     {
         name: "GitHub",
         information: "Search GitHub",
-        inputs: ["github"],
+        inputs: ["github", "gh"],
         module: githubCommand,
         helpEmbed: githubHelpEmbed
     },
     {
         name: "Wikipedia",
         information: "Search Wikipedia",
-        inputs: ["wikipedia"],
+        inputs: ["wikipedia", "wiki"],
         module: wikipediaCommand,
         helpEmbed: wikipediaHelpEmbed
     },
@@ -117,7 +117,7 @@ export const routes: CommandRoute[] = [
     {
         name: "View",
         information: "View more info about a result",
-        inputs: ["view", "result"],
+        inputs: ["view", "result", "select"],
         module: viewCommand
     },
     {
@@ -129,7 +129,7 @@ export const routes: CommandRoute[] = [
     {
         name: "Saved Links",
         information: "View your saved links",
-        inputs: ["savedlinks"],
+        inputs: ["savedlinks", "saved"],
         module: savedLinksCommand
     },
     {

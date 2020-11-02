@@ -16,7 +16,7 @@ export default function view(data: YouTubeChannel | undefined, message: Message)
     if (!input) return { error: ":x:  **|  Which result would you like to view?**" };
 
     // Videos
-    if (input.toLowerCase().replace(/\s+/g, "") === "videos") return {
+    if (["videos", "vids"].includes(input.toLowerCase().replace(/\s+/g, ""))) return {
         module: () => videos(message, data.id),
         url: videosURL(data.id)
     };

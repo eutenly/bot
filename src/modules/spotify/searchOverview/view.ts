@@ -16,27 +16,27 @@ export default function view(data: SpotifySearchOverview[] | undefined, message:
     if (!input) return { error: ":x:  **|  What would you like to view?**" };
 
     // Tracks
-    if (["tracks", "songs"].includes(input.toLowerCase().replace(/\s+/g, ""))) return {
+    if (["tracks", "track", "songs", "song"].includes(input.toLowerCase().replace(/\s+/g, ""))) return {
         module: () => search(message, command.metadata.query, "track")
     };
 
     // Artists
-    else if (input.toLowerCase().replace(/\s+/g, "") === "artists") return {
+    else if (["artists", "artist"].includes(input.toLowerCase().replace(/\s+/g, ""))) return {
         module: () => search(message, command.metadata.query, "artist")
     };
 
     // Albums
-    else if (input.toLowerCase().replace(/\s+/g, "") === "albums") return {
+    else if (["albums", "album"].includes(input.toLowerCase().replace(/\s+/g, ""))) return {
         module: () => search(message, command.metadata.query, "album")
     };
 
     // Playlists
-    else if (input.toLowerCase().replace(/\s+/g, "") === "playlists") return {
+    else if (["playlists", "playlist"].includes(input.toLowerCase().replace(/\s+/g, ""))) return {
         module: () => search(message, command.metadata.query, "playlist")
     };
 
     // Episodes
-    else if (input.toLowerCase().replace(/\s+/g, "") === "episodes") return {
+    else if (["episodes", "episode"].includes(input.toLowerCase().replace(/\s+/g, ""))) return {
         module: () => search(message, command.metadata.query, "episode")
     };
 
