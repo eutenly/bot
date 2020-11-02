@@ -4,6 +4,9 @@ import { routes, CommandRoute } from "./commandRouter/routes";
 
 export default async function (message: Message) {
 
+    // Set cooldown
+    message.author.setCooldown(2000);
+
     // Split for arguments
     const args: string[] = message.content.split(" ");
 

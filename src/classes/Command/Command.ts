@@ -133,6 +133,9 @@ export default class Command {
 
         this.expireTimestamp = Date.now() + 180000;
 
+        // Set cooldown
+        this.message.author.setCooldown(this.webScraper ? 4000 : 2000);
+
         // Get connection
         this.getConnection();
 

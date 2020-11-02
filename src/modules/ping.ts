@@ -3,6 +3,9 @@ import Message from "../classes/Message/Message";
 
 export default async function ping(message: Message) {
 
+    // Set cooldown
+    message.author.setCooldown(2000);
+
     // Websocket
     const websocketPing: number = message.client.ping;
 
