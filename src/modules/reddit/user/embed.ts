@@ -30,7 +30,7 @@ export default function embed(command: Command, data?: RedditUser): Embed {
         .addField("Link", `[reddit.com...](https://reddit.com/u/${data.name})`, true)
         .addField(null, null, true)
         .addField("Karma", `Post Karma: **${data.postKarma.toLocaleString()}**\nComment Karma: **${data.commentKarma.toLocaleString()}**\nAwardee Karma: **${data.awardeeKarma.toLocaleString()}**\nAwarder Karma: **${data.awarderKarma.toLocaleString()}**\n**Total Karma: ${data.totalKarma.toLocaleString()}**`, true)
-        .addField("Has Gold", data.hasGold ? "Yes" : "No", true)
+        .addField("Has Premium", data.hasPremium ? "Yes" : "No", true)
         .addField("Posts", `${posts.map((p: RedditPost, i: number) => `**p-${i + 1}. [${truncateString(p.title, 35)}](https://reddit.com/r/${data.name}/comments/${p.id})** - ${p.score.toLocaleString()} Point${p.score === 1 ? "" : "s"}`).join("\n")}\n\n\u2022 Use \`${prefix}view <Post Number>\` to view a post\n\u2022 Use \`${prefix}view posts\` to view more posts`)
         .addField("Created", parseDate(data.createdAt));
 
