@@ -9,9 +9,6 @@ import view from "./view";
 
 export default async function main(message: Message, commandHistoryIndex?: number): Promise<Command | undefined> {
 
-    // Get prefix
-    const prefix: string = message.guild?.prefix || process.env.DEFAULT_PREFIX || "";
-
     // Create command
     const command: Command = new Command(message.client, {
         name: "home",
@@ -25,7 +22,7 @@ export default async function main(message: Message, commandHistoryIndex?: numbe
             (): string => `https://api.github.com/notifications?per_page=5`
         ],
         connectionName: "github",
-        helpEmbed: helpEmbed(prefix),
+        helpEmbed: helpEmbed(message.channel.prefix),
         fetch,
         parser: parse,
         getEmbed: embed,

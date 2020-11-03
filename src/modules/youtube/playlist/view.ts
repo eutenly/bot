@@ -6,7 +6,7 @@ import { YouTubePlaylist } from "./parse";
 export default function view(data: YouTubePlaylist | undefined, message: Message): ViewData | undefined {
 
     // Get prefix
-    const prefix: string = message.guild?.prefix || process.env.DEFAULT_PREFIX || "";
+    const prefix: string = message.channel.prefix;
 
     // No data
     if (!data) return;

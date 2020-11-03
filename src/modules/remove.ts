@@ -1,4 +1,4 @@
-import Command, { ParserData, ViewData } from "../classes/Command/Command";
+import Command, { ParserData } from "../classes/Command/Command";
 import Embed from "../classes/Embed/Embed";
 import Message from "../classes/Message/Message";
 import save from "../models/save";
@@ -7,16 +7,13 @@ import collectStat from "../util/collectStat";
 
 export default async function remove(message: Message) {
 
-    // Get prefix
-    const prefix: string = message.guild?.prefix || process.env.DEFAULT_PREFIX || "";
-
     // Get command
     const command: Command | undefined = message.author.command;
     if ((!command) || (command.type !== "savedLinks")) return message.channel.sendMessage(":x:  **|  You aren't viewing your saved links**");
 
     // Get user data
     const userData = await message.author.getData();
-    if ((!userData) || (userData.savedLinks.length === 0)) return message.channel.sendMessage(`:x:  **|  You don't have any saved links. You can save a link with \`${prefix}save <Link>\`. You can also save what you're currently viewing with \`${prefix}save\`**`);
+    if ((!userData) || (userData.savedLinks.length === 0)) return message.channel.sendMessage(`:x:  **|  You don't have any saved links. You can save a link with \`${message.channel.prefix}save <Link>\`. You can also save what you're currently viewing with \`${message.channel.prefix}save\`**`);
 
     // Get params
     const input: string = message.content.split(" ").slice(1).join(" ");

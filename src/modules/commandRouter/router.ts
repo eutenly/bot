@@ -3,11 +3,8 @@ import { routes, BaseCommand } from "./routes";
 
 export default function routeMessage(message: Message) {
 
-    // Get prefix
-    const prefix: string = message.guild?.prefix || process.env.DEFAULT_PREFIX || "";
-
     // Ignore if message doesn't start with the prefix
-    if (!message.content.toLowerCase().startsWith(prefix)) return;
+    if (!message.content.toLowerCase().startsWith(message.channel.prefix)) return;
 
     // Get command
     const requestedCommand = message.content.toLowerCase().substring(prefix.length, message.content.length);

@@ -6,7 +6,7 @@ import lyrics from "./lyrics/main";
 export default function view(data: any, message: Message): ViewData | undefined {
 
     // Get prefix
-    const prefix: string = message.guild?.prefix || process.env.DEFAULT_PREFIX || "";
+    const prefix: string = message.channel.prefix;
 
     // Get params
     const input: string = message.content.split(" ").slice(1).join(" ");

@@ -45,13 +45,13 @@ export default async function botInteractionAPI(client: Client) {
 
         // Get help embed
         let helpEmbed: Embed;
-        if (req.body.embed === "search") helpEmbed = searchHelpEmbed(process.env.DEFAULT_PREFIX || "");
-        else if (req.body.embed === "youtube") helpEmbed = youtubeHelpEmbed(process.env.DEFAULT_PREFIX || "");
-        else if (req.body.embed === "twitter") helpEmbed = twitterHelpEmbed(process.env.DEFAULT_PREFIX || "");
-        else if (req.body.embed === "spotify") helpEmbed = spotifyHelpEmbed(process.env.DEFAULT_PREFIX || "");
-        else if (req.body.embed === "reddit") helpEmbed = redditHelpEmbed(process.env.DEFAULT_PREFIX || "");
-        else if (req.body.embed === "github") helpEmbed = githubHelpEmbed(process.env.DEFAULT_PREFIX || "");
-        else if (req.body.embed === "wikipedia") helpEmbed = wikipediaHelpEmbed(process.env.DEFAULT_PREFIX || "");
+        if (req.body.embed === "search") helpEmbed = searchHelpEmbed(process.env.DEFAULT_PREFIX as string);
+        else if (req.body.embed === "youtube") helpEmbed = youtubeHelpEmbed(process.env.DEFAULT_PREFIX as string);
+        else if (req.body.embed === "twitter") helpEmbed = twitterHelpEmbed(process.env.DEFAULT_PREFIX as string);
+        else if (req.body.embed === "spotify") helpEmbed = spotifyHelpEmbed(process.env.DEFAULT_PREFIX as string);
+        else if (req.body.embed === "reddit") helpEmbed = redditHelpEmbed(process.env.DEFAULT_PREFIX as string);
+        else if (req.body.embed === "github") helpEmbed = githubHelpEmbed(process.env.DEFAULT_PREFIX as string);
+        else if (req.body.embed === "wikipedia") helpEmbed = wikipediaHelpEmbed(process.env.DEFAULT_PREFIX as string);
         else return res.sendStatus(400);
 
         // Send message

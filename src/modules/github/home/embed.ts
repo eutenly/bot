@@ -6,7 +6,7 @@ import { GitHubHome, GitHubNotification, GitHubRepo } from "./parse";
 export default function embed(command: Command, data?: GitHubHome): Embed {
 
     // Get prefix
-    const prefix: string = command.message.guild?.prefix || process.env.DEFAULT_PREFIX || "";
+    const prefix: string = command.message.channel.prefix;
 
     // Parse type
     const parseType = (type: string): string | undefined => {

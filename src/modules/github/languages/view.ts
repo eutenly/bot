@@ -6,7 +6,7 @@ import { GitHubLanguages } from "./parse";
 export default function view(data: GitHubLanguages | undefined, message: Message, command: Command): ViewData | undefined {
 
     // Get prefix
-    const prefix: string = message.guild?.prefix || process.env.DEFAULT_PREFIX || "";
+    const prefix: string = command.message.channel.prefix;
 
     // No data
     if (!data) return;

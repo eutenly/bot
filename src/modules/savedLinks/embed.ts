@@ -6,7 +6,7 @@ import formatURL from "../../util/formatURL";
 export default function embed(command: Command, data: SavedLink[]): Embed {
 
     // Get prefix
-    const prefix: string = command.message.guild?.prefix || process.env.DEFAULT_PREFIX || "";
+    const prefix: string = command.message.channel.prefix;
 
     // Embed
     const embed = new Embed()

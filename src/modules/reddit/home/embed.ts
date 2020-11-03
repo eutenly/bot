@@ -6,7 +6,7 @@ import { RedditHome, RedditPost } from "./parse";
 export default function embed(command: Command, data?: RedditHome): Embed {
 
     // Get prefix
-    const prefix: string = command.message.guild?.prefix || process.env.DEFAULT_PREFIX || "";
+    const prefix: string = command.message.channel.prefix;
 
     // Embed
     if (!data) return new Embed();
