@@ -82,7 +82,7 @@ export const routes: CommandRoute[] = [
     {
         name: "Spotify",
         information: "Search Spotify",
-        inputs: ["spotify"],
+        inputs: ["spotify", "spt"],
         module: spotifyCommand,
         helpEmbed: spotifyHelpEmbed
     },
