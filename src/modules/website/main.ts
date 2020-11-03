@@ -1,5 +1,6 @@
 import Message from "../../classes/Message/Message";
 import website from "./website";
+import nsfwCheck from "./nsfwCheck";
 
 export default async function main(message: Message) {
 
@@ -14,6 +15,12 @@ export default async function main(message: Message) {
 
     // Check for localhost
     if (url.startsWith("http://localhost") || url.startsWith("https://localhost")) return message.channel.sendMessage(":x:  **|  This is not a valid URL!**");
+
+    // Check NSFW
+    const [success, nsfw] = await nsfwCheck(url)
+    if (!success) return message.channel.sendMessage(":x:  **|  This website is unreachable!**");
+    if (nsfw) return message.channel.sendMessage(":x:  **|  This website is not permitted on Eutenly!**");
+
 
     // Run module
     website(message, url);
