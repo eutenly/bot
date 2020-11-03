@@ -1,4 +1,4 @@
-import Command, { ParserData } from "../../classes/Command/Command";
+import Command from "../../classes/Command/Command";
 import Message from "../../classes/Message/Message";
 import embed from "./embed";
 import parse from "./parse";

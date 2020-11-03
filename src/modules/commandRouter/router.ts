@@ -7,7 +7,7 @@ export default function routeMessage(message: Message) {
     if (!message.content.toLowerCase().startsWith(message.channel.prefix)) return;
 
     // Get command
-    const requestedCommand = message.content.toLowerCase().substring(prefix.length, message.content.length);
+    const requestedCommand = message.commandContent.toLowerCase();
 
     // Parse routes
     let allRoutes: BaseCommand[] = routes;

@@ -8,7 +8,7 @@ export default async function (message: Message) {
     message.author.setCooldown(2000);
 
     // Split for arguments
-    const args: string[] = message.content.split(" ");
+    const args: string[] = message.commandContent.split(" ");
 
     // Embed
     const embed: Embed = new Embed()

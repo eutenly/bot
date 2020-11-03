@@ -7,7 +7,7 @@ import Message from "../classes/Message/Message";
 export default async function (message: Message) {
 
     // Get code
-    const code = message.content.split("eval").slice(1).join("eval");
+    const code = message.commandContent.split("eval").slice(1).join("eval");
 
     // Done function
     const done = (result: any) => {

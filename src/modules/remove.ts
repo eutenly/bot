@@ -16,7 +16,7 @@ export default async function remove(message: Message) {
     if ((!userData) || (userData.savedLinks.length === 0)) return message.channel.sendMessage(`:x:  **|  You don't have any saved links. You can save a link with \`${message.channel.prefix}save <Link>\`. You can also save what you're currently viewing with \`${message.channel.prefix}save\`**`);
 
     // Get params
-    const input: string = message.content.split(" ").slice(1).join(" ");
+    const input: string = message.commandContent.split(" ").slice(1).join(" ");
     if (!input) return message.channel.sendMessage(":x:  **|  Which saved link would you like to remove?**");
 
     // Get data

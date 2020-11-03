@@ -8,7 +8,7 @@ export default async function main(message: Message) {
     const prefix: string = message.channel.prefix;
 
     // Get query
-    const query = message.content.split(" ").slice(1).join(" ");
+    const query = message.commandContent.split(" ").slice(1).join(" ");
 
     // No query
     if (!query) return message.channel.sendMessage(helpEmbed(prefix));

@@ -9,7 +9,7 @@ export default async function main(message: Message) {
     const prefix: string = message.channel.prefix;
 
     // Get input
-    const input = message.content.split(" ").slice(1).join(" ");
+    const input = message.commandContent.split(" ").slice(1).join(" ");
 
     // No input
     if (!input) return message.channel.sendMessage(helpEmbed(prefix));

@@ -4,7 +4,7 @@ import { CommandHistoryEntry } from "../classes/User/User";
 export default async function move(message: Message) {
 
     // Get the type, ie. `back` or `forward`
-    const type: string = message.content.substring(message.channel.prefix.length).toLowerCase();
+    const type: string = message.commandContent.toLowerCase();
 
     // Get latest command
     const latestCommand: CommandHistoryEntry | undefined = message.author.commandHistory.find((h: CommandHistoryEntry) => h.latest);

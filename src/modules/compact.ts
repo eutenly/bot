@@ -12,7 +12,7 @@ export default async function compact(message: Message) {
     channelData = channelData.filter((c: GuildDataChannel) => ![2, 4].includes(c.type));
 
     // Get params
-    const PARAMS: string[] = message.content.split(" ").slice(1);
+    const PARAMS: string[] = message.commandContent.split(" ").slice(1);
     let target: string = PARAMS[0];
     let input: string = PARAMS[1]?.toLowerCase();
 

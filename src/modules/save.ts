@@ -9,7 +9,7 @@ import collectStat from "../util/collectStat";
 export default async function save(message: Message) {
 
     // Get params
-    const input: string = message.content.split(" ").slice(1).join(" ");
+    const input: string = message.commandContent.split(" ").slice(1).join(" ");
 
     // Get command
     const command: Command | undefined = message.author.command;

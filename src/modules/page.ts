@@ -4,11 +4,11 @@ import Message from "../classes/Message/Message";
 export default async function page(message: Message) {
 
     // Get params
-    const PARAMS: string[] = message.content.split(" ");
+    const PARAMS: string[] = message.commandContent.split(" ");
 
     // The first param of the command is the type
     // ie. for `e;next [amount]` the type would be `next`
-    const type: string = PARAMS[0].substring(message.channel.prefix.length).toLowerCase();
+    const type: string = PARAMS[0].toLowerCase();
 
     // The second param of the command is the amount
     const amount: number = parseInt(PARAMS.slice(1).join(" ")) || 1;

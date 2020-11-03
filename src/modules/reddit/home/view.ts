@@ -10,7 +10,7 @@ export default function view(data: RedditHome | undefined, message: Message): Vi
     if (!data) return;
 
     // Get params
-    const input: string = message.content.split(" ").slice(1).join(" ");
+    const input: string = message.commandContent.split(" ").slice(1).join(" ");
     if (!input) return { error: ":x:  **|  What would you like to view?**" };
 
     // Posts
