@@ -15,7 +15,7 @@ export default async function main(message: Message, artistID: string, commandHi
         message,
         url: url(artistID),
         getURL: (): string => `https://api.spotify.com/v1/artists/${encodeURIComponent(artistID)}`,
-        getExtraData: [(data: any): string => `https://api.spotify.com/v1/artists/${data.id}/albums?limit=5&include_groups=album,single`],
+        getExtraData: [(data: any): string => `https://api.spotify.com/v1/artists/${data.id}/albums?limit=5&include_groups=album,single&market=from_token`],
         connectionName: "spotify",
         fetch,
         parser: parse,

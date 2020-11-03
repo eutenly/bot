@@ -16,7 +16,7 @@ export default async function main(message: Message, query: string, type: string
         metadata: {
             type
         },
-        getURL: (query: string = "", page: number = 1): string => `https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=${type}&limit=5${page ? `&offset=${(page - 1) * 5}` : ""}`,
+        getURL: (query: string = "", page: number = 1): string => `https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=${type}&market=from_token&limit=5${page ? `&offset=${(page - 1) * 5}` : ""}`,
         connectionName: "spotify",
         fetch,
         parser: parse,

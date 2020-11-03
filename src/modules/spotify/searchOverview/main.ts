@@ -17,7 +17,7 @@ export default async function main(message: Message, query: string, commandHisto
             query
         },
         url: url(query),
-        getURL: (): string => `https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=track,artist,album&limit=5`,
+        getURL: (): string => `https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=track,artist,album&market=from_token&limit=5`,
         connectionName: "spotify",
         fetch,
         parser: parse,
