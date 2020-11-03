@@ -37,6 +37,9 @@ export default async function reactionAdded(reaction: Reaction) {
     // Compact
     else if ((reaction.id === reaction.client.eutenlyEmojis.get("compact")) && (!command.compactMode)) {
 
+        // Set cooldown
+        command.message.author.setCooldown(2000);
+
         // Set compact mode
         command.compactMode = true;
 
@@ -49,6 +52,9 @@ export default async function reactionAdded(reaction: Reaction) {
 
     // Expand
     else if ((reaction.id === reaction.client.eutenlyEmojis.get("expand")) && (command.compactMode)) {
+
+        // Set cooldown
+        command.message.author.setCooldown(2000);
 
         // Set compact mode
         command.compactMode = false;
