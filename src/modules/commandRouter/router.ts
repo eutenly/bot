@@ -1,3 +1,4 @@
+import * as Sentry from "@sentry/node";
 import Message from "../../classes/Message/Message";
 import { routes, BaseCommand } from "./routes";
 
@@ -50,5 +51,12 @@ export default function routeMessage(message: Message) {
     }
 
     // Run module
-    route.module(message);
+    try {
+        route.module(message);
+    } catch (error) {
+        // Catch errors and log on Sentry
+        message.channel.sendMessage(":x:  **|  Uh oh, Something went wrong! We've traced the issue and our team has been alerted. If this happens continuously, then report the issue on the support server: `e;support`**");
+        Sentry.captureException(error);
+        console.log("Captured Exception");
+    }
 }
