@@ -26,7 +26,7 @@ export default function embed(command: Command, data?: SpotifyArtist): Embed {
         .addField(null, null, true);
 
     if (command.compactMode) embed
-        .addField(null, `**Followers:** ${data.followers.toLocaleString()}\n**Genres:** ${data.genres.join(", ")}`)
+        .addField(null, `**Followers:** ${data.followers.toLocaleString()}\n**Genres:** ${data.genres.join(", ") || "*None*"}`)
         .setThumbnail(data.avatar);
 
     else embed
@@ -37,7 +37,7 @@ export default function embed(command: Command, data?: SpotifyArtist): Embed {
 
     embed.addField("Albums", `${data.albums.map((a: SpotifyAlbum, i: number) => `**a-${i + 1}.** [${a.name}](https://open.spotify.com/album/${a.id}) - ${a.tracks.toLocaleString()} Track${a.tracks === 1 ? "" : "s"}`).join("\n")}\n\n\u2022 Use \`${prefix}view <Album Number>\` to view an album\n\u2022 Use \`${prefix}view albums\` to view more albums`);
 
-    if (!command.compactMode) embed.addField("Genres", data.genres.join(", "));
+    if (!command.compactMode) embed.addField("Genres", data.genres.join(", ") || "*None*");
 
     // Return
     return embed;
