@@ -6,24 +6,20 @@ import view from "./view";
 
 export default async function main(message: Message, commandHistoryIndex?: number): Promise<Command | undefined> {
 
+    // Get params
+    let page: number = parseInt(message.commandContent.split(" ").slice(1).join(" ")) || 1;
+    if (page < 1) page = 1;
+
+    // Get user data
+    const userData = await message.author.getData();
+
     // Create command
     const command: Command = new Command(message.client, {
         name: "view",
         type: "savedLinks",
         message,
         input: "links",
-        getData: async (input?: string, page: number = 1): Promise<any> => {
-
-            // All data is returned at once
-            if (page > 1) return;
-
-            // Get user data
-            const userData = await message.author.getData();
-            if (!userData) return;
-
-            // Return saved links
-            return userData.savedLinks;
-        },
+        allData: userData?.savedLinks,
         splitPages: 5,
         parser: parse,
         getEmbed: embed,
@@ -31,7 +27,7 @@ export default async function main(message: Message, commandHistoryIndex?: numbe
     }, (m: Message, chIndex: number) => main(m, chIndex), commandHistoryIndex);
 
     // Search
-    command.searchManager?.setPage(1);
+    command.searchManager?.setPage(page);
 
     // Return
     return command;

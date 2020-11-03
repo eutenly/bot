@@ -49,6 +49,7 @@ interface CommandData {
     helpEmbed?: Embed;
     fetch?: Fetch;
     splitPages?: number;
+    allData?: any;
     getData?: GetData;
     data?: any;
     parser?: Parser;
@@ -128,7 +129,8 @@ export default class Command {
         if (data.input) this.searchManager = new SearchManager(this, {
             input: data.input,
             orderedPages: data.orderedPages,
-            splitPages: data.splitPages
+            splitPages: data.splitPages,
+            allData: data.allData
         });
 
         this.expireTimestamp = Date.now() + 180000;
