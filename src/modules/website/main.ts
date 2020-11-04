@@ -5,7 +5,7 @@ import nsfwCheck from "./nsfwCheck";
 export default async function main(message: Message) {
 
     // Get url
-    let url: string = message.content.split(" ").slice(1).join(" ");
+    let url: string = message.commandContent.split(" ").slice(1).join(" ");
 
     // No url
     if (!url) return message.channel.sendMessage(":x:  **|  Enter a URL**");

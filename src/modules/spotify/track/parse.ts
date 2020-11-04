@@ -53,7 +53,7 @@ export default function parse(data: any, extraData?: any[]): ParserData {
             tempo: Math.round(audioFeatureData.tempo),
             danceability: Math.round(audioFeatureData.danceability * 100),
             albumArt: data.album.images[0] && data.album.images[0].url,
-            copyrights: albumData.copyrights.map((c: any) => c.text),
+            copyrights: [...new Set(albumData.copyrights.map((c: any) => c.text))],
             releasedOn: data.album.release_date
         }
     };

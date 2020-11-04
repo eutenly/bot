@@ -6,10 +6,10 @@ import search from "./search/main";
 export default async function main(message: Message) {
 
     // Get prefix
-    const prefix: string = message.guild?.prefix || process.env.DEFAULT_PREFIX || "";
+    const prefix: string = message.channel.prefix;
 
     // Get input
-    const input = message.content.split(" ").slice(1).join(" ");
+    const input = message.commandContent.split(" ").slice(1).join(" ");
 
     // No input
     if (!input) return message.channel.sendMessage(helpEmbed(prefix));

@@ -27,6 +27,9 @@ export default class Message {
     channel: Channel;
     guild: Guild | undefined;
 
+    // The content without the prefix, ie `e;search eutenly` > `search eutenly`
+    commandContent: string;
+
     command?: Command;
 
     // Constructor
@@ -42,6 +45,8 @@ export default class Message {
         });
         this.channel = data.channel;
         this.guild = data.guild;
+
+        this.commandContent = this.content.substring(this.channel.prefix.length, this.content.length).trim();
     }
 
     // Edit message

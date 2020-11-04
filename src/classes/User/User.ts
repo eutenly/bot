@@ -83,6 +83,9 @@ export default class User {
     // Get a connection
     getConnection = (name: string) => getConnection(this, name);
 
+    // Uncache a connection
+    uncacheConnection = (name: string) => delete this.connections[name];
+
     // Increment a command used stat
     commandUsed = (type: string) => commandUsed(this, type);
 }

@@ -13,13 +13,13 @@ export default async function setPage(searchManager: SearchManager, page: number
 
     // Get from cache
     const cachedData: any = searchManager.cache.get(page);
-    if (cachedData) {
+    if ((cachedData) || (searchManager.allData)) {
 
         // Set page
         searchManager.page = page;
 
         // Get embed
-        const embed: Embed = searchManager.command.getEmbed(searchManager.command, cachedData);
+        const embed: Embed = searchManager.command.getEmbed(searchManager.command, cachedData || []);
 
         // Send
         searchManager.command.send(embed);
@@ -54,13 +54,8 @@ export default async function setPage(searchManager: SearchManager, page: number
     // Set next page token
     if (searchManager.orderedPages) searchManager.nextPageToken = parserData.noData ? null : parserData.nextPageToken;
 
-    // Split data into pages
-    if (searchManager.splitPages) for (let i = 0; i < Math.ceil(parserData.data.length / searchManager.splitPages); i++) {
-
-        // Add to cache
-        searchManager.cache.set(page + i, parserData.data.slice(i * searchManager.splitPages, (i * searchManager.splitPages) + searchManager.splitPages));
-    }
-    else searchManager.cache.set(page, parserData.data);
+    // Cache data
+    searchManager.cacheData(page, parserData.data);
 
     // Get embed
     const embed: Embed = searchManager.command.getEmbed(searchManager.command, searchManager.cache.get(page) || []);

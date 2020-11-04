@@ -5,10 +5,10 @@ import search from "./search";
 export default async function main(message: Message) {
 
     // Get prefix
-    const prefix: string = message.guild?.prefix || process.env.DEFAULT_PREFIX || "";
+    const prefix: string = message.channel.prefix;
 
     // Get query
-    const query = message.content.split(" ").slice(1).join(" ");
+    const query = message.commandContent.split(" ").slice(1).join(" ");
 
     // No query
     if (!query) return message.channel.sendMessage(helpEmbed(prefix));

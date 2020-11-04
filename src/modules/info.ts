@@ -3,6 +3,9 @@ import Message from "../classes/Message/Message";
 
 export default async function info(message: Message) {
 
+    // Set cooldown
+    message.author.setCooldown(2000);
+
     // Embed
     const embed: Embed = new Embed()
         .setAuthor("Eutenly", message.client.avatarURL, "https://eutenly.com")

@@ -6,7 +6,7 @@ import { GitHubGist } from "./parse";
 export default function embed(command: Command, data?: GitHubGist): Embed {
 
     // Get prefix
-    const prefix: string = command.message.guild?.prefix || process.env.DEFAULT_PREFIX || "";
+    const prefix: string = command.message.channel.prefix;
 
     // Embed
     const embed = new Embed()

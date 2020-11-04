@@ -40,6 +40,11 @@ export default class Channel {
     guild: Guild | undefined;
     messages: Map<string, Message>;
 
+    // Prefix
+    get prefix(): string {
+        return (this.guild?.prefix || process.env.DEFAULT_PREFIX) as string;
+    }
+
     // Fetch queues
     fetchQueues: ChannelFetchQueue;
 

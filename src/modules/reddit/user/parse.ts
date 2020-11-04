@@ -10,7 +10,7 @@ export interface RedditPost {
 export interface RedditUser {
     name: string;
     bio: string;
-    hasGold: boolean;
+    hasPremium: boolean;
     totalKarma: number;
     postKarma: number;
     commentKarma: number;
@@ -33,7 +33,7 @@ export default function parse(data: any, extraData?: any[]): ParserData {
         data: {
             name: data.data.name,
             bio: data.data.subreddit.public_description,
-            hasGold: data.data.is_gold,
+            hasPremium: data.data.is_gold,
             totalKarma: data.data.total_karma,
             postKarma: data.data.link_karma,
             commentKarma: data.data.comment_karma,

@@ -11,7 +11,7 @@ import view from "./view";
 export default async function main(message: Message, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Get prefix
-    const prefix: string = message.guild?.prefix || process.env.DEFAULT_PREFIX || "";
+    const prefix: string = message.channel.prefix;
 
     // Create command
     const command: Command = new Command(message.client, {

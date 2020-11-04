@@ -4,11 +4,11 @@ import { routes, CommandRoute } from "./commandRouter/routes";
 
 export default async function (message: Message) {
 
-    // Split for arguments
-    const args: string[] = message.content.split(" ");
+    // Set cooldown
+    message.author.setCooldown(2000);
 
-    // Get prefix
-    const activePrevix: string = message.guild?.prefix || process.env.DEFAULT_PREFIX || "";
+    // Split for arguments
+    const args: string[] = message.commandContent.split(" ");
 
     // Embed
     const embed: Embed = new Embed()
@@ -25,11 +25,11 @@ export default async function (message: Message) {
                 if (route.private) return;
 
                 // Add field
-                embed.addField(route.name, `${route.information} (\`${activePrevix}${route.inputs[0]}\`)`);
+                embed.addField(route.name, `${route.information} (\`${message.channel.prefix}${route.inputs[0]}\`)`);
             });
 
             embed
-                .addField("Learn more about a command", "Run `" + activePrevix + "help <command>`")
+                .addField("Learn more about a command", "Run `" + message.channel.prefix + "help <command>`")
                 .addField(null, "[Add Eutenly](https://eutenly.com/invite) \u2022 [Support Server](https://discord.gg/feE2vaR) \u2022 [Website](https://eutenly.com) \u2022 [Vote](https://discordbots.org/bot/733753582507261999) \u2022 [Voter Perks](https://eutenly.com/voter-perks)");
 
             return message.channel.sendMessage(embed);
@@ -45,7 +45,7 @@ export default async function (message: Message) {
             }
 
             // If there's a help embed, send it
-            if (route.helpEmbed) return message.channel.sendMessage(route.helpEmbed(activePrevix));
+            if (route.helpEmbed) return message.channel.sendMessage(route.helpEmbed(message.channel.prefix));
 
             // If command present, display information
             embed.setDescription("Information about `" + route.name + "`")

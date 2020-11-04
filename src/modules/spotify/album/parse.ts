@@ -41,7 +41,7 @@ export default function parse(data: any): ParserData {
                 length: t.duration_ms
             })),
             albumArt: data.images[0] && data.images[0].url,
-            copyrights: data.copyrights.map((c: any) => c.text),
+            copyrights: [...new Set(data.copyrights.map((c: any) => c.text))],
             releasedOn: data.release_date
         }
     };

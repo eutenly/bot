@@ -6,7 +6,7 @@ import searchOverview from "./searchOverview/main";
 export default async function main(message: Message) {
 
     // Get input
-    const input = message.content.split(" ").slice(1).join(" ");
+    const input = message.commandContent.split(" ").slice(1).join(" ");
 
     // No input
     if (!input) return home(message);

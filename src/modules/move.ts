@@ -3,11 +3,8 @@ import { CommandHistoryEntry } from "../classes/User/User";
 
 export default async function move(message: Message) {
 
-    // Get prefix
-    const prefix: string = message.guild?.prefix || process.env.DEFAULT_PREFIX || "";
-
     // Get the type, ie. `back` or `forward`
-    const type: string = message.content.substring(prefix.length).toLowerCase();
+    const type: string = message.commandContent.toLowerCase();
 
     // Get latest command
     const latestCommand: CommandHistoryEntry | undefined = message.author.commandHistory.find((h: CommandHistoryEntry) => h.latest);

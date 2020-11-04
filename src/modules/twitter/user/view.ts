@@ -6,13 +6,13 @@ import { TwitterUser } from "./parse";
 export default function view(data: TwitterUser | undefined, message: Message): ViewData | undefined {
 
     // Get prefix
-    const prefix: string = message.guild?.prefix || process.env.DEFAULT_PREFIX || "";
+    const prefix: string = message.channel.prefix;
 
     // No data
     if (!data) return;
 
     // Get params
-    const input: string = message.content.split(" ").slice(1).join(" ");
+    const input: string = message.commandContent.split(" ").slice(1).join(" ");
     if (!input) return { error: ":x:  **|  Which result would you like to view?**" };
 
     // Tweets

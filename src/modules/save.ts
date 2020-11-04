@@ -8,11 +8,8 @@ import collectStat from "../util/collectStat";
 
 export default async function save(message: Message) {
 
-    // Get prefix
-    const prefix: string = message.guild?.prefix || process.env.DEFAULT_PREFIX || "";
-
     // Get params
-    const input: string = message.content.split(" ").slice(1).join(" ");
+    const input: string = message.commandContent.split(" ").slice(1).join(" ");
 
     // Get command
     const command: Command | undefined = message.author.command;
@@ -107,5 +104,5 @@ export default async function save(message: Message) {
     });
 
     // Send
-    message.channel.sendMessage(`:white_check_mark:  **|  Saved link! View your saved links with \`${prefix}savedlinks\`**`);
+    message.channel.sendMessage(`:white_check_mark:  **|  Saved link! View your saved links with \`${message.channel.prefix}savedlinks\`**`);
 }
