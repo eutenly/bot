@@ -1,4 +1,5 @@
 import Message from "../../classes/Message/Message";
+import sendLoginEmbed from "../../util/sendLoginEmbed";
 import fetch from "./fetch";
 import track from "./track/main";
 
@@ -6,6 +7,9 @@ export default async function current(message: Message) {
 
     // Get connection
     await message.author.getConnection("spotify");
+
+    // Check for no-connection
+    if (!message.author.connections["spotify"]) { sendLoginEmbed(message, "spotify"); return; }
 
     // Fetch
     const data: any = await fetch(message, "https://api.spotify.com/v1/me/player/currently-playing");
