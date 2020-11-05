@@ -80,7 +80,7 @@ export default class Embed {
         // Set data
         this.title = title;
         return this;
-    };
+    }
 
     // Set author
     setAuthor = (name?: string | number | null, iconURL?: string, url?: string): Embed => {
@@ -104,7 +104,7 @@ export default class Embed {
             url
         };
         return this;
-    };
+    }
 
     // Set description
     setDescription = (description?: string | number | null): Embed => {
@@ -124,7 +124,7 @@ export default class Embed {
         // Set data
         this.description = description;
         return this;
-    };
+    }
 
     // Set color
     setColor = (color?: string | number | null): Embed => {
@@ -141,7 +141,7 @@ export default class Embed {
         // Set data
         this.color = color;
         return this;
-    };
+    }
 
     // Add field
     addField = (name?: string | number | null, value?: string | number | null, inline: boolean = false): Embed => {
@@ -167,7 +167,40 @@ export default class Embed {
             inline
         });
         return this;
-    };
+    }
+
+    // Add split field
+    addSplitField = (name: string | number | null | undefined, values: Array<string | number>): Embed => {
+
+        // Split values into content, each element in the `content` array needs to fit into an embed field
+        const content: string[] = [];
+        let thisContent: string = "";
+
+        // Loop while there's still values left
+        while (values.length) {
+
+            // Content length is less than 1024
+            if (thisContent.length + values[0].toString().length + 1 <= 1024) {
+                thisContent = `${thisContent}\n${values[0]}`;
+                values.splice(0, 1);
+            }
+
+            // Content is full
+            else {
+                content.push(thisContent);
+                thisContent = "";
+            }
+        }
+
+        // Push last content
+        content.push(thisContent);
+
+        // Add a field for each content
+        content.forEach((c: string, index: number) => this.addField(index === 0 ? name : null, c));
+
+        // Return
+        return this;
+    }
 
     // Set url
     setURL = (url?: string | null): Embed => {
@@ -181,7 +214,7 @@ export default class Embed {
         // Set data
         this.url = url;
         return this;
-    };
+    }
 
     // Set thumbnail
     setThumbnail = (thumbnail?: string | null): Embed => {
@@ -195,7 +228,7 @@ export default class Embed {
         // Set data
         this.thumbnail = { url: thumbnail };
         return this;
-    };
+    }
 
     // Set image
     setImage = (image?: string | null): Embed => {
@@ -209,7 +242,7 @@ export default class Embed {
         // Set data
         this.image = { url: image };
         return this;
-    };
+    }
 
     // Set footer
     setFooter = (text?: string | number | null, iconURL?: string): Embed => {
@@ -232,7 +265,7 @@ export default class Embed {
             icon_url: iconURL
         };
         return this;
-    };
+    }
 
     // Set branding
     setBranding = (): Embed => {
@@ -240,7 +273,7 @@ export default class Embed {
         // Set footer
         this.setFooter("Eutenly.com", "https://eutenly.com/assets/avatar.png");
         return this;
-    };
+    }
 
     // Set timestamp
     setTimestamp = (timestamp?: Date): Embed => {
@@ -251,5 +284,5 @@ export default class Embed {
         // Set data
         this.timestamp = timestamp.toISOString();
         return this;
-    };
+    }
 }

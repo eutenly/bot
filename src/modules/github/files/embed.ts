@@ -35,31 +35,8 @@ export default function embed(command: Command, data: GitHubSearchResult[]): Emb
     if (path) items.push(`**1. [../](https://github.com/${command.metadata?.ownerName}/${command.metadata?.name}/tree/master/${path.split("/").slice(0, path.split("/").length - 1).join("/")})**`);
     items.push(...data.map((d, i) => `**${i + (path ? 2 : 1)}. [${d.name}${d.type === "dir" ? "/" : ""}](https://github.com/${command.metadata?.ownerName}/${command.metadata?.name}/${d.type === "dir" ? "tree" : "blob"}/master/${d.path})**${d.type !== "dir" ? ` (${filesize(d.size)})` : ""}`));
 
-    // Split items into content, each element in the `content` array needs to fit into an embed field
-    const content: string[] = [];
-    let thisContent: string = "";
-
-    // Loop while there's still items left
-    while (items.length) {
-
-        // Content length is less than 1024
-        if (thisContent.length + items[0].length + 1 <= 1024) {
-            thisContent = `${thisContent}\n${items[0]}`;
-            items.splice(0, 1);
-        }
-
-        // Content is full
-        else {
-            content.push(thisContent);
-            thisContent = "";
-        }
-    }
-
-    // Push last content
-    content.push(thisContent);
-
-    // Add a field for each content
-    content.forEach((c: string) => embed.addField(null, c));
+    // Add split field
+    embed.addSplitField(null, items);
 
     if (command.compactMode) embed.addField(null, `*\u2022 React or use the \`${prefix}next\` and \`${prefix}previous\` commands to cycle through pages\n\u2022 Use the \`${prefix}view <Result Number>\` command to get more info about a result*`);
     else embed
