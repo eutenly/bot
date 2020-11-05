@@ -1,10 +1,11 @@
 import Message from "../../classes/Message/Message";
+import { LinkCheckerModule } from "../website/website/main";
 import youtubeChannel from "../youtube/channel/main";
 import youtubePlaylist from "../youtube/playlist/main";
 import youtubeVideo from "../youtube/video/main";
 import youtubeVideos from "../youtube/videos/main";
 
-export default function youtube(input: string): Function | undefined {
+export default function youtube(input: string): LinkCheckerModule | undefined {
 
     // Check if input is a video link
     const video = input.match(/(youtube\.com\/watch\?v=(.+))|(youtu\.be\/(.+))/);

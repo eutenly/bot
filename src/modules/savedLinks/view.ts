@@ -1,7 +1,7 @@
 import { ViewData } from "../../classes/Command/Command";
 import Message from "../../classes/Message/Message";
 import { SavedLink } from "../../models/users";
-import website from "../website/website";
+import website from "../website/website/main";
 
 export default function view(data: SavedLink[], message: Message): ViewData | undefined {
 

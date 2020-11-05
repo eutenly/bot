@@ -4,8 +4,9 @@ import redditPost from "../reddit/post/main";
 import redditPosts from "../reddit/posts/main";
 import redditSubreddit from "../reddit/subreddit/main";
 import redditUser from "../reddit/user/main";
+import { LinkCheckerModule } from "../website/website/main";
 
-export default function reddit(input: string, linksOnly?: boolean): Function | undefined {
+export default function reddit(input: string, linksOnly?: boolean): LinkCheckerModule | undefined {
 
     // Check if input is a post
     const post = input.match(/reddit\.com\/r\/(.+)\/comments\/(.+)/);

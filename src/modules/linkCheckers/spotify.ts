@@ -8,8 +8,9 @@ import spotifyPlaylist from "../spotify/playlist/main";
 import spotifyTop from "../spotify/top/main";
 import spotifyTrack from "../spotify/track/main";
 import spotifyUpdatePlayer from "../spotify/updatePlayer";
+import { LinkCheckerModule } from "../website/website/main";
 
-export default function spotify(input: string, linksOnly?: boolean): Function | undefined {
+export default function spotify(input: string, linksOnly?: boolean): LinkCheckerModule | undefined {
 
     // Check if input is a track link
     const track = input.match(/open\.spotify\.com\/track\/(.+)/);
@@ -34,19 +35,19 @@ export default function spotify(input: string, linksOnly?: boolean): Function | 
     if (!linksOnly) {
 
         // Check if input is resume
-        if (["resume", "play"].includes(input.toLowerCase().replace(/\s+/g, ""))) return (message: Message) => spotifyUpdatePlayer(message, "play");
+        if (["resume", "play"].includes(input.toLowerCase().replace(/\s+/g, ""))) return (message: Message) => spotifyUpdatePlayer(message, "play") as any;
 
         // Check if input is pause
-        if (input.toLowerCase().replace(/\s+/g, "") === "pause") return (message: Message) => spotifyUpdatePlayer(message, "pause");
+        if (input.toLowerCase().replace(/\s+/g, "") === "pause") return (message: Message) => spotifyUpdatePlayer(message, "pause") as any;
 
         // Check if input is skip
-        if (["skip", "next"].includes(input.toLowerCase().replace(/\s+/g, ""))) return (message: Message) => spotifyUpdatePlayer(message, "next");
+        if (["skip", "next"].includes(input.toLowerCase().replace(/\s+/g, ""))) return (message: Message) => spotifyUpdatePlayer(message, "next") as any;
 
         // Check if input is previous
-        if (["previous", "back"].includes(input.toLowerCase().replace(/\s+/g, ""))) return (message: Message) => spotifyUpdatePlayer(message, "previous");
+        if (["previous", "back"].includes(input.toLowerCase().replace(/\s+/g, ""))) return (message: Message) => spotifyUpdatePlayer(message, "previous") as any;
 
         // Check if input is current track
-        if (input.toLowerCase().replace(/\s+/g, "") === "current") return (message: Message) => spotifyCurrent(message);
+        if (input.toLowerCase().replace(/\s+/g, "") === "current") return (message: Message) => spotifyCurrent(message) as any;
 
         // Check if input is top tracks or top artists
         if ((input.toLowerCase().replace(/\s+/g, "") === "top") || (input.toLowerCase().replace(/\s+/g, "") === "toptracks")) return (message: Message) => spotifyTop(message, "tracks");
