@@ -25,7 +25,7 @@ export default function embed(command: Command, data?: TwitterTweet): Embed {
         .setDescription(data.text)
         .addField(null, null, true)
         .addField("Link", `[twitter.com...](https://twitter.com/${data.user.handle}/status/${data.id})`, true)
-        .addField(null, null, true)
+        .addField(null, null, true);
 
     if (command.compactMode) embed
         .addField(null, `**Likes:**: ${data.likes.toLocaleString()}\n**Retweets:** ${data.retweets.toLocaleString()}\n**User:** View info about the person who sent this tweet with the \`${prefix}view user\` command${data.quotedTweet ? `\n**Quoted Tweet:** View the quoted tweet with the \`${prefix}view quoted tweet\` command` : ""}\n**Sent:** ${parseDate(data.sentOn)}`)
