@@ -13,6 +13,9 @@ export default function channelDelete(client: Client, data: EventData) {
     const guild: Guild | undefined = client.guilds.get(data.guild_id);
     if (!guild) return;
 
+    // Invalidate member cache
+    guild.memberPerms.clear();
+
     // Ignore non text channels
     if ([2, 4].includes(data.type)) return;
 
