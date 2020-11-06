@@ -8,6 +8,13 @@ import fetchData from "./fetchData";
 import getConnection from "./getConnection";
 import send from "./send";
 
+type CommandReactionModule = (command: Command) => any;
+
+export interface CommandReaction {
+    emoji: string;
+    module: CommandReactionModule;
+}
+
 export type GetURL = (input?: string, page?: number, nextPageToken?: string, user?: User) => string;
 
 export type GetExtraData = (data: any) => string;
@@ -43,6 +50,7 @@ interface CommandData {
     metadata?: any;
     url?: string;
     orderedPages?: boolean;
+    reactions?: CommandReaction[];
     getURL?: GetURL;
     getExtraData?: GetExtraData[];
     connectionName?: string;
@@ -70,6 +78,7 @@ export default class Command {
     webScraper?: Boolean;
     metadata?: any;
     url?: string;
+    reactions?: CommandReaction[];
 
     // A promise for when the connection has loaded
     uninitializedConnection?: Promise<any>;
@@ -110,6 +119,7 @@ export default class Command {
         this.webScraper = data.webScraper;
         this.metadata = data.metadata;
         this.url = data.url;
+        this.reactions = data.reactions;
         this.connectionName = data.connectionName;
         this.helpEmbed = data.helpEmbed;
 
