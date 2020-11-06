@@ -5,6 +5,9 @@ import setPage from "./reactions/setPage";
 
 export default async function reactionAdded(reaction: Reaction) {
 
+    // Ignore bots
+    if (reaction.user.bot) return;
+
     // Get command
     const command: Command | undefined = reaction.message.command;
     if (!command) return;

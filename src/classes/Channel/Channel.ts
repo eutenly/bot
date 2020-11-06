@@ -10,6 +10,7 @@ import sendMessage from "./sendMessage";
 
 interface RawMessageAuthor {
     id: string;
+    bot?: boolean;
 }
 
 export interface RawMessage {

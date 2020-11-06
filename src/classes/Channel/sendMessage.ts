@@ -26,7 +26,10 @@ export default async function sendMessage(channel: Channel, content: string | Em
     const message: Message = await channel.registerMessage({
         id: rawMessage.id,
         content: rawMessage.content,
-        authorID: rawMessage.author.id
+        author: {
+            id: rawMessage.author.id,
+            bot: rawMessage.author.bot
+        }
     });
 
     // Return

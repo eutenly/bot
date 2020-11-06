@@ -1,21 +1,21 @@
 import Command from "../classes/Command/Command";
 import Embed from "../classes/Embed/Embed";
-import Reaction from "../classes/Reaction/Reaction";
+import PartialReaction from "../classes/PartialReaction/PartialReaction";
 
-export default async function reactionRemoved(reaction: Reaction) {
+export default async function reactionRemoved(partialReaction: PartialReaction) {
 
     // Get command
-    const command: Command | undefined = reaction.message.command;
+    const command: Command | undefined = partialReaction.message.command;
     if (!command) return;
 
     // Restrict to command author
-    if (reaction.user.id !== command.message.author.id) return;
+    if (partialReaction.userID !== command.message.author.id) return;
 
     // Cooldown not done
-    if (!reaction.user.checkCooldown()) return;
+    if (!partialReaction.client.users.get(partialReaction.userID)?.checkCooldown()) return;
 
     // Compact
-    if ((reaction.id === reaction.client.eutenlyEmojis.get("compact")) && (command.compactMode)) {
+    if ((partialReaction.id === partialReaction.client.eutenlyEmojis.get("compact")) && (command.compactMode)) {
 
         // Set compact mode
         command.compactMode = false;
@@ -28,7 +28,7 @@ export default async function reactionRemoved(reaction: Reaction) {
     }
 
     // Expand
-    else if ((reaction.id === reaction.client.eutenlyEmojis.get("expand")) && (!command.compactMode)) {
+    else if ((partialReaction.id === partialReaction.client.eutenlyEmojis.get("expand")) && (!command.compactMode)) {
 
         // Set compact mode
         command.compactMode = true;

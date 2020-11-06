@@ -1,5 +1,5 @@
 import Client from "../../classes/Client/Client";
-import Reaction from "../../classes/Reaction/Reaction";
+import PartialReaction from "../../classes/PartialReaction/PartialReaction";
 
 interface MessageReactionRemoveEventDataEmoji {
     id: string | null;
@@ -16,8 +16,8 @@ interface MessageReactionRemoveEventData {
 
 export default async function messageReactionRemove(client: Client, data: MessageReactionRemoveEventData) {
 
-    // Create reaction
-    const reaction: Reaction = new Reaction(client, {
+    // Create partial reaction
+    const partialReaction: PartialReaction = new PartialReaction(client, {
         id: data.emoji.id || data.emoji.name,
         name: data.emoji.id ? data.emoji.name : undefined,
         messageID: data.message_id,
@@ -26,9 +26,9 @@ export default async function messageReactionRemove(client: Client, data: Messag
         guildID: data.guild_id
     });
 
-    await reaction.uninitializedMessage;
-    if (reaction.constructionFailed) return;
+    await partialReaction.uninitializedMessage;
+    if (partialReaction.constructionFailed) return;
 
     // Emit event
-    client.emit("messageReactionRemove", reaction);
+    client.emit("messageReactionRemove", partialReaction);
 }

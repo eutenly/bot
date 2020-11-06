@@ -10,6 +10,11 @@ interface MessageReactionAddEventData {
     emoji: MessageReactionAddEventDataEmoji;
     message_id: string;
     user_id: string;
+    member: {
+        user: {
+            bot?: boolean;
+        };
+    };
     channel_id: string;
     guild_id: string;
 }
@@ -21,7 +26,10 @@ export default async function messageReactionAdd(client: Client, data: MessageRe
         id: data.emoji.id || data.emoji.name,
         name: data.emoji.id ? data.emoji.name : undefined,
         messageID: data.message_id,
-        userID: data.user_id,
+        user: {
+            id: data.user_id,
+            bot: Boolean(data.member.user.bot)
+        },
         channelID: data.channel_id,
         guildID: data.guild_id
     });

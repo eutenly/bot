@@ -4,6 +4,7 @@ import Message from "../../classes/Message/Message";
 
 interface MessageCreateEventDataAuthor {
     id: string;
+    bot?: boolean;
 }
 
 interface MessageCreateEventData {
@@ -31,7 +32,10 @@ export default async function messageCreate(client: Client, data: MessageCreateE
     const message: Message = await channel.registerMessage({
         id: data.id,
         content: data.content,
-        authorID: data.author.id
+        author: {
+            id: data.author.id,
+            bot: Boolean(data.author.bot)
+        }
     });
 
     // Emit event

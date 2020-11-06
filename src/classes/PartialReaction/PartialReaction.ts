@@ -2,24 +2,17 @@ import Channel from "../Channel/Channel";
 import Client from "../Client/Client";
 import Guild from "../Guild/Guild";
 import Message from "../Message/Message";
-import User from "../User/User";
-import remove from "./remove";
 
-interface ReactionDataUser {
-    id: string;
-    bot: boolean;
-}
-
-interface ReactionData {
+interface PartialReactionData {
     id: string;
     name?: string;
     messageID: string;
-    user: ReactionDataUser;
+    userID: string;
     channelID: string;
     guildID: string;
 }
 
-export default class Reaction {
+export default class PartialReaction {
 
     // The client
     client: Client;
@@ -29,7 +22,7 @@ export default class Reaction {
     name?: string;
     uninitializedMessage: Promise<any>;
     message: Message;
-    user: User;
+    userID: string;
     channel: Channel;
     guild: Guild | undefined;
 
@@ -38,17 +31,14 @@ export default class Reaction {
     constructionFailed: boolean;
 
     // Constructor
-    constructor(client: Client, data: ReactionData) {
+    constructor(client: Client, data: PartialReactionData) {
 
         // Set data
         this.client = client;
 
         this.id = data.id;
         this.name = data.name;
-        this.user = client.users.get(data.user.id) || new User(client, {
-            id: data.user.id,
-            bot: data.user.bot
-        });
+        this.userID = data.userID;
 
         // Get channel
         this.channel = this.client.channels.get(data.channelID) || new Channel(client, {
@@ -64,7 +54,4 @@ export default class Reaction {
             id: data.messageID
         }).then((m: Message) => this.message = m).catch(() => this.constructionFailed = true);
     }
-
-    // Remove this reaction
-    remove = (): Promise<void> => remove(this);
 }

@@ -37,7 +37,8 @@ export default async function botInteractionAPI(client: Client) {
 
         // Get user
         const user: User = client.users.get(req.body.user_id) || new User(client, {
-            id: req.body.user_id
+            id: req.body.user_id,
+            bot: false
         });
 
         // Get DM channel
@@ -66,7 +67,8 @@ export default async function botInteractionAPI(client: Client) {
 
         // Get user
         const user: User = client.users.get(req.body.user_id) || new User(client, {
-            id: req.body.user_id
+            id: req.body.user_id,
+            bot: false
         });
 
         // Get DM channel
