@@ -14,6 +14,9 @@ export default function channelCreate(client: Client, data: EventData) {
     const guild: Guild | undefined = client.guilds.get(data.guild_id);
     if (!guild) return;
 
+    // Invalidate member cache
+    guild.memberPerms.clear();
+
     // Set name
     if (![2, 4].includes(data.type)) guild.channelNames.set(data.id, data.name);
 
