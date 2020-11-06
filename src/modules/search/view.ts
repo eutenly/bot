@@ -1,6 +1,6 @@
 import { ViewData } from "../../classes/Command/Command";
 import Message from "../../classes/Message/Message";
-import website from "../website/website";
+import website from "../website/website/main";
 import richPanel from "./richPanel/main";
 import search from "./search";
 

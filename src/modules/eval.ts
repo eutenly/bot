@@ -49,8 +49,7 @@ export default async function (message: Message) {
         // Guilds
         else if (result instanceof Guild) embed
             .setTitle("Guild")
-            .setDescription(`${result.name} (${result.id})`)
-            .addField("Denied Permissions", result.deniedPermissions.size > 10 ? `${result.deniedPermissions.size} Channels` : [...result.deniedPermissions.keys()].map((channelID: string) => `- <#${channelID}> (${channelID})`).join("\n"));
+            .setDescription(`${result.name} (${result.id})`);
 
         // Objects and arrays
         else if (typeof result === "object") {

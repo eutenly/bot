@@ -45,6 +45,17 @@ export default function embed(command: Command, data?: SpotifyTrack): Embed {
 
     embed.addField("Add This Track", `Use the \`${prefix}add <Playlist>\` command to add this track to a playlist`);
 
+    // Progress
+    if (data.progress) {
+
+        // Get progress percent data
+        const progressPercent: number = data.progress / data.length;
+        const fillAmount: number = Math.floor(progressPercent * 20);
+
+        // Add field
+        embed.addField("Progress", `${parseDuration(data.progress)} [${"█".repeat(fillAmount)}${"-".repeat(20 - fillAmount)}] ${parseDuration(data.length)}`);
+    }
+
     if (data.copyrights.length) embed.addField(null, data.copyrights.join("\n"));
 
     // Return

@@ -2,8 +2,9 @@ import Message from "../../classes/Message/Message";
 import twitterTimeline from "../twitter/timeline/main";
 import twitterTweet from "../twitter/tweet/main";
 import twitterUser from "../twitter/user/main";
+import { LinkCheckerModule } from "../website/website/main";
 
-export default function twitter(input: string, linksOnly?: boolean): Function | undefined {
+export default function twitter(input: string, linksOnly?: boolean): LinkCheckerModule | undefined {
 
     // Check if input is a tweet link
     const tweet = input.match(/twitter\.com\/(.+)\/status\/(.+)/);

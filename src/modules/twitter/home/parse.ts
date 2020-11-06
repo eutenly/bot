@@ -29,7 +29,7 @@ export default function parse(data: any, extraData?: any[]): ParserData {
         data: {
             tweets: data.map((d: any) => ({
                 id: d.id_str,
-                text: parseTweetText(d),
+                text: parseTweetText(d, 50),
                 user: {
                     id: d.user.id_str,
                     name: d.user.name,
@@ -39,7 +39,7 @@ export default function parse(data: any, extraData?: any[]): ParserData {
             })),
             timeline: timeline.map((d: any) => ({
                 id: d.id_str,
-                text: parseTweetText(d),
+                text: parseTweetText(d, 50),
                 user: {
                     id: d.user.id_str,
                     name: d.user.name,

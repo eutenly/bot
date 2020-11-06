@@ -1,7 +1,15 @@
-export default function parseTweetText(tweet: any): string {
+import truncateString from "../../util/truncateString";
+
+export default function parseTweetText(tweet: any, maxCharacters?: number): string {
 
     // Get text
     let text: string = tweet.full_text;
+
+    // Max characters
+    if (maxCharacters) text = truncateString(text, maxCharacters);
+
+    // Hyperlink @mentions
+    tweet.entities.user_mentions.forEach((m: any) => text = text.replace(new RegExp(`@${m.screen_name}`, "g"), `[@${m.screen_name}](https://twitter.com/${m.screen_name})`));
 
     // Replace t.co links
     tweet.entities.urls.forEach((u: any) => {

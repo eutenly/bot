@@ -1,6 +1,6 @@
 import Message from "../../classes/Message/Message";
-import website from "./website";
 import nsfwCheck from "./nsfwCheck";
+import website from "./website/main";
 
 export default async function main(message: Message) {
 

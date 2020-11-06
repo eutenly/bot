@@ -48,17 +48,17 @@ export default async function setPage(searchManager: SearchManager, page: number
     const nextPageToken: string | null | undefined = searchManager.orderedPages ? searchManager.nextPageToken : undefined;
 
     // Fetch data
-    const parserData: ParserData | undefined = await searchManager.command.fetchData(searchManager.input, page, nextPageToken);
+    const parserData: ParserData | undefined = await searchManager.command.fetchData(searchManager.input, searchManager.page, nextPageToken);
     if (!parserData) return;
 
     // Set next page token
     if (searchManager.orderedPages) searchManager.nextPageToken = parserData.noData ? null : parserData.nextPageToken;
 
     // Cache data
-    searchManager.cacheData(page, parserData.data);
+    searchManager.cacheData(searchManager.page, parserData.data);
 
     // Get embed
-    const embed: Embed = searchManager.command.getEmbed(searchManager.command, searchManager.cache.get(page) || []);
+    const embed: Embed = searchManager.command.getEmbed(searchManager.command, searchManager.cache.get(searchManager.page) || []);
 
     // Send
     searchManager.command.send(embed);

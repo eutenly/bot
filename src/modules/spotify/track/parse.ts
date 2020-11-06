@@ -23,9 +23,10 @@ export interface SpotifyTrack {
     albumArt?: string;
     copyrights: string[];
     releasedOn: string;
+    progress?: number;
 }
 
-export default function parse(data: any, extraData?: any[]): ParserData {
+export default function parse(data: any, extraData?: any[], metadata?: any): ParserData {
 
     // No results
     if ((data.error) || (!extraData)) return { noData: true };
@@ -54,7 +55,8 @@ export default function parse(data: any, extraData?: any[]): ParserData {
             danceability: Math.round(audioFeatureData.danceability * 100),
             albumArt: data.album.images[0] && data.album.images[0].url,
             copyrights: [...new Set(albumData.copyrights.map((c: any) => c.text))],
-            releasedOn: data.album.release_date
+            releasedOn: data.album.release_date,
+            progress: metadata.progress
         }
     };
 }

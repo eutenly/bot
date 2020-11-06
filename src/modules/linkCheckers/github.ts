@@ -11,8 +11,9 @@ import githubReleases from "../github/releases/main";
 import githubRepo from "../github/repo/main";
 import githubRepos from "../github/repos/main";
 import githubUser from "../github/user/main";
+import { LinkCheckerModule } from "../website/website/main";
 
-export default function github(input: string, linksOnly?: boolean): Function | undefined {
+export default function github(input: string, linksOnly?: boolean): LinkCheckerModule | undefined {
 
     // Check if input is a gist link
     const gist = input.match(/gist\.github\.com\/(.+)\/(.+)/);
