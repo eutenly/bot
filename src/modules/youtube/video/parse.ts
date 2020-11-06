@@ -1,3 +1,4 @@
+import ent from "ent";
 import { ParserData } from "../../../classes/Command/Command";
 
 interface YouTubeChannel {
@@ -29,8 +30,8 @@ export default function parse(data: any): ParserData {
     return {
         data: {
             id: data.id,
-            title: data.snippet.title,
-            description: data.snippet.description,
+            title: ent.decode(data.snippet.title),
+            description: ent.decode(data.snippet.description),
             views: parseInt(data.statistics.viewCount),
             length: data.contentDetails.duration,
             likes: parseInt(data.statistics.likeCount),
@@ -38,7 +39,7 @@ export default function parse(data: any): ParserData {
             comments: parseInt(data.statistics.commentCount),
             channel: {
                 id: data.snippet.channelId,
-                name: data.snippet.channelTitle
+                name: ent.decode(data.snippet.channelTitle)
             },
             thumbnail: data.snippet.thumbnails.high.url,
             uploadedOn: data.snippet.publishedAt

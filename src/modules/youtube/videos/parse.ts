@@ -1,3 +1,4 @@
+import ent from "ent";
 import { ParserData } from "../../../classes/Command/Command";
 
 export interface YouTubeSearchResult {
@@ -16,8 +17,8 @@ export default function parse(data?: any): ParserData {
     return {
         data: data.data.items.map((d: any) => ({
             id: d.id.videoId,
-            title: d.snippet.title,
-            description: d.snippet.description,
+            title: ent.decode(d.snippet.title),
+            description: ent.decode(d.snippet.description),
             uploadedOn: d.snippet.publishedAt
         })),
         nextPageToken: data.data.nextPageToken || null
