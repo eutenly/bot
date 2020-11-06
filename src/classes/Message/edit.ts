@@ -8,9 +8,9 @@ export default async function edit(message: Message, content: string | EmbedData
     const payloadBody: any = messagePayload(content, embed);
 
     // Missing perms
-    const deniedPermissions: number | undefined = message.guild?.deniedPermissions.get(message.channel.id);
-    if ((deniedPermissions) && ((deniedPermissions & 0x800) === 0x800)) throw new Error("Missing permissions");
-    if ((deniedPermissions) && (Object.keys(payloadBody.embed).length) && ((deniedPermissions & 0x4000) === 0x4000)) throw new Error("Missing permissions");
+    const deniedPermissions: number | undefined = message.guild?.permissions.get(message.channel.id);
+    if ((deniedPermissions) && ((deniedPermissions & 0x800) !== 0x800)) throw new Error("Missing permissions");
+    if ((deniedPermissions) && (Object.keys(payloadBody.embed).length) && ((deniedPermissions & 0x4000) !== 0x4000)) throw new Error("Missing permissions");
 
     // Contruct Payload
     const payload: object = {

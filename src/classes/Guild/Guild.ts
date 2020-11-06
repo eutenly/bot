@@ -5,8 +5,8 @@ import FetchQueue from "../FetchQueue/FetchQueue";
 import calculateBotPermissions, { PartialPermissionsGuildData } from "./calculateBotPermissions";
 import findChannel from "./findChannel";
 import getChannels from "./getChannels";
-import getDeniedPermissions from "./getDeniedPermissions";
 import getMember from "./getMember";
+import getPermissions, { GuildPermissions, GuildPermissionsInputData } from "./getPermissions";
 import getRoles from "./getRoles";
 import setCompactMode from "./setCompactMode";
 
@@ -84,8 +84,8 @@ export default class Guild {
     // Channel names
     channelNames: Map<string, string>;
 
-    // A map of channel IDs mapped to a bitfield of denied permissions in that channel
-    deniedPermissions: Map<string, number>;
+    // A map of channel IDs mapped to a bitfield of permissions in that channel
+    permissions: Map<string, number>;
     processBotPermissions: boolean;
     processingBotPermissions: boolean;
 
@@ -120,7 +120,7 @@ export default class Guild {
         };
 
         // Calculate denied permissions
-        this.deniedPermissions = new Map();
+        this.permissions = new Map();
         this.processBotPermissions = false;
         this.processingBotPermissions = false;
         this.calculateBotPermissions(data);
@@ -147,8 +147,8 @@ export default class Guild {
     // Find a channel by ID or name
     findChannel = (input: string, channels?: GuildDataChannel[]): Promise<Channel | undefined> => findChannel(this, input, channels);
 
-    // Get a member's denied permissions in a channel
-    getDeniedPermissions = (userID: string, channelData?: GuildDataChannel): Promise<number> => getDeniedPermissions(this, userID, channelData);
+    // Get a member's permissions in this guild
+    getPermissions = (data: GuildPermissionsInputData): Promise<GuildPermissions> => getPermissions(this, data);
 
     // Leave this guild
     leave = (reason?: string): Promise<void> => this.client.leaveGuild(this, reason);

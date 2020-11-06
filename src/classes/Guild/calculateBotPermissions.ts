@@ -1,5 +1,4 @@
-import Guild, { GuildDataChannel, GuildDataMember, GuildDataRole } from "./Guild";
-import calculateDeniedPermissions, { PermissionsGuildData } from "./calculateDeniedPermissions";
+import Guild, { GuildDataChannel, GuildDataRole } from "./Guild";
 
 export interface PartialPermissionsGuildData {
     channels?: GuildDataChannel[];
@@ -26,42 +25,13 @@ export default async function calculateBotPermissions(guild: Guild, rawData: Par
     // Set processing bot permissions
     guild.processingBotPermissions = true;
 
-    // Get channel data
-    let channelData: Promise<GuildDataChannel[]> | undefined;
-    if (!rawData.channels) channelData = guild.getChannels();
-
-    // Get role data
-    let roleData: Promise<GuildDataRole[]> | undefined;
-    if (!rawData.rawRoles) roleData = guild.getRoles();
-
-    // Get bot's member data
-    let selfData: Promise<GuildDataMember> | undefined;
-    if (!rawData.myRoles) selfData = guild.getMember(guild.client.id);
-
-    /**
-     * Define not in guild
-     *
-     * If the bot is kicked, sometimes discord will fire role/channel delete events
-     */
-    let notInGuild: boolean = false;
-
-    // Set data
-    if (channelData) rawData.channels = await channelData.catch(() => notInGuild = true) as GuildDataChannel[];
-    if (roleData) rawData.rawRoles = await roleData.catch(() => notInGuild = true) as GuildDataRole[];
-    if (selfData) rawData.myRoles = (await selfData.catch(() => notInGuild = true) as GuildDataMember | undefined)?.roles;
-
-    // Not in guild
-    if (notInGuild) return;
-
-    const data: PermissionsGuildData = {
-        channels: rawData.channels || [],
-        roles: rawData.rawRoles || [],
+    // Get permissions
+    guild.permissions = (await guild.getPermissions({
+        channels: rawData.channels,
+        roles: rawData.rawRoles,
         userID: guild.client.id,
-        memberRoles: rawData.myRoles || []
-    };
-
-    // Calculate denied permissions
-    guild.deniedPermissions = calculateDeniedPermissions(guild, data).deniedPermissions;
+        memberRoles: rawData.myRoles
+    })).channels;
 
     // Set processing bot permissions
     guild.processingBotPermissions = false;

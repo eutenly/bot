@@ -1,7 +1,7 @@
-import Guild, { GuildDataRole, PermissionOverwrites } from "./Guild";
-import { Permissions } from "./calculateDeniedPermissions";
+import { GuildDataRole, PermissionOverwrites } from "./Guild";
+import { Permissions } from "./getPermissions";
 
-export default function calculatePermissionOverwrites(guild: Guild, userID: string, roles: Map<string, GuildDataRole>, deniedPermissions: number, permOverwrites: PermissionOverwrites[], PERMISSIONS: Permissions): number {
+export default function calculatePermissionOverwrites(userID: string, roles: Map<string, GuildDataRole>, channelPermissions: number, permOverwrites: PermissionOverwrites[], PERMISSIONS: Permissions): number {
 
     /**
      * Filter permission overwrites
@@ -49,14 +49,14 @@ export default function calculatePermissionOverwrites(guild: Guild, userID: stri
         // Loop through permissions
         for (let permission in PERMISSIONS) {
 
-            // If the allowed permissions include the permission, remove it from the denied permissions
-            if ((allow & PERMISSIONS[permission]) === PERMISSIONS[permission]) deniedPermissions &= ~PERMISSIONS[permission];
+            // If the allowed permissions include the permission, add it from to the channel permissions
+            if ((allow & PERMISSIONS[permission]) === PERMISSIONS[permission]) channelPermissions |= PERMISSIONS[permission];
 
-            // If the denied permissions include the permission, add it to the denied permissions
-            else if ((deny & PERMISSIONS[permission]) === PERMISSIONS[permission]) deniedPermissions |= PERMISSIONS[permission];
+            // If the denied permissions include the permission, remove it from the channel permissions
+            else if ((deny & PERMISSIONS[permission]) === PERMISSIONS[permission]) channelPermissions &= ~PERMISSIONS[permission];
         }
     });
 
     // Return
-    return deniedPermissions;
+    return channelPermissions;
 }

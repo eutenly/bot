@@ -19,6 +19,6 @@ export default function channelDelete(client: Client, data: EventData) {
     // Remove name
     guild.channelNames.delete(data.id);
 
-    // Remove from denied permissions cache
-    guild.deniedPermissions.delete(data.id);
+    // Remove from permissions cache
+    guild.permissions.delete(data.id);
 }
