@@ -8,13 +8,16 @@ import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
 
-export default async function main(message: Message, trackID: string, commandHistoryIndex?: number): Promise<Command | undefined> {
+export default async function main(message: Message, trackID: string, progress?: number, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Create command
     const command: Command = new Command(message.client, {
         name: "track",
         type: "spotify",
         message,
+        metadata: {
+            progress
+        },
         url: url(trackID),
         getURL: (): string => `https://api.spotify.com/v1/tracks/${encodeURIComponent(trackID)}`,
         getExtraData: [
@@ -26,7 +29,7 @@ export default async function main(message: Message, trackID: string, commandHis
         parser: parse,
         getEmbed: embed,
         view
-    }, (m: Message, chIndex: number) => main(m, trackID, chIndex), commandHistoryIndex);
+    }, (m: Message, chIndex: number) => main(m, trackID, progress, chIndex), commandHistoryIndex);
     await command.uninitializedConnection;
 
     // No connection

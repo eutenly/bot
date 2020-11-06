@@ -22,5 +22,5 @@ export default async function current(message: Message) {
     if (data.currently_playing_type === "episode") return message.channel.sendMessage(":x:  **|  Unfortunately, you can't view what you're currently listening to if it's an episode**");
 
     // View track
-    track(message, data.item.id);
+    track(message, data.item.id, data.progress_ms);
 }
