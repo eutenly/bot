@@ -1,7 +1,7 @@
 import Command from "../classes/Command/Command";
-import Embed from "../classes/Embed/Embed";
 import PartialReaction from "../classes/PartialReaction/PartialReaction";
 import User from "../classes/User/User";
+import setCompactMode from "./reactions/setCompactMode";
 
 export default async function reactionRemoved(partialReaction: PartialReaction) {
 
@@ -22,28 +22,8 @@ export default async function reactionRemoved(partialReaction: PartialReaction) 
     if (!user.checkCooldown()) return;
 
     // Compact
-    if ((partialReaction.id === partialReaction.client.eutenlyEmojis.get("compact")) && (command.compactMode)) {
-
-        // Set compact mode
-        command.compactMode = false;
-
-        // Get embed
-        const embed: Embed = command.getEmbed(command, command.searchManager ? (command.searchManager.cache.get(command.searchManager.page as number) || []) : command.data);
-
-        // Send
-        command.send(embed);
-    }
+    if ((partialReaction.id === partialReaction.client.eutenlyEmojis.get("compact")) && (command.compactMode)) setCompactMode(command, false);
 
     // Expand
-    else if ((partialReaction.id === partialReaction.client.eutenlyEmojis.get("expand")) && (!command.compactMode)) {
-
-        // Set compact mode
-        command.compactMode = true;
-
-        // Get embed
-        const embed: Embed = command.getEmbed(command, command.searchManager ? (command.searchManager.cache.get(command.searchManager.page as number) || []) : command.data);
-
-        // Send
-        command.send(embed);
-    }
+    else if ((partialReaction.id === partialReaction.client.eutenlyEmojis.get("expand")) && (!command.compactMode)) setCompactMode(command, true);
 }
