@@ -1,4 +1,5 @@
 import collectStat from "../../util/collectStat";
+import Channel from "../Channel/Channel";
 import Client from "../Client/Client";
 import Embed from "../Embed/Embed";
 import Message from "../Message/Message";
@@ -8,7 +9,9 @@ import fetchData from "./fetchData";
 import getConnection from "./getConnection";
 import send from "./send";
 
-type CommandReactionModule = (command: Command) => any;
+export type CommandReactionModuleAction = "added" | "removed";
+
+export type CommandReactionModule = (command: Command, user: User, action: CommandReactionModuleAction) => any;
 
 export interface CommandReaction {
     emoji: string;
@@ -19,7 +22,7 @@ export type GetURL = (input?: string, page?: number, nextPageToken?: string, use
 
 export type GetExtraData = (data: any) => string;
 
-export type Fetch = (message: Message, url: string, method?: string, body?: any) => Promise<any>;
+export type Fetch = (user: User, channel: Channel, url: string, method?: string, body?: any) => Promise<any>;
 
 export type GetData = (input?: string, page?: number, nextPageToken?: string) => Promise<any>;
 

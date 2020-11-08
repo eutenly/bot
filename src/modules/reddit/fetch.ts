@@ -1,12 +1,12 @@
 import nodeFetch, { Response } from "node-fetch";
-import Message from "../../classes/Message/Message";
-import { Connection } from "../../classes/User/User";
+import Channel from "../../classes/Channel/Channel";
+import User, { Connection } from "../../classes/User/User";
 import refreshToken from "./refreshToken";
 
-export default async function fetch(message: Message, url: string): Promise<any> {
+export default async function fetch(user: User, channel: Channel, url: string): Promise<any> {
 
     // Get connection
-    const connection: Connection | undefined = message.author.connections["reddit"];
+    const connection: Connection | undefined = user.connections["reddit"];
     if (!connection) return;
 
     // Make request
@@ -25,10 +25,10 @@ export default async function fetch(message: Message, url: string): Promise<any>
     if (tokenExpired) {
 
         // Refresh token
-        await refreshToken(message.author);
+        await refreshToken(user);
 
         // Fetch
-        return await fetch(message, url);
+        return await fetch(user, channel, url);
     }
 
     // Return

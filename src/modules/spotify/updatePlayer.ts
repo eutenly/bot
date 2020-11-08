@@ -10,7 +10,7 @@ export default async function updatePlayer(message: Message, action: string) {
     const method: string = ["play", "pause"].includes(action) ? "PUT" : "POST";
 
     // Update player
-    const result: any = await fetch(message, `https://api.spotify.com/v1/me/player/${action}`, method);
+    const result: any = await fetch(message.author, message.channel, `https://api.spotify.com/v1/me/player/${action}`, method);
 
     // Not listening to anything
     if (result.error?.reason === "NO_ACTIVE_DEVICE") return message.channel.sendMessage(":x:  **|  You aren't listening to anything**");

@@ -13,7 +13,7 @@ export default async function fetchData(command: Command, input?: string, page?:
         const url: string = command.getURL(input, page, nextPageToken, command.message.author);
 
         // Fetch
-        data = await command.fetch(command.message, url, "GET");
+        data = await command.fetch(command.message.author, command.message.channel, url, "GET");
         if (!data) return;
 
         // Get extra data
@@ -24,7 +24,7 @@ export default async function fetchData(command: Command, input?: string, page?:
 
             // Return
             if (!command.fetch) return new Promise((resolve) => resolve());
-            return command.fetch(command.message, extraDataURL, "GET");
+            return command.fetch(command.message.author, command.message.channel, extraDataURL, "GET");
         });
 
         // Await extra data
