@@ -1,4 +1,4 @@
-import Channel from "../Channel/Channel";
+import Channel, { RawMessage } from "../Channel/Channel";
 import Client from "../Client/Client";
 import Command from "../Command/Command";
 import { EmbedData } from "../Embed/Embed";
@@ -6,6 +6,7 @@ import Guild from "../Guild/Guild";
 import User from "../User/User";
 import addReaction from "./addReaction";
 import edit from "./edit";
+import getLastMessage from "./getLastMessage";
 
 interface MessageDataAuthor {
     id: string;
@@ -60,4 +61,12 @@ export default class Message {
 
     // Add reaction
     addReaction = (emoji: string): Promise<any> => addReaction(this, emoji);
+
+    /**
+     * Get Last Message
+     *
+     * Gets the last message that has `content`
+     * Used for commands like `e;search ^`
+     */
+    getLastMessage = (): Promise<RawMessage | undefined> => getLastMessage(this);
 }

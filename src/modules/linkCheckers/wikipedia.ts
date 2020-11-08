@@ -1,6 +1,7 @@
 import Message from "../../classes/Message/Message";
 import { LinkCheckerModule } from "../website/website/main";
 import wikipediaArticle from "../wikipedia/article/main";
+import searchLastMessage from "../wikipedia/searchLastMessage";
 
 export default function wikipedia(input: string, linksOnly?: boolean): LinkCheckerModule | undefined {
 
@@ -13,5 +14,8 @@ export default function wikipedia(input: string, linksOnly?: boolean): LinkCheck
         // Check if input is an article name
         const articleName = input.match(/"(.+)"/);
         if (articleName) return (message: Message) => wikipediaArticle(message, articleName[1]);
+
+        // Check if input is to search last message
+        if (input === "^") return (message: Message) => searchLastMessage(message);
     }
 }

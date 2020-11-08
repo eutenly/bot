@@ -1,4 +1,5 @@
 import Message from "../../classes/Message/Message";
+import searchLastMessage from "../twitter/searchLastMessage";
 import twitterTimeline from "../twitter/timeline/main";
 import twitterTweet from "../twitter/tweet/main";
 import twitterUser from "../twitter/user/main";
@@ -22,5 +23,8 @@ export default function twitter(input: string, linksOnly?: boolean): LinkChecker
 
         // Check if input is timeline
         if (input.toLowerCase().replace(/\s+/g, "") === "timeline") return (message: Message) => twitterTimeline(message, "home");
+
+        // Check if input is to search last message
+        if (input === "^") return (message: Message) => searchLastMessage(message);
     }
 }

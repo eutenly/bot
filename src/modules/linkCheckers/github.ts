@@ -10,6 +10,7 @@ import githubPRs from "../github/prs/main";
 import githubReleases from "../github/releases/main";
 import githubRepo from "../github/repo/main";
 import githubRepos from "../github/repos/main";
+import searchLastMessage from "../github/searchLastMessage";
 import githubUser from "../github/user/main";
 import { LinkCheckerModule } from "../website/website/main";
 
@@ -72,5 +73,8 @@ export default function github(input: string, linksOnly?: boolean): LinkCheckerM
         // Check if input is an owner/repo
         const ownerRepo = input.match(/(.+)\/(.+)/);
         if (ownerRepo) return (message: Message) => githubRepo(message, ownerRepo[1], ownerRepo[2]);
+
+        // Check if input is to search last message
+        if (input === "^") return (message: Message) => searchLastMessage(message);
     }
 }

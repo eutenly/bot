@@ -2,6 +2,7 @@ import Message from "../../classes/Message/Message";
 import redditFeed from "../reddit/feed/main";
 import redditPost from "../reddit/post/main";
 import redditPosts from "../reddit/posts/main";
+import searchLastMessage from "../reddit/searchLastMessage";
 import redditSubreddit from "../reddit/subreddit/main";
 import redditUser from "../reddit/user/main";
 import { LinkCheckerModule } from "../website/website/main";
@@ -36,5 +37,8 @@ export default function reddit(input: string, linksOnly?: boolean): LinkCheckerM
 
         // Check if input is feed
         if (input.toLowerCase().replace(/\s+/g, "") === "feed") return (message: Message) => redditFeed(message);
+
+        // Check if input is to search last message
+        if (input === "^") return (message: Message) => searchLastMessage(message);
     }
 }

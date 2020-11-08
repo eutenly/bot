@@ -5,6 +5,7 @@ import spotifyCurrent from "../spotify/current";
 import spotifyEpisode from "../spotify/episode/main";
 import spotifyHistory from "../spotify/history/main";
 import spotifyPlaylist from "../spotify/playlist/main";
+import searchLastMessage from "../spotify/searchLastMessage";
 import spotifyTop from "../spotify/top/main";
 import spotifyTrack from "../spotify/track/main";
 import spotifyUpdatePlayer from "../spotify/updatePlayer";
@@ -55,5 +56,8 @@ export default function spotify(input: string, linksOnly?: boolean): LinkChecker
 
         // Check if input is history
         if (input.toLowerCase().replace(/\s+/g, "") === "history") return (message: Message) => spotifyHistory(message);
+
+        // Check if input is to search last message
+        if (input === "^") return (message: Message) => searchLastMessage(message);
     }
 }
