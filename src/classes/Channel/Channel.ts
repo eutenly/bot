@@ -5,6 +5,7 @@ import Guild from "../Guild/Guild";
 import Message from "../Message/Message";
 import ChannelCommands from "./ChannelCommands/ChannelCommands";
 import fetchMessage from "./fetchMessage";
+import fetchMessages, { FetchMessagesOptions } from "./fetchMessages";
 import registerMessage, { MessageData } from "./registerMessage";
 import sendMessage from "./sendMessage";
 
@@ -29,6 +30,7 @@ interface ChannelFetchQueue {
     addReaction: FetchQueue;
     removeReaction: FetchQueue;
     fetchMessage: FetchQueue;
+    fetchMessages: FetchQueue;
 }
 
 export default class Channel {
@@ -74,7 +76,8 @@ export default class Channel {
             sendMessage: new FetchQueue(client),
             addReaction: new FetchQueue(client),
             removeReaction: new FetchQueue(client),
-            fetchMessage: new FetchQueue(client)
+            fetchMessage: new FetchQueue(client),
+            fetchMessages: new FetchQueue(client)
         };
 
         // Cache channel
@@ -89,4 +92,7 @@ export default class Channel {
 
     // Fetch a message from this channel
     fetchMessage = (messageID: string): Promise<RawMessage> => fetchMessage(this, messageID);
+
+    // Fetch messages from this channel
+    fetchMessages = (options?: FetchMessagesOptions): Promise<RawMessage[]> => fetchMessages(this, options);
 }
