@@ -1,7 +1,9 @@
-import Command from "../../../classes/Command/Command";
+import Command, { CommandReactionModuleAction } from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import Message from "../../../classes/Message/Message";
+import User from "../../../classes/User/User";
 import fetch from "../fetch";
+import votePost from "../votePost";
 import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
@@ -19,7 +21,17 @@ export default async function main(message: Message, postID: string, subredditNa
         fetch,
         parser: parse,
         getEmbed: embed,
-        view
+        view,
+        reactions: [
+            {
+                emoji: "reddit_upvote",
+                module: (cmd: Command, user: User, action: CommandReactionModuleAction) => votePost(cmd, user, action, "upvote")
+            },
+            {
+                emoji: "reddit_downvote",
+                module: (cmd: Command, user: User, action: CommandReactionModuleAction) => votePost(cmd, user, action, "downvote")
+            }
+        ]
     }, (m: Message, chIndex: number) => main(m, postID, subredditName, chIndex), commandHistoryIndex);
     await command.uninitializedConnection;
 
