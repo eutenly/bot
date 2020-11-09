@@ -22,7 +22,7 @@ export default async function reactionAdded(reaction: Reaction) {
         const customReaction: CommandReaction | undefined = command.reactions.find((r: CommandReaction) => reaction.client.eutenlyEmojis.get(r.emoji) === reaction.id);
 
         // Run module
-        if (customReaction) return customReaction.module(command, reaction.user, "added");
+        if (customReaction) return customReaction.module(command, reaction.user, "added", reaction);
     }
 
     // Restrict to command author

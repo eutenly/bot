@@ -119,7 +119,7 @@ export default class Guild {
             getMember: new FetchQueue(client)
         };
 
-        // Calculate denied permissions
+        // Calculate permissions
         this.permissions = new Map();
         this.processBotPermissions = false;
         this.processingBotPermissions = false;
@@ -129,7 +129,7 @@ export default class Guild {
         this.client.guilds.set(this.id, this);
     }
 
-    // Calculate the denied permissions for the bot in all the channels in this guild
+    // Calculate the permissions for the bot in all the channels in this guild
     calculateBotPermissions = (data?: PartialPermissionsGuildData): Promise<void> => calculateBotPermissions(this, data);
 
     // Set compact mode for a channel

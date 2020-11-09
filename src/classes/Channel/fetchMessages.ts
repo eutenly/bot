@@ -11,8 +11,8 @@ export interface FetchMessagesOptions {
 export default async function fetchMessages(channel: Channel, options: FetchMessagesOptions = { limit: 50 }): Promise<RawMessage[]> {
 
     // Missing perms
-    const deniedPermissions: number | undefined = channel.guild?.permissions.get(channel.id);
-    if ((deniedPermissions) && ((deniedPermissions & 0x10000) !== 0x10000)) throw new Error("Missing permissions");
+    const permissions: number | undefined = channel.guild?.permissions.get(channel.id);
+    if ((permissions) && ((permissions & 0x10000) !== 0x10000)) throw new Error("Missing permissions");
 
     // Parse options
     if (options.before instanceof Message) options.before = options.before.id;
