@@ -1,7 +1,10 @@
 import Message from "../../classes/Message/Message";
 import redditFeed from "../reddit/feed/main";
+import redditHome from "../reddit/home/main";
 import redditPost from "../reddit/post/main";
 import redditPosts from "../reddit/posts/main";
+import redditSearch from "../reddit/search/main";
+import searchLastMessage from "../reddit/searchLastMessage";
 import redditSubreddit from "../reddit/subreddit/main";
 import redditUser from "../reddit/user/main";
 import { LinkCheckerModule } from "../website/website/main";
@@ -24,6 +27,13 @@ export default function reddit(input: string, linksOnly?: boolean): LinkCheckerM
     const user = input.match(/reddit\.com\/(u|user)\/(.+)/);
     if (user) return (message: Message) => redditUser(message, user[2]);
 
+    // Check if input is a search link
+    const search = input.match(/reddit\.com\/search\?q=(.+)/);
+    if (search) return (message: Message) => redditSearch(message, search[1]);
+
+    // Check if input is home
+    if (/reddit\.com/.test(input)) return (message: Message) => redditHome(message);
+
     if (!linksOnly) {
 
         // Check if input is an r/subreddit
@@ -36,5 +46,8 @@ export default function reddit(input: string, linksOnly?: boolean): LinkCheckerM
 
         // Check if input is feed
         if (input.toLowerCase().replace(/\s+/g, "") === "feed") return (message: Message) => redditFeed(message);
+
+        // Check if input is to search last message
+        if (input === "^") return (message: Message) => searchLastMessage(message);
     }
 }

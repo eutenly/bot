@@ -1,10 +1,11 @@
+import Channel from "../classes/Channel/Channel";
 import Embed from "../classes/Embed/Embed";
-import Message from "../classes/Message/Message";
+import User from "../classes/User/User";
 
-export default async function sendLoginEmbed(message: Message, connectionName: string): Promise<void> {
+export default async function sendLoginEmbed(user: User, channel: Channel, connectionName: string): Promise<void> {
 
     // Remove from connections
-    delete message.author.connections[connectionName];
+    delete user.connections[connectionName];
 
     // Get name
     let name: string | undefined;
@@ -27,5 +28,5 @@ export default async function sendLoginEmbed(message: Message, connectionName: s
         .setColor(color);
 
     // Send
-    await message.channel.sendMessage(embed);
+    await channel.sendMessage(embed);
 }

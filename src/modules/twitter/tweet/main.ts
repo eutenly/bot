@@ -1,7 +1,9 @@
-import Command from "../../../classes/Command/Command";
+import Command, { ViewDataURL } from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import Message from "../../../classes/Message/Message";
 import fetch from "../fetch";
+import likeTweet from "../likeTweet";
+import retweetTweet from "../retweetTweet";
 import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
@@ -19,7 +21,17 @@ export default async function main(message: Message, tweetID: string, user: stri
         fetch,
         parser: parse,
         getEmbed: embed,
-        view
+        view,
+        reactions: [
+            {
+                emoji: "twitter_like",
+                module: likeTweet
+            },
+            {
+                emoji: "twitter_retweet",
+                module: retweetTweet
+            }
+        ]
     }, (m: Message, chIndex: number) => main(m, tweetID, user, chIndex), commandHistoryIndex);
     await command.uninitializedConnection;
 
@@ -39,7 +51,7 @@ export default async function main(message: Message, tweetID: string, user: stri
     return command;
 }
 
-export function url(user: string, tweetID: string): string {
+export function url(user: string, tweetID: string): ViewDataURL {
 
     return `https://twitter.com/${user}/status/${tweetID}`;
 }

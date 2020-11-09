@@ -1,7 +1,8 @@
-import Command from "../../../classes/Command/Command";
+import Command, { ViewDataURL } from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import Message from "../../../classes/Message/Message";
 import fetch from "../fetch";
+import starRepo from "../starRepo";
 import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
@@ -19,7 +20,11 @@ export default async function main(message: Message, ownerName: string, name: st
         fetch,
         parser: parse,
         getEmbed: embed,
-        view
+        view,
+        reactions: [{
+            emoji: "github_star",
+            module: starRepo
+        }]
     }, (m: Message, chIndex: number) => main(m, ownerName, name, chIndex), commandHistoryIndex);
     await command.uninitializedConnection;
 
@@ -39,7 +44,7 @@ export default async function main(message: Message, ownerName: string, name: st
     return command;
 }
 
-export function url(ownerName: string, name: string): string {
+export function url(ownerName: string, name: string): ViewDataURL {
 
     return `https://github.com/${ownerName}/${name}`;
 }

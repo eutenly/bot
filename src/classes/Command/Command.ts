@@ -1,18 +1,29 @@
 import collectStat from "../../util/collectStat";
+import Channel from "../Channel/Channel";
 import Client from "../Client/Client";
 import Embed from "../Embed/Embed";
 import Message from "../Message/Message";
+import Reaction from "../Reaction/Reaction";
 import User, { CommandHistoryEntry, RunCommand } from "../User/User";
 import SearchManager from "./SearchManager/SearchManager";
 import fetchData from "./fetchData";
 import getConnection from "./getConnection";
 import send from "./send";
 
+export type CommandReactionModuleAction = "added" | "removed";
+
+export type CommandReactionModule = (command: Command, user: User, action: CommandReactionModuleAction, reaction?: Reaction) => any;
+
+export interface CommandReaction {
+    emoji: string;
+    module: CommandReactionModule;
+}
+
 export type GetURL = (input?: string, page?: number, nextPageToken?: string, user?: User) => string;
 
 export type GetExtraData = (data: any) => string;
 
-export type Fetch = (message: Message, url: string, method?: string, body?: any) => Promise<any>;
+export type Fetch = (user: User, channel: Channel, url: string, method?: string, body?: any) => Promise<any>;
 
 export type GetData = (input?: string, page?: number, nextPageToken?: string) => Promise<any>;
 
@@ -26,9 +37,17 @@ export type Parser = (data: any, extraData?: any[], metadata?: any) => ParserDat
 
 export type GetEmbed = (command: Command, data: any) => Embed;
 
+export interface ViewDataURLData {
+    title?: string;
+    description?: string;
+    url: string;
+}
+
+export type ViewDataURL = string | ViewDataURLData;
+
 export interface ViewData {
     module?: Function;
-    url?: string;
+    url?: ViewDataURL;
     error?: string;
 }
 
@@ -41,8 +60,9 @@ interface CommandData {
     webScraper?: Boolean;
     input?: string;
     metadata?: any;
-    url?: string;
+    url?: ViewDataURL;
     orderedPages?: boolean;
+    reactions?: CommandReaction[];
     getURL?: GetURL;
     getExtraData?: GetExtraData[];
     connectionName?: string;
@@ -69,7 +89,8 @@ export default class Command {
     responseMessage?: Message;
     webScraper?: Boolean;
     metadata?: any;
-    url?: string;
+    url?: ViewDataURL;
+    reactions?: CommandReaction[];
 
     // A promise for when the connection has loaded
     uninitializedConnection?: Promise<any>;
@@ -110,6 +131,7 @@ export default class Command {
         this.webScraper = data.webScraper;
         this.metadata = data.metadata;
         this.url = data.url;
+        this.reactions = data.reactions;
         this.connectionName = data.connectionName;
         this.helpEmbed = data.helpEmbed;
 

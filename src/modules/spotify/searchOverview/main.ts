@@ -1,4 +1,4 @@
-import Command from "../../../classes/Command/Command";
+import Command, { ViewDataURL } from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import Message from "../../../classes/Message/Message";
 import fetch from "../fetch";
@@ -42,7 +42,7 @@ export default async function main(message: Message, query: string, commandHisto
     return command;
 }
 
-export function url(query: string): string {
+export function url(query: string): ViewDataURL {
 
-    return `eutenly://spotify/searchOverview?query=${encodeURIComponent(query)}`;
+    return `https://open.spotify.com/search/${encodeURIComponent(query)}`;
 }

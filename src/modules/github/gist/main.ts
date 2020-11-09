@@ -1,4 +1,4 @@
-import Command from "../../../classes/Command/Command";
+import Command, { ViewDataURL } from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import Message from "../../../classes/Message/Message";
 import fetch from "../fetch";
@@ -42,7 +42,7 @@ export default async function main(message: Message, name: string, gistID: numbe
     return command;
 }
 
-export function url(name: string, gistID: number): string {
+export function url(name: string, gistID: number): ViewDataURL {
 
     return `https://gist.github.com/${name}/${gistID}`;
 }

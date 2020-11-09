@@ -9,10 +9,10 @@ export default async function current(message: Message) {
     await message.author.getConnection("spotify");
 
     // Check for no-connection
-    if (!message.author.connections["spotify"]) { sendLoginEmbed(message, "spotify"); return; }
+    if (!message.author.connections["spotify"]) { sendLoginEmbed(message.author, message.channel, "spotify"); return; }
 
     // Fetch
-    const data: any = await fetch(message, "https://api.spotify.com/v1/me/player/currently-playing");
+    const data: any = await fetch(message.author, message.channel, "https://api.spotify.com/v1/me/player/currently-playing");
     if (!data) return;
 
     // No current track

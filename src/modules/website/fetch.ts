@@ -1,11 +1,12 @@
 import cheerio from "cheerio";
 import nodeFetch, { Response } from "node-fetch";
 import { parse as parseURL, resolve as resolveURL, UrlWithStringQuery } from "url";
-import Message from "../../classes/Message/Message";
+import Channel from "../../classes/Channel/Channel";
+import User from "../../classes/User/User";
 import { Websites } from "../../models";
 import getColor from "../../util/getColor";
 
-export default async function fetch(message: Message, url: string): Promise<any> {
+export default async function fetch(user: User, channel: Channel, url: string): Promise<any> {
 
     // Make request
     const result: Response = await nodeFetch(url, {

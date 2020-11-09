@@ -1,5 +1,5 @@
 import ChannelCommands from "../../../classes/Channel/ChannelCommands/ChannelCommands";
-import Command from "../../../classes/Command/Command";
+import Command, { ViewDataURL } from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import Message from "../../../classes/Message/Message";
 import add from "../add";
@@ -57,7 +57,7 @@ export default async function main(message: Message, trackID: string, progress?:
     return command;
 }
 
-export function url(trackID: string): string {
+export function url(trackID: string): ViewDataURL {
 
     return `https://open.spotify.com/track/${trackID}`;
 }

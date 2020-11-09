@@ -4,6 +4,9 @@ import { routes, BaseCommand } from "./routes";
 
 export default function routeMessage(message: Message) {
 
+    // Ignore bots
+    if (message.author.bot) return;
+
     // Ignore if message doesn't start with the prefix
     if (!message.content.toLowerCase().startsWith(message.channel.prefix)) return;
 
