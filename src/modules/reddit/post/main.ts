@@ -3,6 +3,7 @@ import Embed from "../../../classes/Embed/Embed";
 import Message from "../../../classes/Message/Message";
 import User from "../../../classes/User/User";
 import fetch from "../fetch";
+import savePost from "../savePost";
 import votePost from "../votePost";
 import embed from "./embed";
 import parse from "./parse";
@@ -30,6 +31,10 @@ export default async function main(message: Message, postID: string, subredditNa
             {
                 emoji: "reddit_downvote",
                 module: (cmd: Command, user: User, action: CommandReactionModuleAction) => votePost(cmd, user, action, "downvote")
+            },
+            {
+                emoji: "reddit_save",
+                module: savePost
             }
         ]
     }, (m: Message, chIndex: number) => main(m, postID, subredditName, chIndex), commandHistoryIndex);
