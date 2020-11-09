@@ -1,4 +1,4 @@
-import Command from "../../../classes/Command/Command";
+import Command, { ViewDataURL } from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
 import fetch from "../fetch";
 import embed from "./embed";
@@ -34,7 +34,7 @@ export default async function main(message: Message, name: string, type: string,
     return command;
 }
 
-export function url(name: string, type: string): string {
+export function url(name: string, type: string): ViewDataURL {
 
     return `https://reddit.com/${type === "subreddit" ? "r" : "u"}/${name}${type === "subreddit" ? "/hot" : "?sort=new"}`;
 }

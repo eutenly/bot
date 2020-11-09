@@ -2,6 +2,7 @@ import Message from "../../classes/Message/Message";
 import { LinkCheckerModule } from "../website/website/main";
 import youtubeChannel from "../youtube/channel/main";
 import youtubePlaylist from "../youtube/playlist/main";
+import youtubeSearch from "../youtube/search/main";
 import searchLastMessage from "../youtube/searchLastMessage";
 import youtubeVideo from "../youtube/video/main";
 import youtubeVideos from "../youtube/videos/main";
@@ -23,6 +24,10 @@ export default function youtube(input: string, linksOnly?: boolean): LinkChecker
     // Check if input is a videos link
     const videos = input.match(/youtube\.com\/channel\/(.+)\/videos/);
     if (videos) return (message: Message) => youtubeVideos(message, videos[1]);
+
+    // Check if input is a search link
+    const search = input.match(/youtube\.com\/results\?search_query=(.+)/);
+    if (search) return (message: Message) => youtubeSearch(message, search[1]);
 
     if (!linksOnly) {
 

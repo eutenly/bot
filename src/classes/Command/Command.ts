@@ -37,9 +37,17 @@ export type Parser = (data: any, extraData?: any[], metadata?: any) => ParserDat
 
 export type GetEmbed = (command: Command, data: any) => Embed;
 
+export interface ViewDataURLData {
+    title?: string;
+    description?: string;
+    url: string;
+}
+
+export type ViewDataURL = string | ViewDataURLData;
+
 export interface ViewData {
     module?: Function;
-    url?: string;
+    url?: ViewDataURL;
     error?: string;
 }
 
@@ -52,7 +60,7 @@ interface CommandData {
     webScraper?: Boolean;
     input?: string;
     metadata?: any;
-    url?: string;
+    url?: ViewDataURL;
     orderedPages?: boolean;
     reactions?: CommandReaction[];
     getURL?: GetURL;
@@ -81,7 +89,7 @@ export default class Command {
     responseMessage?: Message;
     webScraper?: Boolean;
     metadata?: any;
-    url?: string;
+    url?: ViewDataURL;
     reactions?: CommandReaction[];
 
     // A promise for when the connection has loaded

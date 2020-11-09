@@ -1,4 +1,4 @@
-import Command from "../../classes/Command/Command";
+import Command, { ViewDataURL } from "../../classes/Command/Command";
 import Message from "../../classes/Message/Message";
 import embed from "./embed";
 import fetch from "./fetch";
@@ -29,7 +29,11 @@ export default async function search(message: Message, query: string, commandHis
     return command;
 }
 
-export function url(query: string): string {
+export function url(query: string): ViewDataURL {
 
-    return `eutenly://search?query=${encodeURIComponent(query)}`;
+    return {
+        title: "Search",
+        description: query,
+        url: `eutenly://search?query=${encodeURIComponent(query)}`
+    };
 }

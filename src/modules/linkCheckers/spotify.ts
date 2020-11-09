@@ -4,8 +4,10 @@ import spotifyArtist from "../spotify/artist/main";
 import spotifyCurrent from "../spotify/current";
 import spotifyEpisode from "../spotify/episode/main";
 import spotifyHistory from "../spotify/history/main";
+import spotifyHome from "../spotify/home/main";
 import spotifyPlaylist from "../spotify/playlist/main";
 import searchLastMessage from "../spotify/searchLastMessage";
+import spotifySearchOverview from "../spotify/searchOverview/main";
 import spotifyTop from "../spotify/top/main";
 import spotifyTrack from "../spotify/track/main";
 import spotifyUpdatePlayer from "../spotify/updatePlayer";
@@ -32,6 +34,13 @@ export default function spotify(input: string, linksOnly?: boolean): LinkChecker
     // Check if input is an episode link
     const episode = input.match(/open\.spotify\.com\/episode\/(.+)/);
     if (episode) return (message: Message) => spotifyEpisode(message, episode[1]);
+
+    // Check if input is a search link
+    const search = input.match(/open\.spotify\.com\/search\/(.+)/);
+    if (search) return (message: Message) => spotifySearchOverview(message, search[1]);
+
+    // Check if input is home
+    if (/spotify\.com/.test(input)) return (message: Message) => spotifyHome(message);
 
     if (!linksOnly) {
 

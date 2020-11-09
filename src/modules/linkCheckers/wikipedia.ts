@@ -1,6 +1,7 @@
 import Message from "../../classes/Message/Message";
 import { LinkCheckerModule } from "../website/website/main";
 import wikipediaArticle from "../wikipedia/article/main";
+import wikipediaSearch from "../wikipedia/search/main";
 import searchLastMessage from "../wikipedia/searchLastMessage";
 
 export default function wikipedia(input: string, linksOnly?: boolean): LinkCheckerModule | undefined {
@@ -8,6 +9,10 @@ export default function wikipedia(input: string, linksOnly?: boolean): LinkCheck
     // Check if input is an article link
     const article = input.match(/en\.wikipedia\.org\/wiki\/(.+)/);
     if (article) return (message: Message) => wikipediaArticle(message, article[2]);
+
+    // Check if input is a search link
+    const search = input.match(/en\.wikipedia\.org\/w\/index\.php\?search=(.+)/);
+    if (search) return (message: Message) => wikipediaSearch(message, search[1]);
 
     if (!linksOnly) {
 

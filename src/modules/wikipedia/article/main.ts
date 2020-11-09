@@ -1,4 +1,4 @@
-import Command from "../../../classes/Command/Command";
+import Command, { ViewDataURL } from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import Message from "../../../classes/Message/Message";
 import fetch from "../fetch";
@@ -32,7 +32,7 @@ export default async function main(message: Message, title: string, commandHisto
     return command;
 }
 
-export function url(title: string): string {
+export function url(title: string): ViewDataURL {
 
     return `https://en.wikipedia.org/wiki/${encodeURIComponent(title)}`;
 }

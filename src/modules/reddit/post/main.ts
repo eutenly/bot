@@ -1,4 +1,4 @@
-import Command, { CommandReactionModuleAction } from "../../../classes/Command/Command";
+import Command, { CommandReactionModuleAction, ViewDataURL } from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import Message from "../../../classes/Message/Message";
 import User from "../../../classes/User/User";
@@ -56,7 +56,7 @@ export default async function main(message: Message, postID: string, subredditNa
     return command;
 }
 
-export function url(postID: string, subredditName: string): string {
+export function url(postID: string, subredditName: string): ViewDataURL {
 
     return `https://reddit.com/r/${subredditName}/comments/${postID}`;
 }

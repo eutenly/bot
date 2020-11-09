@@ -1,4 +1,4 @@
-import Command from "../../../classes/Command/Command";
+import Command, { ViewDataURL } from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import Message from "../../../classes/Message/Message";
 import fetch from "../fetch";
@@ -51,7 +51,7 @@ export default async function main(message: Message, tweetID: string, user: stri
     return command;
 }
 
-export function url(user: string, tweetID: string): string {
+export function url(user: string, tweetID: string): ViewDataURL {
 
     return `https://twitter.com/${user}/status/${tweetID}`;
 }

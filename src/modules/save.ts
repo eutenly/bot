@@ -1,6 +1,6 @@
 import cheerio from "cheerio";
 import fetch from "node-fetch";
-import Command, { ViewData } from "../classes/Command/Command";
+import Command, { ViewData, ViewDataURL } from "../classes/Command/Command";
 import Message from "../classes/Message/Message";
 import saveDocument from "../models/save";
 import catchPromise from "../util/catchPromise";
@@ -14,8 +14,8 @@ export default async function save(message: Message) {
     // Get command
     const command: Command | undefined = message.author.command;
 
-    // Define url
-    let url: string | undefined;
+    // Define url data
+    let urlData: ViewDataURL | undefined;
 
     // Get user data
     const userData = await message.author.getData(true);
@@ -25,7 +25,7 @@ export default async function save(message: Message) {
     if (userData.savedLinks.length >= 15) return message.channel.sendMessage(":x:  **|  You've reached the maximum number of saved links. Voters get their limit doubled from 15 saved links to 30 and Patrons can get an even higher limit.\n\nLearn more about voting (it's free!): https://eutenly.com/voter-perks\nBecome a Patron and support development: https://eutenly.com/patreon**");
 
     // Command url
-    if ((!input) && (command) && (command.url)) url = command.url;
+    if ((!input) && (command) && (command.url)) urlData = command.url;
 
     // View
     else if ((command) && (command.view)) {
@@ -39,18 +39,19 @@ export default async function save(message: Message) {
         const viewData: ViewData | undefined = command.view(data, message, command);
 
         // Set url
-        if ((viewData) && (viewData.url)) url = viewData.url;
+        if ((viewData) && (viewData.url)) urlData = viewData.url;
     }
 
     // Input is url
-    if (input) url = input;
+    if (input) urlData = input;
 
     // No url
-    if (!url) return message.channel.sendMessage(":x:  **|  You must provide a link to save**");
+    if (!urlData) return message.channel.sendMessage(":x:  **|  You must provide a link to save**");
 
-    // Define title and description
-    let title: any;
-    let description: any;
+    // Define title, description, and url
+    let title: any = typeof urlData === "object" ? urlData.title : undefined;
+    let description: any = typeof urlData === "object" ? urlData.description : undefined;
+    let url: string = typeof urlData === "object" ? urlData.url : urlData;
 
     // Fetch
     if (!url.startsWith("eutenly://")) {
@@ -76,12 +77,16 @@ export default async function save(message: Message) {
         const dom: any = cheerio.load(data);
 
         // Get title
-        title = dom("title").first();
-        title = title.length ? title.text() : undefined;
+        if (!title) {
+            title = dom("title").first();
+            title = title.length ? title.text() : undefined;
+        }
 
         // Get description
-        description = dom(`meta[name="description"]`).first();
-        description = description.length ? description.attr("content") : undefined;
+        if (!description) {
+            description = dom(`meta[name="description"]`).first();
+            description = description.length ? description.attr("content") : undefined;
+        }
     }
 
     // Add to saved links

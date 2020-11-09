@@ -2,7 +2,7 @@ import { ViewData } from "../../classes/Command/Command";
 import Message from "../../classes/Message/Message";
 import website from "../website/website/main";
 import richPanel from "./richPanel/main";
-import search from "./search";
+import search, { url as searchURL } from "./search";
 
 export default function view(data: any, message: Message): ViewData | undefined {
 
@@ -65,7 +65,7 @@ export default function view(data: any, message: Message): ViewData | undefined 
         };
         else return {
             module: () => search(message, subresult.query || subresult),
-            url: `eutenly://search?query=${encodeURIComponent(subresult.query || subresult)}`
+            url: searchURL(subresult.query || subresult)
         };
     }
 }
