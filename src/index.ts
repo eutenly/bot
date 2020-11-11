@@ -2,7 +2,7 @@ import * as Sentry from "@sentry/node";
 import dotenv from "dotenv";
 import { terminal } from "terminal-kit";
 import Client from "./classes/Client/Client";
-import routeMessage from "./modules/commandRouter/router";
+import message from "./modules/message";
 import reactionAdded from "./modules/reactionAdded";
 import reactionRemoved from "./modules/reactionRemoved";
 import serverJoin from "./modules/serverJoin";
@@ -31,7 +31,7 @@ client.on("ready", () => {
 });
 
 // Message
-client.on("message", routeMessage);
+client.on("message", message);
 
 // Reaction Added
 client.on("messageReactionAdd", reactionAdded);

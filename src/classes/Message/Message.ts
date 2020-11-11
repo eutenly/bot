@@ -69,4 +69,7 @@ export default class Message {
      * Used for commands like `e;search ^`
      */
     getLastMessage = (): Promise<RawMessage | undefined> => getLastMessage(this);
+
+    // Uncaches this message
+    uncache = () => this.channel.messages.delete(this.id);
 }
