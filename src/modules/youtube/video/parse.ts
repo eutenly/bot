@@ -15,6 +15,7 @@ export interface YouTubeVideo {
     likes: number;
     dislikes: number;
     comments: number;
+    captions: boolean;
     channel: YouTubeChannel;
     thumbnail?: string;
     uploadedOn: string;
@@ -37,6 +38,7 @@ export default function parse(data: any): ParserData {
             likes: parseInt(data.statistics.likeCount),
             dislikes: parseInt(data.statistics.dislikeCount),
             comments: parseInt(data.statistics.commentCount),
+            captions: data.contentDetails.caption === "true",
             channel: {
                 id: data.snippet.channelId,
                 name: ent.decode(data.snippet.channelTitle)
