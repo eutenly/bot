@@ -14,7 +14,7 @@ export default async function add(message: Message, itemID: string, itemName: st
     await message.author.getConnection("spotify");
 
     // Get playlists
-    const playlists: any = await fetch(message, "https://api.spotify.com/v1/me/playlists?limit=50");
+    const playlists: any = await fetch(message.author, message.channel, "https://api.spotify.com/v1/me/playlists?limit=50");
     if (!playlists) return;
 
     // Get playlist
@@ -32,7 +32,7 @@ export default async function add(message: Message, itemID: string, itemName: st
     if (!playlist) return message.channel.sendMessage(":x:  **|  I couldn't find that playlist**");
 
     // Add item
-    await fetch(message, `https://api.spotify.com/v1/playlists/${playlist.id}/tracks`, "POST", {
+    await fetch(message.author, message.channel, `https://api.spotify.com/v1/playlists/${playlist.id}/tracks`, "POST", {
         uris: [`spotify:${type}:${itemID}`]
     });
 

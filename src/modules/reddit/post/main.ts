@@ -1,7 +1,10 @@
-import Command from "../../../classes/Command/Command";
+import Command, { CommandReactionModuleAction, ViewDataURL } from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import Message from "../../../classes/Message/Message";
+import User from "../../../classes/User/User";
 import fetch from "../fetch";
+import savePost from "../savePost";
+import votePost from "../votePost";
 import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
@@ -19,7 +22,21 @@ export default async function main(message: Message, postID: string, subredditNa
         fetch,
         parser: parse,
         getEmbed: embed,
-        view
+        view,
+        reactions: [
+            {
+                emoji: "reddit_upvote",
+                module: (cmd: Command, user: User, action: CommandReactionModuleAction) => votePost(cmd, user, action, "upvote")
+            },
+            {
+                emoji: "reddit_downvote",
+                module: (cmd: Command, user: User, action: CommandReactionModuleAction) => votePost(cmd, user, action, "downvote")
+            },
+            {
+                emoji: "reddit_save",
+                module: savePost
+            }
+        ]
     }, (m: Message, chIndex: number) => main(m, postID, subredditName, chIndex), commandHistoryIndex);
     await command.uninitializedConnection;
 
@@ -39,7 +56,7 @@ export default async function main(message: Message, postID: string, subredditNa
     return command;
 }
 
-export function url(postID: string, subredditName: string): string {
+export function url(postID: string, subredditName: string): ViewDataURL {
 
     return `https://reddit.com/r/${subredditName}/comments/${postID}`;
 }

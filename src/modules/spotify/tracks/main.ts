@@ -1,4 +1,4 @@
-import Command from "../../../classes/Command/Command";
+import Command, { ViewDataURL } from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
 import fetch from "../fetch";
 import embed from "./embed";
@@ -37,7 +37,7 @@ export default async function main(message: Message, itemID: string, itemName: s
     return command;
 }
 
-export function url(itemID: string, type: string): string {
+export function url(itemID: string, type: string): ViewDataURL {
 
     return `https://open.spotify.com/${type}/${itemID}`;
 }

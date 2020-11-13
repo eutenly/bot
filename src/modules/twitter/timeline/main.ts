@@ -1,4 +1,4 @@
-import Command from "../../../classes/Command/Command";
+import Command, { ViewDataURL } from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
 import fetch from "../fetch";
 import embed from "./embed";
@@ -35,7 +35,11 @@ export default async function main(message: Message, userID: string, commandHist
     return command;
 }
 
-export function url(userID: string): string {
+export function url(userID: string): ViewDataURL {
 
-    return `eutenly://twitter/timeline/${userID}`;
+    return {
+        title: "Twitter",
+        description: "User Timeline",
+        url: `eutenly://twitter/timeline/${userID}`
+    };
 }

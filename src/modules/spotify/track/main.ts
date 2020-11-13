@@ -1,9 +1,12 @@
 import ChannelCommands from "../../../classes/Channel/ChannelCommands/ChannelCommands";
-import Command from "../../../classes/Command/Command";
+import Command, { ViewDataURL } from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import Message from "../../../classes/Message/Message";
 import add from "../add";
 import fetch from "../fetch";
+import play from "../play";
+import queue from "../queue";
+import save from "../save";
 import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
@@ -28,7 +31,21 @@ export default async function main(message: Message, trackID: string, progress?:
         fetch,
         parser: parse,
         getEmbed: embed,
-        view
+        view,
+        reactions: [
+            {
+                emoji: "spotify_play",
+                module: play
+            },
+            {
+                emoji: "spotify_queue",
+                module: queue
+            },
+            {
+                emoji: "spotify_save",
+                module: save
+            }
+        ]
     }, (m: Message, chIndex: number) => main(m, trackID, progress, chIndex), commandHistoryIndex);
     await command.uninitializedConnection;
 
@@ -57,7 +74,7 @@ export default async function main(message: Message, trackID: string, progress?:
     return command;
 }
 
-export function url(trackID: string): string {
+export function url(trackID: string): ViewDataURL {
 
     return `https://open.spotify.com/track/${trackID}`;
 }

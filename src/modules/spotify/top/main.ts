@@ -1,4 +1,4 @@
-import Command from "../../../classes/Command/Command";
+import Command, { ViewDataURL } from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
 import fetch from "../fetch";
 import embed from "./embed";
@@ -36,7 +36,11 @@ export default async function main(message: Message, type: string, commandHistor
     return command;
 }
 
-export function url(type: string): string {
+export function url(type: string): ViewDataURL {
 
-    return `eutenly://spotify/top/${type}`;
+    return {
+        title: "Spotify",
+        description: `Top ${type === "tracks" ? "Tracks" : "Artists"}`,
+        url: `eutenly://spotify/top/${type}`
+    };
 }

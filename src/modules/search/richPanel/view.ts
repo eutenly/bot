@@ -1,6 +1,6 @@
 import { ViewData } from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
-import search from "../search";
+import search, { url as searchURL } from "../search";
 import lyrics from "./lyrics/main";
 
 export default function view(data: any, message: Message): ViewData | undefined {
@@ -67,6 +67,6 @@ export default function view(data: any, message: Message): ViewData | undefined 
     // Run module
     return {
         module: () => search(message, resultItem.query),
-        url: `eutenly://search?query=${encodeURIComponent(resultItem.query)}`
+        url: searchURL(resultItem.query)
     };
 }

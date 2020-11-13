@@ -1,16 +1,17 @@
 import nodeFetch, { Response } from "node-fetch";
-import Message from "../../classes/Message/Message";
-import { Connection } from "../../classes/User/User";
+import Channel from "../../classes/Channel/Channel";
+import User, { Connection } from "../../classes/User/User";
 import sendLoginEmbed from "../../util/sendLoginEmbed";
 
-export default async function fetch(message: Message, url: string): Promise<any> {
+export default async function fetch(user: User, channel: Channel, url: string, method: string = "GET"): Promise<any> {
 
     // Get connection
-    const connection: Connection | undefined = message.author.connections["github"];
+    const connection: Connection | undefined = user.connections["github"];
     if (!connection) return;
 
     // Make request
     const result: Response = await nodeFetch(url, {
+        method,
         headers: {
             "User-Agent": "Eutenly",
             "Authorization": `token ${connection.accessToken}`,
@@ -19,11 +20,11 @@ export default async function fetch(message: Message, url: string): Promise<any>
     });
 
     // Parse data
-    const data: any = result.status === 204 ? {} : await result.json();
+    const data: any = await result.json().catch(() => { }) || {};
 
     // Authorization failed
     if (data.message === "Bad credentials") {
-        sendLoginEmbed(message, "github");
+        sendLoginEmbed(user, channel, "github");
         return;
     }
 

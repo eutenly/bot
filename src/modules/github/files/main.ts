@@ -1,4 +1,4 @@
-import Command from "../../../classes/Command/Command";
+import Command, { ViewDataURL } from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
 import fetch from "../fetch";
 import embed from "./embed";
@@ -39,7 +39,7 @@ export default async function main(message: Message, ownerName: string, name: st
     return command;
 }
 
-export function url(ownerName: string, name: string, path?: string): string {
+export function url(ownerName: string, name: string, path?: string): ViewDataURL {
 
     return `https://github.com/${ownerName}/${name}/tree/master${path ? `/${path}` : ""}`;
 }

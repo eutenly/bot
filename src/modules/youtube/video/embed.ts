@@ -30,7 +30,7 @@ export default function embed(command: Command, data?: YouTubeVideo): Embed {
         .addField(null, null, true);
 
     if (command.compactMode) embed
-        .addField(null, `**Views:** ${data.views.toLocaleString()}\n**Likes:** ${data.likes.toLocaleString()}\n**Dislikes:** ${data.dislikes.toLocaleString()}\n**Comments:** ${data.comments.toLocaleString()}\n**Length:** ${parseISO8601(data.length)}\n**Uploaded By:** [${data.channel.name}](https://youtube.com/channel/${data.channel.id}) (\`${prefix}view channel\`)\n**Uploaded:** ${parseDate(data.uploadedOn)}`)
+        .addField(null, `**Views:** ${data.views.toLocaleString()}\n**Likes:** ${data.likes.toLocaleString()}\n**Dislikes:** ${data.dislikes.toLocaleString()}\n**Comments:** ${data.comments.toLocaleString()}\n**Captions:** ${data.captions ? "Yes" : "No"}\n**Length:** ${parseISO8601(data.length)}\n**Uploaded By:** [${data.channel.name}](https://youtube.com/channel/${data.channel.id}) (\`${prefix}view channel\`)\n**Uploaded:** ${parseDate(data.uploadedOn)}\n\n**Embed:** Use the \`${prefix}view embed\` command to have this video embedded in chat`)
         .setThumbnail(data.thumbnail);
 
     else embed
@@ -40,7 +40,11 @@ export default function embed(command: Command, data?: YouTubeVideo): Embed {
         .addField("Likes", data.likes.toLocaleString(), true)
         .addField("Comments", data.comments.toLocaleString(), true)
         .addField("Dislikes", data.dislikes.toLocaleString(), true)
+        .addField(null, null, true)
+        .addField("Captions", data.captions ? "Yes" : "No", true)
+        .addField(null, null, true)
         .addField("Uploaded", parseDate(data.uploadedOn))
+        .addField("Embed", `Use the \`${prefix}view embed\` command to have this video embedded in chat`)
         .setImage(data.thumbnail);
 
     // Return

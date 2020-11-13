@@ -1,13 +1,13 @@
 import nodeFetch, { Response } from "node-fetch";
-import Message from "../../classes/Message/Message";
-import { Connection } from "../../classes/User/User";
+import Channel from "../../classes/Channel/Channel";
+import User, { Connection } from "../../classes/User/User";
 import sendLoginEmbed from "../../util/sendLoginEmbed";
 import refreshToken from "./refreshToken";
 
-export default async function fetch(message: Message, url: string, method: string = "GET", body?: any): Promise<any> {
+export default async function fetch(user: User, channel: Channel, url: string, method: string = "GET", body?: any): Promise<any> {
 
     // Get connection
-    const connection: Connection | undefined = message.author.connections["spotify"];
+    const connection: Connection | undefined = user.connections["spotify"];
     if (!connection) return;
 
     // Make request
@@ -21,11 +21,11 @@ export default async function fetch(message: Message, url: string, method: strin
     });
 
     // Parse data
-    const data: any = result.status === 204 ? {} : await result.json();
+    const data: any = await result.json().catch(() => { }) || {};
 
     // Authorization failed
     if (data.error?.message === "Invalid access token") {
-        sendLoginEmbed(message, "spotify");
+        sendLoginEmbed(user, channel, "spotify");
         return;
     }
 
@@ -33,10 +33,10 @@ export default async function fetch(message: Message, url: string, method: strin
     if (data.error?.message === "The access token expired") {
 
         // Refresh token
-        await refreshToken(message.author);
+        await refreshToken(user);
 
         // Fetch
-        return await fetch(message, url, method);
+        return await fetch(user, channel, url, method, body);
     }
 
     // Return

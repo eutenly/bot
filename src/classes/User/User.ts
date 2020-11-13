@@ -31,6 +31,7 @@ interface Connections {
 
 interface UserData {
     id: string;
+    bot: boolean;
 }
 
 export default class User {
@@ -40,6 +41,7 @@ export default class User {
 
     // Data about the user
     id: string;
+    bot: boolean;
     cooldown: number;
 
     // The command this user has used
@@ -58,6 +60,7 @@ export default class User {
         this.client = client;
 
         this.id = data.id;
+        this.bot = data.bot;
         this.cooldown = 0;
 
         this.commandHistory = [];

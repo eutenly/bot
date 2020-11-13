@@ -1,4 +1,4 @@
-import Command from "../../../classes/Command/Command";
+import Command, { ViewDataURL } from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
 import fetch from "../fetch";
 import embed from "./embed";
@@ -34,7 +34,7 @@ export default async function main(message: Message, query: string, commandHisto
     return command;
 }
 
-export function url(query: string): string {
+export function url(query: string): ViewDataURL {
 
-    return `eutenly://reddit/search?query=${encodeURIComponent(query)}`;
+    return `https://reddit.com/search?q=${encodeURIComponent(query)}`;
 }

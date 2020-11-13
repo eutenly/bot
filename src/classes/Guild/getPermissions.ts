@@ -144,7 +144,7 @@ export default async function getPermissions(guild: Guild, data: GuildPermission
     // Define channel permissions
     const channels: Map<string, number> = new Map();
 
-    // Calculate denied permissions for channels
+    // Calculate permissions for channels
     permissionsData.channels.forEach((c: GuildDataChannel) => {
 
         // Ignore non text channels
@@ -180,7 +180,7 @@ export default async function getPermissions(guild: Guild, data: GuildPermission
         // Calculate permission overwrites
         channelPermissions = calculatePermissionOverwrites(data.userID, roles, channelPermissions, c.permission_overwrites, CHANNEL_PERMISSIONS);
 
-        // Set denied permissions
+        // Set permissions
         if (channelPermissions !== 0) channels.set(c.id, channelPermissions);
     });
 

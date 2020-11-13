@@ -18,7 +18,7 @@ export default async function compact(message: Message) {
     let input: string = PARAMS[1]?.toLowerCase();
 
     // Define inputs
-    const inputs: string[] = ["enabled", "enable", "disabled", "disable", "yes", "no", "y", "n", "true", "false"];
+    const inputs: string[] = ["enabled", "enable", "disabled", "disable", "on", "off", "yes", "no", "y", "n", "true", "false"];
 
     // Swap parameters
     if (!inputs.includes(input)) {
@@ -35,7 +35,7 @@ export default async function compact(message: Message) {
     if ((!channel) && (target?.toLowerCase() !== "all")) return message.channel.sendMessage(":x:  **|  I couldn't find that channel**");
 
     // Parse input
-    const enabled: boolean = ["enabled", "enable", "yes", "y", "true"].includes(input);
+    const enabled: boolean = ["enabled", "enable", "on", "yes", "y", "true"].includes(input);
 
     // Missing perms
     const permissions: GuildPermissions = await message.guild.getPermissions({

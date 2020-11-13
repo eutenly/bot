@@ -1,4 +1,4 @@
-import Command from "../../../classes/Command/Command";
+import Command, { ViewDataURL } from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
 import fetch from "../fetch";
 import embed from "./embed";
@@ -36,7 +36,7 @@ export default async function main(message: Message, user: string, type: string 
     return command;
 }
 
-export function url(user: string): string {
+export function url(user: string): ViewDataURL {
 
     return `https://github.com/${user}?tab=repositories`;
 }

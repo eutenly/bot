@@ -1,4 +1,4 @@
-import Command from "../../../classes/Command/Command";
+import Command, { ViewDataURL } from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
 import embed from "./embed";
 import parse from "./parse";
@@ -33,7 +33,7 @@ export default async function main(message: Message, channelID: string, commandH
     return command;
 }
 
-export function url(channelID: string): string {
+export function url(channelID: string): ViewDataURL {
 
     return `https://youtube.com/channel/${channelID}/videos`;
 }
