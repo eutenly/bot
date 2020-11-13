@@ -11,6 +11,9 @@ export default function roleUpdate(client: Client, data: EventData) {
     const guild: Guild | undefined = client.guilds.get(data.guild_id);
     if (!guild) return;
 
+    // Invalidate member cache
+    guild.memberPerms.clear();
+
     // Calculate bot permissions
     guild.calculateBotPermissions();
 }

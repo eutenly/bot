@@ -4,7 +4,7 @@ LABEL com.centurylinklabs.watchtower.enable=true
 
 WORKDIR /usr/src/app
 
-COPY out/ .
+COPY ./out/ .
 COPY package.json .
 
 RUN npm install

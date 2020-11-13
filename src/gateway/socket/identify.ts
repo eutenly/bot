@@ -6,6 +6,7 @@ export default function identify(ws: Websocket, token: string) {
     // https://discord.com/developers/docs/topics/gateway#list-of-intents
     const INTENTS: object = {
         GUILDS: 1 << 0,
+        GUILD_MEMBERS: 1 << 1,
         GUILD_MESSAGES: 1 << 9,
         GUILD_MESSAGE_REACTIONS: 1 << 10,
         DIRECT_MESSAGES: 1 << 12,

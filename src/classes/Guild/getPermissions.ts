@@ -22,9 +22,14 @@ export interface Permissions {
 export interface GuildPermissions {
     permissions: number;
     channels: Map<string, number>;
+    creation: Date;
 }
 
 export default async function getPermissions(guild: Guild, data: GuildPermissionsInputData): Promise<GuildPermissions> {
+
+    // Check permisson cache
+    const cache = guild.memberPerms.get(data.userID);
+    if (cache) return cache;
 
     // Get channel data
     let channelData: Promise<GuildDataChannel[]> | undefined;
@@ -106,10 +111,16 @@ export default async function getPermissions(guild: Guild, data: GuildPermission
             const channels: Map<string, number> = new Map();
             permissionsData.channels.forEach((c: GuildDataChannel) => channels.set(c.id, ALL_CHANNEL_PERMISSIONS));
 
-            return {
+            const perms = {
                 permissions: ALL_PERMISSIONS,
-                channels
+                channels,
+                creation: new Date()
             };
+
+            // Store permission cache
+            guild.memberPerms.set(data.userID, perms);
+
+            return perms;
         }
     }
 
@@ -173,9 +184,15 @@ export default async function getPermissions(guild: Guild, data: GuildPermission
         if (channelPermissions !== 0) channels.set(c.id, channelPermissions);
     });
 
-    // Return
-    return {
+    const perms = {
         permissions,
-        channels
+        channels,
+        creation: new Date()
     };
+
+    // Store permission cache
+    guild.memberPerms.set(data.userID, perms);
+
+    // Return
+    return perms;
 }

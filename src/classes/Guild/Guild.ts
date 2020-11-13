@@ -84,6 +84,9 @@ export default class Guild {
     // Channel names
     channelNames: Map<string, string>;
 
+    // Members perms
+    memberPerms: Map<string, GuildPermissions>;
+
     // A map of channel IDs mapped to a bitfield of permissions in that channel
     permissions: Map<string, number>;
     processBotPermissions: boolean;
@@ -107,6 +110,9 @@ export default class Guild {
         // Channel names
         this.channelNames = new Map();
         data.channels.filter((c: GuildDataChannel) => ![2, 4].includes(c.type)).forEach((c: GuildDataChannel) => this.channelNames.set(c.id, c.name));
+
+        // Member perms
+        this.memberPerms = new Map();
 
         // Compact mode
         this.compactMode = new Map();

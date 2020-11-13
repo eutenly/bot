@@ -1,5 +1,7 @@
 import collectStat from "../../util/collectStat";
 import Channel from "../Channel/Channel";
+import Guild from "../Guild/Guild";
+import { GuildPermissions } from "../Guild/getPermissions";
 import Message from "../Message/Message";
 import User from "../User/User";
 import Client from "./Client";
@@ -88,6 +90,17 @@ function collectGarbage(client: Client) {
                 user.commandHistory[user.commandHistory.length - 1].timestamp + 1800000 <= Date.now()
             )
         ) client.users.delete(user.id);
+    });
+
+    // Loop through guilds
+    client.guilds.forEach((guild: Guild) => {
+        // Loop through member perms
+        guild.memberPerms.forEach((perms: GuildPermissions, userID: string) => {
+            if (perms.creation.getTime() < Date.now() - (600000 * 6)) {
+                // Delete perms older than an hour
+                guild.memberPerms.delete(userID);
+            }
+        });
     });
 }
 
