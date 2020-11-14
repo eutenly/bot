@@ -34,12 +34,12 @@ export default async function main(message: Message, trackID: string, progress?:
         view,
         reactions: [
             {
-                emoji: "spotify_play",
-                module: play
-            },
-            {
                 emoji: "spotify_queue",
                 module: queue
+            },
+            {
+                emoji: "spotify_play",
+                module: play
             },
             {
                 emoji: "spotify_save",

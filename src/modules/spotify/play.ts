@@ -16,7 +16,7 @@ export default async function play(command: Command, user: User, action: Command
 
     // Play
     const result: any = await fetch(user, command.message.channel, "https://api.spotify.com/v1/me/player/play", "PUT", {
-        uris: [`spotify:${command.name}:${command.data.id}`]
+        uris: [`spotify:track:${command.data.id}`]
     });
 
     // Not listening to anything
@@ -27,4 +27,7 @@ export default async function play(command: Command, user: User, action: Command
 
     // Remove reaction
     if (reaction?.guild) reaction.remove();
+
+    // Send
+    command.message.channel.sendMessage(`<:spotify_play:${command.client.eutenlyEmojis.get("spotify_play")}>  **|  <@${user.id}>, ${command.data.name} is now playing**`);
 }
