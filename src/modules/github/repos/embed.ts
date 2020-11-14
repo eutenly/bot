@@ -10,7 +10,7 @@ export default function embed(command: Command, data: GitHubSearchResult[]): Emb
 
     // Embed
     const embed = new Embed()
-        .setAuthor("GitHub Search", "https://getdrawings.com/free-icon-bw/github-icon-23.png")
+        .setAuthor("GitHub Search", "https://i.imgur.com/FwnDNtd.png")
         .setDescription(`Page ${command.searchManager?.page}`)
         .setColor(0x000000)
         .setBranding();
@@ -28,7 +28,7 @@ export default function embed(command: Command, data: GitHubSearchResult[]): Emb
 
     // Build embed
     embed
-        .setAuthor(`${command.searchManager?.input}'s ${type}`, "https://getdrawings.com/free-icon-bw/github-icon-23.png", `https://github.com/${command.searchManager?.input}?tab=repositories`)
+        .setAuthor(`${command.searchManager?.input}'s ${type}`, "https://i.imgur.com/FwnDNtd.png", `https://github.com/${command.searchManager?.input}?tab=repositories`)
         .addField(null, null, true)
         .addField("Link", `[github.com...](https://github.com/${command.searchManager?.input}?tab=repositories)`, true)
         .addField(null, null, true);

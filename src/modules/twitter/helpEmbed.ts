@@ -10,6 +10,7 @@ export default function helpEmbed(prefix: string): Embed {
         .addField("Search Twitter", `Use the \`${prefix}twitter <Search Query>\` command to search Twitter`)
         .addField("View Tweets", `View Tweets from search results or view a tweets sent by the user you're viewing with the \`${prefix}view tweets\` command`)
         .addField("View Your Timeline", `Use the \`${prefix}twitter timeline\` command to view your timeline`)
+        .addField("Like & Retweet Tweets", `Use the reactions below Tweets to like and retweet them right from Discord`)
         .addField("Ready to Try It?", "[Login with Twitter](https://eutenly.com/login/twitter)")
         .setBranding();
 }

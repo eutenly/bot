@@ -2,13 +2,13 @@ import * as Sentry from "@sentry/node";
 import Message from "../../classes/Message/Message";
 import { routes, BaseCommand } from "./routes";
 
-export default function routeMessage(message: Message) {
+export default function router(message: Message): boolean {
 
     // Ignore bots
-    if (message.author.bot) return;
+    if (message.author.bot) return false;
 
     // Ignore if message doesn't start with the prefix
-    if (!message.content.toLowerCase().startsWith(message.channel.prefix)) return;
+    if (!message.content.toLowerCase().startsWith(message.channel.prefix)) return false;
 
     // Get command
     const requestedCommand = message.commandContent.toLowerCase();
@@ -22,7 +22,7 @@ export default function routeMessage(message: Message) {
         (route: BaseCommand) => route.inputs.some((routeInput: string) => requestedCommand.startsWith(routeInput))
     );
 
-    if (!route) return;
+    if (!route) return false;
 
     // Check for private commands
     if (
@@ -31,14 +31,14 @@ export default function routeMessage(message: Message) {
             !process.env.OWNERS ||
             !process.env.OWNERS.split(",").includes(message.author.id)
         )
-    ) return;
+    ) return false;
 
     // Get input
     const input = route.inputs.find((routeInput: string) => requestedCommand.startsWith(routeInput));
 
     // Invalid format
     // ie. `e;helpsearch` instead of `e;help search`
-    if ((requestedCommand !== input) && (!requestedCommand.startsWith(`${input} `))) return;
+    if ((requestedCommand !== input) && (!requestedCommand.startsWith(`${input} `))) return false;
 
     // Cooldown not done
     if (!message.author.checkCooldown()) {
@@ -47,7 +47,10 @@ export default function routeMessage(message: Message) {
         const cooldown: number = Math.ceil((message.author.cooldown - Date.now()) / 1000);
 
         // Send
-        return message.channel.sendMessage(`:x:  **|  Please wait another ${cooldown} second${cooldown === 1 ? "" : "s"} before using commands**`);
+        message.channel.sendMessage(`:x:  **|  Please wait another ${cooldown} second${cooldown === 1 ? "" : "s"} before using commands**`);
+
+        // Return
+        return false;
     }
 
     // Run module
@@ -59,4 +62,7 @@ export default function routeMessage(message: Message) {
         Sentry.captureException(error);
         console.log("Captured Exception");
     }
+
+    // Return
+    return true;
 }

@@ -31,7 +31,7 @@ export default function embed(command: Command, data?: GitHubHome): Embed {
     const notifications: GitHubNotification[] = command.compactMode ? data.notifications.slice(0, 3) : data.notifications;
 
     const embed = new Embed()
-        .setAuthor("GitHub", "https://getdrawings.com/free-icon-bw/github-icon-23.png")
+        .setAuthor("GitHub", "https://i.imgur.com/FwnDNtd.png")
         .setColor(0x000000)
         .addField("Your Watched Repos", `${watchedRepos.map((r: GitHubRepo, i: number) => `**w-${i + 1}. [${r.ownerName}/${r.name}](https://github.com/${r.ownerName}/${r.name})**\n${r.description ? truncateString(r.description, 50) : ""}`).join("\n")}\n\n\u2022 Use \`${prefix}view <Repo Number>\` to view a repo\n\u2022 Use \`${prefix}view watched repos\` to view more of your watched repos\n\u200b`)
         .addField("Your Starred Repos", `${starredRepos.map((r: GitHubRepo, i: number) => `**s-${i + 1}. [${r.ownerName}/${r.name}](https://github.com/${r.ownerName}/${r.name})**\n${r.description ? truncateString(r.description, 50) : ""}`).join("\n")}\n\n\u2022 Use \`${prefix}view <Repo Number>\` to view a repo\n\u2022 Use \`${prefix}view starred repos\` to view more of your starred repos\n\u200b`)

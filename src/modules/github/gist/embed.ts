@@ -10,7 +10,7 @@ export default function embed(command: Command, data?: GitHubGist): Embed {
 
     // Embed
     const embed = new Embed()
-        .setAuthor("GitHub Search", "https://getdrawings.com/free-icon-bw/github-icon-23.png")
+        .setAuthor("GitHub Search", "https://i.imgur.com/FwnDNtd.png")
         .setColor(0x000000)
         .setBranding();
 
@@ -21,7 +21,7 @@ export default function embed(command: Command, data?: GitHubGist): Embed {
 
     // Build embed
     embed
-        .setAuthor(`${command.metadata?.name}/${data.files[0]}`, "https://getdrawings.com/free-icon-bw/github-icon-23.png", `https://gist.github.com/${command.metadata?.name}/${data.id}`)
+        .setAuthor(`${command.metadata?.name}/${data.files[0]}`, "https://i.imgur.com/FwnDNtd.png", `https://gist.github.com/${command.metadata?.name}/${data.id}`)
         .setDescription(data.description)
         .addField(null, null, true)
         .addField("Link", `[gist.github.com...](https://gist.github.com/${command.metadata?.name}/${data.id})`, true)

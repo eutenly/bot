@@ -47,6 +47,9 @@ export default function reddit(input: string, linksOnly?: boolean): LinkCheckerM
         // Check if input is feed
         if (input.toLowerCase().replace(/\s+/g, "") === "feed") return (message: Message) => redditFeed(message);
 
+        // Check if input is saved posts
+        if (["savedposts", "saved"].includes(input.toLowerCase().replace(/\s+/g, ""))) return (message: Message) => redditPosts(message, null, "saved");
+
         // Check if input is to search last message
         if (input === "^") return (message: Message) => searchLastMessage(message);
     }

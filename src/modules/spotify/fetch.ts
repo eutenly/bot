@@ -21,7 +21,7 @@ export default async function fetch(user: User, channel: Channel, url: string, m
     });
 
     // Parse data
-    const data: any = result.status === 204 ? {} : await result.json();
+    const data: any = await result.json().catch(() => { }) || {};
 
     // Authorization failed
     if (data.error?.message === "Invalid access token") {
@@ -36,7 +36,7 @@ export default async function fetch(user: User, channel: Channel, url: string, m
         await refreshToken(user);
 
         // Fetch
-        return await fetch(user, channel, url, method);
+        return await fetch(user, channel, url, method, body);
     }
 
     // Return
