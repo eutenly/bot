@@ -1,6 +1,7 @@
 import Command, { ViewDataURL } from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import Message from "../../../classes/Message/Message";
+import embedVideo from "../embedVideo";
 import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
@@ -19,7 +20,11 @@ export default async function main(message: Message, videoID: string, commandHis
         }),
         parser: parse,
         getEmbed: embed,
-        view
+        view,
+        reactions: [{
+            emoji: "youtube",
+            module: embedVideo
+        }]
     }, (m: Message, chIndex: number) => main(m, videoID, chIndex), commandHistoryIndex);
 
     // Fetch

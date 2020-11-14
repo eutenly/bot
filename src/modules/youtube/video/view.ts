@@ -21,12 +21,6 @@ export default function view(data: YouTubeVideo | undefined, message: Message): 
         url: channelURL(data.channel.id)
     };
 
-    // Embed
-    if (input.toLowerCase().replace(/\s+/g, "") === "embed") {
-        message.channel.sendMessage(`<:youtube:${message.client.eutenlyEmojis.get("youtube")}>  **|  https://youtube.com/watch?v=${data.id}**`);
-        return;
-    }
-
     // Invalid type
     else return { error: `:x:  **|  You can view the channel with \`${prefix}view channel\`**` };
 }
