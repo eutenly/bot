@@ -11,7 +11,7 @@ export default function embed(command: Command, data?: GitHubRepo): Embed {
 
     // Embed
     const embed = new Embed()
-        .setAuthor("GitHub Search", "https://getdrawings.com/free-icon-bw/github-icon-23.png")
+        .setAuthor("GitHub Search", "https://i.imgur.com/FwnDNtd.png")
         .setColor(0x000000)
         .setBranding();
 
@@ -24,7 +24,7 @@ export default function embed(command: Command, data?: GitHubRepo): Embed {
     if (data.description) embed.setDescription(data.description);
 
     embed
-        .setAuthor(`${data.ownerName}/${data.name}`, "https://getdrawings.com/free-icon-bw/github-icon-23.png", `https://github.com/${data.ownerName}/${data.name}`)
+        .setAuthor(`${data.ownerName}/${data.name}`, "https://i.imgur.com/FwnDNtd.png", `https://github.com/${data.ownerName}/${data.name}`)
         .addField(null, null, true)
         .addField("Link", `[github.com...](https://github.com/${data.ownerName}/${data.name})`, true)
         .addField(null, null, true);

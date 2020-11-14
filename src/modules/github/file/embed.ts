@@ -12,7 +12,7 @@ export default function embed(command: Command, data?: GitHubFile): Embed {
 
     // Embed
     const embed = new Embed()
-        .setAuthor("GitHub Search", "https://getdrawings.com/free-icon-bw/github-icon-23.png")
+        .setAuthor("GitHub Search", "https://i.imgur.com/FwnDNtd.png")
         .setColor(0x000000)
         .setBranding();
 
@@ -27,7 +27,7 @@ export default function embed(command: Command, data?: GitHubFile): Embed {
 
     // Build embed
     embed
-        .setAuthor(`${command.metadata?.ownerName}/${command.metadata?.name}: ${data.name}`, "https://getdrawings.com/free-icon-bw/github-icon-23.png", `https://github.com/${command.metadata?.ownerName}/${command.metadata?.name}/blob/master/${data.path}`)
+        .setAuthor(`${command.metadata?.ownerName}/${command.metadata?.name}: ${data.name}`, "https://i.imgur.com/FwnDNtd.png", `https://github.com/${command.metadata?.ownerName}/${command.metadata?.name}/blob/master/${data.path}`)
         .setDescription(`\`\`\`\n${truncateString(content, 500)}\`\`\``)
         .addField(null, null, true)
         .addField("Link", `[github.com...](https://github.com/${command.metadata?.ownerName}/${command.metadata?.name}/blob/master/${data.path})`, true)
