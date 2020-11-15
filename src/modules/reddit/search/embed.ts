@@ -10,8 +10,8 @@ export default function embed(command: Command, data: RedditSearchResult[]): Emb
 
     // Embed
     const embed = new Embed()
-        .setAuthor(`Reddit Search: ${command.searchManager?.input}`, "https://i.imgur.com/YKUi7bl.png")
-        .setDescription(`Page ${command.searchManager?.page}`)
+        .setAuthor(`Reddit Search: ${command.pageManager?.input}`, "https://i.imgur.com/YKUi7bl.png")
+        .setDescription(`Page ${command.pageManager?.page}`)
         .setColor(0xff3f18)
         .setBranding();
 

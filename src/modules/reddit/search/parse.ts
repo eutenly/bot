@@ -13,10 +13,10 @@ export interface RedditSearchResult {
     user: string;
 }
 
-export default function parse(data?: any): ParserData {
+export default function parse(data?: any): ParserData | undefined {
 
     // No data
-    if (data.data.children.length === 0) return { noData: true };
+    if (data.data.children.length === 0) return;
 
     // Return
     return {

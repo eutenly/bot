@@ -11,10 +11,10 @@ export default async function main(message: Message, name: string, commandHistor
     // Create command
     const command: Command = new Command(message.client, {
         name: "user",
-        type: "github",
+        category: "github",
         message,
         url: url(name),
-        getURL: (): string => `https://api.github.com/users/${encodeURIComponent(name)}`,
+        getData: `https://api.github.com/users/${encodeURIComponent(name)}`,
         connectionName: "github",
         fetch,
         parser: parse,

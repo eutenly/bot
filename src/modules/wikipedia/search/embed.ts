@@ -9,8 +9,8 @@ export default function embed(command: Command, data: WikipediaSearchResult[]): 
 
     // Embed
     const embed = new Embed()
-        .setAuthor(`Wikipedia Search: ${command.searchManager?.input}`, "https://upload.wikimedia.org/wikipedia/en/thumb/8/80/Wikipedia-logo-v2.svg/1200px-Wikipedia-logo-v2.svg.png")
-        .setDescription(`Page ${command.searchManager?.page}`)
+        .setAuthor(`Wikipedia Search: ${command.pageManager?.input}`, "https://upload.wikimedia.org/wikipedia/en/thumb/8/80/Wikipedia-logo-v2.svg/1200px-Wikipedia-logo-v2.svg.png")
+        .setDescription(`Page ${command.pageManager?.page}`)
         .setColor(0xfefefe)
         .setBranding();
 

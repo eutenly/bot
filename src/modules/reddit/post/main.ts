@@ -14,10 +14,10 @@ export default async function main(message: Message, postID: string, subredditNa
     // Create command
     const command: Command = new Command(message.client, {
         name: "post",
-        type: "reddit",
+        category: "reddit",
         message,
         url: url(postID, subredditName),
-        getURL: (): string => `https://oauth.reddit.com/api/info?id=t3_${encodeURIComponent(postID)}&raw_json=1`,
+        getData: `https://oauth.reddit.com/api/info?id=t3_${encodeURIComponent(postID)}&raw_json=1`,
         connectionName: "reddit",
         fetch,
         parser: parse,

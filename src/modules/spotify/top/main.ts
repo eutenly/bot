@@ -10,16 +10,17 @@ export default async function main(message: Message, type: string, commandHistor
     // Create command
     const command: Command = new Command(message.client, {
         name: "top",
-        type: "spotify",
+        category: "spotify",
         message,
         input: type,
         metadata: {
             type
         },
         url: url(type),
-        getURL: (input: string = "", page: number = 1): string => `https://api.spotify.com/v1/me/top/${type}?limit=5${page ? `&offset=${(page - 1) * 5}` : ""}`,
+        getData: (input: string = "", page: number = 1): string => `https://api.spotify.com/v1/me/top/${type}?limit=5${page ? `&offset=${(page - 1) * 5}` : ""}`,
         connectionName: "spotify",
         fetch,
+        perPage: 5,
         parser: parse,
         getEmbed: embed,
         view
@@ -30,7 +31,7 @@ export default async function main(message: Message, type: string, commandHistor
     if (command.noConnection) return;
 
     // Search
-    command.searchManager?.setPage(1);
+    command.pageManager?.setPage(1);
 
     // Return
     return command;

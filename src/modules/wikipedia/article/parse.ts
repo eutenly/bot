@@ -2,10 +2,10 @@ import cheerio from "cheerio";
 import { URL } from "url";
 import { ParserData } from "../../../classes/Command/Command";
 
-export default function parse(data: any): ParserData {
+export default function parse(data: any): ParserData | undefined {
 
     // No article
-    if (data.error) return { noData: true };
+    if (data.error) return;
 
     // Parse
     const dom: any = cheerio.load(data.parse.text["*"]);

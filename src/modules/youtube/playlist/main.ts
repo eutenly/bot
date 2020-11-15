@@ -10,7 +10,7 @@ export default async function main(message: Message, playlistID: string, command
     // Create command
     const command: Command = new Command(message.client, {
         name: "playlist",
-        type: "youtube",
+        category: "youtube",
         message,
         url: url(playlistID),
         getData: async (): Promise<any> => await message.client.youtube.playlists.list({

@@ -11,7 +11,7 @@ export default function embed(command: Command, data: SpotifyTrack[]): Embed {
     // Embed
     const embed = new Embed()
         .setAuthor("History", "https://i.imgur.com/tiqno7l.png")
-        .setDescription(`Page ${command.searchManager?.page}`)
+        .setDescription(`Page ${command.pageManager?.page}`)
         .setColor(0x1ed760)
         .setBranding();
 

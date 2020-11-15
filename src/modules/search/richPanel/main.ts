@@ -9,7 +9,7 @@ export default async function main(message: Message, data: any, commandHistoryIn
     // Create command
     const command: Command = new Command(message.client, {
         name: "knowledgePanel",
-        type: "google",
+        category: "google",
         message,
         data,
         getEmbed: embed,

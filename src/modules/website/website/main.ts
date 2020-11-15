@@ -26,10 +26,10 @@ export default async function main(message: Message, url: string, commandHistory
     // Create command
     const command: Command = new Command(message.client, {
         name: "website",
-        type: "website",
+        category: "website",
         message,
         url,
-        getURL: (): string => url,
+        getData: url,
         fetch,
         parser: parse,
         getEmbed: embed

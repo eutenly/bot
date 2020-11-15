@@ -15,13 +15,13 @@ export default async function main(message: Message, commandHistoryIndex?: numbe
     // Create command
     const command: Command = new Command(message.client, {
         name: "home",
-        type: "reddit",
+        category: "reddit",
         message,
         url: url(),
-        getURL: (): string => "https://oauth.reddit.com/api/v1/me",
+        getData: "https://oauth.reddit.com/api/v1/me",
         getExtraData: [
             (data: any): string => `https://oauth.reddit.com/user/${data.name}/submitted?raw_json=1&limit=5`,
-            (): string => "https://oauth.reddit.com/best?raw_json=1&limit=5"
+            "https://oauth.reddit.com/best?raw_json=1&limit=5"
         ],
         connectionName: "reddit",
         helpEmbed: helpEmbed(prefix),

@@ -31,7 +31,7 @@ export interface SpotifyHome {
     recentlyPlayed: SpotifyTrack[];
 }
 
-export default function parse(data: any, extraData?: any[]): ParserData {
+export default function parse(data: any, extraData?: any[]): ParserData | undefined {
 
     // Parse extra data
     const topTracks: any = extraData && extraData[0];

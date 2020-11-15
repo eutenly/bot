@@ -11,7 +11,7 @@ export default function embed(command: Command, data: GitHubSearchResult[]): Emb
     // Embed
     const embed = new Embed()
         .setAuthor("GitHub Search", "https://i.imgur.com/FwnDNtd.png")
-        .setDescription(`Page ${command.searchManager?.page}`)
+        .setDescription(`Page ${command.pageManager?.page}`)
         .setColor(0x000000)
         .setBranding();
 
@@ -28,9 +28,9 @@ export default function embed(command: Command, data: GitHubSearchResult[]): Emb
 
     // Build embed
     embed
-        .setAuthor(`${command.searchManager?.input}'s ${type}`, "https://i.imgur.com/FwnDNtd.png", `https://github.com/${command.searchManager?.input}?tab=repositories`)
+        .setAuthor(`${command.pageManager?.input}'s ${type}`, "https://i.imgur.com/FwnDNtd.png", `https://github.com/${command.pageManager?.input}?tab=repositories`)
         .addField(null, null, true)
-        .addField("Link", `[github.com...](https://github.com/${command.searchManager?.input}?tab=repositories)`, true)
+        .addField("Link", `[github.com...](https://github.com/${command.pageManager?.input}?tab=repositories)`, true)
         .addField(null, null, true);
 
     data.forEach((d: GitHubSearchResult, i: number) => embed.addField(null, `**${i + 1}. [${d.ownerName}/${d.name}](https://github.com/${d.ownerName}/${d.name})**\n${d.description ? `${truncateString(d.description, 200)}\n` : ""}**${d.stars.toLocaleString()} Star${d.stars === 1 ? "" : "s"} \u2022 ${d.forks.toLocaleString()} Fork${d.forks === 1 ? "" : "s"}**`));

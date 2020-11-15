@@ -19,7 +19,7 @@ export interface GitHubHome {
     notifications: GitHubNotification[];
 }
 
-export default function parse(data: any, extraData?: any[]): ParserData {
+export default function parse(data: any, extraData?: any[]): ParserData | undefined {
 
     // Parse extra data
     const watchedRepos: any = extraData && extraData[0];

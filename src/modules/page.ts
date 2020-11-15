@@ -15,14 +15,14 @@ export default async function page(message: Message) {
 
     // Get command
     const command: Command | undefined = message.author.command;
-    if ((!command) || (!command.searchManager)) return message.channel.sendMessage(":x:  **|  You haven't searched anything recently**");
+    if ((!command) || (!command.pageManager)) return message.channel.sendMessage(":x:  **|  You haven't searched anything recently**");
 
     // Get page
-    let page: number = command.searchManager.page || 1;
+    let page: number = command.pageManager.page || 1;
     if (type === "next") page = page + amount;
     else if (type === "previous") page = page - amount;
     else page = amount;
 
     // Set page
-    command.searchManager.setPage(page);
+    command.pageManager.setPage(page);
 }

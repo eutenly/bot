@@ -21,11 +21,11 @@ export interface YouTubeVideo {
     uploadedOn: string;
 }
 
-export default function parse(data: any): ParserData {
+export default function parse(data: any): ParserData | undefined {
 
     // Parse data
     data = data.data.items && data.data.items[0];
-    if (!data) return { noData: true };
+    if (!data) return;
 
     // Return
     return {

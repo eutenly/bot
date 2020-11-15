@@ -19,7 +19,7 @@ export interface TwitterHome {
     timeline: TwitterTweet[];
 }
 
-export default function parse(data: any, extraData?: any[]): ParserData {
+export default function parse(data: any, extraData?: any[]): ParserData | undefined {
 
     // Parse extra data
     const timeline: any = extraData && extraData[0];

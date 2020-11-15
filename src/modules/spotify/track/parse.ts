@@ -26,10 +26,10 @@ export interface SpotifyTrack {
     progress?: number;
 }
 
-export default function parse(data: any, extraData?: any[], metadata?: any): ParserData {
+export default function parse(data: any, extraData?: any[], metadata?: any): ParserData | undefined {
 
     // No results
-    if ((data.error) || (!extraData)) return { noData: true };
+    if ((data.error) || (!extraData)) return;
 
     // Parse extra data
     const audioFeatureData: any = extraData[0];

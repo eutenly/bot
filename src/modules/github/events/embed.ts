@@ -10,7 +10,7 @@ export default function embed(command: Command, data: GitHubSearchResult[]): Emb
     // Embed
     const embed = new Embed()
         .setAuthor("GitHub Search", "https://i.imgur.com/FwnDNtd.png")
-        .setDescription(`Page ${command.searchManager?.page}`)
+        .setDescription(`Page ${command.pageManager?.page}`)
         .setColor(0x000000)
         .setBranding();
 
@@ -21,9 +21,9 @@ export default function embed(command: Command, data: GitHubSearchResult[]): Emb
 
     // Build embed
     embed
-        .setAuthor(`${command.searchManager?.input}: Events`, "https://i.imgur.com/FwnDNtd.png", `https://github.com/${command.searchManager?.input}`)
+        .setAuthor(`${command.pageManager?.input}: Events`, "https://i.imgur.com/FwnDNtd.png", `https://github.com/${command.pageManager?.input}`)
         .addField(null, null, true)
-        .addField("Link", `[github.com...](https://github.com/${command.searchManager?.input})`, true)
+        .addField("Link", `[github.com...](https://github.com/${command.pageManager?.input})`, true)
         .addField(null, null, true);
 
     data.forEach((d: GitHubSearchResult, i: number) => {

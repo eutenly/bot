@@ -11,8 +11,8 @@ export default function embed(command: Command, data: SpotifySearchResult[]): Em
 
     // Embed
     const embed = new Embed()
-        .setAuthor(`Spotify Search: ${command.searchManager?.input}`, "https://i.imgur.com/tiqno7l.png")
-        .setDescription(`${command.metadata?.type.charAt(0).toUpperCase()}${command.metadata?.type.substring(1)}s: Page ${command.searchManager?.page}`)
+        .setAuthor(`Spotify Search: ${command.pageManager?.input}`, "https://i.imgur.com/tiqno7l.png")
+        .setDescription(`${command.metadata?.type.charAt(0).toUpperCase()}${command.metadata?.type.substring(1)}s: Page ${command.pageManager?.page}`)
         .setColor(0x1ed760)
         .setBranding();
 

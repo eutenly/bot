@@ -8,10 +8,10 @@ export interface GitHubSearchResult {
     forks: number;
 }
 
-export default function parse(data?: any): ParserData {
+export default function parse(data?: any): ParserData | undefined {
 
     // No data
-    if (data.message) return { noData: true };
+    if (data.message) return;
 
     // Return
     return {

@@ -12,10 +12,10 @@ export interface SpotifyTrack {
     length: number;
 }
 
-export default function parse(data?: any): ParserData {
+export default function parse(data?: any): ParserData | undefined {
 
     // No data
-    if (data.items.length === 0) return { noData: true };
+    if (data.items.length === 0) return;
 
     // Return
     return {

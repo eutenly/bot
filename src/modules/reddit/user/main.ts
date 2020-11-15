@@ -11,12 +11,12 @@ export default async function main(message: Message, user: string, commandHistor
     // Create command
     const command: Command = new Command(message.client, {
         name: "post",
-        type: "reddit",
+        category: "reddit",
         message,
         url: url(user),
-        getURL: (): string => `https://oauth.reddit.com/user/${encodeURIComponent(user)}/about?raw_json=1`,
+        getData: `https://oauth.reddit.com/user/${encodeURIComponent(user)}/about?raw_json=1`,
         getExtraData: [
-            (): string => `https://oauth.reddit.com/user/${encodeURIComponent(user)}/submitted?raw_json=1&limit=5`
+            `https://oauth.reddit.com/user/${encodeURIComponent(user)}/submitted?raw_json=1&limit=5`
         ],
         connectionName: "reddit",
         fetch,

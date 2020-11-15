@@ -33,18 +33,21 @@ export default async function main(message: Message, commandHistoryIndex?: numbe
     // Create command
     const command: Command = new Command(message.client, {
         name: "view",
-        type: "savedLinks",
+        category: "savedLinks",
         message,
         input: "links",
-        allData: savedLinks,
-        splitPages: 5,
+        getData: async (input: string = "", page: number = 1): Promise<any> => {
+            const data: SavedLink[] = savedLinks.slice(page - 1, (page - 1) + 5);
+            if (data.length) return data;
+        },
+        perPage: 5,
         parser: parse,
         getEmbed: embed,
         view
     }, (m: Message, chIndex: number) => main(m, chIndex), commandHistoryIndex);
 
     // Search
-    command.searchManager?.setPage(page);
+    command.pageManager?.setPage(page);
 
     // Return
     return command;

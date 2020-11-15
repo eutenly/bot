@@ -15,10 +15,10 @@ export interface SpotifyArtist {
     avatar?: string;
 }
 
-export default function parse(data: any, extraData?: any[]): ParserData {
+export default function parse(data: any, extraData?: any[]): ParserData | undefined {
 
     // No results
-    if ((data.error) || (!extraData)) return { noData: true };
+    if ((data.error) || (!extraData)) return;
 
     // Parse extra data
     const albumData: any = extraData[0];

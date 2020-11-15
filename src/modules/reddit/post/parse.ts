@@ -16,13 +16,13 @@ export interface RedditPost {
     postedAt: number;
 }
 
-export default function parse(data: any): ParserData {
+export default function parse(data: any): ParserData | undefined {
 
     // Get result
     const result: any = data.data.children[0];
 
     // No results
-    if (!result) return { noData: true };
+    if (!result) return;
 
     // Return
     return {

@@ -11,13 +11,13 @@ export default async function main(message: Message, query: string, commandHisto
     // Create command
     const command: Command = new Command(message.client, {
         name: "searchOverview",
-        type: "spotify",
+        category: "spotify",
         message,
         metadata: {
             query
         },
         url: url(query),
-        getURL: (): string => `https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=track,artist,album&market=from_token&limit=5`,
+        getData: `https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=track,artist,album&market=from_token&limit=5`,
         connectionName: "spotify",
         fetch,
         parser: parse,

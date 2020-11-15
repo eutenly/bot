@@ -21,10 +21,10 @@ export interface SpotifyAlbum {
     releasedOn: string;
 }
 
-export default function parse(data: any): ParserData {
+export default function parse(data: any): ParserData | undefined {
 
     // No results
-    if (data.error) return { noData: true };
+    if (data.error) return;
 
     // Return
     return {

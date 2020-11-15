@@ -10,14 +10,15 @@ export default async function main(message: Message, query: string, commandHisto
     // Create command
     const command: Command = new Command(message.client, {
         name: "search",
-        type: "twitter",
+        category: "twitter",
         message,
         input: query,
         url: url(query),
         orderedPages: true,
-        getURL: (query: string = "", page?: number, nextPageToken?: string): string => `https://api.twitter.com/1.1/search/tweets.json?q=${encodeURIComponent(query)}&count=5&result_type=popular&tweet_mode=extended${nextPageToken ? `&max_id=${nextPageToken}` : ""}`,
+        getData: (query: string = "", page?: number, nextPageToken?: string): string => `https://api.twitter.com/1.1/search/tweets.json?q=${encodeURIComponent(query)}&count=5&result_type=popular&tweet_mode=extended${nextPageToken ? `&max_id=${nextPageToken}` : ""}`,
         connectionName: "twitter",
         fetch,
+        perPage: 5,
         parser: parse,
         getEmbed: embed,
         view
@@ -28,7 +29,7 @@ export default async function main(message: Message, query: string, commandHisto
     if (command.noConnection) return;
 
     // Search
-    command.searchManager?.setPage(1);
+    command.pageManager?.setPage(1);
 
     // Return
     return command;

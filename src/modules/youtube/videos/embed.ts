@@ -11,7 +11,7 @@ export default function embed(command: Command, data: YouTubeSearchResult[]): Em
     // Embed
     const embed = new Embed()
         .setAuthor("YouTube Search: Videos", "https://i0.wp.com/www.vectorico.com/wp-content/uploads/2018/02/youtube-red-square.png")
-        .setDescription(`Page ${command.searchManager?.page}`)
+        .setDescription(`Page ${command.pageManager?.page}`)
         .setColor(0xff0000)
         .setBranding();
 

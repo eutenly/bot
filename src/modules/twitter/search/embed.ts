@@ -9,8 +9,8 @@ export default function embed(command: Command, data: TwitterSearchResult[]): Em
 
     // Embed
     const embed = new Embed()
-        .setAuthor(`Twitter Search: ${command.searchManager?.input}`, "https://1000logos.net/wp-content/uploads/2017/06/Twitter-Logo.png")
-        .setDescription(`Page ${command.searchManager?.page}`)
+        .setAuthor(`Twitter Search: ${command.pageManager?.input}`, "https://1000logos.net/wp-content/uploads/2017/06/Twitter-Logo.png")
+        .setDescription(`Page ${command.pageManager?.page}`)
         .setColor(0x1da1f2)
         .setBranding();
 

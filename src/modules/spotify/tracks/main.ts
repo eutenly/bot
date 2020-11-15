@@ -10,7 +10,7 @@ export default async function main(message: Message, itemID: string, itemName: s
     // Create command
     const command: Command = new Command(message.client, {
         name: "tracks",
-        type: "spotify",
+        category: "spotify",
         message,
         input: itemID,
         metadata: {
@@ -18,9 +18,10 @@ export default async function main(message: Message, itemID: string, itemName: s
             itemName
         },
         url: url(itemID, type),
-        getURL: (itemID: string = "", page: number = 1): string => `https://api.spotify.com/v1/${type === "album" ? "albums" : "playlists"}/${itemID}/tracks?limit=5${page ? `&offset=${(page - 1) * 5}` : ""}`,
+        getData: (itemID: string = "", page: number = 1): string => `https://api.spotify.com/v1/${type === "album" ? "albums" : "playlists"}/${itemID}/tracks?limit=5${page ? `&offset=${(page - 1) * 5}` : ""}`,
         connectionName: "spotify",
         fetch,
+        perPage: 5,
         parser: parse,
         getEmbed: embed,
         view
@@ -31,7 +32,7 @@ export default async function main(message: Message, itemID: string, itemName: s
     if (command.noConnection) return;
 
     // Search
-    command.searchManager?.setPage(1);
+    command.pageManager?.setPage(1);
 
     // Return
     return command;

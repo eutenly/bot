@@ -11,14 +11,14 @@ export default async function main(message: Message, ownerName: string, name: st
     // Create command
     const command: Command = new Command(message.client, {
         name: "languages",
-        type: "github",
+        category: "github",
         message,
         metadata: {
             ownerName,
             name
         },
         url: url(ownerName, name),
-        getURL: (): string => `https://api.github.com/repos/${encodeURIComponent(ownerName)}/${encodeURIComponent(name)}/languages`,
+        getData: `https://api.github.com/repos/${encodeURIComponent(ownerName)}/${encodeURIComponent(name)}/languages`,
         connectionName: "github",
         fetch,
         parser: parse,

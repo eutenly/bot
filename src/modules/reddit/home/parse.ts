@@ -18,7 +18,7 @@ export interface RedditHome {
     feed: RedditPost[];
 }
 
-export default function parse(data: any, extraData?: any[]): ParserData {
+export default function parse(data: any, extraData?: any[]): ParserData | undefined {
 
     // Parse extra data
     const posts: any = extraData && extraData[0];

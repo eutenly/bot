@@ -12,13 +12,13 @@ export interface SpotifyTrack {
     length: number;
 }
 
-export default function parse(data?: any, extraData?: any[], metadata?: any): ParserData {
+export default function parse(data?: any, extraData?: any[], metadata?: any): ParserData | undefined {
 
     // Get results
     const results: any[] = metadata?.type === "playlist" ? data.items.map((d: any) => d.track) : data.items;
 
     // No data
-    if (results.length === 0) return { noData: true };
+    if (results.length === 0) return;
 
     // Return
     return {

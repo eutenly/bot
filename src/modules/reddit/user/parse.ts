@@ -20,10 +20,10 @@ export interface RedditUser {
     createdAt: number;
 }
 
-export default function parse(data: any, extraData?: any[]): ParserData {
+export default function parse(data: any, extraData?: any[]): ParserData | undefined {
 
     // No data
-    if ((data.error === 404) || (!extraData)) return { noData: true };
+    if ((data.error === 404) || (!extraData)) return;
 
     // Parse extra data
     const postsData: any = extraData[0];

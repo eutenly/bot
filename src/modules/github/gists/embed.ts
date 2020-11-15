@@ -10,7 +10,7 @@ export default function embed(command: Command, data: GitHubSearchResult[]): Emb
     // Embed
     const embed = new Embed()
         .setAuthor("GitHub Search", "https://i.imgur.com/FwnDNtd.png")
-        .setDescription(`Page ${command.searchManager?.page}`)
+        .setDescription(`Page ${command.pageManager?.page}`)
         .setColor(0x000000)
         .setBranding();
 

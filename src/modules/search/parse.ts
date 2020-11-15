@@ -7,7 +7,7 @@ import parseQuestions from "./parse/questions";
 import parseRichPanel from "./parse/richPanel/main";
 import parseTwitter from "./parse/twitter";
 
-export default function parse(data: string): ParserData {
+export default function parse(data: string): ParserData | undefined {
 
     // Parse
     const dom: any = cheerio.load(data);

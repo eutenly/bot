@@ -16,10 +16,10 @@ export interface RedditSubreddit {
     createdAt: number;
 }
 
-export default function parse(data: any, extraData?: any[]): ParserData {
+export default function parse(data: any, extraData?: any[]): ParserData | undefined {
 
     // No data
-    if ((data.data.children) || (!extraData)) return { noData: true };
+    if ((data.data.children) || (!extraData)) return;
 
     // Parse extra data
     const hotPostsData: any = extraData[0];

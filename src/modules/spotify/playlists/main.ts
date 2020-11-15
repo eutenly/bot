@@ -10,13 +10,14 @@ export default async function main(message: Message, commandHistoryIndex?: numbe
     // Create command
     const command: Command = new Command(message.client, {
         name: "playlists",
-        type: "spotify",
+        category: "spotify",
         message,
         input: "me",
         url: url(),
-        getURL: (input: string = "", page: number = 1): string => `https://api.spotify.com/v1/me/playlists?limit=5${page ? `&offset=${(page - 1) * 5}` : ""}`,
+        getData: (input: string = "", page: number = 1): string => `https://api.spotify.com/v1/me/playlists?limit=5${page ? `&offset=${(page - 1) * 5}` : ""}`,
         connectionName: "spotify",
         fetch,
+        perPage: 5,
         parser: parse,
         getEmbed: embed,
         view
@@ -27,7 +28,7 @@ export default async function main(message: Message, commandHistoryIndex?: numbe
     if (command.noConnection) return;
 
     // Search
-    command.searchManager?.setPage(1);
+    command.pageManager?.setPage(1);
 
     // Return
     return command;

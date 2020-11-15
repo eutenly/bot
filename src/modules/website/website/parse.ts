@@ -11,10 +11,10 @@ export interface WebsiteData {
     url: string;
 }
 
-export default function parse(data: any): ParserData {
+export default function parse(data: any): ParserData | undefined {
 
     // No user
-    if (data.error === "invalidResponse") return { noData: true };
+    if (data.error === "invalidResponse") return;
 
     // Return
     return { data };

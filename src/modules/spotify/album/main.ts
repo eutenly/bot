@@ -11,10 +11,10 @@ export default async function main(message: Message, albumID: string, commandHis
     // Create command
     const command: Command = new Command(message.client, {
         name: "album",
-        type: "spotify",
+        category: "spotify",
         message,
         url: url(albumID),
-        getURL: (): string => `https://api.spotify.com/v1/albums/${encodeURIComponent(albumID)}`,
+        getData: `https://api.spotify.com/v1/albums/${encodeURIComponent(albumID)}`,
         connectionName: "spotify",
         fetch,
         parser: parse,

@@ -10,14 +10,15 @@ export default async function main(message: Message, query: string, commandHisto
     // Create command
     const command: Command = new Command(message.client, {
         name: "search",
-        type: "reddit",
+        category: "reddit",
         message,
         input: query,
         url: url(query),
         orderedPages: true,
-        getURL: (query: string = "", page?: number, nextPageToken?: string): string => `https://oauth.reddit.com/search?q=${encodeURIComponent(query)}&raw_json=1&limit=5${nextPageToken ? `&after=${nextPageToken}` : ""}`,
+        getData: (query: string = "", page?: number, nextPageToken?: string): string => `https://oauth.reddit.com/search?q=${encodeURIComponent(query)}&raw_json=1&limit=5${nextPageToken ? `&after=${nextPageToken}` : ""}`,
         connectionName: "reddit",
         fetch,
+        perPage: 5,
         parser: parse,
         getEmbed: embed,
         view
@@ -28,7 +29,7 @@ export default async function main(message: Message, query: string, commandHisto
     if (command.noConnection) return;
 
     // Search
-    command.searchManager?.setPage(1);
+    command.pageManager?.setPage(1);
 
     // Return
     return command;

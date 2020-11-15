@@ -10,16 +10,17 @@ export default async function main(message: Message, user: string, type: string 
     // Create command
     const command: Command = new Command(message.client, {
         name: "repos",
-        type: "github",
+        category: "github",
         message,
         input: user,
         metadata: {
             type
         },
         url: url(user),
-        getURL: (user: string = "", page: number = 1): string => `https://api.github.com/users/${encodeURIComponent(user)}/${type}?per_page=5${page ? `&page=${page}` : ""}`,
+        getData: (user: string = "", page: number = 1): string => `https://api.github.com/users/${encodeURIComponent(user)}/${type}?per_page=5${page ? `&page=${page}` : ""}`,
         connectionName: "github",
         fetch,
+        perPage: 5,
         parser: parse,
         getEmbed: embed,
         view
@@ -30,7 +31,7 @@ export default async function main(message: Message, user: string, type: string 
     if (command.noConnection) return;
 
     // Search
-    command.searchManager?.setPage(1);
+    command.pageManager?.setPage(1);
 
     // Return
     return command;

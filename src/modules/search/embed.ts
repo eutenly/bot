@@ -9,8 +9,8 @@ export default function embed(command: Command, data: any): Embed {
 
     // Embed
     const embed = new Embed()
-        .setAuthor(`Search: ${command.searchManager?.input}`, "https://eutenly.com/assets/search-colored.png")
-        .setDescription(`Page ${command.searchManager?.page}, About ${data.totalResults} results`)
+        .setAuthor(`Search: ${command.pageManager?.input}`, "https://eutenly.com/assets/search-colored.png")
+        .setDescription(`Page ${command.pageManager?.page}, About ${data.totalResults} results`)
         .setColor(0x4086f4)
         .setBranding();
 

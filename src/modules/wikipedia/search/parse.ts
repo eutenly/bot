@@ -6,7 +6,7 @@ export interface WikipediaSearchResult {
     text: string;
 }
 
-export default function parse(data?: any): ParserData {
+export default function parse(data?: any): ParserData | undefined {
 
     // Return
     return {

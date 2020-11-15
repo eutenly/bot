@@ -12,14 +12,14 @@ export default async function main(message: Message, commandHistoryIndex?: numbe
     // Create command
     const command: Command = new Command(message.client, {
         name: "home",
-        type: "github",
+        category: "github",
         message,
         url: url(),
-        getURL: (): string => "https://api.github.com/user",
+        getData: "https://api.github.com/user",
         getExtraData: [
-            (): string => "https://api.github.com/user/subscriptions?per_page=5",
-            (): string => "https://api.github.com/user/starred?per_page=5",
-            (): string => `https://api.github.com/notifications?per_page=5`
+            "https://api.github.com/user/subscriptions?per_page=5",
+            "https://api.github.com/user/starred?per_page=5",
+            `https://api.github.com/notifications?per_page=5`
         ],
         connectionName: "github",
         helpEmbed: helpEmbed(message.channel.prefix),

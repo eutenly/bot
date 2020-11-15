@@ -15,10 +15,10 @@ export interface TwitterUser {
     createdOn: string;
 }
 
-export default function parse(data: any): ParserData {
+export default function parse(data: any): ParserData | undefined {
 
     // No user
-    if (data.errors) return { noData: true };
+    if (data.errors) return;
 
     // Return
     return {

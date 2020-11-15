@@ -9,7 +9,7 @@ export default async function main(message: Message, query: string, commandHisto
     // Create command
     const command: Command = new Command(message.client, {
         name: "search",
-        type: "youtube",
+        category: "youtube",
         message,
         input: query,
         url: url(query),
@@ -19,13 +19,14 @@ export default async function main(message: Message, query: string, commandHisto
             q: query,
             pageToken: nextPageToken
         }),
+        perPage: 5,
         parser: parse,
         getEmbed: embed,
         view
     }, (m: Message, chIndex: number) => main(m, query, chIndex), commandHistoryIndex);
 
     // Search
-    command.searchManager?.setPage(1);
+    command.pageManager?.setPage(1);
 
     // Return
     return command;

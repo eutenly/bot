@@ -11,7 +11,7 @@ export default function embed(command: Command, data: RedditPost[]): Embed {
     // Embed
     const embed = new Embed()
         .setAuthor("Reddit: Home Feed", "https://i.imgur.com/YKUi7bl.png")
-        .setDescription(`Page ${command.searchManager?.page}`)
+        .setDescription(`Page ${command.pageManager?.page}`)
         .setColor(0xff3f18)
         .setBranding();
 

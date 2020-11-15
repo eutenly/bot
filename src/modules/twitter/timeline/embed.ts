@@ -10,7 +10,7 @@ export default function embed(command: Command, data: TwitterSearchResult[]): Em
     // Embed
     const embed = new Embed()
         .setAuthor("Twitter Search", "https://1000logos.net/wp-content/uploads/2017/06/Twitter-Logo.png")
-        .setDescription(`Page ${command.searchManager?.page}`)
+        .setDescription(`Page ${command.pageManager?.page}`)
         .setColor(0x1da1f2)
         .setBranding();
 
@@ -20,7 +20,7 @@ export default function embed(command: Command, data: TwitterSearchResult[]): Em
         .setColor(0xf44242);
 
     // Build embed
-    if (command.searchManager?.input === "home") embed.setAuthor("Timeline", "https://1000logos.net/wp-content/uploads/2017/06/Twitter-Logo.png", "https://twitter.com");
+    if (command.pageManager?.input === "home") embed.setAuthor("Timeline", "https://1000logos.net/wp-content/uploads/2017/06/Twitter-Logo.png", "https://twitter.com");
     else embed
         .setAuthor(`${data[0].user.name} (@${data[0].user.handle})`, "https://1000logos.net/wp-content/uploads/2017/06/Twitter-Logo.png", `https://twitter.com/${data[0].user.handle}`)
         .setDescription(data[0].user.bio)

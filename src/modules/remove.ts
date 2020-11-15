@@ -9,7 +9,7 @@ export default async function remove(message: Message) {
 
     // Get command
     const command: Command | undefined = message.author.command;
-    if ((!command) || (command.type !== "savedLinks")) return message.channel.sendMessage(":x:  **|  You aren't viewing your saved links**");
+    if ((!command) || (command.category !== "savedLinks")) return message.channel.sendMessage(":x:  **|  You aren't viewing your saved links**");
 
     // Get user data
     const userData = await message.author.getData();
@@ -20,7 +20,7 @@ export default async function remove(message: Message) {
     if (!input) return message.channel.sendMessage(":x:  **|  Which saved link would you like to remove?**");
 
     // Get data
-    const data: SavedLink[] = command.searchManager?.cache.get(command.searchManager.page || 0);
+    const data: SavedLink[] = command.pageManager?.cache.get(command.pageManager.page || 0);
 
     // Get result number
     const resultNumber: number = parseInt(input);
@@ -34,21 +34,16 @@ export default async function remove(message: Message) {
 
     // Run parser
     if (!command.parser) return;
-    const parserData: ParserData = command.parser(userData.savedLinks);
+    const parserData: ParserData | undefined = command.parser(userData.savedLinks, [], command.metadata);
 
-    // If theres no data, set it to an empty array
-    if (parserData.noData) parserData.data = [];
-
-    // Split data into pages
-    command.searchManager?.cache.clear();
-    if (command.searchManager?.splitPages) for (let i = 0; i < Math.ceil(parserData.data.length / command.searchManager?.splitPages); i++) {
-
-        // Add to cache
-        command.searchManager?.cache.set(i + 1, parserData.data.slice(i * command.searchManager?.splitPages, (i * command.searchManager?.splitPages) + command.searchManager?.splitPages));
+    // Cache data
+    if (parserData) {
+        command.pageManager?.cache.clear();
+        command.pageManager?.cacheData(1, parserData.data);
     }
 
     // Get embed
-    const embed: Embed = command.getEmbed(command, command.searchManager?.cache.get(command.searchManager.page || 0) || []);
+    const embed: Embed = command.getEmbed(command, command.pageManager?.cache.get(command.pageManager.page || 0));
 
     // Send
     command.send(embed);

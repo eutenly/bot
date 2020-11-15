@@ -16,10 +16,10 @@ export interface TwitterSearchResult {
     user: TwitterUser;
 }
 
-export default function parse(data?: any): ParserData {
+export default function parse(data?: any): ParserData | undefined {
 
     // No data
-    if (!data) return { noData: true };
+    if (!data) return;
 
     // Get next page token
     const nextPageToken: string = data[data.length - 1].id_str;

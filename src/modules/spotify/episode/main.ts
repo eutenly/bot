@@ -12,10 +12,10 @@ export default async function main(message: Message, episodeID: string, commandH
     // Create command
     const command: Command = new Command(message.client, {
         name: "episode",
-        type: "spotify",
+        category: "spotify",
         message,
         url: url(episodeID),
-        getURL: (): string => `https://api.spotify.com/v1/episodes/${encodeURIComponent(episodeID)}`,
+        getData: `https://api.spotify.com/v1/episodes/${encodeURIComponent(episodeID)}`,
         connectionName: "spotify",
         fetch,
         parser: parse,

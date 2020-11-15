@@ -26,14 +26,15 @@ export default async function main(message: Message, name: string | null, type: 
     // Create command
     const command: Command = new Command(message.client, {
         name: "posts",
-        type: "reddit",
+        category: "reddit",
         message,
         input: name,
         url: url(name, type),
         orderedPages: true,
-        getURL: (name: string = "", page?: number, nextPageToken?: string): string => `https://oauth.reddit.com/${type === "subreddit" ? "r" : "user"}/${encodeURIComponent(name)}/${type === "subreddit" ? "hot" : (type === "saved" ? "saved" : "submitted")}?type=links&raw_json=1&limit=5${nextPageToken ? `&after=${nextPageToken}` : ""}`,
+        getData: (name: string = "", page?: number, nextPageToken?: string): string => `https://oauth.reddit.com/${type === "subreddit" ? "r" : "user"}/${encodeURIComponent(name)}/${type === "subreddit" ? "hot" : (type === "saved" ? "saved" : "submitted")}?type=links&raw_json=1&limit=5${nextPageToken ? `&after=${nextPageToken}` : ""}`,
         connectionName: "reddit",
         fetch,
+        perPage: 5,
         parser: parse,
         getEmbed: embed,
         view
@@ -44,7 +45,7 @@ export default async function main(message: Message, name: string | null, type: 
     if (command.noConnection) return;
 
     // Search
-    command.searchManager?.setPage(1);
+    command.pageManager?.setPage(1);
 
     // Return
     return command;
