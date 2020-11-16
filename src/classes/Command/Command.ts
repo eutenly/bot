@@ -66,7 +66,6 @@ interface CommandData {
     metadata?: any;
     url?: ViewDataURL;
     perPage?: number;
-    perCompactPage?: number;
     orderedPages?: boolean;
     helpEmbed?: Embed;
     reactions?: CommandReaction[];
@@ -166,7 +165,6 @@ export default class Command {
         if ((data.input) && (data.perPage)) this.pageManager = new PageManager(this, {
             input: data.input,
             perPage: data.perPage,
-            perCompactPage: data.perCompactPage,
             orderedPages: data.orderedPages
         });
 

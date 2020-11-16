@@ -20,7 +20,7 @@ export default async function remove(message: Message) {
     if (!input) return message.channel.sendMessage(":x:  **|  Which saved link would you like to remove?**");
 
     // Get data
-    const data: SavedLink[] = command.pageManager?.getCachedData(command.pageManager.page || 0);
+    const data: SavedLink[] = command.pageManager?.cache.get(command.pageManager.page || 0);
 
     // Get result number
     const resultNumber: number = parseInt(input);
@@ -43,7 +43,7 @@ export default async function remove(message: Message) {
     }
 
     // Get embed
-    const embed: Embed = command.getEmbed(command, command.pageManager?.getCachedData(command.pageManager.page || 0));
+    const embed: Embed = command.getEmbed(command, command.pageManager?.cache.get(command.pageManager.page || 0));
 
     // Send
     command.send(embed);

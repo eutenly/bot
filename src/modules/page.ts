@@ -18,7 +18,7 @@ export default async function page(message: Message) {
     if ((!command) || (!command.pageManager)) return message.channel.sendMessage(":x:  **|  You haven't searched anything recently**");
 
     // Get page
-    let page: number = (command.compactMode ? command.pageManager.compactPage : command.pageManager.page) || 1;
+    let page: number = command.pageManager.page || 1;
     if (type === "next") page = page + amount;
     else if (type === "previous") page = page - amount;
     else page = amount;

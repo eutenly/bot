@@ -14,7 +14,7 @@ export default async function view(message: Message) {
     // Get data
     let data: any;
     if (command.data) data = command.data;
-    else data = command.pageManager?.getCachedData(command.pageManager.page || 0);
+    else data = command.pageManager?.cache.get(command.pageManager.page || 0);
 
     // Run module
     const viewData: ViewData | undefined = command.view(data, message, command);
