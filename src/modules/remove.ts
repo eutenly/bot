@@ -43,7 +43,7 @@ export default async function remove(message: Message) {
     }
 
     // Get embed
-    const embed: Embed = command.getEmbed(command, command.pageManager?.cache.get(command.pageManager.page || 0));
+    const embed: Embed = command.getEmbed(command, command.pageManager?.cache.get(command.pageManager.page || 0) || []);
 
     // Send
     command.send(embed);
