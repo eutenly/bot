@@ -6,7 +6,7 @@ export default function embed(command: Command, data?: any): Embed {
 
     // Embed
     const embed = new Embed()
-        .setAuthor("Wikipedia Search", "https://upload.wikimedia.org/wikipedia/en/thumb/8/80/Wikipedia-logo-v2.svg/1200px-Wikipedia-logo-v2.svg.png")
+        .setAuthor("Wikipedia Article", "https://upload.wikimedia.org/wikipedia/en/thumb/8/80/Wikipedia-logo-v2.svg/1200px-Wikipedia-logo-v2.svg.png")
         .setColor(0xfefefe)
         .setBranding();
 

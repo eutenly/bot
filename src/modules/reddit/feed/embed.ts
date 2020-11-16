@@ -17,7 +17,7 @@ export default function embed(command: Command, data: RedditPost[]): Embed {
 
     // No data
     if (data.length === 0) return embed
-        .setDescription("Your search didn't match any results")
+        .setDescription("There aren't that many posts")
         .setColor(0xf44242);
 
     // Build embed

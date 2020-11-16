@@ -9,14 +9,14 @@ export default function embed(command: Command, data: TwitterSearchResult[]): Em
 
     // Embed
     const embed = new Embed()
-        .setAuthor("Twitter Search", "https://1000logos.net/wp-content/uploads/2017/06/Twitter-Logo.png")
+        .setAuthor("Twitter Timeline", "https://1000logos.net/wp-content/uploads/2017/06/Twitter-Logo.png")
         .setDescription(`Page ${command.pageManager?.page}`)
         .setColor(0x1da1f2)
         .setBranding();
 
     // No data
     if (data.length === 0) return embed
-        .setDescription("Your search didn't match any results")
+        .setDescription("There aren't that many Tweets")
         .setColor(0xf44242);
 
     // Build embed

@@ -10,7 +10,7 @@ export default function embed(command: Command, data?: GitHubLanguages): Embed {
 
     // Embed
     const embed = new Embed()
-        .setAuthor("GitHub Search", "https://i.imgur.com/FwnDNtd.png")
+        .setAuthor("GitHub Languages", "https://i.imgur.com/FwnDNtd.png")
         .setColor(0x000000)
         .setBranding();
 

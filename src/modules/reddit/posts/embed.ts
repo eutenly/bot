@@ -10,14 +10,14 @@ export default function embed(command: Command, data: RedditPost[]): Embed {
 
     // Embed
     const embed = new Embed()
-        .setAuthor("Reddit Search: Posts", "https://i.imgur.com/YKUi7bl.png")
+        .setAuthor("Reddit Posts", "https://i.imgur.com/YKUi7bl.png")
         .setDescription(`Page ${command.pageManager?.page}`)
         .setColor(0xff3f18)
         .setBranding();
 
     // No data
     if (data.length === 0) return embed
-        .setDescription("Your search didn't match any results")
+        .setDescription("There aren't that many posts")
         .setColor(0xf44242);
 
     // Build embed

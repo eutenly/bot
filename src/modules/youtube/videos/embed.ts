@@ -10,14 +10,14 @@ export default function embed(command: Command, data: YouTubeSearchResult[]): Em
 
     // Embed
     const embed = new Embed()
-        .setAuthor("YouTube Search: Videos", "https://i0.wp.com/www.vectorico.com/wp-content/uploads/2018/02/youtube-red-square.png")
+        .setAuthor("Videos", "https://i0.wp.com/www.vectorico.com/wp-content/uploads/2018/02/youtube-red-square.png")
         .setDescription(`Page ${command.pageManager?.page}`)
         .setColor(0xff0000)
         .setBranding();
 
     // No data
     if (data.length === 0) return embed
-        .setDescription("Your search didn't match any results")
+        .setDescription("There aren't that many videos")
         .setColor(0xf44242);
 
     // Build embed

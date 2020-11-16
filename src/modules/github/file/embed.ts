@@ -12,7 +12,7 @@ export default function embed(command: Command, data?: GitHubFile): Embed {
 
     // Embed
     const embed = new Embed()
-        .setAuthor("GitHub Search", "https://i.imgur.com/FwnDNtd.png")
+        .setAuthor("GitHub File", "https://i.imgur.com/FwnDNtd.png")
         .setColor(0x000000)
         .setBranding();
 

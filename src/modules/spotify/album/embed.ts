@@ -10,13 +10,13 @@ export default function embed(command: Command, data?: SpotifyAlbum): Embed {
 
     // Embed
     const embed = new Embed()
-        .setAuthor("Spotify Search", "https://i.imgur.com/tiqno7l.png")
+        .setAuthor("Spotify Album", "https://i.imgur.com/tiqno7l.png")
         .setColor(0x1ed760)
         .setBranding();
 
     // No data
     if (!data) return embed
-        .setDescription("Your search didn't match any results")
+        .setDescription("Unknown album")
         .setColor(0xf44242);
 
     // Build embed

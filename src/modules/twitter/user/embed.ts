@@ -10,7 +10,7 @@ export default function embed(command: Command, data?: TwitterUser): Embed {
 
     // Embed
     const embed = new Embed()
-        .setAuthor("Twitter Search", "https://1000logos.net/wp-content/uploads/2017/06/Twitter-Logo.png")
+        .setAuthor("Twitter User", "https://1000logos.net/wp-content/uploads/2017/06/Twitter-Logo.png")
         .setColor(0x1da1f2)
         .setBranding();
 

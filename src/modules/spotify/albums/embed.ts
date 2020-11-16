@@ -16,7 +16,7 @@ export default function embed(command: Command, data: SpotifyAlbum[]): Embed {
 
     // No data
     if (data.length === 0) return embed
-        .setDescription("Your search didn't match any results")
+        .setDescription("There aren't that many albums")
         .setColor(0xf44242);
 
     // Build embed

@@ -9,14 +9,14 @@ export default function embed(command: Command, data: GitHubSearchResult[]): Emb
 
     // Embed
     const embed = new Embed()
-        .setAuthor("GitHub Search", "https://i.imgur.com/FwnDNtd.png")
+        .setAuthor("GitHub Events", "https://i.imgur.com/FwnDNtd.png")
         .setDescription(`Page ${command.pageManager?.page}`)
         .setColor(0x000000)
         .setBranding();
 
     // No data
     if (data.length === 0) return embed
-        .setDescription("Your search didn't match any results")
+        .setDescription("There aren't that many events")
         .setColor(0xf44242);
 
     // Build embed

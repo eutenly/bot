@@ -10,13 +10,13 @@ export default function embed(command: Command, data?: GitHubGist): Embed {
 
     // Embed
     const embed = new Embed()
-        .setAuthor("GitHub Search", "https://i.imgur.com/FwnDNtd.png")
+        .setAuthor("GitHub Gist", "https://i.imgur.com/FwnDNtd.png")
         .setColor(0x000000)
         .setBranding();
 
     // No data
     if (!data) return embed
-        .setDescription("Unknown gist")
+        .setDescription("Unknown Gist")
         .setColor(0xf44242);
 
     // Build embed

@@ -11,7 +11,7 @@ export default function embed(command: Command, data?: YouTubePlaylist): Embed {
 
     // Embed
     const embed = new Embed()
-        .setAuthor("YouTube Search", "https://i0.wp.com/www.vectorico.com/wp-content/uploads/2018/02/youtube-red-square.png")
+        .setAuthor("YouTube Playlist", "https://i0.wp.com/www.vectorico.com/wp-content/uploads/2018/02/youtube-red-square.png")
         .setColor(0xff0000)
         .setBranding();
 

@@ -17,7 +17,7 @@ export default function embed(command: Command, data: SpotifyItem[]): Embed {
 
     // No data
     if (data.length === 0) return embed
-        .setDescription("Your search didn't match any results")
+        .setDescription(`There aren't that many ${command.metadata?.type}`)
         .setColor(0xf44242);
 
     // Build embed
