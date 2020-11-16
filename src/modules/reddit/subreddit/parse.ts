@@ -19,7 +19,7 @@ export interface RedditSubreddit {
 export default function parse(data: any, extraData?: any[]): ParserData | undefined {
 
     // No data
-    if ((data.data.children) || (!extraData)) return;
+    if ((data.error === 404) || (!extraData)) return;
 
     // Parse extra data
     const hotPostsData: any = extraData[0];

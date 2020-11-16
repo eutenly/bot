@@ -20,6 +20,7 @@ export default async function fetch(user: User, channel: Channel, url: string, m
 
     // Parse data
     let tokenExpired: boolean = false;
+    if (result.status === 404) return { error: 404 };
     const data: any = await result.json().catch(() => tokenExpired = true);
 
     // Token expired
