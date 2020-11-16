@@ -19,6 +19,7 @@ export default async function main(message: Message, query: string, commandHisto
         connectionName: "twitter",
         fetch,
         perPage: 5,
+        perCompactPage: 3,
         parser: parse,
         getEmbed: embed,
         view
