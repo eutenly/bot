@@ -1,3 +1,4 @@
+import { IUser } from "../../models/users";
 import Channel from "../Channel/Channel";
 import Client from "../Client/Client";
 import Command from "../Command/Command";
@@ -5,6 +6,7 @@ import Message from "../Message/Message";
 import commandUsed from "./commandUsed";
 import getConnection from "./getConnection";
 import getData from "./getData";
+import setReactionConfirmations from "./setReactionConfirmations";
 
 export type RunCommand = (message: Message, commandHistoryIndex: number) => void;
 
@@ -29,9 +31,14 @@ interface Connections {
     github?: Connection;
 }
 
+interface StoredUserData {
+    reactionConfirmationsDisabled?: boolean;
+}
+
 interface UserData {
     id: string;
     bot: boolean;
+    data: StoredUserData;
 }
 
 export default class User {
@@ -53,6 +60,9 @@ export default class User {
     // The users connections
     connections: Connections;
 
+    // Settings
+    reactionConfirmationsDisabled?: boolean;
+
     // Constructor
     constructor(client: Client, data: UserData) {
 
@@ -66,6 +76,8 @@ export default class User {
         this.commandHistory = [];
 
         this.connections = {};
+
+        this.reactionConfirmationsDisabled = data.data.reactionConfirmationsDisabled;
 
         // Cache user
         this.client.users.set(this.id, this);
@@ -91,4 +103,7 @@ export default class User {
 
     // Increment a command used stat
     commandUsed = (type: string) => commandUsed(this, type);
+
+    // Set reaction confirmations
+    setReactionConfirmations = (enabled: boolean) => setReactionConfirmations(this, enabled);
 }

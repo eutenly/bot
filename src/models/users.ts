@@ -47,6 +47,7 @@ export interface IUser extends Document {
         wikipedia?: number;
     };
     savedLinks: Types.Array<SavedLink>;
+    reactionConfirmationsDisabled?: boolean;
     voteExpireTimestamp?: number;
     patreonTier?: number;
     alphaTester?: boolean;
@@ -101,6 +102,7 @@ export const usersSchema: Schema = new Schema({
         description: String,
         url: String
     }],
+    reactionConfirmationsDisabled: Boolean,
     voteExpireTimestamp: Number,
     patreonTier: Number,
     alphaTester: Boolean,

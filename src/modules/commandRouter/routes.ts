@@ -8,6 +8,7 @@ import inviteCommand from "../invite";
 import moveCommand from "../move";
 import pageCommand from "../page";
 import pingCommand from "../ping";
+import reactionConfirmationsCommand from "../reactionConfirmations";
 import redditCommand from "../reddit/main";
 import removeCommand from "../remove";
 import saveCommand from "../save";
@@ -129,6 +130,12 @@ export const routes: CommandRoute[] = [
         information: "Enable or disable compact mode for a channel. You need to be a moderator to use this command",
         inputs: ["compact"],
         module: compactCommand
+    },
+    {
+        name: "Reaction Confirmations",
+        information: "Enable or disable reaction confirmations",
+        inputs: ["reactionconfirmations", "reactionconfirms"],
+        module: reactionConfirmationsCommand
     },
     {
         name: "Invite",

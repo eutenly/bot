@@ -15,6 +15,7 @@ import RateLimit from "../common/RateLimit";
 import botInteractionAPI from "./botInteractionAPI";
 import connectInfluxDB from "./connectInfluxDB";
 import connectMongoDB from "./connectMongoDB";
+import createUser, { CreateUserData } from "./createUser";
 import fetch from "./fetch";
 import activateGarbageCollection from "./garbageCollector";
 import getDMChannel from "./getDMChannel";
@@ -167,4 +168,7 @@ export default class Client extends EventEmitter {
 
     // Leave a guild
     leaveGuild = (guild: Guild, reason?: string): Promise<void> => leaveGuild(this, guild, reason);
+
+    // Create user
+    createUser = (data: CreateUserData): Promise<User> => createUser(this, data);
 }

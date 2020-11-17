@@ -27,5 +27,5 @@ export default async function queue(command: Command, user: User, action: Comman
     if (result.error?.reason === "PREMIUM_REQUIRED") return command.message.channel.sendMessage(`:x:  **|  <@${user.id}>, You need to have Spotify Premium in order for bots to be able to control your player**`);
 
     // Send
-    command.message.channel.sendMessage(`<:spotify_queue:${command.client.eutenlyEmojis.get("spotify_queue")}>  **|  <@${user.id}>, ${command.data.name} has been queued**`);
+    if (!user.reactionConfirmationsDisabled) command.message.channel.sendMessage(`<:spotify_queue:${command.client.eutenlyEmojis.get("spotify_queue")}>  **|  <@${user.id}>, ${command.data.name} has been queued**`);
 }

@@ -30,5 +30,5 @@ export default async function play(command: Command, user: User, action: Command
     if (result.error?.reason === "PREMIUM_REQUIRED") return command.message.channel.sendMessage(`:x:  **|  <@${user.id}>, You need to have Spotify Premium in order for bots to be able to control your player**`);
 
     // Send
-    command.message.channel.sendMessage(`<:spotify_play:${command.client.eutenlyEmojis.get("spotify_play")}>  **|  <@${user.id}>, ${command.data.name} is now playing**`);
+    if (!user.reactionConfirmationsDisabled) command.message.channel.sendMessage(`<:spotify_play:${command.client.eutenlyEmojis.get("spotify_play")}>  **|  <@${user.id}>, ${command.data.name} is now playing**`);
 }

@@ -14,5 +14,5 @@ export default async function retweetTweet(command: Command, user: User, action:
     await fetch(user, command.message.channel, `https://api.twitter.com/1.1/statuses/${action === "added" ? "retweet" : "unretweet"}/${command.data.id}.json`, "POST");
 
     // Send
-    command.message.channel.sendMessage(`<:twitter_retweet:${command.client.eutenlyEmojis.get("twitter_retweet")}>  **|  <@${user.id}>, ${action === "added" ? "Retweeted" : "Unretweeted"} Tweet**`);
+    if (!user.reactionConfirmationsDisabled) command.message.channel.sendMessage(`<:twitter_retweet:${command.client.eutenlyEmojis.get("twitter_retweet")}>  **|  <@${user.id}>, ${action === "added" ? "Retweeted" : "Unretweeted"} Tweet**`);
 }

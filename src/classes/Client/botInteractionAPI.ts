@@ -36,7 +36,7 @@ export default async function botInteractionAPI(client: Client) {
     app.post("/api/v1/helpEmbed", async (req, res) => {
 
         // Get user
-        const user: User = client.users.get(req.body.user_id) || new User(client, {
+        const user: User = await client.createUser({
             id: req.body.user_id,
             bot: false
         });
@@ -66,7 +66,7 @@ export default async function botInteractionAPI(client: Client) {
     app.post("/api/v1/dm", async (req, res) => {
 
         // Get user
-        const user: User = client.users.get(req.body.user_id) || new User(client, {
+        const user: User = await client.createUser({
             id: req.body.user_id,
             bot: false
         });

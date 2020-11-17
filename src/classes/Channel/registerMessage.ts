@@ -1,4 +1,7 @@
+import { Users } from "../../models";
+import { IUser } from "../../models/users";
 import Message from "../Message/Message";
+import User from "../User/User";
 import Channel, { RawMessage } from "./Channel";
 
 interface MessageDataAuthor {
@@ -32,11 +35,17 @@ export default async function registerMessage(channel: Channel, data: MessageDat
         };
     }
 
+    // Get user
+    const user: User = await channel.client.createUser({
+        id: data.author.id,
+        bot: data.author.bot
+    });
+
     // Create message
     const message = new Message(channel.client, {
         id: data.id,
         content: data.content as string,
-        author: data.author as MessageDataAuthor,
+        author: user,
         channel,
         guild: channel.guild
     });
