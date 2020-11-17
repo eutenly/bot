@@ -20,7 +20,8 @@ export default function randomTip(): string {
         "You can use the star reaction below GitHub repos star them",
         "Compact mode lets you shrink embeds to take up less space",
         "Quickly view a Twitter/GitHub/etc user with `e;twitter/github/etc @user`",
-        "Quickly view a subreddit or Reddit user with `e;reddit r/subreddit_name` or `e;reddit u/username`"
+        "Quickly view a subreddit or Reddit user with `e;reddit r/subreddit_name` or `e;reddit u/username`",
+        "Use `e;reactionconfirms enable/disable` to toggle confirmation messages after using reactions"
     ];
 
     // Return

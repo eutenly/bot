@@ -36,6 +36,7 @@ export default async function help(message: Message) {
         .addField("History", `\u2022 You can go back and forward between recent commands with the \`${message.channel.prefix}back\` and \`${message.channel.prefix}forward\` commands`)
         .addField("Saved Links", `\u2022 Save links with the \`${message.channel.prefix}save <URL>\` command, or with the \`${message.channel.prefix}save\` command after viewing any Eutenly result\n\u2022 View your saved links with the \`${message.channel.prefix}savedlinks\` command\n\u2022 Remove a saved link with the \`${message.channel.prefix}remove <Link Number>\` command while viewing your saved links`)
         .addField("Compact Mode", `\u2022 Compact Mode let's you tell Eutenly to shrink embeds\n\u2022 Compact mode is automatically enabled for most channels, except for channels meant for bot commands\n\u2022 Moderators can toggle Compact Mode for a channel with the \`${message.channel.prefix}compact #channel-name enable/disable\` command\n\u2022 Moderators can also toggle Compact Mode for all channels with the \`${message.channel.prefix}compact all enable/disable\` command`)
+        .addField("Reaction Confirmation Messages", `\u2022 After using reactions, Eutenly let's you know that your reaction worked\n\u2022 Use \`${message.channel.prefix}reactionconfirms enable/disable\` to toggle this`)
         .setBranding();
 
     // Send
