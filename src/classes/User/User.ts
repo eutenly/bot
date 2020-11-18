@@ -1,4 +1,3 @@
-import { IUser } from "../../models/users";
 import Channel from "../Channel/Channel";
 import Client from "../Client/Client";
 import Command from "../Command/Command";
@@ -37,6 +36,7 @@ interface StoredUserData {
 
 interface UserData {
     id: string;
+    tag: string;
     bot: boolean;
     data: StoredUserData;
 }
@@ -48,6 +48,7 @@ export default class User {
 
     // Data about the user
     id: string;
+    tag: string;
     bot: boolean;
     cooldown: number;
 
@@ -70,6 +71,7 @@ export default class User {
         this.client = client;
 
         this.id = data.id;
+        this.tag = data.tag; // This is only set when the user is cached
         this.bot = data.bot;
         this.cooldown = 0;
 

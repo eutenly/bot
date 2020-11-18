@@ -28,6 +28,7 @@ export default async function sendMessage(channel: Channel, content: string | Em
         content: rawMessage.content,
         author: {
             id: rawMessage.author.id,
+            tag: `${rawMessage.author.username}#${rawMessage.author.discriminator}`,
             bot: rawMessage.author.bot
         }
     });

@@ -4,6 +4,7 @@ import Client from "./Client";
 
 export interface CreateUserData {
     id: string;
+    tag: string;
     bot: boolean;
 }
 
@@ -19,6 +20,7 @@ export default async function createUser(client: Client, data: CreateUserData): 
     // Create user
     user = new User(client, {
         id: data.id,
+        tag: data.tag,
         bot: data.bot,
         data: userData || {}
     });

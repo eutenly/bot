@@ -1,11 +1,10 @@
-import { Users } from "../../models";
-import { IUser } from "../../models/users";
 import Message from "../Message/Message";
 import User from "../User/User";
 import Channel, { RawMessage } from "./Channel";
 
 interface MessageDataAuthor {
     id: string;
+    tag: string;
     bot: boolean;
 }
 
@@ -31,6 +30,7 @@ export default async function registerMessage(channel: Channel, data: MessageDat
         data.content = rawMessage.content;
         data.author = {
             id: rawMessage.author.id,
+            tag: `${rawMessage.author.username}#${rawMessage.author.discriminator}`,
             bot: Boolean(rawMessage.author.bot)
         };
     }
@@ -38,6 +38,7 @@ export default async function registerMessage(channel: Channel, data: MessageDat
     // Get user
     const user: User = await channel.client.createUser({
         id: data.author.id,
+        tag: data.author.tag,
         bot: data.author.bot
     });
 

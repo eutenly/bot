@@ -1,8 +1,6 @@
 import Client from "../../classes/Client/Client";
 import Reaction from "../../classes/Reaction/Reaction";
 import User from "../../classes/User/User";
-import { Users } from "../../models";
-import { IUser } from "../../models/users";
 
 interface MessageReactionAddEventDataEmoji {
     id: string | null;
@@ -15,6 +13,8 @@ interface MessageReactionAddEventData {
     user_id: string;
     member: {
         user: {
+            username: string;
+            discriminator: string;
             bot?: boolean;
         };
     };
@@ -27,6 +27,7 @@ export default async function messageReactionAdd(client: Client, data: MessageRe
     // Get user
     const user: User = await client.createUser({
         id: data.user_id,
+        tag: `${data.member.user.username}#${data.member.user.discriminator}`,
         bot: Boolean(data.member.user.bot)
     });
 
