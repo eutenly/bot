@@ -3,9 +3,9 @@ import Message from "../../../classes/Message/Message";
 import events, { url as eventsURL } from "../events/main";
 import gists, { url as gistsURL } from "../gists/main";
 import repos, { url as reposURL } from "../repos/main";
-import { GitHubUser } from "./parse";
+import { User } from "../types";
 
-export default function view(data: GitHubUser | undefined, message: Message): ViewData | undefined {
+export default function view(data: User | undefined, message: Message): ViewData | undefined {
 
     // No data
     if (!data) return;

@@ -1,9 +1,9 @@
 import { ViewData } from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
 import album, { url as albumURL } from "../album/main";
-import { SpotifyAlbum } from "./parse";
+import { ListedAlbum } from "../types";
 
-export default function view(data: SpotifyAlbum[], message: Message): ViewData | undefined {
+export default function view(data: ListedAlbum[], message: Message): ViewData | undefined {
 
     // Get params
     const input: string = message.commandContent.split(" ").slice(1).join(" ");
@@ -14,7 +14,7 @@ export default function view(data: SpotifyAlbum[], message: Message): ViewData |
     if ((!resultNumber) || (resultNumber < 1)) return { error: ":x:  **|  That result number is invalid**" };
 
     // Get result
-    const result: SpotifyAlbum = data[resultNumber - 1];
+    const result: ListedAlbum = data[resultNumber - 1];
     if (!result) return { error: ":x:  **|  That result number is invalid**" };
 
     // View album

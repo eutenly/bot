@@ -1,9 +1,9 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import parseDuration from "../../../util/parseDuration";
-import { SpotifyArtist, SpotifyTrack } from "./parse";
+import { BasicUser, Track } from "../types";
 
-export default function embed(command: Command, data?: SpotifyTrack): Embed {
+export default function embed(command: Command, data?: Track): Embed {
 
     // Get prefix
     const prefix: string = command.message.channel.prefix;
@@ -22,7 +22,7 @@ export default function embed(command: Command, data?: SpotifyTrack): Embed {
     // Build embed
     embed
         .setAuthor(data.name, "https://i.imgur.com/tiqno7l.png", `https://open.spotify.com/track/${data.id}`)
-        .setDescription(`${data.artists.map((a: SpotifyArtist, i: number) => `${data.artists.length > 1 ? `**[a-${i + 1}]** ` : ""}[${a.name}](https://open.spotify.com/artist/${a.id})`).join("\n")}${data.artists.length > 1 ? "\n\n" : " "}(\`${prefix}view ${data.artists.length > 1 ? "<Artist Number>" : "artist"}\`)`)
+        .setDescription(`${data.artists.map((a: BasicUser, i: number) => `${data.artists.length > 1 ? `**[a-${i + 1}]** ` : ""}[${a.name}](https://open.spotify.com/artist/${a.id})`).join("\n")}${data.artists.length > 1 ? "\n\n" : " "}(\`${prefix}view ${data.artists.length > 1 ? "<Artist Number>" : "artist"}\`)`)
         .addField(null, null, true)
         .addField("Link", `[spotify.com...](https://open.spotify.com/track/${data.id})`, true)
         .addField(null, null, true);

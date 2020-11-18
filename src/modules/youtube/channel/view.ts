@@ -1,9 +1,9 @@
 import { ViewData } from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
+import { Channel } from "../types";
 import videos, { url as videosURL } from "../videos/main";
-import { YouTubeChannel } from "./parse";
 
-export default function view(data: YouTubeChannel | undefined, message: Message): ViewData | undefined {
+export default function view(data: Channel | undefined, message: Message): ViewData | undefined {
 
     // Get prefix
     const prefix: string = message.channel.prefix;

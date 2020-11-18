@@ -1,8 +1,8 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
-import { GitHubSearchResult } from "./parse";
+import { ListedGist } from "../types";
 
-export default function embed(command: Command, data: GitHubSearchResult[]): Embed {
+export default function embed(command: Command, data: ListedGist[]): Embed {
 
     // Get prefix
     const prefix: string = command.message.channel.prefix;
@@ -26,7 +26,7 @@ export default function embed(command: Command, data: GitHubSearchResult[]): Emb
         .addField("Link", `[gist.github.com...](https://gist.github.com/${command.metadata?.name})`, true)
         .addField(null, null, true);
 
-    data.forEach((d: GitHubSearchResult, i: number) => embed.addField(null, `**${i + 1}. [${command.metadata?.name}/${d.name}](https://gist.github.com/${command.metadata?.name}/${d.id})**${d.description ? `\n${d.description}` : ""}`));
+    data.forEach((d: ListedGist, i: number) => embed.addField(null, `**${i + 1}. [${command.metadata?.name}/${d.name}](https://gist.github.com/${command.metadata?.name}/${d.id})**${d.description ? `\n${d.description}` : ""}`));
 
     if (command.compactMode) embed.addField(null, `*\u2022 React or use the \`${prefix}next\` and \`${prefix}previous\` commands to cycle through pages\n\u2022 Use the \`${prefix}view <Result Number>\` command to get more info about a result*`);
     else embed

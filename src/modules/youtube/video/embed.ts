@@ -3,9 +3,9 @@ import Embed from "../../../classes/Embed/Embed";
 import parseDate from "../../../util/parseDate";
 import parseISO8601 from "../../../util/parseISO8601";
 import truncateString from "../../../util/truncateString";
-import { YouTubeVideo } from "./parse";
+import { Video } from "../types";
 
-export default function embed(command: Command, data?: YouTubeVideo): Embed {
+export default function embed(command: Command, data?: Video): Embed {
 
     // Get prefix
     const prefix: string = command.message.channel.prefix;

@@ -1,9 +1,9 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import parseDate from "../../../util/parseDate";
-import { GitHubGist } from "./parse";
+import { Gist } from "../types";
 
-export default function embed(command: Command, data?: GitHubGist): Embed {
+export default function embed(command: Command, data?: Gist): Embed {
 
     // Get prefix
     const prefix: string = command.message.channel.prefix;

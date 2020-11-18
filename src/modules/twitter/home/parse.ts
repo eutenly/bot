@@ -1,24 +1,6 @@
 import { ParserData } from "../../../classes/Command/Command";
 import parseTweetText from "../parseTweetText";
 
-interface TwitterUser {
-    id: string;
-    name: string;
-    handle: string;
-    bio: string;
-}
-
-export interface TwitterTweet {
-    id: string;
-    text: string;
-    user: TwitterUser;
-}
-
-export interface TwitterHome {
-    tweets: TwitterTweet[];
-    timeline: TwitterTweet[];
-}
-
 export default function parse(data: any, extraData?: any[]): ParserData | undefined {
 
     // Parse extra data

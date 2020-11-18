@@ -1,24 +1,5 @@
 import { ParserData } from "../../../classes/Command/Command";
 
-export interface GitHubRepo {
-    name: string;
-    ownerName: string;
-    description: string;
-}
-
-export interface GitHubNotification {
-    repoName: string;
-    repoOwnerName: string;
-    type: string;
-}
-
-export interface GitHubHome {
-    username: string;
-    watchedRepos: GitHubRepo[];
-    starredRepos: GitHubRepo[];
-    notifications: GitHubNotification[];
-}
-
 export default function parse(data: any, extraData?: any[]): ParserData | undefined {
 
     // Parse extra data

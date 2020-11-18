@@ -1,17 +1,5 @@
 import { ParserData } from "../../../classes/Command/Command";
 
-export interface GitHubUser {
-    name: string;
-    bio?: string;
-    repos: number;
-    followers: number;
-    gists: number;
-    location?: string;
-    website?: string;
-    company?: string;
-    createdOn: string;
-}
-
 export default function parse(data: any): ParserData | undefined {
 
     // No repo

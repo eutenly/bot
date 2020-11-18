@@ -1,9 +1,9 @@
 import Command, { ViewData } from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
 import release, { url as releaseURL } from "../release/main";
-import { GitHubSearchResult } from "./parse";
+import { ListedRelease } from "../types";
 
-export default function view(data: GitHubSearchResult[], message: Message, command: Command): ViewData | undefined {
+export default function view(data: ListedRelease[], message: Message, command: Command): ViewData | undefined {
 
     // Get params
     const input: string = message.commandContent.split(" ").slice(1).join(" ");
@@ -14,7 +14,7 @@ export default function view(data: GitHubSearchResult[], message: Message, comma
     if ((!resultNumber) || (resultNumber < 1)) return { error: ":x:  **|  That result number is invalid**" };
 
     // Get result
-    const result: GitHubSearchResult = data[resultNumber - 1];
+    const result: ListedRelease = data[resultNumber - 1];
     if (!result) return { error: ":x:  **|  That result number is invalid**" };
 
     // View release

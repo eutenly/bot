@@ -2,9 +2,9 @@ import { ViewData } from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
 import album, { url as albumURL } from "../album/main";
 import artist, { url as artistURL } from "../artist/main";
-import { SpotifyArtist, SpotifyTrack } from "./parse";
+import { BasicUser, Track } from "../types";
 
-export default function view(data: SpotifyTrack | undefined, message: Message): ViewData | undefined {
+export default function view(data: Track | undefined, message: Message): ViewData | undefined {
 
     // Get prefix
     const prefix: string = message.channel.prefix;
@@ -38,7 +38,7 @@ export default function view(data: SpotifyTrack | undefined, message: Message): 
     if ((!artistNumber) || (artistNumber < 1)) return { error: ":x:  **|  That artist number is invalid**" };
 
     // Get artist
-    const artistResult: SpotifyArtist = data.artists[artistNumber - 1];
+    const artistResult: BasicUser = data.artists[artistNumber - 1];
     if (!artistResult) return { error: ":x:  **|  That artist number is invalid**" };
 
     // Run module

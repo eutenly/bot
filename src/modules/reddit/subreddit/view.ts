@@ -2,9 +2,9 @@ import { ViewData } from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
 import post, { url as postURL } from "../post/main";
 import posts, { url as postsURL } from "../posts/main";
-import { RedditPost, RedditSubreddit } from "./parse";
+import { BasicPost, Subreddit } from "../types";
 
-export default function view(data: RedditSubreddit | undefined, message: Message): ViewData | undefined {
+export default function view(data: Subreddit | undefined, message: Message): ViewData | undefined {
 
     // No data
     if (!data) return;
@@ -24,7 +24,7 @@ export default function view(data: RedditSubreddit | undefined, message: Message
     if ((!postNumber) || (postNumber < 1)) return { error: ":x:  **|  That post number is invalid**" };
 
     // Get post
-    const postResult: RedditPost = data.hotPosts[postNumber - 1];
+    const postResult: BasicPost = data.hotPosts[postNumber - 1];
     if (!postResult) return { error: ":x:  **|  That post number is invalid**" };
 
     // Run module

@@ -1,26 +1,5 @@
 import { ParserData } from "../../../classes/Command/Command";
 
-interface SpotifyArtist {
-    id: string;
-    name: string;
-}
-
-export interface SpotifyTrack {
-    id: string;
-    name: string;
-    length: number;
-}
-
-export interface SpotifyAlbum {
-    id: string;
-    name: string;
-    artist: SpotifyArtist;
-    tracks: SpotifyTrack[];
-    albumArt?: string;
-    copyrights: string[];
-    releasedOn: string;
-}
-
 export default function parse(data: any): ParserData | undefined {
 
     // No results

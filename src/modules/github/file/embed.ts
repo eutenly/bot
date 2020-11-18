@@ -3,9 +3,9 @@ import { isBinary } from "istextorbinary";
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import truncateString from "../../../util/truncateString";
-import { GitHubFile } from "./parse";
+import { File } from "../types";
 
-export default function embed(command: Command, data?: GitHubFile): Embed {
+export default function embed(command: Command, data?: File): Embed {
 
     // Get prefix
     const prefix: string = command.message.channel.prefix;

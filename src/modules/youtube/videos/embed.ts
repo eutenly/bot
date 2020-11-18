@@ -1,9 +1,9 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import parseDate from "../../../util/parseDate";
-import { YouTubeSearchResult } from "./parse";
+import { ListedVideo } from "../types";
 
-export default function embed(command: Command, data: YouTubeSearchResult[]): Embed {
+export default function embed(command: Command, data: ListedVideo[]): Embed {
 
     // Get prefix
     const prefix: string = command.message.channel.prefix;
@@ -21,7 +21,7 @@ export default function embed(command: Command, data: YouTubeSearchResult[]): Em
         .setColor(0xf44242);
 
     // Build embed
-    data.forEach((d: YouTubeSearchResult, i: number) => embed.addField(null, `**${i + 1}. [${d.title}](https://youtube.com/watch?v=${d.id})**\n${d.description}\nUploaded ${parseDate(d.uploadedOn)}`));
+    data.forEach((d: ListedVideo, i: number) => embed.addField(null, `**${i + 1}. [${d.title}](https://youtube.com/watch?v=${d.id})**\n${d.description}\nUploaded ${parseDate(d.uploadedOn)}`));
 
     if (command.compactMode) embed.addField(null, `*\u2022 React or use the \`${prefix}next\` and \`${prefix}previous\` commands to cycle through pages\n\u2022 Use the \`${prefix}view <Result Number>\` command to get more info about a result*`);
     else embed

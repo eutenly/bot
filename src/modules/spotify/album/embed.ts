@@ -1,9 +1,9 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import parseDuration from "../../../util/parseDuration";
-import { SpotifyAlbum, SpotifyTrack } from "./parse";
+import { Album, AlbumTrack } from "../types";
 
-export default function embed(command: Command, data?: SpotifyAlbum): Embed {
+export default function embed(command: Command, data?: Album): Embed {
 
     // Get prefix
     const prefix: string = command.message.channel.prefix;
@@ -35,7 +35,7 @@ export default function embed(command: Command, data?: SpotifyAlbum): Embed {
         .addField("Release Year", (new Date(data.releasedOn)).getFullYear(), true)
         .setImage(data.albumArt);
 
-    embed.addField("Tracks", `${data.tracks.map((t: SpotifyTrack, i: number) => `**t-${i + 1}.** [${t.name}](https://open.spotify.com/track/${t.id}) - ${parseDuration(t.length)}`).join("\n")}\n\n\u2022 Use \`${prefix}view <Track Number>\` to view a track\n\u2022 Use \`${prefix}view tracks\` to view more tracks`);
+    embed.addField("Tracks", `${data.tracks.map((t: AlbumTrack, i: number) => `**t-${i + 1}.** [${t.name}](https://open.spotify.com/track/${t.id}) - ${parseDuration(t.length)}`).join("\n")}\n\n\u2022 Use \`${prefix}view <Track Number>\` to view a track\n\u2022 Use \`${prefix}view tracks\` to view more tracks`);
 
     if (data.copyrights.length) embed.addField(null, data.copyrights.join("\n"));
 

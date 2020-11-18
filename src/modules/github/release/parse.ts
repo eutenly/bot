@@ -1,15 +1,5 @@
 import { ParserData } from "../../../classes/Command/Command";
 
-export interface GitHubRelease {
-    name: string;
-    tag: string;
-    text: string;
-    zipball: string;
-    tarball: string;
-    user: string;
-    createdOn: string;
-}
-
 export default function parse(data: any): ParserData | undefined {
 
     // No issue

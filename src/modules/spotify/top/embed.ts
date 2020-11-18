@@ -1,9 +1,9 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import parseDuration from "../../../util/parseDuration";
-import { SpotifyItem } from "./parse";
+import { TopItem } from "../types";
 
-export default function embed(command: Command, data: SpotifyItem[]): Embed {
+export default function embed(command: Command, data: TopItem[]): Embed {
 
     // Get prefix
     const prefix: string = command.message.channel.prefix;
@@ -21,8 +21,8 @@ export default function embed(command: Command, data: SpotifyItem[]): Embed {
         .setColor(0xf44242);
 
     // Build embed
-    if (command.metadata?.type === "tracks") data.forEach((d: SpotifyItem, i: number) => embed.addField(null, `**${i + 1}. [${d.name}](https://open.spotify.com/track/${d.id})**\n[${d.artist?.name}](https://open.spotify.com/artist/${d.artist?.id}) - ${parseDuration(d.length || 0)}`));
-    if (command.metadata?.type === "artists") data.forEach((d: SpotifyItem, i: number) => embed.addField(null, `**${i + 1}. [${d.name}](https://open.spotify.com/artist/${d.id})**\n${d.followers?.toLocaleString()} Follower${d.followers === 1 ? "" : "s"}`));
+    if (command.metadata?.type === "tracks") data.forEach((d: TopItem, i: number) => embed.addField(null, `**${i + 1}. [${d.name}](https://open.spotify.com/track/${d.id})**\n[${d.artist?.name}](https://open.spotify.com/artist/${d.artist?.id}) - ${parseDuration(d.length || 0)}`));
+    if (command.metadata?.type === "artists") data.forEach((d: TopItem, i: number) => embed.addField(null, `**${i + 1}. [${d.name}](https://open.spotify.com/artist/${d.id})**\n${d.followers?.toLocaleString()} Follower${d.followers === 1 ? "" : "s"}`));
 
     if (command.compactMode) embed.addField(null, `*\u2022 React or use the \`${prefix}next\` and \`${prefix}previous\` commands to cycle through pages\n\u2022 Use the \`${prefix}view <Result Number>\` command to get more info about a result*`);
     else embed

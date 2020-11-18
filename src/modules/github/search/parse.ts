@@ -1,13 +1,5 @@
 import { ParserData } from "../../../classes/Command/Command";
 
-export interface GitHubSearchResult {
-    name: string;
-    ownerName: string;
-    description?: string;
-    stars: number;
-    forks: number;
-}
-
 export default function parse(data?: any): ParserData | undefined {
 
     // No data

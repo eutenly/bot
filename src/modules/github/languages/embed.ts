@@ -1,9 +1,9 @@
 import filesize from "filesize";
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
-import { GitHubLanguages } from "./parse";
+import { Languages } from "../types";
 
-export default function embed(command: Command, data?: GitHubLanguages): Embed {
+export default function embed(command: Command, data?: Languages): Embed {
 
     // Get prefix
     const prefix: string = command.message.channel.prefix;

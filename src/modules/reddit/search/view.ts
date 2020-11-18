@@ -1,9 +1,9 @@
 import Command, { ViewData } from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
 import post, { url as postURL } from "../post/main";
-import { RedditSearchResult } from "./parse";
+import { ListedPost } from "../types";
 
-export default function view(data: RedditSearchResult[], message: Message, command: Command): ViewData | undefined {
+export default function view(data: ListedPost[], message: Message, command: Command): ViewData | undefined {
 
     // Get params
     const input: string = message.commandContent.split(" ").slice(1).join(" ");
@@ -14,7 +14,7 @@ export default function view(data: RedditSearchResult[], message: Message, comma
     if ((!resultNumber) || (resultNumber < 1)) return { error: ":x:  **|  That result number is invalid**" };
 
     // Get result
-    const result: RedditSearchResult = data[resultNumber - 1];
+    const result: ListedPost = data[resultNumber - 1];
     if (!result) return { error: ":x:  **|  That result number is invalid**" };
 
     // View post

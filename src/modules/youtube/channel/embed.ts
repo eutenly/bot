@@ -2,9 +2,9 @@ import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import parseDate from "../../../util/parseDate";
 import truncateString from "../../../util/truncateString";
-import { YouTubeChannel } from "./parse";
+import { Channel } from "../types";
 
-export default function embed(command: Command, data?: YouTubeChannel): Embed {
+export default function embed(command: Command, data?: Channel): Embed {
 
     // Get prefix
     const prefix: string = command.message.channel.prefix;

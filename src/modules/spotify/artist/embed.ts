@@ -1,8 +1,8 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
-import { SpotifyAlbum, SpotifyArtist } from "./parse";
+import { Artist, ListedAlbum } from "../types";
 
-export default function embed(command: Command, data?: SpotifyArtist): Embed {
+export default function embed(command: Command, data?: Artist): Embed {
 
     // Get prefix
     const prefix: string = command.message.channel.prefix;
@@ -35,7 +35,7 @@ export default function embed(command: Command, data?: SpotifyArtist): Embed {
         .addField(null, null, true)
         .setImage(data.avatar);
 
-    embed.addField("Albums", `${data.albums.map((a: SpotifyAlbum, i: number) => `**a-${i + 1}.** [${a.name}](https://open.spotify.com/album/${a.id}) - ${a.tracks.toLocaleString()} Track${a.tracks === 1 ? "" : "s"}`).join("\n")}\n\n\u2022 Use \`${prefix}view <Album Number>\` to view an album\n\u2022 Use \`${prefix}view albums\` to view more albums`);
+    embed.addField("Albums", `${data.albums.map((a: ListedAlbum, i: number) => `**a-${i + 1}.** [${a.name}](https://open.spotify.com/album/${a.id}) - ${a.tracks.toLocaleString()} Track${a.tracks === 1 ? "" : "s"}`).join("\n")}\n\n\u2022 Use \`${prefix}view <Album Number>\` to view an album\n\u2022 Use \`${prefix}view albums\` to view more albums`);
 
     if (!command.compactMode) embed.addField("Genres", data.genres.join(", ") || "*None*");
 

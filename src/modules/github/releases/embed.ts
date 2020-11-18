@@ -1,9 +1,9 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import truncateString from "../../../util/truncateString";
-import { GitHubSearchResult } from "./parse";
+import { ListedRelease } from "../types";
 
-export default function embed(command: Command, data: GitHubSearchResult[]): Embed {
+export default function embed(command: Command, data: ListedRelease[]): Embed {
 
     // Get prefix
     const prefix: string = command.message.channel.prefix;
@@ -27,7 +27,7 @@ export default function embed(command: Command, data: GitHubSearchResult[]): Emb
         .addField("Link", `[github.com...](https://github.com/${command.metadata?.ownerName}/${command.metadata?.name}/releases)`, true)
         .addField(null, null, true);
 
-    data.forEach((d: GitHubSearchResult, i: number) => embed.addField(null, `**${i + 1}. [${d.name || d.tag}](https://github.com/${command.metadata?.ownerName}/${command.metadata?.name}/releases/tag/${d.tag})**\n${truncateString(d.text.replace(/[\n\r]/g, " "), 80)}`));
+    data.forEach((d: ListedRelease, i: number) => embed.addField(null, `**${i + 1}. [${d.name || d.tag}](https://github.com/${command.metadata?.ownerName}/${command.metadata?.name}/releases/tag/${d.tag})**\n${truncateString(d.text.replace(/[\n\r]/g, " "), 80)}`));
 
     if (command.compactMode) embed.addField(null, `*\u2022 React or use the \`${prefix}next\` and \`${prefix}previous\` commands to cycle through pages\n\u2022 Use the \`${prefix}view <Result Number>\` command to get more info about a result*`);
     else embed

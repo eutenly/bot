@@ -2,9 +2,9 @@ import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import parseDuration from "../../../util/parseDuration";
 import truncateString from "../../../util/truncateString";
-import { SpotifyEpisode } from "./parse";
+import { Episode } from "../types";
 
-export default function embed(command: Command, data?: SpotifyEpisode): Embed {
+export default function embed(command: Command, data?: Episode): Embed {
 
     // Get prefix
     const prefix: string = command.message.channel.prefix;

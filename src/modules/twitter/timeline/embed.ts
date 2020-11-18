@@ -1,8 +1,8 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
-import { TwitterSearchResult } from "./parse";
+import { ListedTweet } from "../types";
 
-export default function embed(command: Command, data: TwitterSearchResult[]): Embed {
+export default function embed(command: Command, data: ListedTweet[]): Embed {
 
     // Get prefix
     const prefix: string = command.message.channel.prefix;
@@ -28,7 +28,7 @@ export default function embed(command: Command, data: TwitterSearchResult[]): Em
         .addField("Link", `[twitter.com...](https://twitter.com/${data[0].user.handle})`, true)
         .addField(null, null, true);
 
-    data.forEach((d: TwitterSearchResult, i: number) => embed.addField(null, `**${i + 1}. [${d.user.name} (@${d.user.handle})](https://twitter.com/${d.user.handle}/status/${d.id})**\n${d.text.replace(/\n/g, " ")}\n**${d.likes.toLocaleString()} Like${d.likes === 1 ? "" : "s"} \u2022 ${d.retweets.toLocaleString()} Retweet${d.retweets === 1 ? "" : "s"}**`));
+    data.forEach((d: ListedTweet, i: number) => embed.addField(null, `**${i + 1}. [${d.user.name} (@${d.user.handle})](https://twitter.com/${d.user.handle}/status/${d.id})**\n${d.text.replace(/\n/g, " ")}\n**${d.likes.toLocaleString()} Like${d.likes === 1 ? "" : "s"} \u2022 ${d.retweets.toLocaleString()} Retweet${d.retweets === 1 ? "" : "s"}**`));
 
     if (command.compactMode) embed.addField(null, `*\u2022 React or use the \`${prefix}next\` and \`${prefix}previous\` commands to cycle through pages\n\u2022 Use the \`${prefix}view <Result Number>\` command to get more info about a result*`);
     else embed

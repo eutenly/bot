@@ -1,20 +1,5 @@
 import { ParserData } from "../../../classes/Command/Command";
 
-export interface TwitterUser {
-    id: string;
-    name: string;
-    handle: string;
-    bio: string;
-    followers: number;
-    following: number;
-    tweets: number;
-    likes: number;
-    location?: string;
-    url?: string;
-    banner?: string;
-    createdOn: string;
-}
-
 export default function parse(data: any): ParserData | undefined {
 
     // No user

@@ -1,9 +1,9 @@
 import { ViewData } from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
 import playlist, { url as playlistURL } from "../playlist/main";
-import { SpotifyPlaylist } from "./parse";
+import { ListedPlaylist } from "../types";
 
-export default function view(data: SpotifyPlaylist[], message: Message): ViewData | undefined {
+export default function view(data: ListedPlaylist[], message: Message): ViewData | undefined {
 
     // Get params
     const input: string = message.commandContent.split(" ").slice(1).join(" ");
@@ -14,7 +14,7 @@ export default function view(data: SpotifyPlaylist[], message: Message): ViewDat
     if ((!resultNumber) || (resultNumber < 1)) return { error: ":x:  **|  That result number is invalid**" };
 
     // Get result
-    const result: SpotifyPlaylist = data[resultNumber - 1];
+    const result: ListedPlaylist = data[resultNumber - 1];
     if (!result) return { error: ":x:  **|  That result number is invalid**" };
 
     // View playlist

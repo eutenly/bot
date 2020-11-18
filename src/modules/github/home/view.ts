@@ -2,9 +2,9 @@ import { ViewData } from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
 import repo, { url as repoURL } from "../repo/main";
 import repos, { url as reposURL } from "../repos/main";
-import { GitHubHome, GitHubRepo } from "./parse";
+import { Home, HomeRepo } from "../types";
 
-export default function view(data: GitHubHome | undefined, message: Message): ViewData | undefined {
+export default function view(data: Home | undefined, message: Message): ViewData | undefined {
 
     // No data
     if (!data) return;
@@ -35,7 +35,7 @@ export default function view(data: GitHubHome | undefined, message: Message): Vi
     if (itemNumber < 1) return { error: ":x:  **|  That item number is invalid**" };
 
     // Get item
-    let itemResult: GitHubRepo | undefined;
+    let itemResult: HomeRepo | undefined;
     if (itemType === "w") itemResult = data.watchedRepos[itemNumber - 1];
     else if (itemType === "s") itemResult = data.starredRepos[itemNumber - 1];
 

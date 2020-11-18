@@ -2,9 +2,9 @@ import { ViewData } from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
 import album, { url as albumURL } from "../album/main";
 import albums, { url as albumsURL } from "../albums/main";
-import { SpotifyAlbum, SpotifyArtist } from "./parse";
+import { Artist, ListedAlbum } from "../types";
 
-export default function view(data: SpotifyArtist | undefined, message: Message): ViewData | undefined {
+export default function view(data: Artist | undefined, message: Message): ViewData | undefined {
 
     // No data
     if (!data) return;
@@ -24,7 +24,7 @@ export default function view(data: SpotifyArtist | undefined, message: Message):
     if ((!albumNumber) || (albumNumber < 1)) return { error: ":x:  **|  That album number is invalid**" };
 
     // Get album
-    const albumResult: SpotifyAlbum = data.albums[albumNumber - 1];
+    const albumResult: ListedAlbum = data.albums[albumNumber - 1];
     if (!albumResult) return { error: ":x:  **|  That album number is invalid**" };
 
     // Run module

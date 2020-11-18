@@ -1,36 +1,5 @@
 import { ParserData } from "../../../classes/Command/Command";
 
-export interface SpotifyPlaylist {
-    id: string;
-    name: string;
-    tracks: number;
-}
-
-interface SpotifyTrackArtist {
-    id: string;
-    name: string;
-}
-
-export interface SpotifyTrack {
-    id: string;
-    name: string;
-    artist: SpotifyTrackArtist;
-    length: number;
-}
-
-export interface SpotifyArtist {
-    id: string;
-    name: string;
-    followers: number;
-}
-
-export interface SpotifyHome {
-    playlists: SpotifyPlaylist[];
-    topTracks: SpotifyTrack[];
-    topArtists: SpotifyArtist[];
-    recentlyPlayed: SpotifyTrack[];
-}
-
 export default function parse(data: any, extraData?: any[]): ParserData | undefined {
 
     // Parse extra data
@@ -44,6 +13,11 @@ export default function parse(data: any, extraData?: any[]): ParserData | undefi
             playlists: data.items.map((p: any) => ({
                 id: p.id,
                 name: p.name,
+                description: p.description,
+                owner: {
+                    id: p.owner.id,
+                    name: p.owner.display_name
+                },
                 tracks: p.tracks.total
             })),
             topTracks: topTracks.items.map((t: any) => ({

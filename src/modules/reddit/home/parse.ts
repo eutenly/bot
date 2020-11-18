@@ -1,23 +1,5 @@
 import { ParserData } from "../../../classes/Command/Command";
 
-export interface RedditPost {
-    id: string;
-    title: string;
-    subredditName: string;
-    score: number;
-}
-
-export interface RedditHome {
-    name: string;
-    totalKarma: number;
-    postKarma: number;
-    commentKarma: number;
-    awardeeKarma: number;
-    awarderKarma: number;
-    posts: RedditPost[];
-    feed: RedditPost[];
-}
-
 export default function parse(data: any, extraData?: any[]): ParserData | undefined {
 
     // Parse extra data

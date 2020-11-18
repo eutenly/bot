@@ -1,6 +1,6 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
-import { WebsiteData } from "./parse";
+import { WebsiteData } from "../types";
 
 export default function embed(command: Command, data?: WebsiteData): Embed {
 

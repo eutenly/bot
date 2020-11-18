@@ -2,10 +2,10 @@ import Command, { ViewData } from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
 import prs, { url as prsURL } from "../prs/main";
 import repo, { url as repoURL } from "../repo/main";
+import { PR } from "../types";
 import user, { url as userURL } from "../user/main";
-import { GitHubPR } from "./parse";
 
-export default function view(data: GitHubPR | undefined, message: Message, command: Command): ViewData | undefined {
+export default function view(data: PR | undefined, message: Message, command: Command): ViewData | undefined {
 
     // No data
     if (!data) return;

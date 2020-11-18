@@ -1,14 +1,5 @@
 import { ParserData } from "../../../classes/Command/Command";
 
-export interface GitHubGist {
-    id: number;
-    description?: string;
-    comments: number;
-    files: string[];
-    forks: number;
-    createdOn: string;
-}
-
 export default function parse(data: any): ParserData | undefined {
 
     // No issue

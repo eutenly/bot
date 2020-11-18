@@ -6,10 +6,10 @@ import issues, { url as issuesURL } from "../issues/main";
 import languages, { url as languagesURL } from "../languages/main";
 import prs, { url as prsURL } from "../prs/main";
 import releases, { url as releasesURL } from "../releases/main";
+import { Repo } from "../types";
 import user, { url as userURL } from "../user/main";
-import { GitHubRepo } from "./parse";
 
-export default function view(data: GitHubRepo | undefined, message: Message): ViewData | undefined {
+export default function view(data: Repo | undefined, message: Message): ViewData | undefined {
 
     // No data
     if (!data) return;

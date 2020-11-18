@@ -1,9 +1,9 @@
 import filesize from "filesize";
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
-import { GitHubSearchResult } from "./parse";
+import { ListedFile } from "../types";
 
-export default function embed(command: Command, data: GitHubSearchResult[]): Embed {
+export default function embed(command: Command, data: ListedFile[]): Embed {
 
     // Get prefix
     const prefix: string = command.message.channel.prefix;
@@ -33,7 +33,7 @@ export default function embed(command: Command, data: GitHubSearchResult[]): Emb
     // Define items
     const items: string[] = [];
     if (path) items.push(`**1. [../](https://github.com/${command.metadata?.ownerName}/${command.metadata?.name}/tree/master/${path.split("/").slice(0, path.split("/").length - 1).join("/")})**`);
-    items.push(...data.map((d, i) => `**${i + (path ? 2 : 1)}. [${d.name}${d.type === "dir" ? "/" : ""}](https://github.com/${command.metadata?.ownerName}/${command.metadata?.name}/${d.type === "dir" ? "tree" : "blob"}/master/${d.path})**${d.type !== "dir" ? ` (${filesize(d.size)})` : ""}`));
+    items.push(...data.map((d: ListedFile, i: number) => `**${i + (path ? 2 : 1)}. [${d.name}${d.type === "dir" ? "/" : ""}](https://github.com/${command.metadata?.ownerName}/${command.metadata?.name}/${d.type === "dir" ? "tree" : "blob"}/master/${d.path})**${d.type !== "dir" ? ` (${filesize(d.size)})` : ""}`));
 
     // Add split field
     embed.addSplitField(null, items);

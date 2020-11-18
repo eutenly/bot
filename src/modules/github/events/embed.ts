@@ -1,8 +1,8 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
-import { GitHubSearchResult } from "./parse";
+import { Event } from "../types";
 
-export default function embed(command: Command, data: GitHubSearchResult[]): Embed {
+export default function embed(command: Command, data: Event[]): Embed {
 
     // Get prefix
     const prefix: string = command.message.channel.prefix;
@@ -26,7 +26,7 @@ export default function embed(command: Command, data: GitHubSearchResult[]): Emb
         .addField("Link", `[github.com...](https://github.com/${command.pageManager?.input})`, true)
         .addField(null, null, true);
 
-    data.forEach((d: GitHubSearchResult, i: number) => {
+    data.forEach((d: Event, i: number) => {
 
         /**
          * Commit Comment

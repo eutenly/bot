@@ -2,9 +2,9 @@ import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import parseDuration from "../../../util/parseDuration";
 import truncateString from "../../../util/truncateString";
-import { SpotifyPlaylist, SpotifyTrack } from "./parse";
+import { ListedTrack, Playlist } from "../types";
 
-export default function embed(command: Command, data?: SpotifyPlaylist): Embed {
+export default function embed(command: Command, data?: Playlist): Embed {
 
     // Get prefix
     const prefix: string = command.message.channel.prefix;
@@ -37,7 +37,7 @@ export default function embed(command: Command, data?: SpotifyPlaylist): Embed {
         .addField("Owner", data.ownerName, true)
         .setImage(data.image);
 
-    embed.addField("Tracks", `${data.tracks.map((t: SpotifyTrack, i: number) => `**t-${i + 1}. [${t.name}](https://open.spotify.com/track/${t.id})**\n[${t.artist.name}](https://open.spotify.com/artist/${t.artist.id}) - ${parseDuration(t.length)}`).join("\n")}\n\n\u2022 Use \`${prefix}view <Track Number>\` to view a track\n\u2022 Use \`${prefix}view tracks\` to view more tracks`);
+    embed.addField("Tracks", `${data.tracks.map((t: ListedTrack, i: number) => `**t-${i + 1}. [${t.name}](https://open.spotify.com/track/${t.id})**\n[${t.artist.name}](https://open.spotify.com/artist/${t.artist.id}) - ${parseDuration(t.length)}`).join("\n")}\n\n\u2022 Use \`${prefix}view <Track Number>\` to view a track\n\u2022 Use \`${prefix}view tracks\` to view more tracks`);
 
     // Return
     return embed;

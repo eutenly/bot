@@ -1,16 +1,5 @@
 import { ParserData } from "../../../classes/Command/Command";
 
-export interface GitHubIssue {
-    title: string;
-    number: number;
-    text: string;
-    state: string;
-    user: string;
-    locked: boolean;
-    labels: string[];
-    createdOn: string;
-}
-
 export default function parse(data: any): ParserData | undefined {
 
     // No issue

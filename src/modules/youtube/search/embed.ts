@@ -1,9 +1,9 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import parseDate from "../../../util/parseDate";
-import { YouTubeSearchResult } from "./parse";
+import { SearchResult } from "../types";
 
-export default function embed(command: Command, data: YouTubeSearchResult[]): Embed {
+export default function embed(command: Command, data: SearchResult[]): Embed {
 
     // Get prefix
     const prefix: string = command.message.channel.prefix;
@@ -21,7 +21,7 @@ export default function embed(command: Command, data: YouTubeSearchResult[]): Em
         .setColor(0xf44242);
 
     // Build embed
-    data.forEach((d: YouTubeSearchResult, i: number) => {
+    data.forEach((d: SearchResult, i: number) => {
 
         /**
          * Video

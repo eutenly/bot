@@ -1,28 +1,6 @@
 import { ParserData } from "../../../classes/Command/Command";
 import parseTweetText from "../parseTweetText";
 
-interface TwitterUser {
-    id: string;
-    name: string;
-    handle: string;
-}
-
-interface TwitterQuotedTweet {
-    id: string;
-    user: TwitterUser;
-}
-
-export interface TwitterTweet {
-    id: string;
-    text: string;
-    likes: number;
-    retweets: number;
-    user: TwitterUser;
-    quotedTweet?: TwitterQuotedTweet;
-    image?: string;
-    sentOn: string;
-}
-
 export default function parse(data: any): ParserData | undefined {
 
     // No tweet
@@ -38,14 +16,16 @@ export default function parse(data: any): ParserData | undefined {
             user: {
                 id: data.user.id_str,
                 name: data.user.name,
-                handle: data.user.screen_name
+                handle: data.user.screen_name,
+                bio: data.user.description
             },
             quotedTweet: data.quoted_status && {
                 id: data.quoted_status.id_str,
                 user: {
                     id: data.quoted_status.user.id_str,
                     name: data.quoted_status.user.name,
-                    handle: data.quoted_status.user.screen_name
+                    handle: data.quoted_status.user.screen_name,
+                    bio: data.quoted_status.user.description
                 }
             },
             image: data.extended_entities && data.extended_entities.media[0].media_url_https,

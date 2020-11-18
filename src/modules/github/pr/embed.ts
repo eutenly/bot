@@ -2,9 +2,9 @@ import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import parseDate from "../../../util/parseDate";
 import truncateString from "../../../util/truncateString";
-import { GitHubPR } from "./parse";
+import { PR } from "../types";
 
-export default function embed(command: Command, data?: GitHubPR): Embed {
+export default function embed(command: Command, data?: PR): Embed {
 
     // Get prefix
     const prefix: string = command.message.channel.prefix;
