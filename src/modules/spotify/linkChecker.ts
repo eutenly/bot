@@ -1,19 +1,19 @@
 import Message from "../../classes/Message/Message";
-import spotifyAlbum from "../spotify/album/main";
-import spotifyArtist from "../spotify/artist/main";
-import spotifyCurrent from "../spotify/current";
-import spotifyEpisode from "../spotify/episode/main";
-import spotifyHistory from "../spotify/history/main";
-import spotifyHome from "../spotify/home/main";
-import spotifyPlaylist from "../spotify/playlist/main";
-import searchLastMessage from "../spotify/searchLastMessage";
-import spotifySearchOverview from "../spotify/searchOverview/main";
-import spotifyTop from "../spotify/top/main";
-import spotifyTrack from "../spotify/track/main";
-import spotifyUpdatePlayer from "../spotify/updatePlayer";
 import { LinkCheckerModule } from "../website/website/main";
+import spotifyAlbum from "./album/main";
+import spotifyArtist from "./artist/main";
+import spotifyCurrent from "./current";
+import spotifyEpisode from "./episode/main";
+import spotifyHistory from "./history/main";
+import spotifyHome from "./home/main";
+import spotifyPlaylist from "./playlist/main";
+import searchLastMessage from "./searchLastMessage";
+import spotifySearchOverview from "./searchOverview/main";
+import spotifyTop from "./top/main";
+import spotifyTrack from "./track/main";
+import spotifyUpdatePlayer from "./updatePlayer";
 
-export default function spotify(input: string, linksOnly?: boolean): LinkCheckerModule | undefined {
+export default function linkChecker(input: string, linksOnly?: boolean): LinkCheckerModule | undefined {
 
     // Check if input is a track link
     const track = input.match(/open\.spotify\.com\/track\/(.+)/);

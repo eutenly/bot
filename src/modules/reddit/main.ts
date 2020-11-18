@@ -1,6 +1,6 @@
 import Message from "../../classes/Message/Message";
-import linkChecker from "../linkCheckers/reddit";
 import home from "./home/main";
+import linkChecker from "./linkChecker";
 import search from "./search/main";
 
 export default async function main(message: Message) {

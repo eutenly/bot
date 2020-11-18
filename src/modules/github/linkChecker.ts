@@ -1,22 +1,22 @@
 import Message from "../../classes/Message/Message";
-import githubFile from "../github/file/main";
-import githubFiles from "../github/files/main";
-import githubGist from "../github/gist/main";
-import githubGists from "../github/gists/main";
-import githubHome from "../github/home/main";
-import githubIssue from "../github/issue/main";
-import githubIssues from "../github/issues/main";
-import githubPR from "../github/pr/main";
-import githubPRs from "../github/prs/main";
-import githubReleases from "../github/releases/main";
-import githubRepo from "../github/repo/main";
-import githubRepos from "../github/repos/main";
-import githubSearch from "../github/search/main";
-import searchLastMessage from "../github/searchLastMessage";
-import githubUser from "../github/user/main";
 import { LinkCheckerModule } from "../website/website/main";
+import githubFile from "./file/main";
+import githubFiles from "./files/main";
+import githubGist from "./gist/main";
+import githubGists from "./gists/main";
+import githubHome from "./home/main";
+import githubIssue from "./issue/main";
+import githubIssues from "./issues/main";
+import githubPR from "./pr/main";
+import githubPRs from "./prs/main";
+import githubReleases from "./releases/main";
+import githubRepo from "./repo/main";
+import githubRepos from "./repos/main";
+import githubSearch from "./search/main";
+import searchLastMessage from "./searchLastMessage";
+import githubUser from "./user/main";
 
-export default function github(input: string, linksOnly?: boolean): LinkCheckerModule | undefined {
+export default function linkChecker(input: string, linksOnly?: boolean): LinkCheckerModule | undefined {
 
     // Check if input is a gist link
     const gist = input.match(/gist\.github\.com\/(.+)\/(.+)/);

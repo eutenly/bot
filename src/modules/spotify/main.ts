@@ -1,6 +1,6 @@
 import Message from "../../classes/Message/Message";
-import linkChecker from "../linkCheckers/spotify";
 import home from "./home/main";
+import linkChecker from "./linkChecker";
 import searchOverview from "./searchOverview/main";
 
 export default async function main(message: Message) {
