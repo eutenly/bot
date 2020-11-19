@@ -8,6 +8,7 @@ export default function parse(data: any): ParserData | undefined {
     // Return
     return {
         data: {
+            id: data.id.toString(),
             name: data.login,
             bio: data.bio,
             repos: data.public_repos,

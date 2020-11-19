@@ -109,6 +109,7 @@ export interface File {
 }
 
 export interface User {
+    id: string;
     name: string;
     bio?: string;
     repos: number;

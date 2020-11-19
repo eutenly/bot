@@ -2,6 +2,7 @@ import Command, { ViewDataURL } from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import Message from "../../../classes/Message/Message";
 import fetch from "../fetch";
+import followArtist from "../followArtist";
 import play from "../play";
 import embed from "./embed";
 import parse from "./parse";
@@ -25,10 +26,16 @@ export default async function main(message: Message, artistID: string, commandHi
         parser: parse,
         getEmbed: embed,
         view,
-        reactions: [{
-            emoji: "spotify_play",
-            module: play
-        }]
+        reactions: [
+            {
+                emoji: "spotify_play",
+                module: play
+            },
+            {
+                emoji: "spotify_follow",
+                module: followArtist
+            }
+        ]
     }, (m: Message, chIndex: number) => main(m, artistID, chIndex), commandHistoryIndex);
     await command.uninitializedConnection;
 

@@ -3,7 +3,7 @@ import Channel from "../../classes/Channel/Channel";
 import User, { Connection } from "../../classes/User/User";
 import refreshToken from "./refreshToken";
 
-export default async function fetch(user: User, channel: Channel, url: string, method: string = "GET"): Promise<any> {
+export default async function fetch(user: User, channel: Channel, url: string, method: string = "GET", body?: any): Promise<any> {
 
     // Get connection
     const connection: Connection | undefined = user.connections["reddit"];
@@ -15,7 +15,8 @@ export default async function fetch(user: User, channel: Channel, url: string, m
         headers: {
             "User-Agent": "Eutenly",
             "Authorization": `Bearer ${connection.accessToken}`
-        }
+        },
+        body: body && JSON.stringify(body)
     });
 
     // Parse data
@@ -30,7 +31,7 @@ export default async function fetch(user: User, channel: Channel, url: string, m
         await refreshToken(user);
 
         // Fetch
-        return await fetch(user, channel, url);
+        return await fetch(user, channel, url, method, body);
     }
 
     // Return
