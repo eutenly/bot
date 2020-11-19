@@ -19,6 +19,7 @@ import createUser, { CreateUserData } from "./createUser";
 import fetch from "./fetch";
 import activateGarbageCollection from "./garbageCollector";
 import getDMChannel from "./getDMChannel";
+import getRawDMChannel from "./getRawDMChannel";
 import leaveGuild from "./leaveGuild";
 import resourceUsage from "./resourceUsage";
 
@@ -169,7 +170,10 @@ export default class Client extends EventEmitter {
     // Make requests to the API
     fetch = (path: string, options?: RequestInit, headers?: object): Promise<{ data: any; rateLimit: RateLimit | undefined; }> => fetch(this, path, options, headers);
 
-    // Get a DM channel
+    // Get a raw DM channel
+    getRawDMChannel = (userID: string): Promise<any> => getRawDMChannel(this, userID);
+
+    // Get a DM channel as a `Channel` object
     getDMChannel = (userID: string): Promise<Channel> => getDMChannel(this, userID);
 
     // Leave a guild
