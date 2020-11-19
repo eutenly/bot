@@ -55,6 +55,7 @@ export default class Client extends EventEmitter {
 
     // Data about the client
     id: string;
+    tag: string;
     avatarURL: string;
     sessionID: string | undefined;
 
