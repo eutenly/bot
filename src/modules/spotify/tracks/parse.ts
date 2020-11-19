@@ -2,10 +2,13 @@ import { ParserData } from "../../../classes/Command/Command";
 
 export default function parse(data?: any, extraData?: any[], metadata?: any): ParserData | undefined {
 
-    // Get results
-    const results: any[] = metadata?.type === "playlist" ? data.items.map((d: any) => d.track) : data.items;
-
     // No data
+    if (!data) return;
+
+    // Get results
+    const results: any[] = metadata?.type === "playlist" ? data.items.map((d: any) => d.track) : (data.items || data.tracks);
+
+    // No results
     if (results.length === 0) return;
 
     // Return

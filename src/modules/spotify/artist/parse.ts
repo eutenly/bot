@@ -6,7 +6,8 @@ export default function parse(data: any, extraData?: any[]): ParserData | undefi
     if ((data.error) || (!extraData)) return;
 
     // Parse extra data
-    const albumData: any = extraData[0];
+    const topTracks: any = extraData[0];
+    const albumData: any = extraData[1];
 
     // Return
     return {
@@ -14,6 +15,11 @@ export default function parse(data: any, extraData?: any[]): ParserData | undefi
             id: data.id,
             name: data.name,
             followers: data.followers.total,
+            topTracks: topTracks.tracks.slice(0, 5).map((t: any) => ({
+                id: t.id,
+                name: t.name,
+                length: t.duration_ms
+            })),
             albums: albumData.items.map((a: any) => ({
                 id: a.id,
                 name: a.name,

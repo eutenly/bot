@@ -8,6 +8,12 @@ interface BasicAlbum {
     name: string;
 }
 
+export interface BasicTrack {
+    id: string;
+    name: string;
+    length: number;
+}
+
 export interface Home {
     playlists: ListedPlaylist[];
     topTracks: ListedTrack[];
@@ -42,17 +48,11 @@ export interface ListedAlbum {
     tracks: number;
 }
 
-export interface AlbumTrack {
-    id: string;
-    name: string;
-    length: number;
-}
-
 export interface Album {
     id: string;
     name: string;
     artist: BasicUser;
-    tracks: AlbumTrack[];
+    tracks: BasicTrack[];
     albumArt?: string;
     copyrights: string[];
     releasedOn: string;
@@ -68,6 +68,7 @@ export interface Artist {
     id: string;
     name: string;
     followers: number;
+    topTracks: BasicTrack[];
     albums: ListedAlbum[];
     genres: string[];
     avatar?: string;

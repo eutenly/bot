@@ -16,7 +16,7 @@ export default function view(data: Playlist | undefined, message: Message): View
     // Tracks
     if (input.toLowerCase().replace(/\s+/g, "") === "tracks") return {
         module: () => tracks(message, data.id, data.name, "playlist"),
-        url: tracksURL(data.id, "playlist")
+        url: tracksURL(data.id, data.name, "playlist")
     };
 
     // Get track number

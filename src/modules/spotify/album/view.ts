@@ -3,7 +3,7 @@ import Message from "../../../classes/Message/Message";
 import artist, { url as artistURL } from "../artist/main";
 import track, { url as trackURL } from "../track/main";
 import tracks, { url as tracksURL } from "../tracks/main";
-import { Album, AlbumTrack } from "../types";
+import { Album, BasicTrack } from "../types";
 
 export default function view(data: Album | undefined, message: Message): ViewData | undefined {
 
@@ -17,7 +17,7 @@ export default function view(data: Album | undefined, message: Message): ViewDat
     // Tracks
     if (input.toLowerCase().replace(/\s+/g, "") === "tracks") return {
         module: () => tracks(message, data.id, data.name, "album"),
-        url: tracksURL(data.id, "album")
+        url: tracksURL(data.id, data.name, "album")
     };
 
     // Artist
@@ -31,7 +31,7 @@ export default function view(data: Album | undefined, message: Message): ViewDat
     if ((!trackNumber) || (trackNumber < 1)) return { error: ":x:  **|  That track number is invalid**" };
 
     // Get track
-    const trackResult: AlbumTrack = data.tracks[trackNumber - 1];
+    const trackResult: BasicTrack = data.tracks[trackNumber - 1];
     if (!trackResult) return { error: ":x:  **|  That track number is invalid**" };
 
     // Run module
