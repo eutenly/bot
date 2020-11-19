@@ -20,12 +20,25 @@ export default async function view(message: Message) {
     const viewData: ViewData | undefined = command.view(data, message, command);
     if (!viewData) return;
 
-    if (viewData.error) message.channel.sendMessage(viewData.error);
+    if (viewData.error) {
+        command.debug("Created error while viewing", {
+            input: message.commandContent.split(" ").slice(1).join(" "),
+            error: viewData.error
+        });
+        message.channel.sendMessage(viewData.error);
+    }
     else if (viewData.module) {
 
         // Run module
         const resultCommand: Command = await viewData.module();
         if (!resultCommand) return;
+
+        // Debug
+        command.debug("Viewed item", {
+            input: message.commandContent.split(" ").slice(1).join(" "),
+            resultCommand: resultCommand.name,
+            resultCommandType: resultCommand.category
+        });
 
         // Collect stats
         collectStat(message.client, {

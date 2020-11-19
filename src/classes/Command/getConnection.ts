@@ -9,7 +9,10 @@ export default function getConnection(command: Command) {
         await command.message.author.getConnection(command.connectionName);
 
         // Connection found
-        if (command.message.author.connections[command.connectionName]) return resolve();
+        if (command.message.author.connections[command.connectionName]) {
+            command.debug("Found connection");
+            return resolve();
+        }
 
         // Send embed
         if (command.helpEmbed) command.message.channel.sendMessage(command.helpEmbed);
@@ -17,6 +20,9 @@ export default function getConnection(command: Command) {
 
         // Set no connection
         command.noConnection = true;
+
+        // Debug
+        command.debug("No connection found");
 
         // Resolve
         resolve();

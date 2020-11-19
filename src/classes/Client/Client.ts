@@ -58,6 +58,9 @@ export default class Client extends EventEmitter {
     avatarURL: string;
     sessionID: string | undefined;
 
+    // ID generation increment
+    idGenerationIncrement: number;
+
     // The InfluxDB connection
     influxDB: InfluxDB;
 
@@ -99,6 +102,8 @@ export default class Client extends EventEmitter {
         // Set data
         this.token = token;
         this.sequence = null;
+
+        this.idGenerationIncrement = 0;
 
         this.eventQueue = [];
 
@@ -155,7 +160,7 @@ export default class Client extends EventEmitter {
 
         // Resource usage
         resourceUsage(this);
-    };
+    }
 
     // Update the sequence
     updateSequence = (sequence: number) => this.sequence = sequence;

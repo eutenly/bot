@@ -38,9 +38,15 @@ export default async function fetchData(command: Command, input?: string, page?:
     // Commands that have a custom function for getting data
     else if (pendingData instanceof Promise) data = await pendingData;
 
+    // Debug
+    command.debug("Fetched data", { data: JSON.stringify(data, null, 4), extraData: extraData && JSON.stringify(extraData, null, 4) });
+
     // Run parser
     if (!command.parser) return;
     const parserData: ParserData | undefined = command.parser(data, extraData || [], command.metadata);
+
+    // Debug
+    command.debug("Parsed data", parserData);
 
     // Set data
     // Only run if this module wasnt called via `PageManager.setPage`

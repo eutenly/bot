@@ -5,10 +5,17 @@ import Command from "./Command";
 export default async function send(command: Command, embed: Embed) {
 
     // Edit
-    if (command.responseMessage) return await command.responseMessage.edit(embed);
+    if (command.responseMessage) {
+        await command.responseMessage.edit(embed);
+        command.debug("Edited response message", { embed });
+        return;
+    }
 
     // Send
     const m: Message = await command.message.channel.sendMessage(embed);
+
+    // Debug
+    command.debug("Sent response message", { embed, messageID: m.id });
 
     // Set data
     m.command = command;

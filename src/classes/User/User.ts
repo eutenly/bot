@@ -3,6 +3,7 @@ import Client from "../Client/Client";
 import Command from "../Command/Command";
 import Message from "../Message/Message";
 import commandUsed from "./commandUsed";
+import debug, { DebugData } from "./debug";
 import getConnection from "./getConnection";
 import getData from "./getData";
 import setReactionConfirmations from "./setReactionConfirmations";
@@ -63,6 +64,7 @@ export default class User {
 
     // Settings
     reactionConfirmationsDisabled?: boolean;
+    debugMode?: boolean;
 
     // Constructor
     constructor(client: Client, data: UserData) {
@@ -108,4 +110,7 @@ export default class User {
 
     // Set reaction confirmations
     setReactionConfirmations = (enabled: boolean) => setReactionConfirmations(this, enabled);
+
+    // Debug
+    debug = (data: DebugData) => debug(this, data);
 }

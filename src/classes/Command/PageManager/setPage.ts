@@ -18,6 +18,9 @@ export default async function setPage(pageManager: PageManager, page: number) {
         // Set page
         pageManager.page = page;
 
+        // Debug
+        pageManager.command.debug("Setting page", { page, viaCache: true });
+
         // Get embed
         const embed: Embed = pageManager.command.getEmbed(pageManager.command, cachedData);
 
@@ -43,6 +46,9 @@ export default async function setPage(pageManager: PageManager, page: number) {
     // Set page
     if (pageManager.orderedPages) pageManager.page = (pageManager.cache.size ? Math.max(...pageManager.cache.keys()) : 0) + 1;
     else pageManager.page = page;
+
+    // Debug
+    pageManager.command.debug("Setting page", { page: pageManager.page });
 
     // Get next page token
     const nextPageToken: string | null | undefined = pageManager.orderedPages ? pageManager.nextPageToken : undefined;

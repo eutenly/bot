@@ -1,5 +1,6 @@
 import Message from "../../classes/Message/Message";
 import compactCommand from "../compact";
+import debugCommand from "../debug";
 import evalCommand from "../eval";
 import githubCommand from "../github/main";
 import helpCommand from "../help";
@@ -154,7 +155,14 @@ export const routes: CommandRoute[] = [
         information: "Owner JavaScript Eval",
         inputs: ["eval"],
         module: evalCommand,
-        private: true,
+        private: true
+    },
+    {
+        name: "Debug",
+        information: "Enable or disable debug mode",
+        inputs: ["debug"],
+        module: debugCommand,
+        private: true
     },
     {
         name: "Help",

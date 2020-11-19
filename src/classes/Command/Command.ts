@@ -1,10 +1,12 @@
 import collectStat from "../../util/collectStat";
+import generateID from "../../util/generateID";
 import Channel from "../Channel/Channel";
 import Client from "../Client/Client";
 import Embed from "../Embed/Embed";
 import Message from "../Message/Message";
 import Reaction from "../Reaction/Reaction";
 import User, { CommandHistoryEntry, RunCommand } from "../User/User";
+import { DebugExtraData } from "../User/debug";
 import PageManager from "./PageManager/PageManager";
 import fetchData from "./fetchData";
 import getConnection from "./getConnection";
@@ -85,6 +87,9 @@ export default class Command {
     // The client
     client: Client;
 
+    // Command debug fingerprint
+    debugFingerprint: string;
+
     // Command name
     name: string;
     category: string;
@@ -131,6 +136,8 @@ export default class Command {
         // Set data
         this.client = client;
 
+        this.debugFingerprint = generateID(this.client);
+
         this.name = data.name;
         this.category = data.category;
 
@@ -170,6 +177,9 @@ export default class Command {
 
         // Set expire timestamp
         this.expireTimestamp = Date.now() + 180000;
+
+        // Debug
+        this.debug("Command created");
 
         // Set cooldown
         this.message.author.setCooldown(this.webScraper ? 4000 : 2000);
@@ -241,4 +251,12 @@ export default class Command {
 
     // Send or edit the command message
     send = (embed: Embed) => send(this, embed);
+
+    // Debug
+    debug = (message: string, data?: DebugExtraData) => this.message.author.debug({
+        message,
+        fingerprint: this.debugFingerprint,
+        data,
+        command: this
+    })
 }
