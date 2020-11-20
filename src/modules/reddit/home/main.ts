@@ -37,6 +37,7 @@ export default async function main(message: Message, commandHistoryIndex?: numbe
 
     // Fetch
     await command.fetchData();
+    if (!command.data) return;
 
     // Get embed
     const commandEmbed: Embed = command.getEmbed(command, command.data);

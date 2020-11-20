@@ -45,6 +45,7 @@ export default async function main(message: Message, postID: string, subredditNa
 
     // Fetch
     await command.fetchData();
+    if (!command.data) return;
 
     // Get embed
     const commandEmbed: Embed = command.getEmbed(command, command.data);

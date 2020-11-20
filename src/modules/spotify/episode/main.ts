@@ -28,6 +28,7 @@ export default async function main(message: Message, episodeID: string, commandH
 
     // Fetch
     await command.fetchData();
+    if (!command.data) return;
 
     // Channel commands
     message.channel.commands = new ChannelCommands(message.channel, {
