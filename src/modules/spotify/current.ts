@@ -18,6 +18,9 @@ export default async function current(message: Message) {
     // No current track
     if (!data.currently_playing_type) return message.channel.sendMessage(":x:  **|  You're not listening to anything**");
 
+    // Advertisement
+    if (data.currently_playing_type === "ad") return message.channel.sendMessage(":pensive:  **|  Sucks to have to listen to ads, doesn't it?**");
+
     // Cant view episodes
     if (data.currently_playing_type === "episode") return message.channel.sendMessage(":x:  **|  Unfortunately, you can't view what you're currently listening to if it's an episode**");
 
