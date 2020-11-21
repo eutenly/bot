@@ -1,6 +1,6 @@
 import { ParserData } from "../../../classes/Command/Command";
 
-export default function parse(data: any): ParserData | undefined {
+export default function parse(data: any, extraData?: any[], metadata?: any): ParserData | undefined {
 
     // No results
     if (data.error) return;
@@ -15,7 +15,8 @@ export default function parse(data: any): ParserData | undefined {
             show: data.show.name,
             length: data.duration_ms,
             image: data.images[0] && data.images[0].url,
-            copyrights: [...new Set(data.show.copyrights.map((c: any) => c.text))]
+            copyrights: [...new Set(data.show.copyrights.map((c: any) => c.text))],
+            progress: metadata.progress
         }
     };
 }

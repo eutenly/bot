@@ -83,6 +83,7 @@ export interface Episode {
     length: number;
     image?: string;
     copyrights: string[];
+    progress?: number;
 }
 
 export interface ListedTrack {
