@@ -9,7 +9,7 @@ export default async function queue(command: Command, user: User, action: Comman
     if (action === "removed") return;
 
     // Set cooldown
-    user.setCooldown(2000);
+    user.setCooldown(1000);
 
     // Get connection
     await user.getConnection("spotify");

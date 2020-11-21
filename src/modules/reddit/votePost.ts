@@ -5,7 +5,7 @@ import fetch from "./fetch";
 export default async function votePost(command: Command, user: User, action: CommandReactionModuleAction, voteAction: "upvote" | "downvote") {
 
     // Set cooldown
-    user.setCooldown(2000);
+    user.setCooldown(1000);
 
     // Get connection
     await user.getConnection("reddit");

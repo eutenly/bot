@@ -9,7 +9,7 @@ export default async function play(command: Command, user: User, action: Command
     if (action === "removed") return;
 
     // Set cooldown
-    user.setCooldown(2000);
+    user.setCooldown(1000);
 
     // Get connection
     await user.getConnection("spotify");
