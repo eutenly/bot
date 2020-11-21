@@ -1,9 +1,9 @@
 import Command, { ViewData } from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
 import repo, { url as repoURL } from "../repo/main";
-import { GitHubFile } from "./parse";
+import { File } from "../types";
 
-export default function view(data: GitHubFile | undefined, message: Message, command: Command): ViewData | undefined {
+export default function view(data: File | undefined, message: Message, command: Command): ViewData | undefined {
 
     // No data
     if (!data) return;

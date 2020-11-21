@@ -5,16 +5,11 @@ import Message from "../Message/Message";
 import User from "../User/User";
 import remove from "./remove";
 
-interface ReactionDataUser {
-    id: string;
-    bot: boolean;
-}
-
 interface ReactionData {
     id: string;
     name?: string;
     messageID: string;
-    user: ReactionDataUser;
+    user: User;
     channelID: string;
     guildID: string;
 }
@@ -45,10 +40,7 @@ export default class Reaction {
 
         this.id = data.id;
         this.name = data.name;
-        this.user = client.users.get(data.user.id) || new User(client, {
-            id: data.user.id,
-            bot: data.user.bot
-        });
+        this.user = data.user;
 
         // Get channel
         this.channel = this.client.channels.get(data.channelID) || new Channel(client, {

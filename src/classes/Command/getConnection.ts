@@ -1,7 +1,7 @@
 import sendLoginEmbed from "../../util/sendLoginEmbed";
 import Command from "./Command";
 
-export default function getConnection(command: Command): void {
+export default function getConnection(command: Command) {
     command.uninitializedConnection = new Promise(async (resolve) => {
 
         // Get connection
@@ -9,7 +9,10 @@ export default function getConnection(command: Command): void {
         await command.message.author.getConnection(command.connectionName);
 
         // Connection found
-        if (command.message.author.connections[command.connectionName]) return resolve();
+        if (command.message.author.connections[command.connectionName]) {
+            command.debug("Found connection");
+            return resolve();
+        }
 
         // Send embed
         if (command.helpEmbed) command.message.channel.sendMessage(command.helpEmbed);
@@ -17,6 +20,9 @@ export default function getConnection(command: Command): void {
 
         // Set no connection
         command.noConnection = true;
+
+        // Debug
+        command.debug("No connection found");
 
         // Resolve
         resolve();

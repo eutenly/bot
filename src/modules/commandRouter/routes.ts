@@ -1,7 +1,7 @@
 import Message from "../../classes/Message/Message";
 import compactCommand from "../compact";
+import debugCommand from "../debug";
 import evalCommand from "../eval";
-import githubHelpEmbed from "../github/helpEmbed";
 import githubCommand from "../github/main";
 import helpCommand from "../help";
 import infoCommand from "../info";
@@ -9,23 +9,18 @@ import inviteCommand from "../invite";
 import moveCommand from "../move";
 import pageCommand from "../page";
 import pingCommand from "../ping";
-import redditHelpEmbed from "../reddit/helpEmbed";
+import reactionConfirmationsCommand from "../reactionConfirmations";
 import redditCommand from "../reddit/main";
 import removeCommand from "../remove";
 import saveCommand from "../save";
 import savedLinksCommand from "../savedLinks/main";
-import searchHelpEmbed from "../search/helpEmbed";
 import searchCommand from "../search/main";
-import spotifyHelpEmbed from "../spotify/helpEmbed";
 import spotifyCommand from "../spotify/main";
 import supportCommand from "../support";
-import twitterHelpEmbed from "../twitter/helpEmbed";
 import twitterCommand from "../twitter/main";
 import viewCommand from "../view";
 import websiteCommand from "../website/main";
-import wikipediaHelpEmbed from "../wikipedia/helpEmbed";
 import wikipediaCommand from "../wikipedia/main";
-import youtubeHelpEmbed from "../youtube/helpEmbed";
 import youtubeCommand from "../youtube/main";
 
 // Define routes
@@ -55,50 +50,43 @@ export const routes: CommandRoute[] = [
         name: "Search",
         information: "Search the internet",
         inputs: ["search"],
-        module: searchCommand,
-        helpEmbed: searchHelpEmbed
+        module: searchCommand
     },
     {
         name: "YouTube",
         information: "Search YouTube",
         inputs: ["youtube", "yt"],
-        module: youtubeCommand,
-        helpEmbed: youtubeHelpEmbed
+        module: youtubeCommand
     },
     {
         name: "Twitter",
         information: "Search Twitter",
         inputs: ["twitter", "twt"],
-        module: twitterCommand,
-        helpEmbed: twitterHelpEmbed
+        module: twitterCommand
     },
     {
         name: "Reddit",
         information: "Search Reddit",
         inputs: ["reddit"],
-        module: redditCommand,
-        helpEmbed: redditHelpEmbed
+        module: redditCommand
     },
     {
         name: "Spotify",
         information: "Search Spotify",
         inputs: ["spotify", "spt"],
-        module: spotifyCommand,
-        helpEmbed: spotifyHelpEmbed
+        module: spotifyCommand
     },
     {
         name: "GitHub",
         information: "Search GitHub",
         inputs: ["github", "gh"],
-        module: githubCommand,
-        helpEmbed: githubHelpEmbed
+        module: githubCommand
     },
     {
         name: "Wikipedia",
         information: "Search Wikipedia",
         inputs: ["wikipedia", "wiki"],
-        module: wikipediaCommand,
-        helpEmbed: wikipediaHelpEmbed
+        module: wikipediaCommand
     },
     {
         name: "Page",
@@ -145,6 +133,12 @@ export const routes: CommandRoute[] = [
         module: compactCommand
     },
     {
+        name: "Reaction Confirmations",
+        information: "Enable or disable reaction confirmations",
+        inputs: ["reactionconfirmations", "reactionconfirms"],
+        module: reactionConfirmationsCommand
+    },
+    {
         name: "Invite",
         information: "Get a link to add Eutenly to your server",
         inputs: ["invite"],
@@ -161,7 +155,14 @@ export const routes: CommandRoute[] = [
         information: "Owner JavaScript Eval",
         inputs: ["eval"],
         module: evalCommand,
-        private: true,
+        private: true
+    },
+    {
+        name: "Debug",
+        information: "Enable or disable debug mode",
+        inputs: ["debug"],
+        module: debugCommand,
+        private: true
     },
     {
         name: "Help",
@@ -183,5 +184,4 @@ export interface CommandRoute extends BaseCommand {
     name: string;
     information: string;
     description?: string;
-    helpEmbed?: Function;
 }

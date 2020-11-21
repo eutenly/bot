@@ -1,13 +1,13 @@
 import Message from "../../classes/Message/Message";
-import twitterHome from "../twitter/home/main";
-import twitterSearch from "../twitter/search/main";
-import searchLastMessage from "../twitter/searchLastMessage";
-import twitterTimeline from "../twitter/timeline/main";
-import twitterTweet from "../twitter/tweet/main";
-import twitterUser from "../twitter/user/main";
 import { LinkCheckerModule } from "../website/website/main";
+import twitterHome from "./home/main";
+import twitterSearch from "./search/main";
+import searchLastMessage from "./searchLastMessage";
+import twitterTimeline from "./timeline/main";
+import twitterTweet from "./tweet/main";
+import twitterUser from "./user/main";
 
-export default function twitter(input: string, linksOnly?: boolean): LinkCheckerModule | undefined {
+export default function linkChecker(input: string, linksOnly?: boolean): LinkCheckerModule | undefined {
 
     // Check if input is a tweet link
     const tweet = input.match(/twitter\.com\/(.+)\/status\/(.+)/);

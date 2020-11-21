@@ -1,21 +1,6 @@
 import { ParserData } from "../../../classes/Command/Command";
 
-interface SpotifyArtist {
-    id: string;
-    name: string;
-}
-
-export interface SpotifySearchOverview {
-    id: string;
-    type: string;
-    name: string;
-    artist: SpotifyArtist;
-    length?: number;
-    followers?: number;
-    tracks?: number;
-}
-
-export default function parse(data: any): ParserData {
+export default function parse(data: any): ParserData | undefined {
 
     // Define results
     const results: any[] = [];
@@ -45,7 +30,7 @@ export default function parse(data: any): ParserData {
     results.push(...tracksAndArtists.slice(0, 5 - results.length));
 
     // No results
-    if (results.length === 0) return { noData: true };
+    if (results.length === 0) return;
 
     // Return
     return {

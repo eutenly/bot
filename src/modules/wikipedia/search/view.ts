@@ -1,9 +1,9 @@
 import { ViewData } from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
 import article, { url as articleURL } from "../article/main";
-import { WikipediaSearchResult } from "./parse";
+import { SearchResult } from "../types";
 
-export default function view(data: WikipediaSearchResult[], message: Message): ViewData | undefined {
+export default function view(data: SearchResult[], message: Message): ViewData | undefined {
 
     // Get params
     const input: string = message.commandContent.split(" ").slice(1).join(" ");
@@ -14,7 +14,7 @@ export default function view(data: WikipediaSearchResult[], message: Message): V
     if ((!resultNumber) || (resultNumber < 1)) return { error: ":x:  **|  That result number is invalid**" };
 
     // Get result
-    const result: WikipediaSearchResult = data[resultNumber - 1];
+    const result: SearchResult = data[resultNumber - 1];
     if (!result) return { error: ":x:  **|  That result number is invalid**" };
 
     // View article

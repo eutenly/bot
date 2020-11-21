@@ -2,46 +2,40 @@ import Command from "../Command";
 import cacheData from "./cacheData";
 import setPage from "./setPage";
 
-interface SearchManagerData {
+interface PageManagerData {
     input: string;
+    perPage: number;
     orderedPages?: boolean;
-    splitPages?: number;
-    allData?: any;
 }
 
-export default class SearchManager {
+export default class PageManager {
 
     // The command
     command: Command;
 
-    // Data about the search manager
+    // Data about the page manager
     input: string;
-    orderedPages?: boolean;
-    splitPages?: number;
-    allData?: boolean;
     page?: number;
+    perPage: number;
+    orderedPages?: boolean;
     nextPageToken?: string | null;
 
     cache: Map<number, any>;
 
     // Constructor
-    constructor(command: Command, data: SearchManagerData) {
+    constructor(command: Command, data: PageManagerData) {
 
         // Set data
         this.command = command;
 
         this.input = data.input;
+        this.perPage = data.perPage;
         this.orderedPages = data.orderedPages;
-        this.splitPages = data.splitPages;
-        this.allData = Boolean(data.allData);
         this.cache = new Map();
-
-        // Cache data
-        if (data.allData) this.cacheData(1, data.allData);
     }
 
     // Get a page's results
-    setPage = (page: number): Promise<void> => setPage(this, page);
+    setPage = (page: number) => setPage(this, page);
 
     // Cache data
     cacheData = (page: number, data: any) => cacheData(this, page, data);

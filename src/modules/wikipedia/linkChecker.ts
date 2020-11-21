@@ -1,10 +1,10 @@
 import Message from "../../classes/Message/Message";
 import { LinkCheckerModule } from "../website/website/main";
-import wikipediaArticle from "../wikipedia/article/main";
-import wikipediaSearch from "../wikipedia/search/main";
-import searchLastMessage from "../wikipedia/searchLastMessage";
+import wikipediaArticle from "./article/main";
+import wikipediaSearch from "./search/main";
+import searchLastMessage from "./searchLastMessage";
 
-export default function wikipedia(input: string, linksOnly?: boolean): LinkCheckerModule | undefined {
+export default function linkChecker(input: string, linksOnly?: boolean): LinkCheckerModule | undefined {
 
     // Check if input is an article link
     const article = input.match(/en\.wikipedia\.org\/wiki\/(.+)/);

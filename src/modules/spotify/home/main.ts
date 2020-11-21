@@ -15,14 +15,14 @@ export default async function main(message: Message, commandHistoryIndex?: numbe
     // Create command
     const command: Command = new Command(message.client, {
         name: "home",
-        type: "spotify",
+        category: "spotify",
         message,
         url: url(),
-        getURL: (): string => "https://api.spotify.com/v1/me/playlists?limit=5",
+        getData: "https://api.spotify.com/v1/me/playlists?limit=5",
         getExtraData: [
-            (): string => "https://api.spotify.com/v1/me/top/tracks?limit=5",
-            (): string => "https://api.spotify.com/v1/me/top/artists?limit=5",
-            (): string => "https://api.spotify.com/v1/me/player/recently-played?limit=5"
+            "https://api.spotify.com/v1/me/top/tracks?limit=5",
+            "https://api.spotify.com/v1/me/top/artists?limit=5",
+            "https://api.spotify.com/v1/me/player/recently-played?limit=5"
         ],
         connectionName: "spotify",
         helpEmbed: helpEmbed(prefix),
@@ -38,6 +38,7 @@ export default async function main(message: Message, commandHistoryIndex?: numbe
 
     // Fetch
     await command.fetchData();
+    if (!command.data) return;
 
     // Get embed
     const commandEmbed: Embed = command.getEmbed(command, command.data);

@@ -10,7 +10,7 @@ export default async function main(message: Message, channelID: string, commandH
     // Create command
     const command: Command = new Command(message.client, {
         name: "channel",
-        type: "youtube",
+        category: "youtube",
         message,
         url: url(channelID),
         getData: async (): Promise<any> => await message.client.youtube.channels.list({
@@ -24,6 +24,7 @@ export default async function main(message: Message, channelID: string, commandH
 
     // Fetch
     await command.fetchData();
+    if (!command.data) return;
 
     // Get embed
     const commandEmbed: Embed = command.getEmbed(command, command.data);

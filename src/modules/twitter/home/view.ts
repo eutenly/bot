@@ -2,9 +2,9 @@ import Command, { ViewData } from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
 import timeline, { url as timelineURL } from "../timeline/main";
 import tweet, { url as tweetURL } from "../tweet/main";
-import { TwitterHome } from "./parse";
+import { Home } from "../types";
 
-export default function view(data: TwitterHome | undefined, message: Message, command: Command): ViewData | undefined {
+export default function view(data: Home | undefined, message: Message, command: Command): ViewData | undefined {
 
     // No data
     if (!data) return;

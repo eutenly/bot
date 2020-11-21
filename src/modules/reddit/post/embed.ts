@@ -2,22 +2,22 @@ import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import parseDate from "../../../util/parseDate";
 import truncateString from "../../../util/truncateString";
-import { RedditPost } from "./parse";
+import { Post } from "../types";
 
-export default function embed(command: Command, data?: RedditPost): Embed {
+export default function embed(command: Command, data?: Post): Embed {
 
     // Get prefix
     const prefix: string = command.message.channel.prefix;
 
     // Embed
     const embed = new Embed()
-        .setAuthor("Reddit Search", "https://i.imgur.com/YKUi7bl.png")
+        .setAuthor("Reddit Post", "https://i.imgur.com/YKUi7bl.png")
         .setColor(0xff3f18)
         .setBranding();
 
     // No data
     if (!data) return embed
-        .setDescription("Your search didn't match any results")
+        .setDescription("Unknown post")
         .setColor(0xf44242);
 
     // Build embed

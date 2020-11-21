@@ -10,15 +10,16 @@ export default async function main(message: Message, query: string, type: string
     // Create command
     const command: Command = new Command(message.client, {
         name: "search",
-        type: "spotify",
+        category: "spotify",
         message,
         input: query,
         metadata: {
             type
         },
-        getURL: (query: string = "", page: number = 1): string => `https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=${type}&market=from_token&limit=5${page ? `&offset=${(page - 1) * 5}` : ""}`,
+        getData: (query: string = "", page: number = 1): string => `https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=${type}&market=from_token&limit=5${page ? `&offset=${(page - 1) * 5}` : ""}`,
         connectionName: "spotify",
         fetch,
+        perPage: 5,
         parser: parse,
         getEmbed: embed,
         view
@@ -29,7 +30,7 @@ export default async function main(message: Message, query: string, type: string
     if (command.noConnection) return;
 
     // Search
-    command.searchManager?.setPage(1);
+    command.pageManager?.setPage(1);
 
     // Return
     return command;

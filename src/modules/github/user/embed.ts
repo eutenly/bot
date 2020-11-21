@@ -2,16 +2,16 @@ import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import formatURL from "../../../util/formatURL";
 import parseDate from "../../../util/parseDate";
-import { GitHubUser } from "./parse";
+import { User } from "../types";
 
-export default function embed(command: Command, data?: GitHubUser): Embed {
+export default function embed(command: Command, data?: User): Embed {
 
     // Get prefix
     const prefix: string = command.message.channel.prefix;
 
     // Embed
     const embed = new Embed()
-        .setAuthor("GitHub Search", "https://getdrawings.com/free-icon-bw/github-icon-23.png")
+        .setAuthor("GitHub User", "https://i.imgur.com/FwnDNtd.png")
         .setColor(0x000000)
         .setBranding();
 
@@ -24,7 +24,7 @@ export default function embed(command: Command, data?: GitHubUser): Embed {
     if (data.bio) embed.setDescription(data.bio);
 
     embed
-        .setAuthor(`GitHub: ${data.name}`, "https://getdrawings.com/free-icon-bw/github-icon-23.png", `https://github.com/${data.name}`)
+        .setAuthor(`GitHub: ${data.name}`, "https://i.imgur.com/FwnDNtd.png", `https://github.com/${data.name}`)
         .addField(null, null, true)
         .addField("Link", `[github.com...](https://github.com/${data.name})`, true)
         .addField(null, null, true);

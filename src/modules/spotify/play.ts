@@ -15,9 +15,13 @@ export default async function play(command: Command, user: User, action: Command
     await user.getConnection("spotify");
 
     // Play
-    const result: any = await fetch(user, command.message.channel, "https://api.spotify.com/v1/me/player/play", "PUT", {
-        uris: [`spotify:${command.name}:${command.data.id}`]
-    });
+    const result: any = await fetch(user, command.message.channel, "https://api.spotify.com/v1/me/player/play", "PUT", command.name === "track" ?
+        { uris: [`spotify:track:${command.data.id}`] } :
+        { context_uri: `spotify:${command.name}:${command.data.id}` }
+    );
+
+    // Remove reaction
+    if (reaction?.guild) reaction.remove();
 
     // Not listening to anything
     if (result.error?.reason === "NO_ACTIVE_DEVICE") return command.message.channel.sendMessage(`:x:  **|  <@${user.id}>, You aren't listening to anything**`);
@@ -25,6 +29,6 @@ export default async function play(command: Command, user: User, action: Command
     // User doesn't have premium
     if (result.error?.reason === "PREMIUM_REQUIRED") return command.message.channel.sendMessage(`:x:  **|  <@${user.id}>, You need to have Spotify Premium in order for bots to be able to control your player**`);
 
-    // Remove reaction
-    if (reaction?.guild) reaction.remove();
+    // Send
+    if (!user.reactionConfirmationsDisabled) command.message.channel.sendMessage(`<:spotify_play:${command.client.eutenlyEmojis.get("spotify_play")}>  **|  <@${user.id}>, ${command.data.name} is now playing**`);
 }

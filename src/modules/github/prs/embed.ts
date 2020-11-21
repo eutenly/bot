@@ -1,33 +1,33 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import truncateString from "../../../util/truncateString";
-import { GitHubSearchResult } from "./parse";
+import { ListedPR } from "../types";
 
-export default function embed(command: Command, data: GitHubSearchResult[]): Embed {
+export default function embed(command: Command, data: ListedPR[]): Embed {
 
     // Get prefix
     const prefix: string = command.message.channel.prefix;
 
     // Embed
     const embed = new Embed()
-        .setAuthor("GitHub Search", "https://getdrawings.com/free-icon-bw/github-icon-23.png")
-        .setDescription(`Page ${command.searchManager?.page}`)
+        .setAuthor("GitHub PRs", "https://i.imgur.com/FwnDNtd.png")
+        .setDescription(`Page ${command.pageManager?.page}`)
         .setColor(0x000000)
         .setBranding();
 
     // No data
     if (data.length === 0) return embed
-        .setDescription("Your search didn't match any results")
+        .setDescription("There aren't that many PRs")
         .setColor(0xf44242);
 
     // Build embed
     embed
-        .setAuthor(`${command.metadata?.ownerName}/${command.metadata?.name}: Pull Requests`, "https://getdrawings.com/free-icon-bw/github-icon-23.png", `https://github.com/${command.metadata?.ownerName}/${command.metadata?.name}/pulls`)
+        .setAuthor(`${command.metadata?.ownerName}/${command.metadata?.name}: Pull Requests`, "https://i.imgur.com/FwnDNtd.png", `https://github.com/${command.metadata?.ownerName}/${command.metadata?.name}/pulls`)
         .addField(null, null, true)
         .addField("Link", `[github.com...](https://github.com/${command.metadata?.ownerName}/${command.metadata?.name}/pulls)`, true)
         .addField(null, null, true);
 
-    data.forEach((d: GitHubSearchResult, i: number) => embed.addField(null, `**${i + 1}. [${d.title}](https://github.com/${command.metadata?.ownerName}/${command.metadata?.name}/pull/${d.number})**\n${truncateString(d.text.replace(/[\n\r]/g, " "), 80)}`));
+    data.forEach((d: ListedPR, i: number) => embed.addField(null, `**${i + 1}. [${d.title}](https://github.com/${command.metadata?.ownerName}/${command.metadata?.name}/pull/${d.number})**\n${truncateString(d.text.replace(/[\n\r]/g, " "), 80)}`));
 
     if (command.compactMode) embed.addField(null, `*\u2022 React or use the \`${prefix}next\` and \`${prefix}previous\` commands to cycle through pages\n\u2022 Use the \`${prefix}view <Result Number>\` command to get more info about a result*`);
     else embed

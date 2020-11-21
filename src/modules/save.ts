@@ -5,6 +5,7 @@ import Message from "../classes/Message/Message";
 import saveDocument from "../models/save";
 import catchPromise from "../util/catchPromise";
 import collectStat from "../util/collectStat";
+import nsfwCheck from "../util/nsfwCheck";
 
 export default async function save(message: Message) {
 
@@ -33,7 +34,7 @@ export default async function save(message: Message) {
         // Get data
         let data: any;
         if (command.data) data = command.data;
-        else data = command.searchManager?.cache.get(command.searchManager.page || 0);
+        else data = command.pageManager?.cache.get(command.pageManager.page || 0);
 
         // Run module
         const viewData: ViewData | undefined = command.view(data, message, command);
@@ -58,6 +59,11 @@ export default async function save(message: Message) {
 
         // Parse url
         if ((!url.startsWith("http://")) && (!url.startsWith("https://"))) url = `http://${url}`;
+
+        // Check NSFW
+        const [success, nsfw] = await nsfwCheck(url);
+        if (!success) return message.channel.sendMessage(":x:  **|  I couldn't find that website**");
+        if (nsfw) return message.channel.sendMessage(":x:  **|  This website is not permitted on Eutenly!**");
 
         // Fetch
         const result: Response = await catchPromise(fetch(url, {

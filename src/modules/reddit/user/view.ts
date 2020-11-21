@@ -2,9 +2,9 @@ import { ViewData } from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
 import post, { url as postURL } from "../post/main";
 import posts, { url as postsURL } from "../posts/main";
-import { RedditPost, RedditUser } from "./parse";
+import { BasicPost, User } from "../types";
 
-export default function view(data: RedditUser | undefined, message: Message): ViewData | undefined {
+export default function view(data: User | undefined, message: Message): ViewData | undefined {
 
     // No data
     if (!data) return;
@@ -24,7 +24,7 @@ export default function view(data: RedditUser | undefined, message: Message): Vi
     if ((!postNumber) || (postNumber < 1)) return { error: ":x:  **|  That post number is invalid**" };
 
     // Get post
-    const postResult: RedditPost = data.posts[postNumber - 1];
+    const postResult: BasicPost = data.posts[postNumber - 1];
     if (!postResult) return { error: ":x:  **|  That post number is invalid**" };
 
     // Run module

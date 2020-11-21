@@ -1,11 +1,11 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import Message from "../../../classes/Message/Message";
-import githubLinkChecker from "../../linkCheckers/github";
-import redditLinkChecker from "../../linkCheckers/reddit";
-import spotifyLinkChecker from "../../linkCheckers/spotify";
-import twitterLinkChecker from "../../linkCheckers/twitter";
-import youtubeLinkChecker from "../../linkCheckers/youtube";
+import githubLinkChecker from "../../github/linkChecker";
+import redditLinkChecker from "../../reddit/linkChecker";
+import spotifyLinkChecker from "../../spotify/linkChecker";
+import twitterLinkChecker from "../../twitter/linkChecker";
+import youtubeLinkChecker from "../../youtube/linkChecker";
 import fetch from "../fetch";
 import embed from "./embed";
 import parse from "./parse";
@@ -26,10 +26,10 @@ export default async function main(message: Message, url: string, commandHistory
     // Create command
     const command: Command = new Command(message.client, {
         name: "website",
-        type: "website",
+        category: "website",
         message,
         url,
-        getURL: (): string => url,
+        getData: url,
         fetch,
         parser: parse,
         getEmbed: embed
@@ -37,6 +37,7 @@ export default async function main(message: Message, url: string, commandHistory
 
     // Fetch
     await command.fetchData();
+    if (!command.data) return;
 
     // Get embed
     const commandEmbed: Embed = command.getEmbed(command, command.data);

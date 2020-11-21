@@ -1,9 +1,9 @@
 import { ViewData } from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
 import tweet, { url as tweetURL } from "../tweet/main";
-import { TwitterSearchResult } from "./parse";
+import { ListedTweet } from "../types";
 
-export default function view(data: TwitterSearchResult[], message: Message): ViewData | undefined {
+export default function view(data: ListedTweet[], message: Message): ViewData | undefined {
 
     // Get params
     const input: string = message.commandContent.split(" ").slice(1).join(" ");
@@ -14,7 +14,7 @@ export default function view(data: TwitterSearchResult[], message: Message): Vie
     if ((!resultNumber) || (resultNumber < 1)) return { error: ":x:  **|  That result number is invalid**" };
 
     // Get result
-    const result: TwitterSearchResult = data[resultNumber - 1];
+    const result: ListedTweet = data[resultNumber - 1];
     if (!result) return { error: ":x:  **|  That result number is invalid**" };
 
     // View tweet

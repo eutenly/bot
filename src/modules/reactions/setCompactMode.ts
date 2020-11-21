@@ -10,7 +10,7 @@ export default function setCompactMode(command: Command, compactMode: boolean) {
     command.compactMode = compactMode;
 
     // Get embed
-    const embed: Embed = command.getEmbed(command, command.searchManager ? (command.searchManager.cache.get(command.searchManager.page as number) || []) : command.data);
+    const embed: Embed = command.getEmbed(command, command.pageManager ? (command.pageManager.cache.get(command.pageManager.page as number) || []) : command.data);
 
     // Send
     command.send(embed);

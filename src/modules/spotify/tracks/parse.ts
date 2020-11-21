@@ -1,24 +1,15 @@
 import { ParserData } from "../../../classes/Command/Command";
 
-interface SpotifyArtist {
-    id: string;
-    name: string;
-}
-
-export interface SpotifyTrack {
-    id: string;
-    name: string;
-    artist: SpotifyArtist;
-    length: number;
-}
-
-export default function parse(data?: any, extraData?: any[], metadata?: any): ParserData {
-
-    // Get results
-    const results: any[] = metadata?.type === "playlist" ? data.items.map((d: any) => d.track) : data.items;
+export default function parse(data?: any, extraData?: any[], metadata?: any): ParserData | undefined {
 
     // No data
-    if (results.length === 0) return { noData: true };
+    if (!data) return;
+
+    // Get results
+    const results: any[] = metadata?.type === "playlist" ? data.items.map((d: any) => d.track) : (data.items || data.tracks);
+
+    // No results
+    if (results.length === 0) return;
 
     // Return
     return {

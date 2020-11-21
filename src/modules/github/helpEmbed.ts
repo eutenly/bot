@@ -4,7 +4,7 @@ export default function helpEmbed(prefix: string): Embed {
 
     // Return
     return new Embed()
-        .setAuthor("GitHub", "https://getdrawings.com/free-icon-bw/github-icon-23.png")
+        .setAuthor("GitHub", "https://i.imgur.com/FwnDNtd.png")
         .setDescription("[Login with GitHub](https://eutenly.com/login/github)")
         .setColor(0x000000)
         .addField("Search GitHub", `Use the \`${prefix}github <Search Query>\` command to search GitHub and get information about repos`)

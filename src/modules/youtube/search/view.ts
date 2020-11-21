@@ -2,10 +2,10 @@ import { ViewData } from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
 import channel, { url as channelURL } from "../channel/main";
 import playlist, { url as playlistURL } from "../playlist/main";
+import { SearchResult } from "../types";
 import video, { url as videoURL } from "../video/main";
-import { YouTubeSearchResult } from "./parse";
 
-export default function view(data: YouTubeSearchResult[], message: Message): ViewData | undefined {
+export default function view(data: SearchResult[], message: Message): ViewData | undefined {
 
     // Get params
     const input: string = message.commandContent.split(" ").slice(1).join(" ");
@@ -16,7 +16,7 @@ export default function view(data: YouTubeSearchResult[], message: Message): Vie
     if ((!resultNumber) || (resultNumber < 1)) return { error: ":x:  **|  That result number is invalid**" };
 
     // Get result
-    const result: YouTubeSearchResult = data[resultNumber - 1];
+    const result: SearchResult = data[resultNumber - 1];
     if (!result) return { error: ":x:  **|  That result number is invalid**" };
 
     // Run module

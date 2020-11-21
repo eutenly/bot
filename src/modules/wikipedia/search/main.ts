@@ -10,12 +10,13 @@ export default async function main(message: Message, query: string, commandHisto
     // Create command
     const command: Command = new Command(message.client, {
         name: "search",
-        type: "wikipedia",
+        category: "wikipedia",
         message,
         input: query,
         url: url(query),
-        getURL: (query: string = "", page: number = 1): string => `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(query)}&format=json&srlimit=5&sroffset=${(page - 1) * 5}`,
+        getData: (query: string = "", page: number = 1): string => `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(query)}&format=json&srlimit=5&sroffset=${(page - 1) * 5}`,
         fetch,
+        perPage: 5,
         parser: parse,
         getEmbed: embed,
         view
@@ -26,7 +27,7 @@ export default async function main(message: Message, query: string, commandHisto
     if (command.noConnection) return;
 
     // Search
-    command.searchManager?.setPage(1);
+    command.pageManager?.setPage(1);
 
     // Return
     return command;

@@ -2,16 +2,16 @@ import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import formatURL from "../../../util/formatURL";
 import parseDate from "../../../util/parseDate";
-import { GitHubRepo } from "./parse";
+import { Repo } from "../types";
 
-export default function embed(command: Command, data?: GitHubRepo): Embed {
+export default function embed(command: Command, data?: Repo): Embed {
 
     // Get prefix
     const prefix: string = command.message.channel.prefix;
 
     // Embed
     const embed = new Embed()
-        .setAuthor("GitHub Search", "https://getdrawings.com/free-icon-bw/github-icon-23.png")
+        .setAuthor("GitHub Repo", "https://i.imgur.com/FwnDNtd.png")
         .setColor(0x000000)
         .setBranding();
 
@@ -24,7 +24,7 @@ export default function embed(command: Command, data?: GitHubRepo): Embed {
     if (data.description) embed.setDescription(data.description);
 
     embed
-        .setAuthor(`${data.ownerName}/${data.name}`, "https://getdrawings.com/free-icon-bw/github-icon-23.png", `https://github.com/${data.ownerName}/${data.name}`)
+        .setAuthor(`${data.ownerName}/${data.name}`, "https://i.imgur.com/FwnDNtd.png", `https://github.com/${data.ownerName}/${data.name}`)
         .addField(null, null, true)
         .addField("Link", `[github.com...](https://github.com/${data.ownerName}/${data.name})`, true)
         .addField(null, null, true);

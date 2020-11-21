@@ -1,16 +1,16 @@
 import filesize from "filesize";
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
-import { GitHubLanguages } from "./parse";
+import { Languages } from "../types";
 
-export default function embed(command: Command, data?: GitHubLanguages): Embed {
+export default function embed(command: Command, data?: Languages): Embed {
 
     // Get prefix
     const prefix: string = command.message.channel.prefix;
 
     // Embed
     const embed = new Embed()
-        .setAuthor("GitHub Search", "https://getdrawings.com/free-icon-bw/github-icon-23.png")
+        .setAuthor("GitHub Languages", "https://i.imgur.com/FwnDNtd.png")
         .setColor(0x000000)
         .setBranding();
 
@@ -24,7 +24,7 @@ export default function embed(command: Command, data?: GitHubLanguages): Embed {
 
     // Build embed
     embed
-        .setAuthor(`${command.metadata?.ownerName}/${command.metadata?.name}: Languages`, "https://getdrawings.com/free-icon-bw/github-icon-23.png", `https://github.com/${command.metadata?.ownerName}/${command.metadata?.name}`)
+        .setAuthor(`${command.metadata?.ownerName}/${command.metadata?.name}: Languages`, "https://i.imgur.com/FwnDNtd.png", `https://github.com/${command.metadata?.ownerName}/${command.metadata?.name}`)
         .setDescription(Object.keys(data).map((l: string) => {
             const percent = parseFloat(((data[l] / totalSize) * 100).toFixed(2));
             return `**${l}:** ${filesize(data[l])} (${percent ? percent : "<0.01"}%)`;

@@ -10,20 +10,21 @@ export default async function search(message: Message, query: string, commandHis
     // Create command
     const command: Command = new Command(message.client, {
         name: "search",
-        type: "google",
+        category: "google",
         message,
         webScraper: true,
         input: query,
         url: url(query),
-        getURL: (query: string = "", page: number = 1): string => `https://google.com/search?q=${encodeURIComponent(query)}&num=5&start=${(page - 1) * 5}`,
+        getData: (query: string = "", page: number = 1): string => `https://google.com/search?q=${encodeURIComponent(query)}&num=5&start=${(page - 1) * 5}`,
         fetch,
+        perPage: 5,
         parser: parse,
         getEmbed: embed,
         view
     }, (m: Message, chIndex: number) => search(m, query, chIndex), commandHistoryIndex);
 
     // Search
-    command.searchManager?.setPage(1);
+    command.pageManager?.setPage(1);
 
     // Return
     return command;

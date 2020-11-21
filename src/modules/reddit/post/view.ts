@@ -1,10 +1,10 @@
 import { ViewData } from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
 import subreddit, { url as subredditURL } from "../subreddit/main";
+import { Post } from "../types";
 import user, { url as userURL } from "../user/main";
-import { RedditPost } from "./parse";
 
-export default function view(data: RedditPost | undefined, message: Message): ViewData | undefined {
+export default function view(data: Post | undefined, message: Message): ViewData | undefined {
 
     // No data
     if (!data) return;

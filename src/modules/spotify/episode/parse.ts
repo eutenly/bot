@@ -1,20 +1,9 @@
 import { ParserData } from "../../../classes/Command/Command";
 
-export interface SpotifyEpisode {
-    id: string;
-    name: string;
-    description: string;
-    explicit: boolean;
-    show: string;
-    length: number;
-    image?: string;
-    copyrights: string[];
-}
-
-export default function parse(data: any): ParserData {
+export default function parse(data: any, extraData?: any[], metadata?: any): ParserData | undefined {
 
     // No results
-    if (data.error) return { noData: true };
+    if (data.error) return;
 
     // Return
     return {
@@ -26,7 +15,8 @@ export default function parse(data: any): ParserData {
             show: data.show.name,
             length: data.duration_ms,
             image: data.images[0] && data.images[0].url,
-            copyrights: [...new Set(data.show.copyrights.map((c: any) => c.text))]
+            copyrights: [...new Set(data.show.copyrights.map((c: any) => c.text))],
+            progress: metadata.progress
         }
     };
 }

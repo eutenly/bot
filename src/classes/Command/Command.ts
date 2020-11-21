@@ -1,14 +1,24 @@
 import collectStat from "../../util/collectStat";
+import generateID from "../../util/generateID";
 import Channel from "../Channel/Channel";
 import Client from "../Client/Client";
 import Embed from "../Embed/Embed";
 import Message from "../Message/Message";
 import Reaction from "../Reaction/Reaction";
 import User, { CommandHistoryEntry, RunCommand } from "../User/User";
-import SearchManager from "./SearchManager/SearchManager";
+import { DebugExtraData } from "../User/debug";
+import PageManager from "./PageManager/PageManager";
 import fetchData from "./fetchData";
 import getConnection from "./getConnection";
 import send from "./send";
+
+export interface ViewDataURLData {
+    title?: string;
+    description?: string;
+    url: string;
+}
+
+export type ViewDataURL = string | ViewDataURLData;
 
 export type CommandReactionModuleAction = "added" | "removed";
 
@@ -19,31 +29,20 @@ export interface CommandReaction {
     module: CommandReactionModule;
 }
 
-export type GetURL = (input?: string, page?: number, nextPageToken?: string, user?: User) => string;
-
-export type GetExtraData = (data: any) => string;
-
 export type Fetch = (user: User, channel: Channel, url: string, method?: string, body?: any) => Promise<any>;
 
-export type GetData = (input?: string, page?: number, nextPageToken?: string) => Promise<any>;
+export type GetData = (input?: string, page?: number, nextPageToken?: string, user?: User) => string | Promise<any>;
+
+export type GetExtraData = (data: any) => string | Promise<any>;
 
 export interface ParserData {
     data?: any;
     nextPageToken?: string;
-    noData?: boolean;
 }
 
-export type Parser = (data: any, extraData?: any[], metadata?: any) => ParserData;
+export type Parser = (data: any, extraData: any[], metadata: any) => ParserData | undefined;
 
 export type GetEmbed = (command: Command, data: any) => Embed;
-
-export interface ViewDataURLData {
-    title?: string;
-    description?: string;
-    url: string;
-}
-
-export type ViewDataURL = string | ViewDataURLData;
 
 export interface ViewData {
     module?: Function;
@@ -51,27 +50,33 @@ export interface ViewData {
     error?: string;
 }
 
-export type View = (data: any, message: Message, metadata?: any) => ViewData | undefined;
+export type View = (data: any, message: Message, metadata: any) => ViewData | undefined;
 
 interface CommandData {
+
+    // Command name
     name: string;
-    type: string;
+    category: string;
+
+    // Message
     message: Message;
-    webScraper?: Boolean;
+
+    // Metadata
     input?: string;
+    connectionName?: string;
+    webScraper?: boolean;
     metadata?: any;
     url?: ViewDataURL;
+    perPage?: number;
     orderedPages?: boolean;
-    reactions?: CommandReaction[];
-    getURL?: GetURL;
-    getExtraData?: GetExtraData[];
-    connectionName?: string;
     helpEmbed?: Embed;
-    fetch?: Fetch;
-    splitPages?: number;
-    allData?: any;
-    getData?: GetData;
+    reactions?: CommandReaction[];
+
+    // Data processing
     data?: any;
+    fetch?: Fetch;
+    getData?: GetData | string;
+    getExtraData?: Array<GetExtraData | string>;
     parser?: Parser;
     getEmbed: GetEmbed;
     view?: View;
@@ -82,27 +87,33 @@ export default class Command {
     // The client
     client: Client;
 
-    // Data about this command
+    // Command debug fingerprint
+    debugFingerprint: string;
+
+    // Command name
     name: string;
-    type: string;
+    category: string;
+
+    // Message
     message: Message;
     responseMessage?: Message;
-    webScraper?: Boolean;
+
+    // Metadata
+    connectionName?: string;
+    webScraper?: boolean;
     metadata?: any;
     url?: ViewDataURL;
+    helpEmbed?: Embed;
     reactions?: CommandReaction[];
 
     // A promise for when the connection has loaded
     uninitializedConnection?: Promise<any>;
-
-    // Functions to use this command
-    getURL?: GetURL;
-    getExtraData?: GetExtraData[];
-    connectionName?: string;
     noConnection?: boolean;
-    helpEmbed?: Embed;
+
+    // Data processing
     fetch?: Fetch;
-    getData?: GetData;
+    getData?: GetData | string;
+    getExtraData?: Array<GetExtraData | string>;
     parser?: Parser;
     getEmbed: GetEmbed;
     view?: View;
@@ -113,8 +124,8 @@ export default class Command {
     // Whether or not compact mode is enabled
     compactMode: boolean;
 
-    // The search manager for search based commands
-    searchManager?: SearchManager;
+    // The page manager for paginated commands
+    pageManager?: PageManager;
 
     // When this command expires
     expireTimestamp: number;
@@ -125,43 +136,56 @@ export default class Command {
         // Set data
         this.client = client;
 
+        this.debugFingerprint = generateID(this.client);
+
         this.name = data.name;
-        this.type = data.type;
+        this.category = data.category;
+
         this.message = data.message;
+
+        this.connectionName = data.connectionName;
         this.webScraper = data.webScraper;
         this.metadata = data.metadata;
         this.url = data.url;
-        this.reactions = data.reactions;
-        this.connectionName = data.connectionName;
         this.helpEmbed = data.helpEmbed;
+        this.reactions = data.reactions;
 
-        this.getURL = data.getURL;
-        this.getExtraData = data.getExtraData;
+        this.data = data.data;
         this.fetch = data.fetch;
         this.getData = data.getData;
+        this.getExtraData = data.getExtraData;
         this.parser = data.parser;
         this.getEmbed = data.getEmbed;
         this.view = data.view;
 
-        this.data = data.data;
-
+        /**
+         * Set Compact Mode
+         *
+         * If the setting is set, use that
+         * If the channel name includes `bot` or `command`, we know that the default should be `false`
+         * Otherwise, default to `true`
+         */
         const compactModeByName: boolean = !(["bot", "command"].find((i: string) => this.message.guild?.channelNames.get(this.message.channel.id)?.includes(i)));
         this.compactMode = this.message.channel.compactMode === undefined ? compactModeByName : this.message.channel.compactMode;
 
-        if (data.input) this.searchManager = new SearchManager(this, {
+        // Create page manager
+        if ((data.input) && (data.perPage)) this.pageManager = new PageManager(this, {
             input: data.input,
-            orderedPages: data.orderedPages,
-            splitPages: data.splitPages,
-            allData: data.allData
+            perPage: data.perPage,
+            orderedPages: data.orderedPages
         });
 
+        // Set expire timestamp
         this.expireTimestamp = Date.now() + 180000;
+
+        // Debug
+        this.debug("Command created");
 
         // Set cooldown
         this.message.author.setCooldown(this.webScraper ? 4000 : 2000);
 
         // Get connection
-        this.getConnection();
+        getConnection(this);
 
         // Set user's command
         this.message.author.command = this;
@@ -206,7 +230,7 @@ export default class Command {
         if (this.message.author.commandHistory.length >= 10) this.message.author.commandHistory.splice(0, this.message.author.commandHistory.length - 10);
 
         // Command used
-        if (["google", "youtube", "twitter", "spotify", "reddit", "github", "wikipedia"].includes(this.type)) this.message.author.commandUsed(this.type);
+        if (["google", "youtube", "twitter", "spotify", "reddit", "github", "wikipedia"].includes(this.category)) this.message.author.commandUsed(this.category);
 
         // Collect stats
         collectStat(this.client, {
@@ -217,17 +241,22 @@ export default class Command {
             },
             fields: {
                 command: this.name,
-                commandType: this.type
+                commandType: this.category
             }
         });
     }
-
-    // Get connection
-    getConnection = (): void => getConnection(this);
 
     // Fetch this command's data
     fetchData = (input?: string, page?: number, nextPageToken?: string | null): Promise<ParserData | undefined> => fetchData(this, input, page, nextPageToken);
 
     // Send or edit the command message
-    send = (embed: Embed): Promise<void> => send(this, embed);
+    send = (embed: Embed) => send(this, embed);
+
+    // Debug
+    debug = (message: string, data?: DebugExtraData) => this.message.author.debug({
+        message,
+        fingerprint: this.debugFingerprint,
+        data,
+        command: this
+    })
 }

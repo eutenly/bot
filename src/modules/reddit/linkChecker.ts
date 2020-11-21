@@ -1,15 +1,15 @@
 import Message from "../../classes/Message/Message";
-import redditFeed from "../reddit/feed/main";
-import redditHome from "../reddit/home/main";
-import redditPost from "../reddit/post/main";
-import redditPosts from "../reddit/posts/main";
-import redditSearch from "../reddit/search/main";
-import searchLastMessage from "../reddit/searchLastMessage";
-import redditSubreddit from "../reddit/subreddit/main";
-import redditUser from "../reddit/user/main";
 import { LinkCheckerModule } from "../website/website/main";
+import redditFeed from "./feed/main";
+import redditHome from "./home/main";
+import redditPost from "./post/main";
+import redditPosts from "./posts/main";
+import redditSearch from "./search/main";
+import searchLastMessage from "./searchLastMessage";
+import redditSubreddit from "./subreddit/main";
+import redditUser from "./user/main";
 
-export default function reddit(input: string, linksOnly?: boolean): LinkCheckerModule | undefined {
+export default function linkChecker(input: string, linksOnly?: boolean): LinkCheckerModule | undefined {
 
     // Check if input is a post
     const post = input.match(/reddit\.com\/r\/(.+)\/comments\/(.+)/);

@@ -7,20 +7,23 @@ import fetch from "../fetch";
 import embed from "./embed";
 import parse from "./parse";
 
-export default async function main(message: Message, episodeID: string, commandHistoryIndex?: number): Promise<Command | undefined> {
+export default async function main(message: Message, episodeID: string, progress?: number, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Create command
     const command: Command = new Command(message.client, {
         name: "episode",
-        type: "spotify",
+        category: "spotify",
         message,
+        metadata: {
+            progress
+        },
         url: url(episodeID),
-        getURL: (): string => `https://api.spotify.com/v1/episodes/${encodeURIComponent(episodeID)}`,
+        getData: `https://api.spotify.com/v1/episodes/${encodeURIComponent(episodeID)}`,
         connectionName: "spotify",
         fetch,
         parser: parse,
         getEmbed: embed
-    }, (m: Message, chIndex: number) => main(m, episodeID, chIndex), commandHistoryIndex);
+    }, (m: Message, chIndex: number) => main(m, episodeID, progress, chIndex), commandHistoryIndex);
     await command.uninitializedConnection;
 
     // No connection
@@ -28,6 +31,7 @@ export default async function main(message: Message, episodeID: string, commandH
 
     // Fetch
     await command.fetchData();
+    if (!command.data) return;
 
     // Channel commands
     message.channel.commands = new ChannelCommands(message.channel, {

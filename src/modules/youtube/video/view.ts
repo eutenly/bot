@@ -1,9 +1,9 @@
 import { ViewData } from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
 import channel, { url as channelURL } from "../channel/main";
-import { YouTubeVideo } from "./parse";
+import { Video } from "../types";
 
-export default function view(data: YouTubeVideo | undefined, message: Message): ViewData | undefined {
+export default function view(data: Video | undefined, message: Message): ViewData | undefined {
 
     // Get prefix
     const prefix: string = message.channel.prefix;
@@ -20,12 +20,6 @@ export default function view(data: YouTubeVideo | undefined, message: Message): 
         module: () => channel(message, data.channel.id),
         url: channelURL(data.channel.id)
     };
-
-    // Embed
-    if (input.toLowerCase().replace(/\s+/g, "") === "embed") {
-        message.channel.sendMessage(`<:youtube:${message.client.eutenlyEmojis.get("youtube")}>  **|  https://youtube.com/watch?v=${data.id}**`);
-        return;
-    }
 
     // Invalid type
     else return { error: `:x:  **|  You can view the channel with \`${prefix}view channel\`**` };

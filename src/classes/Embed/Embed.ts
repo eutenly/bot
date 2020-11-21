@@ -1,3 +1,5 @@
+import randomTip from "../../util/randomTip";
+
 export interface EmbedData {
     title?: string;
     author?: ExtendedTextData;
@@ -271,7 +273,7 @@ export default class Embed {
     setBranding = (): Embed => {
 
         // Set footer
-        this.setFooter("Eutenly.com", "https://eutenly.com/assets/avatar.png");
+        this.setFooter(`Eutenly.com \u2022 ${randomTip()}`, "https://eutenly.com/assets/avatar.png");
         return this;
     }
 

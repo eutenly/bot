@@ -1,31 +1,11 @@
 import ent from "ent";
 import { ParserData } from "../../../classes/Command/Command";
 
-interface YouTubeChannel {
-    id: string;
-    name: string;
-}
-
-export interface YouTubeVideo {
-    id: string;
-    title: string;
-    description: string;
-    views: number;
-    length: string;
-    likes: number;
-    dislikes: number;
-    comments: number;
-    captions: boolean;
-    channel: YouTubeChannel;
-    thumbnail?: string;
-    uploadedOn: string;
-}
-
-export default function parse(data: any): ParserData {
+export default function parse(data: any): ParserData | undefined {
 
     // Parse data
     data = data.data.items && data.data.items[0];
-    if (!data) return { noData: true };
+    if (!data) return;
 
     // Return
     return {

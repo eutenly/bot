@@ -2,27 +2,27 @@ import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import parseDate from "../../../util/parseDate";
 import truncateString from "../../../util/truncateString";
-import { GitHubPR } from "./parse";
+import { PR } from "../types";
 
-export default function embed(command: Command, data?: GitHubPR): Embed {
+export default function embed(command: Command, data?: PR): Embed {
 
     // Get prefix
     const prefix: string = command.message.channel.prefix;
 
     // Embed
     const embed = new Embed()
-        .setAuthor("GitHub Search", "https://getdrawings.com/free-icon-bw/github-icon-23.png")
+        .setAuthor("GitHub PR", "https://i.imgur.com/FwnDNtd.png")
         .setColor(0x000000)
         .setBranding();
 
     // No data
     if (!data) return embed
-        .setDescription("Unknown pull request")
+        .setDescription("Unknown PR")
         .setColor(0xf44242);
 
     // Build embed
     embed
-        .setAuthor(data.title, "https://getdrawings.com/free-icon-bw/github-icon-23.png", `https://github.com/${command.metadata?.ownerName}/${command.metadata?.name}/pulls/${data.number}`)
+        .setAuthor(data.title, "https://i.imgur.com/FwnDNtd.png", `https://github.com/${command.metadata?.ownerName}/${command.metadata?.name}/pulls/${data.number}`)
         .setDescription(truncateString(data.text, 500))
         .addField(null, null, true)
         .addField("Link", `[github.com...](https://github.com/${command.metadata?.ownerName}/${command.metadata?.name}/pulls/${data.number})`, true)

@@ -8,15 +8,10 @@ import addReaction from "./addReaction";
 import edit from "./edit";
 import getLastMessage from "./getLastMessage";
 
-interface MessageDataAuthor {
-    id: string;
-    bot: boolean;
-}
-
 interface MessageData {
     id: string;
     content: string;
-    author: MessageDataAuthor;
+    author: User;
     channel: Channel;
     guild: Guild | undefined;
 }
@@ -46,10 +41,7 @@ export default class Message {
 
         this.id = data.id;
         this.content = data.content;
-        this.author = client.users.get(data.author.id) || new User(client, {
-            id: data.author.id,
-            bot: data.author.bot
-        });
+        this.author = data.author;
         this.channel = data.channel;
         this.guild = data.guild;
 

@@ -16,13 +16,13 @@ export default async function main(message: Message, trackID: string, progress?:
     // Create command
     const command: Command = new Command(message.client, {
         name: "track",
-        type: "spotify",
+        category: "spotify",
         message,
         metadata: {
             progress
         },
         url: url(trackID),
-        getURL: (): string => `https://api.spotify.com/v1/tracks/${encodeURIComponent(trackID)}`,
+        getData: `https://api.spotify.com/v1/tracks/${encodeURIComponent(trackID)}`,
         getExtraData: [
             (data: any): string => `https://api.spotify.com/v1/audio-features/${data.id}`,
             (data: any): string => `https://api.spotify.com/v1/albums/${data.album.id}`
@@ -34,12 +34,12 @@ export default async function main(message: Message, trackID: string, progress?:
         view,
         reactions: [
             {
-                emoji: "spotify_play",
-                module: play
-            },
-            {
                 emoji: "spotify_queue",
                 module: queue
+            },
+            {
+                emoji: "spotify_play",
+                module: play
             },
             {
                 emoji: "spotify_save",
@@ -54,6 +54,7 @@ export default async function main(message: Message, trackID: string, progress?:
 
     // Fetch
     await command.fetchData();
+    if (!command.data) return;
 
     // Channel commands
     message.channel.commands = new ChannelCommands(message.channel, {

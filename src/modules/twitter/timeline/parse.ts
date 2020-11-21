@@ -1,25 +1,10 @@
 import { ParserData } from "../../../classes/Command/Command";
 import parseTweetText from "../parseTweetText";
 
-interface TwitterUser {
-    id: string;
-    name: string;
-    handle: string;
-    bio: string;
-}
-
-export interface TwitterSearchResult {
-    id: string;
-    text: string;
-    likes: number;
-    retweets: number;
-    user: TwitterUser;
-}
-
-export default function parse(data?: any): ParserData {
+export default function parse(data?: any): ParserData | undefined {
 
     // No data
-    if (!data) return { noData: true };
+    if (!data) return;
 
     // Get next page token
     const nextPageToken: string = data[data.length - 1].id_str;

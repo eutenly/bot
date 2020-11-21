@@ -5,9 +5,9 @@ import artist, { url as artistURL } from "../artist/main";
 import episode, { url as episodeURL } from "../episode/main";
 import playlist, { url as playlistURL } from "../playlist/main";
 import track, { url as trackURL } from "../track/main";
-import { SpotifySearchResult } from "./parse";
+import { SearchResult } from "../types";
 
-export default function view(data: SpotifySearchResult[], message: Message, command: Command): ViewData | undefined {
+export default function view(data: SearchResult[], message: Message, command: Command): ViewData | undefined {
 
     // Get params
     const input: string = message.commandContent.split(" ").slice(1).join(" ");
@@ -18,7 +18,7 @@ export default function view(data: SpotifySearchResult[], message: Message, comm
     if ((!resultNumber) || (resultNumber < 1)) return { error: ":x:  **|  That result number is invalid**" };
 
     // Get result
-    const result: SpotifySearchResult = data[resultNumber - 1];
+    const result: SearchResult = data[resultNumber - 1];
     if (!result) return { error: ":x:  **|  That result number is invalid**" };
 
     // Run module

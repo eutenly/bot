@@ -16,11 +16,11 @@ export default async function main(message: Message, commandHistoryIndex?: numbe
     // Create command
     const command: Command = new Command(message.client, {
         name: "home",
-        type: "twitter",
+        category: "twitter",
         message,
         url: url(),
-        getURL: (input?: string, page?: number, nextPageToken?: string, user?: User): string => `https://api.twitter.com/1.1/statuses/user_timeline.json?user_id=${user?.connections["twitter"]?.id}&tweet_mode=extended&count=5`,
-        getExtraData: [(): string => "https://api.twitter.com/1.1/statuses/home_timeline.json?tweet_mode=extended&count=5"],
+        getData: (input?: string, page?: number, nextPageToken?: string, user?: User): string => `https://api.twitter.com/1.1/statuses/user_timeline.json?user_id=${user?.connections["twitter"]?.id}&tweet_mode=extended&count=5`,
+        getExtraData: ["https://api.twitter.com/1.1/statuses/home_timeline.json?tweet_mode=extended&count=5"],
         connectionName: "twitter",
         helpEmbed: helpEmbed(prefix),
         fetch,
@@ -35,6 +35,7 @@ export default async function main(message: Message, commandHistoryIndex?: numbe
 
     // Fetch
     await command.fetchData();
+    if (!command.data) return;
 
     // Get embed
     const commandEmbed: Embed = command.getEmbed(command, command.data);

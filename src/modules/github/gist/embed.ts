@@ -1,27 +1,27 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import parseDate from "../../../util/parseDate";
-import { GitHubGist } from "./parse";
+import { Gist } from "../types";
 
-export default function embed(command: Command, data?: GitHubGist): Embed {
+export default function embed(command: Command, data?: Gist): Embed {
 
     // Get prefix
     const prefix: string = command.message.channel.prefix;
 
     // Embed
     const embed = new Embed()
-        .setAuthor("GitHub Search", "https://getdrawings.com/free-icon-bw/github-icon-23.png")
+        .setAuthor("GitHub Gist", "https://i.imgur.com/FwnDNtd.png")
         .setColor(0x000000)
         .setBranding();
 
     // No data
     if (!data) return embed
-        .setDescription("Unknown gist")
+        .setDescription("Unknown Gist")
         .setColor(0xf44242);
 
     // Build embed
     embed
-        .setAuthor(`${command.metadata?.name}/${data.files[0]}`, "https://getdrawings.com/free-icon-bw/github-icon-23.png", `https://gist.github.com/${command.metadata?.name}/${data.id}`)
+        .setAuthor(`${command.metadata?.name}/${data.files[0]}`, "https://i.imgur.com/FwnDNtd.png", `https://gist.github.com/${command.metadata?.name}/${data.id}`)
         .setDescription(data.description)
         .addField(null, null, true)
         .addField("Link", `[gist.github.com...](https://gist.github.com/${command.metadata?.name}/${data.id})`, true)

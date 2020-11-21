@@ -29,10 +29,10 @@ export default async function reactionAdded(reaction: Reaction) {
     if (reaction.user.id !== command.message.author.id) return;
 
     // Previous page
-    if ((reaction.id === reaction.client.eutenlyEmojis.get("left_arrow")) && (command.searchManager)) setPage(reaction, command, -1);
+    if ((reaction.id === reaction.client.eutenlyEmojis.get("left_arrow")) && (command.pageManager)) setPage(reaction, command, -1);
 
     // Next page
-    else if ((reaction.id === reaction.client.eutenlyEmojis.get("right_arrow")) && (command.searchManager)) setPage(reaction, command, 1);
+    else if ((reaction.id === reaction.client.eutenlyEmojis.get("right_arrow")) && (command.pageManager)) setPage(reaction, command, 1);
 
     // Compact
     else if ((reaction.id === reaction.client.eutenlyEmojis.get("compact")) && (!command.compactMode)) setCompactMode(command, true);

@@ -11,7 +11,7 @@ export default function embed(command: Command, data: SavedLink[]): Embed {
     // Embed
     const embed = new Embed()
         .setAuthor("Saved Links", "https://eutenly.com/assets/link-colored.png")
-        .setDescription(`Page ${command.searchManager?.page}`)
+        .setDescription(`Page ${command.pageManager?.page}`)
         .setColor(0xf40b3d)
         .setBranding();
 

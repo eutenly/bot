@@ -52,6 +52,15 @@ export default async function fetch(user: User, channel: Channel, url: string): 
     let image: any = dom(`meta[property="og:image"]`).first();
     image = image.length ? image.attr("content") : null;
 
+    // Image link
+    if ([".png", ".jpg", ".jpeg", ".gif"].find((e: string) => result.url.endsWith(e))) {
+
+        title = result.url.split("/");
+        title = title[title.length - 1];
+
+        image = result.url;
+    }
+
     // Get website data
     const parsedURL: UrlWithStringQuery = parseURL(result.url);
     let urlHostname: string = parsedURL.hostname || "";

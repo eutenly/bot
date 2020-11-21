@@ -2,9 +2,9 @@ import { ViewData } from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
 import post, { url as postURL } from "../post/main";
 import posts, { url as postsURL } from "../posts/main";
-import { RedditHome, RedditPost } from "./parse";
+import { BasicPost, Home } from "../types";
 
-export default function view(data: RedditHome | undefined, message: Message): ViewData | undefined {
+export default function view(data: Home | undefined, message: Message): ViewData | undefined {
 
     // No data
     if (!data) return;
@@ -29,7 +29,7 @@ export default function view(data: RedditHome | undefined, message: Message): Vi
     if (itemNumber < 1) return { error: ":x:  **|  That item number is invalid**" };
 
     // Get item
-    let itemResult: RedditPost | undefined;
+    let itemResult: BasicPost | undefined;
     if (itemType === "p") itemResult = data.posts[itemNumber - 1];
     else if (itemType === "f") itemResult = data.feed[itemNumber - 1];
 

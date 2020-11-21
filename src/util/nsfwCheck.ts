@@ -1,4 +1,5 @@
 import nodeFetch, { Response } from "node-fetch";
+import { URL } from "url";
 
 export default async function nsfwCheck(url: string): Promise<[boolean, boolean]> {
 
@@ -9,7 +10,7 @@ export default async function nsfwCheck(url: string): Promise<[boolean, boolean]
     const result: Response = await nodeFetch(`https://family.cloudflare-dns.com/dns-query?name=${domain}`, {
         headers: {
             "User-Agent": "Eutenly",
-            "accept": "application/dns-json"
+            "Accept": "application/dns-json"
         },
     });
 
