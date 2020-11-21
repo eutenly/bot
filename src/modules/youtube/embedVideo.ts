@@ -5,7 +5,7 @@ import User from "../../classes/User/User";
 export default function embedVideo(command: Command, user: User, action: CommandReactionModuleAction, reaction?: Reaction) {
 
     // Set cooldown
-    user.setCooldown(2000);
+    user.setCooldown(10000);
 
     // Send
     command.message.channel.sendMessage(`<:youtube:${command.client.eutenlyEmojis.get("youtube")}>  **|  <@${user.id}>, https://youtube.com/watch?v=${command.data.id}**`);
