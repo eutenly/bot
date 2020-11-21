@@ -11,7 +11,8 @@ export default async function joinSubreddit(command: Command, user: User, action
     await user.getConnection("reddit");
 
     // Join subreddit
-    await fetch(user, command.message.channel, `https://oauth.reddit.com/api/subscribe?action=${action === "added" ? "sub" : "unsub"}&sr_name=${command.data.name}`, "POST");
+    const result: any = await fetch(user, command.message.channel, `https://oauth.reddit.com/api/subscribe?action=${action === "added" ? "sub" : "unsub"}&sr_name=${command.data.name}`, "POST");
+    if (!result) return;
 
     // Send
     if (!user.reactionConfirmationsDisabled) command.message.channel.sendMessage(`<:reddit_join:${command.client.eutenlyEmojis.get("reddit_join")}>  **|  <@${user.id}>, ${action === "added" ? "Joined" : "Left"} subreddit**`);

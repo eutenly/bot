@@ -19,6 +19,7 @@ export default async function play(command: Command, user: User, action: Command
         { uris: [`spotify:track:${command.data.id}`] } :
         { context_uri: `spotify:${command.name}:${command.data.id}` }
     );
+    if (!result) return;
 
     // Remove reaction
     if (reaction?.guild) reaction.remove();

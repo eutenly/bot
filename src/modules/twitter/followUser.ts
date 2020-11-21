@@ -14,7 +14,8 @@ export default async function followUser(command: Command, user: User, action: C
     if (command.data.id === user.connections.twitter?.id) return command.message.channel.sendMessage(`:x:  **|  <@${user.id}>, You can't follow yourself**`);
 
     // Follow user
-    await fetch(user, command.message.channel, `https://api.twitter.com/1.1/friendships/${action === "added" ? "create" : "destroy"}.json?user_id=${command.data.id}`, "POST");
+    const result: any = await fetch(user, command.message.channel, `https://api.twitter.com/1.1/friendships/${action === "added" ? "create" : "destroy"}.json?user_id=${command.data.id}`, "POST");
+    if (!result) return;
 
     // Send
     if (!user.reactionConfirmationsDisabled) command.message.channel.sendMessage(`<:twitter_follow:${command.client.eutenlyEmojis.get("twitter_follow")}>  **|  <@${user.id}>, ${action === "added" ? "Followed" : "Unfollowed"} user**`);

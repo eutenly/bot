@@ -11,7 +11,8 @@ export default async function followArtist(command: Command, user: User, action:
     await user.getConnection("spotify");
 
     // Follow artist
-    await fetch(user, command.message.channel, `https://api.spotify.com/v1/me/following?ids=${command.data.id}&type=artist`, action === "added" ? "PUT" : "DELETE");
+    const result: any = await fetch(user, command.message.channel, `https://api.spotify.com/v1/me/following?ids=${command.data.id}&type=artist`, action === "added" ? "PUT" : "DELETE");
+    if (!result) return;
 
     // Send
     if (!user.reactionConfirmationsDisabled) command.message.channel.sendMessage(`<:spotify_follow:${command.client.eutenlyEmojis.get("spotify_follow")}>  **|  <@${user.id}>, ${command.data.name} has been ${action === "added" ? "followed" : "unfollowed"}**`);

@@ -16,6 +16,7 @@ export default async function queue(command: Command, user: User, action: Comman
 
     // Queue
     const result: any = await fetch(user, command.message.channel, `https://api.spotify.com/v1/me/player/queue?uri=spotify:track:${command.data.id}`, "POST");
+    if (!result) return;
 
     // Remove reaction
     if (reaction?.guild) reaction.remove();

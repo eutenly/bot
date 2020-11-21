@@ -11,7 +11,8 @@ export default async function starRepo(command: Command, user: User, action: Com
     await user.getConnection("github");
 
     // Star repo
-    await fetch(user, command.message.channel, `https://api.github.com/user/starred/${command.data.ownerName}/${command.data.name}`, action === "added" ? "PUT" : "DELETE");
+    const result: any = await fetch(user, command.message.channel, `https://api.github.com/user/starred/${command.data.ownerName}/${command.data.name}`, action === "added" ? "PUT" : "DELETE");
+    if (!result) return;
 
     // Send
     if (!user.reactionConfirmationsDisabled) command.message.channel.sendMessage(`<:github_star:${command.client.eutenlyEmojis.get("github_star")}>  **|  <@${user.id}>, ${command.data.ownerName}/${command.data.name} has been ${action === "added" ? "starred" : "unstarred"}**`);

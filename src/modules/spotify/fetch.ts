@@ -8,7 +8,10 @@ export default async function fetch(user: User, channel: Channel, url: string, m
 
     // Get connection
     const connection: Connection | undefined = user.connections["spotify"];
-    if (!connection) return;
+    if (!connection) {
+        sendLoginEmbed(user, channel, "spotify");
+        return;
+    }
 
     // Make request
     const result: Response = await nodeFetch(url, {
