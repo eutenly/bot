@@ -135,7 +135,7 @@ export const routes: CommandRoute[] = [
     {
         name: "Reaction Confirmations",
         information: "Enable or disable reaction confirmations",
-        inputs: ["reactionconfirmations", "reactionconfirms"],
+        inputs: ["reactionconfirmations", "reactionconfirms", "rc"],
         module: reactionConfirmationsCommand
     },
     {
