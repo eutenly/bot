@@ -13,10 +13,10 @@ export default function parse(data: any): ParserData | undefined {
     const topArtist: any = data.artists.items[0];
 
     // Add both to data ordered by popularity
-    if (!topTrack) results.push(topArtist);
-    else if (!topArtist) results.push(topTrack);
-    else if (topTrack.popularity > topArtist.popularity) results.push(topTrack, topArtist);
-    else results.push(topArtist, topTrack);
+    if ((!topTrack) && (topArtist)) results.push(topArtist);
+    else if ((!topArtist) && (topTrack)) results.push(topTrack);
+    else if ((topTrack) && (topArtist) && (topTrack.popularity > topArtist.popularity)) results.push(topTrack, topArtist);
+    else if ((topArtist) && (topTrack)) results.push(topArtist, topTrack);
 
     // Remove from tracks and artists
     if (topTrack) tracksAndArtists.splice(tracksAndArtists.indexOf(topTrack), 1);

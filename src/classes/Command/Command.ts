@@ -247,7 +247,7 @@ export default class Command {
     }
 
     // Fetch this command's data
-    fetchData = (input?: string, page?: number, nextPageToken?: string | null): Promise<ParserData | undefined> => fetchData(this, input, page, nextPageToken);
+    fetchData = (input?: string, page?: number, nextPageToken?: string | null): Promise<ParserData | null | undefined> => fetchData(this, input, page, nextPageToken);
 
     // Send or edit the command message
     send = (embed: Embed) => send(this, embed);

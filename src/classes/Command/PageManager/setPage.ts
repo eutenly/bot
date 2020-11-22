@@ -54,7 +54,7 @@ export default async function setPage(pageManager: PageManager, page: number) {
     const nextPageToken: string | null | undefined = pageManager.orderedPages ? pageManager.nextPageToken : undefined;
 
     // Fetch data
-    const parserData: ParserData | undefined = await pageManager.command.fetchData(pageManager.input, pageManager.page, nextPageToken);
+    const parserData: ParserData | null | undefined = await pageManager.command.fetchData(pageManager.input, pageManager.page, nextPageToken);
     if (!parserData) return;
 
     // Set next page token

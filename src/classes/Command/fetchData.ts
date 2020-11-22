@@ -1,6 +1,6 @@
 import Command, { GetExtraData, ParserData } from "./Command";
 
-export default async function fetchData(command: Command, input?: string, page?: number, nextPageToken?: string | null): Promise<ParserData | undefined> {
+export default async function fetchData(command: Command, input?: string, page?: number, nextPageToken?: string | null): Promise<ParserData | null | undefined> {
 
     // Define data
     let data: any;
@@ -17,7 +17,7 @@ export default async function fetchData(command: Command, input?: string, page?:
 
         // Fetch
         data = await command.fetch(command.message.author, command.message.channel, url, "GET");
-        if (!data) return;
+        if (!data) return null;
 
         // Get extra data
         const extraDataPromises: Array<Promise<any>> | undefined = command.getExtraData?.map((d: string | GetExtraData) => {
