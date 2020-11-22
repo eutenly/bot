@@ -15,6 +15,7 @@ import removeCommand from "../remove";
 import saveCommand from "../save";
 import savedLinksCommand from "../savedLinks/main";
 import searchCommand from "../search/main";
+import setPrefixCommand from "../setPrefix";
 import spotifyCommand from "../spotify/main";
 import supportCommand from "../support";
 import twitterCommand from "../twitter/main";
@@ -125,6 +126,12 @@ export const routes: CommandRoute[] = [
         information: "Save a link to view later",
         inputs: ["save"],
         module: saveCommand
+    },
+    {
+        name: "Set Prefix",
+        information: "Set the prefix in the server. You need to be a moderator to use this command",
+        inputs: ["setprefix"],
+        module: setPrefixCommand
     },
     {
         name: "Compact",
