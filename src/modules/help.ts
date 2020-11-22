@@ -57,6 +57,9 @@ export default async function help(message: Message) {
         .addField("Integrations", `**Website:** View a website's info with \`${message.channel.prefix}website <URL>\`\n**Search:** Use \`${message.channel.prefix}help search\` to learn more about the Search command\n**YouTube:** Use \`${message.channel.prefix}help youtube\` to learn more about YouTube integration\n**Twitter:** Use \`${message.channel.prefix}help twitter\` to learn more about Twitter integration\n**Reddit:** Use \`${message.channel.prefix}help reddit\` to learn more about Reddit integration\n**Spotify:** Use \`${message.channel.prefix}help spotify\` to learn more about Spotify integration\n**GitHub:** Use \`${message.channel.prefix}help github\` to learn more about GitHub integration\n**Wikipedia:** Use \`${message.channel.prefix}help wikipedia\` to learn more about Wikipedia integration`)
         .addField("More", `**Navigation:** Use \`${message.channel.prefix}help navigation\` to learn more about navigation\n**View Command:** Use \`${message.channel.prefix}help view\` to learn more about viewing results\n**History:** Use \`${message.channel.prefix}help history\` to learn more about command history\n**Saved Links:** Use \`${message.channel.prefix}help saved links\` to learn more about Saved Links\n**Compact Mode:** Use \`${message.channel.prefix}help compact mode\` to learn more about Compact Mode\n**Reaction Confirmation Messages:** Use \`${message.channel.prefix}help reaction confirms\` to learn more about Reaction Confirmation Messages`);
 
+    // Links
+    embed.addField(null, "[Add Eutenly](https://eutenly.com/invite) \u2022 [Support Server](https://discord.gg/feE2vaR) \u2022 [Website](https://eutenly.com) \u2022 [Vote](https://discordbots.org/bot/733753582507261999) \u2022 [Voter Perks](https://eutenly.com/voter-perks)");
+
     // Send
     message.channel.sendMessage(embed);
 }
