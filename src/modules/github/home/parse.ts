@@ -14,12 +14,14 @@ export default function parse(data: any, extraData?: any[]): ParserData | undefi
             watchedRepos: watchedRepos.map((r: any) => ({
                 name: r.name,
                 ownerName: r.owner.login,
-                description: r.description
+                description: r.description,
+                private: r.private
             })),
             starredRepos: starredRepos.map((r: any) => ({
                 name: r.name,
                 ownerName: r.owner.login,
-                description: r.description
+                description: r.description,
+                private: r.private
             })),
             notifications: notifications.map((n: any) => ({
                 repoName: n.repository.name,
