@@ -1,4 +1,5 @@
 import Message from "../../classes/Message/Message";
+import badgeCommand from "../badge";
 import compactCommand from "../compact";
 import debugCommand from "../debug";
 import evalCommand from "../eval";
@@ -169,6 +170,13 @@ export const routes: CommandRoute[] = [
         information: "Enable or disable debug mode",
         inputs: ["debug"],
         module: debugCommand,
+        private: true
+    },
+    {
+        name: "Badge",
+        information: "Add or remove badges from users",
+        inputs: ["badge"],
+        module: badgeCommand,
         private: true
     },
     {
