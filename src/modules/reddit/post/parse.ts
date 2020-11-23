@@ -22,7 +22,7 @@ export default function parse(data: any): ParserData | undefined {
             spoiler: result.data.spoiler,
             linkPath: result.data.permalink,
             user: result.data.author,
-            image: result.data.preview?.images[0]?.source.url,
+            image: result.data.preview?.images[0]?.source.url || (Object.values(result.data.media_metadata || {})[0] as any)?.s.u,
             postedAt: result.data.created * 1000
         }
     };
