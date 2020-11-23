@@ -11,7 +11,9 @@ export default async function followArtist(command: Command, user: User, action:
     await user.getConnection("spotify");
 
     // Follow artist
-    const result: any = await fetch(user, command.message.channel, `https://api.spotify.com/v1/me/following?ids=${command.data.id}&type=artist`, action === "added" ? "PUT" : "DELETE");
+    const result: any = await fetch(user, command.message.channel, `https://api.spotify.com/v1/me/following?type=artist`, action === "added" ? "PUT" : "DELETE", {
+        ids: [command.data.id]
+    });
     if (!result) return;
 
     // Send
