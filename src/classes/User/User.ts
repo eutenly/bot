@@ -6,6 +6,7 @@ import commandUsed from "./commandUsed";
 import debug, { DebugData } from "./debug";
 import getConnection from "./getConnection";
 import getData from "./getData";
+import setCompactMode from "./setCompactMode";
 import setReactionConfirmations from "./setReactionConfirmations";
 
 export type RunCommand = (message: Message, commandHistoryIndex: number) => void;
@@ -32,6 +33,7 @@ interface Connections {
 }
 
 interface StoredUserData {
+    compactMode?: boolean;
     reactionConfirmationsDisabled?: boolean;
 }
 
@@ -63,6 +65,7 @@ export default class User {
     connections: Connections;
 
     // Settings
+    compactMode?: boolean;
     reactionConfirmationsDisabled?: boolean;
     debugMode?: boolean;
 
@@ -81,6 +84,7 @@ export default class User {
 
         this.connections = {};
 
+        this.compactMode = data.data.compactMode;
         this.reactionConfirmationsDisabled = data.data.reactionConfirmationsDisabled;
 
         // Cache user
@@ -107,6 +111,9 @@ export default class User {
 
     // Increment a command used stat
     commandUsed = (type: string) => commandUsed(this, type);
+
+    // Set compact mode
+    setCompactMode = (enabled: boolean) => setCompactMode(this, enabled);
 
     // Set reaction confirmations
     setReactionConfirmations = (enabled: boolean) => setReactionConfirmations(this, enabled);

@@ -161,12 +161,14 @@ export default class Command {
         /**
          * Set Compact Mode
          *
-         * If the setting is set, use that
+         * If the setting is set for the channel, use that
+         * If the setting is enabled for the user, use that
          * If the channel name includes `bot` or `command`, we know that the default should be `false`
          * Otherwise, default to `true`
          */
-        const compactModeByName: boolean = !(["bot", "command"].find((i: string) => this.message.guild?.channelNames.get(this.message.channel.id)?.includes(i)));
-        this.compactMode = this.message.channel.compactMode === undefined ? compactModeByName : this.message.channel.compactMode;
+        this.compactMode = !(["bot", "command"].find((i: string) => this.message.guild?.channelNames.get(this.message.channel.id)?.includes(i)));
+        if (this.message.channel.compactMode !== undefined) this.compactMode = this.message.channel.compactMode;
+        if (this.message.author.compactMode) this.compactMode = true;
 
         // Create page manager
         if ((data.input) && (data.perPage)) this.pageManager = new PageManager(this, {
