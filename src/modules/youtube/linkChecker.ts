@@ -16,9 +16,6 @@ export default function linkChecker(input: string, linksOnly?: boolean): LinkChe
     let url: URL = new URL("https://this_variable_needs_to_be_defined");
     try { url = new URL(inputURL); } catch { }
 
-    // Not a youtube link
-    if ((url.hostname !== "youtube.com") && (url.hostname !== "youtu.be")) return;
-
     // Check if input is a video link
     if (
         (
@@ -32,22 +29,22 @@ export default function linkChecker(input: string, linksOnly?: boolean): LinkChe
         )
     ) return (message: Message) => youtubeVideo(message, url.hostname === "youtube.com" ? (url.searchParams.get("v") as string) : url.pathname.substring(1));
 
-    // Not a youtube.com link
-    if (url.hostname !== "youtube.com") return;
+    if (url.hostname === "youtube.com") {
 
-    // Check if input is a videos link
-    const videos = url.pathname.match(/\/channel\/(.+)\/videos/);
-    if (videos) return (message: Message) => youtubeVideos(message, videos[1]);
+        // Check if input is a videos link
+        const videos = url.pathname.match(/\/channel\/(.+)\/videos/);
+        if (videos) return (message: Message) => youtubeVideos(message, videos[1]);
 
-    // Check if input is a channel link
-    const channel = url.pathname.match(/\/channel\/(.+)/);
-    if (channel) return (message: Message) => youtubeChannel(message, channel[1]);
+        // Check if input is a channel link
+        const channel = url.pathname.match(/\/channel\/(.+)/);
+        if (channel) return (message: Message) => youtubeChannel(message, channel[1]);
 
-    // Check if input is a playlist link
-    if ((url.pathname === "/playlist") && (url.searchParams.get("list"))) return (message: Message) => youtubePlaylist(message, url.searchParams.get("list") as string);
+        // Check if input is a playlist link
+        if ((url.pathname === "/playlist") && (url.searchParams.get("list"))) return (message: Message) => youtubePlaylist(message, url.searchParams.get("list") as string);
 
-    // Check if input is a search link
-    if ((url.pathname === "/results") && (url.searchParams.get("search_query"))) return (message: Message) => youtubeSearch(message, url.searchParams.get("search_query") as string);
+        // Check if input is a search link
+        if ((url.pathname === "/results") && (url.searchParams.get("search_query"))) return (message: Message) => youtubeSearch(message, url.searchParams.get("search_query") as string);
+    }
 
     if (!linksOnly) {
 

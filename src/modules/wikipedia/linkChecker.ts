@@ -12,15 +12,15 @@ export default function linkChecker(input: string, linksOnly?: boolean): LinkChe
     let url: URL = new URL("https://this_variable_needs_to_be_defined");
     try { url = new URL(inputURL); } catch { }
 
-    // Not a wikipedia link
-    if (url.hostname !== "en.wikipedia.org") return;
+    if (url.hostname === "en.wikipedia.org") {
 
-    // Check if input is an article link
-    const article = url.pathname.match(/\/wiki\/(.+)/);
-    if (article) return (message: Message) => wikipediaArticle(message, article[1]);
+        // Check if input is an article link
+        const article = url.pathname.match(/\/wiki\/(.+)/);
+        if (article) return (message: Message) => wikipediaArticle(message, article[1]);
 
-    // Check if input is a search link
-    if ((url.pathname === "/w/index.php") && (url.searchParams.get("search"))) return (message: Message) => wikipediaSearch(message, url.searchParams.get("search") as string);
+        // Check if input is a search link
+        if ((url.pathname === "/w/index.php") && (url.searchParams.get("search"))) return (message: Message) => wikipediaSearch(message, url.searchParams.get("search") as string);
+    }
 
     if (!linksOnly) {
 

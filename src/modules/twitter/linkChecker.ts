@@ -16,22 +16,22 @@ export default function linkChecker(input: string, linksOnly?: boolean): LinkChe
     let url: URL = new URL("https://this_variable_needs_to_be_defined");
     try { url = new URL(inputURL); } catch { }
 
-    // Not a twitter link
-    if (url.hostname !== "twitter.com") return;
+    if (url.hostname === "twitter.com") {
 
-    // Check if input is a tweet link
-    const tweet = url.pathname.match(/\/(.+)\/status\/(.+)/);
-    if (tweet) return (message: Message) => twitterTweet(message, tweet[2], tweet[1]);
+        // Check if input is a tweet link
+        const tweet = url.pathname.match(/\/(.+)\/status\/(.+)/);
+        if (tweet) return (message: Message) => twitterTweet(message, tweet[2], tweet[1]);
 
-    // Check if input is a search link
-    if ((url.pathname === "/search") && (url.searchParams.get("q"))) return (message: Message) => twitterSearch(message, url.searchParams.get("q") as string);
+        // Check if input is a search link
+        if ((url.pathname === "/search") && (url.searchParams.get("q"))) return (message: Message) => twitterSearch(message, url.searchParams.get("q") as string);
 
-    // Check if input is a user link
-    const user = url.pathname.match(/\/(.+)/);
-    if (user) return (message: Message) => twitterUser(message, user[1], "username");
+        // Check if input is a user link
+        const user = url.pathname.match(/\/(.+)/);
+        if (user) return (message: Message) => twitterUser(message, user[1], "username");
 
-    // Check if input is home
-    if (url.pathname === "/") return (message: Message) => twitterHome(message);
+        // Check if input is home
+        if (url.pathname === "/") return (message: Message) => twitterHome(message);
+    }
 
     if (!linksOnly) {
 
