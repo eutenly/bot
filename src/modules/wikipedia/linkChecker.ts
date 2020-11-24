@@ -6,13 +6,21 @@ import searchLastMessage from "./searchLastMessage";
 
 export default function linkChecker(input: string, linksOnly?: boolean): LinkCheckerModule | undefined {
 
+    // Create url
+    let inputURL: string = input;
+    if ((!inputURL.startsWith("http://")) && (!inputURL.startsWith("https://"))) inputURL = `http://${inputURL}`;
+    let url: URL = new URL("https://this_variable_needs_to_be_defined");
+    try { url = new URL(inputURL); } catch { }
+
+    // Not a wikipedia link
+    if (url.hostname !== "en.wikipedia.org") return;
+
     // Check if input is an article link
-    const article = input.match(/en\.wikipedia\.org\/wiki\/(.+)/);
-    if (article) return (message: Message) => wikipediaArticle(message, article[2]);
+    const article = url.pathname.match(/\/wiki\/(.+)/);
+    if (article) return (message: Message) => wikipediaArticle(message, article[1]);
 
     // Check if input is a search link
-    const search = input.match(/en\.wikipedia\.org\/w\/index\.php\?search=(.+)/);
-    if (search) return (message: Message) => wikipediaSearch(message, search[1]);
+    if ((url.pathname === "/w/index.php") && (url.searchParams.get("search"))) return (message: Message) => wikipediaSearch(message, url.searchParams.get("search") as string);
 
     if (!linksOnly) {
 

@@ -15,32 +15,41 @@ import spotifyUpdatePlayer from "./updatePlayer";
 
 export default function linkChecker(input: string, linksOnly?: boolean): LinkCheckerModule | undefined {
 
+    // Create url
+    let inputURL: string = input;
+    if ((!inputURL.startsWith("http://")) && (!inputURL.startsWith("https://"))) inputURL = `http://${inputURL}`;
+    let url: URL = new URL("https://this_variable_needs_to_be_defined");
+    try { url = new URL(inputURL); } catch { }
+
+    // Not a spotify link
+    if (url.hostname !== "open.spotify.com") return;
+
     // Check if input is a track link
-    const track = input.match(/open\.spotify\.com\/track\/(.+)/);
+    const track = url.pathname.match(/\/track\/(.+)/);
     if (track) return (message: Message) => spotifyTrack(message, track[1]);
 
     // Check if input is an artist link
-    const artist = input.match(/open\.spotify\.com\/artist\/(.+)/);
+    const artist = url.pathname.match(/\/artist\/(.+)/);
     if (artist) return (message: Message) => spotifyArtist(message, artist[1]);
 
     // Check if input is an album link
-    const album = input.match(/open\.spotify\.com\/album\/(.+)/);
+    const album = url.pathname.match(/\/album\/(.+)/);
     if (album) return (message: Message) => spotifyAlbum(message, album[1]);
 
     // Check if input is a playlist link
-    const playlist = input.match(/open\.spotify\.com\/playlist\/(.+)/);
+    const playlist = url.pathname.match(/\/playlists\/(.+)/);
     if (playlist) return (message: Message) => spotifyPlaylist(message, playlist[1]);
 
     // Check if input is an episode link
-    const episode = input.match(/open\.spotify\.com\/episode\/(.+)/);
+    const episode = url.pathname.match(/\/episode\/(.+)/);
     if (episode) return (message: Message) => spotifyEpisode(message, episode[1]);
 
     // Check if input is a search link
-    const search = input.match(/open\.spotify\.com\/search\/(.+)/);
+    const search = url.pathname.match(/\/search\/(.+)/);
     if (search) return (message: Message) => spotifySearchOverview(message, search[1]);
 
     // Check if input is home
-    if (/spotify\.com/.test(input)) return (message: Message) => spotifyHome(message);
+    if (url.pathname === "/") return (message: Message) => spotifyHome(message);
 
     if (!linksOnly) {
 

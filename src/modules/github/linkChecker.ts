@@ -18,60 +18,71 @@ import githubUser from "./user/main";
 
 export default function linkChecker(input: string, linksOnly?: boolean): LinkCheckerModule | undefined {
 
+    // Create url
+    let inputURL: string = input;
+    if ((!inputURL.startsWith("http://")) && (!inputURL.startsWith("https://"))) inputURL = `http://${inputURL}`;
+    let url: URL = new URL("https://this_variable_needs_to_be_defined");
+    try { url = new URL(inputURL); } catch { }
+
+    // Not a github link
+    if ((url.hostname !== "github.com") && (url.hostname !== "gist.github.com")) return;
+
     // Check if input is a gist link
-    const gist = input.match(/gist\.github\.com\/(.+)\/(.+)/);
-    if (gist) return (message: Message) => githubGist(message, gist[1], parseInt(gist[2]));
+    const gist = url.pathname.match(/\/(.+)\/(.+)/);
+    if ((gist) && (url.hostname === "gist.github.com")) return (message: Message) => githubGist(message, gist[1], parseInt(gist[2]));
 
     // Check if input is a gist user link
-    const gistUser = input.match(/gist\.github\.com\/(.+)/);
-    if (gistUser) return (message: Message) => githubGists(message, gistUser[1]);
+    const gistUser = url.pathname.match(/\/(.+)/);
+    if ((gistUser) && (url.hostname === "gist.github.com")) return (message: Message) => githubGists(message, gistUser[1]);
+
+    // Not a github.com link
+    if (url.hostname !== "github.com") return;
 
     // Check if input is a search link
-    const search = input.match(/github\.com\/search\?q=(.+)/);
-    if (search) return (message: Message) => githubSearch(message, search[1]);
+    if ((url.pathname === "/search") && (url.searchParams.get("q"))) return (message: Message) => githubSearch(message, url.searchParams.get("q") as string);
 
     // Check if input is a file link
-    const file = input.match(/github\.com\/(.+)\/(.+)\/blob\/master\/(.+)/);
+    const file = url.pathname.match(/\/(.+)\/(.+)\/blob\/master\/(.+)/);
     if (file) return (message: Message) => githubFile(message, file[1], file[2], file[3]);
 
     // Check if input is a files link
-    const files = input.match(/github\.com\/(.+)\/(.+)\/tree\/master\/(.+)/);
+    const files = url.pathname.match(/\/(.+)\/(.+)\/tree\/master\/(.+)/);
     if (files) return (message: Message) => githubFiles(message, files[1], files[2], files[3]);
 
     // Check if input is an issue link
-    const issue = input.match(/github\.com\/(.+)\/(.+)\/issues\/(.+)/);
+    const issue = url.pathname.match(/\/(.+)\/(.+)\/issues\/(.+)/);
     if (issue) return (message: Message) => githubIssue(message, issue[1], issue[2], parseInt(issue[3]));
 
     // Check if input is an issues link
-    const issues = input.match(/github\.com\/(.+)\/(.+)\/issues/);
+    const issues = url.pathname.match(/\/(.+)\/(.+)\/issues/);
     if (issues) return (message: Message) => githubIssues(message, issues[1], issues[2]);
 
     // Check if input is a pr link
-    const pr = input.match(/github\.com\/(.+)\/(.+)\/pulls\/(.+)/);
+    const pr = url.pathname.match(/\/(.+)\/(.+)\/pulls\/(.+)/);
     if (pr) return (message: Message) => githubPR(message, pr[1], pr[2], parseInt(pr[3]));
 
     // Check if input is a prs link
-    const prs = input.match(/github\.com\/(.+)\/(.+)\/pulls/);
+    const prs = url.pathname.match(/\/(.+)\/(.+)\/pulls/);
     if (prs) return (message: Message) => githubPRs(message, prs[1], prs[2]);
 
     // Check if input is a releases link
-    const releases = input.match(/github\.com\/(.+)\/(.+)\/releases/);
+    const releases = url.pathname.match(/\/(.+)\/(.+)\/releases/);
     if (releases) return (message: Message) => githubReleases(message, releases[1], releases[2]);
 
     // Check if input is a repo link
-    const repo = input.match(/github\.com\/(.+)\/(.+)/);
+    const repo = url.pathname.match(/\/(.+)\/(.+)/);
     if (repo) return (message: Message) => githubRepo(message, repo[1], repo[2]);
 
     // Check if input is a repos link
-    const repos = input.match(/github\.com\/(.+)\?tab=repositories/);
-    if (repos) return (message: Message) => githubRepos(message, repos[1]);
+    const repos = url.pathname.match(/\/(.+)/);
+    if ((repos) && (url.searchParams.get("tab") === "repositories")) return (message: Message) => githubRepos(message, repos[1]);
 
     // Check if input is a user link
-    const user = input.match(/github\.com\/(.+)/);
+    const user = url.pathname.match(/\/(.+)/);
     if (user) return (message: Message) => githubUser(message, user[1]);
 
     // Check if input is home
-    if (/github\.com/.test(input)) return (message: Message) => githubHome(message);
+    if (url.pathname === "/") return (message: Message) => githubHome(message);
 
     if (!linksOnly) {
 
