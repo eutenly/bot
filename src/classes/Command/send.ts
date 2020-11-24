@@ -28,7 +28,7 @@ export default async function send(command: Command, embed: Embed) {
     }
 
     // Custom reactions
-    if (command.reactions) for (let reaction of command.reactions) await m.addReaction(`${reaction.emoji}:${command.client.eutenlyEmojis.get(reaction.emoji)}`);
+    if ((command.reactions) && (!command.noData)) for (let reaction of command.reactions) await m.addReaction(`${reaction.emoji}:${command.client.eutenlyEmojis.get(reaction.emoji)}`);
 
     // Compact mode reaction
     await m.addReaction(command.compactMode ? `expand:${command.client.eutenlyEmojis.get("expand")}` : `compact:${command.client.eutenlyEmojis.get("compact")}`);

@@ -24,6 +24,7 @@ export default function embed(command: Command, data?: Home): Embed {
     };
 
     // Embed
+    command.noData = !data;
     if (!data) return new Embed();
 
     const watchedRepos: HomeRepo[] = command.compactMode ? data.watchedRepos.slice(0, 3) : data.watchedRepos;

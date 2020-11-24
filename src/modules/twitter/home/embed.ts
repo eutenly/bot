@@ -8,6 +8,7 @@ export default function embed(command: Command, data?: Home): Embed {
     const prefix: string = command.message.channel.prefix;
 
     // Embed
+    command.noData = !data;
     if (!data) return new Embed();
 
     const tweets: HomeTweet[] = command.compactMode ? data.tweets.slice(0, 3) : data.tweets;

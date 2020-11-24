@@ -17,6 +17,7 @@ export default function embed(command: Command, data?: Video): Embed {
         .setBranding();
 
     // No data
+    command.noData = !data;
     if (!data) return embed
         .setDescription("Unknown video")
         .setColor(0xf44242);

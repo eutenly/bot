@@ -15,6 +15,7 @@ export default function embed(command: Command, data?: Gist): Embed {
         .setBranding();
 
     // No data
+    command.noData = !data;
     if (!data) return embed
         .setDescription("Unknown Gist")
         .setColor(0xf44242);

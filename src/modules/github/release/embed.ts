@@ -16,6 +16,7 @@ export default function embed(command: Command, data?: Release): Embed {
         .setBranding();
 
     // No data
+    command.noData = !data;
     if (!data) return embed
         .setDescription("Unknown release")
         .setColor(0xf44242);

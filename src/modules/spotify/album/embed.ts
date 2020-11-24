@@ -15,6 +15,7 @@ export default function embed(command: Command, data?: Album): Embed {
         .setBranding();
 
     // No data
+    command.noData = !data;
     if (!data) return embed
         .setDescription("Unknown album")
         .setColor(0xf44242);

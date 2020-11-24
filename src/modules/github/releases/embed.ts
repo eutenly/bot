@@ -16,6 +16,7 @@ export default function embed(command: Command, data: ListedRelease[]): Embed {
         .setBranding();
 
     // No data
+    command.noData = data.length === 0;
     if (data.length === 0) return embed
         .setDescription("There aren't that many releases")
         .setColor(0xf44242);

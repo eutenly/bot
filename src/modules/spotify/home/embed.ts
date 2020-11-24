@@ -9,6 +9,7 @@ export default function embed(command: Command, data?: Home): Embed {
     const prefix: string = command.message.channel.prefix;
 
     // Embed
+    command.noData = !data;
     if (!data) return new Embed();
 
     const playlists: ListedPlaylist[] = command.compactMode ? data.playlists.slice(0, 3) : data.playlists;

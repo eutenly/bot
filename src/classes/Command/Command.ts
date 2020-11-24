@@ -120,6 +120,7 @@ export default class Command {
 
     // The result of this command
     data?: any;
+    noData?: boolean;
 
     // Whether or not compact mode is enabled
     compactMode: boolean;

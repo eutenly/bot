@@ -9,6 +9,7 @@ export default function embed(command: Command, data?: Home): Embed {
     const prefix: string = command.message.channel.prefix;
 
     // Embed
+    command.noData = !data;
     if (!data) return new Embed();
 
     const posts: BasicPost[] = command.compactMode ? data.posts.slice(0, 3) : data.posts;

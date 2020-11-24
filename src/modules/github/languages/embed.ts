@@ -15,6 +15,7 @@ export default function embed(command: Command, data?: Languages): Embed {
         .setBranding();
 
     // No data
+    command.noData = !data;
     if (!data) return embed
         .setDescription("Unknown repo")
         .setColor(0xf44242);

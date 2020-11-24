@@ -15,6 +15,7 @@ export default function embed(command: Command, data?: Tweet): Embed {
         .setBranding();
 
     // No data
+    command.noData = !data;
     if (!data) return embed
         .setDescription("Unknown tweet")
         .setColor(0xf44242);
