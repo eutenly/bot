@@ -17,7 +17,7 @@ export default function randomTip(): string {
         "You can use the reactions below Tweets to like and retweet them",
         "You can use the reactions below Spotify tracks to play, queue, and save them",
         "You can use the reactions below Reddit posts to vote on them or save them",
-        "You can use the star reaction below GitHub repos star them",
+        "You can use the star reaction below GitHub repos to star them",
         "Compact mode lets you shrink embeds to take up less space",
         "Quickly view a Twitter/GitHub/etc user with `e;twitter/github/etc @user`",
         "Quickly view a subreddit or Reddit user with `e;reddit r/subreddit_name` or `e;reddit u/username`",
