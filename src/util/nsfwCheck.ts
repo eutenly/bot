@@ -1,10 +1,14 @@
 import nodeFetch, { Response } from "node-fetch";
 import { URL } from "url";
 
-export default async function nsfwCheck(url: string): Promise<[boolean, boolean]> {
+export default async function nsfwCheck(inputURL: string): Promise<[boolean, boolean]> {
 
     // Format URL to Domain
-    const domain = new URL(url).hostname;
+    let url: URL | undefined;
+    try { url = new URL(inputURL); } catch {
+        return [false, false];
+    }
+    const domain = url.hostname;
 
     // Request DNS from CF Families to check for NSFW content
     const result: Response = await nodeFetch(`https://family.cloudflare-dns.com/dns-query?name=${domain}`, {
