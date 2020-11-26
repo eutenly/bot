@@ -1,4 +1,5 @@
 import Message from "../../classes/Message/Message";
+import collectStat from "../../util/collectStat";
 import fetch from "./fetch";
 
 export default async function updatePlayer(message: Message, action: string) {
@@ -31,4 +32,15 @@ export default async function updatePlayer(message: Message, action: string) {
 
     // Send
     message.channel.sendMessage(`<:spotify:${message.client.eutenlyEmojis.get("spotify")}>  **|  ${actionResponse}**`);
+
+    // Collect stats
+    collectStat(message.client, {
+        measurement: "spotify_commands_used",
+        tags: {
+            dms: message.guild ? undefined : true
+        },
+        fields: {
+            command: action
+        }
+    });
 }

@@ -1,4 +1,5 @@
 import Message from "../../classes/Message/Message";
+import collectStat from "../../util/collectStat";
 import sendLoginEmbed from "../../util/sendLoginEmbed";
 import episode from "./episode/main";
 import fetch from "./fetch";
@@ -25,4 +26,15 @@ export default async function current(message: Message) {
     // View item
     if (data.currently_playing_type === "track") track(message, data.item.id, data.progress_ms);
     else if (data.currently_playing_type === "episode") episode(message, data.item.id, data.progress_ms);
+
+    // Collect stats
+    collectStat(message.client, {
+        measurement: "spotify_commands_used",
+        tags: {
+            dms: message.guild ? undefined : true
+        },
+        fields: {
+            command: "current"
+        }
+    });
 }
