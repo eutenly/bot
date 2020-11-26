@@ -25,9 +25,13 @@ export default async function fetch(user: User, channel: Channel, url: string): 
     // Get title
     let title: any = dom("title").first();
     title = title.length ? title.text() : null;
+    if (!title) {
+        title = dom(`meta[property="og:title"], meta[name="og:title"]`).first();
+        title = title.length ? title.attr("content") : null;
+    }
 
     // Get description
-    let description: any = dom(`meta[name="description"]`).first();
+    let description: any = dom(`meta[name="description"], meta[property="og:description"], meta[name="og:description"]`).first();
     description = description.length ? description.attr("content") : null;
 
     // Get icon
