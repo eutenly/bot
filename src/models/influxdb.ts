@@ -60,7 +60,7 @@ export const InfluxDBSchema: InfluxDBSchemaItem[] = [
     },
     {
         measurement: "commands_used",
-        tags: ["dms", "viaHistory"],
+        tags: ["dms", "viaHistory", "compactMode"],
         fields: {
             command: FieldType.STRING,
             commandType: FieldType.STRING
@@ -69,6 +69,14 @@ export const InfluxDBSchema: InfluxDBSchemaItem[] = [
     {
         measurement: "pages_cycled",
         tags: ["dms"],
+        fields: {
+            command: FieldType.STRING,
+            commandType: FieldType.STRING
+        }
+    },
+    {
+        measurement: "compact_mode_toggled",
+        tags: ["dms", "action"],
         fields: {
             command: FieldType.STRING,
             commandType: FieldType.STRING

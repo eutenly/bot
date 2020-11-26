@@ -241,7 +241,8 @@ export default class Command {
             measurement: "commands_used",
             tags: {
                 dms: this.message.guild ? undefined : true,
-                viaHistory: commandHistoryIndex !== undefined ? true : undefined
+                viaHistory: commandHistoryIndex !== undefined ? true : undefined,
+                compactMode: this.compactMode || undefined
             },
             fields: {
                 command: this.name,

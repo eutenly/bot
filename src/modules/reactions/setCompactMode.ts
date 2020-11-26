@@ -1,5 +1,6 @@
 import Command from "../../classes/Command/Command";
 import Embed from "../../classes/Embed/Embed";
+import collectStat from "../../util/collectStat";
 
 export default function setCompactMode(command: Command, compactMode: boolean) {
 
@@ -14,4 +15,17 @@ export default function setCompactMode(command: Command, compactMode: boolean) {
 
     // Send
     command.send(embed);
+
+    // Collect stats
+    collectStat(command.client, {
+        measurement: "compact_mode_toggled",
+        tags: {
+            dms: command.message.guild ? undefined : true,
+            action: command.compactMode ? "compact" : "expand"
+        },
+        fields: {
+            command: command.name,
+            commandType: command.category
+        }
+    });
 }
