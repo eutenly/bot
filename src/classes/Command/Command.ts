@@ -4,6 +4,7 @@ import Channel from "../Channel/Channel";
 import Client from "../Client/Client";
 import Embed from "../Embed/Embed";
 import Message from "../Message/Message";
+import PartialReaction from "../PartialReaction/PartialReaction";
 import Reaction from "../Reaction/Reaction";
 import User, { CommandHistoryEntry, RunCommand } from "../User/User";
 import { DebugExtraData } from "../User/debug";
@@ -22,7 +23,7 @@ export type ViewDataURL = string | ViewDataURLData;
 
 export type CommandReactionModuleAction = "added" | "removed";
 
-export type CommandReactionModule = (command: Command, user: User, action: CommandReactionModuleAction, reaction?: Reaction) => any;
+export type CommandReactionModule = (command: Command, user: User, reaction: Reaction | PartialReaction, action: CommandReactionModuleAction) => any;
 
 export interface CommandReaction {
     emoji: string;

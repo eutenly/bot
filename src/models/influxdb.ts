@@ -85,6 +85,15 @@ export const InfluxDBSchema: InfluxDBSchemaItem[] = [
         }
     },
     {
+        measurement: "custom_reactions_used",
+        tags: ["action", "dms", "confirmationMessageSent"],
+        fields: {
+            reaction: FieldType.STRING,
+            commandType: FieldType.STRING,
+            reactionType: FieldType.STRING
+        }
+    },
+    {
         measurement: "accounts_authorized",
         tags: ["connection"],
         fields: {

@@ -1,8 +1,11 @@
 import Command, { CommandReactionModuleAction } from "../../classes/Command/Command";
+import PartialReaction from "../../classes/PartialReaction/PartialReaction";
+import Reaction from "../../classes/Reaction/Reaction";
 import User from "../../classes/User/User";
+import collectStat from "../../util/collectStat";
 import fetch from "./fetch";
 
-export default async function votePost(command: Command, user: User, action: CommandReactionModuleAction, voteAction: "upvote" | "downvote") {
+export default async function votePost(command: Command, user: User, reaction: Reaction | PartialReaction, action: CommandReactionModuleAction, voteAction: "upvote" | "downvote") {
 
     // Set cooldown
     user.setCooldown(1000);
@@ -21,4 +24,19 @@ export default async function votePost(command: Command, user: User, action: Com
 
     // Send
     if (!user.reactionConfirmationsDisabled) command.message.channel.sendMessage(`<:${voteAction === "upvote" ? "reddit_upvote" : "reddit_downvote"}:${command.client.eutenlyEmojis.get(voteAction === "upvote" ? "reddit_upvote" : "reddit_downvote")}>  **|  <@${user.id}>, ${voteDirection === 0 ? `Removed ${voteAction === "upvote" ? "upvote" : "downvote"} from` : (voteDirection === 1 ? "Upvoted" : "Downvoted")} post**`);
+
+    // Collect stats
+    collectStat(command.client, {
+        measurement: "custom_reactions_used",
+        tags: {
+            action,
+            dms: reaction.guild ? undefined : true,
+            confirmationMessageSent: user.reactionConfirmationsDisabled ? undefined : true
+        },
+        fields: {
+            reaction: "votePost",
+            commandType: "reddit",
+            reactionType: voteAction
+        }
+    });
 }

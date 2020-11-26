@@ -1,9 +1,11 @@
 import Command, { CommandReactionModuleAction } from "../../classes/Command/Command";
+import PartialReaction from "../../classes/PartialReaction/PartialReaction";
 import Reaction from "../../classes/Reaction/Reaction";
 import User from "../../classes/User/User";
+import collectStat from "../../util/collectStat";
 import fetch from "./fetch";
 
-export default async function play(command: Command, user: User, action: CommandReactionModuleAction, reaction?: Reaction) {
+export default async function play(command: Command, user: User, reaction: Reaction | PartialReaction, action: CommandReactionModuleAction) {
 
     // Reaction is removed
     if (action === "removed") return;
@@ -22,7 +24,7 @@ export default async function play(command: Command, user: User, action: Command
     if (!result) return;
 
     // Remove reaction
-    if (reaction?.guild) reaction.remove();
+    if ((reaction.guild) && (reaction instanceof Reaction)) reaction.remove();
 
     // Not listening to anything
     if (result.error?.reason === "NO_ACTIVE_DEVICE") return command.message.channel.sendMessage(`:x:  **|  <@${user.id}>, You aren't listening to anything**`);
@@ -32,4 +34,18 @@ export default async function play(command: Command, user: User, action: Command
 
     // Send
     if (!user.reactionConfirmationsDisabled) command.message.channel.sendMessage(`<:spotify_play:${command.client.eutenlyEmojis.get("spotify_play")}>  **|  <@${user.id}>, ${command.data.name} is now playing**`);
+
+    // Collect stats
+    collectStat(command.client, {
+        measurement: "custom_reactions_used",
+        tags: {
+            dms: reaction.guild ? undefined : true,
+            confirmationMessageSent: user.reactionConfirmationsDisabled ? undefined : true
+        },
+        fields: {
+            reaction: "play",
+            commandType: "spotify",
+            reactionType: command.name
+        }
+    });
 }
