@@ -32,7 +32,8 @@ export default async function fetch(user: User, channel: Channel, url: string): 
 
     // Get icon
     let icon: any = dom(`link[rel*="icon"]`).first();
-    icon = icon.length ? icon.attr("href") : "/favicon.ico";
+    icon = icon.length ? icon.attr("href") : null;
+    if (!icon) icon = "/favicon.ico";
     icon = resolveURL(result.url, icon);
 
     // Fetch icon image
