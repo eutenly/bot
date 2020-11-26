@@ -138,7 +138,7 @@ export default class Embed {
         }
 
         // Parse color
-        if (typeof color === "string") color = parseInt(color, 16);
+        if (typeof color === "string") color = parseInt(color.replace(/#/g, ""), 16);
 
         // Set data
         this.color = color;
