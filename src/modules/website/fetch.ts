@@ -51,6 +51,7 @@ export default async function fetch(user: User, channel: Channel, url: string): 
     // Get image
     let image: any = dom(`meta[property="og:image"]`).first();
     image = image.length ? image.attr("content") : null;
+    if (image) image = resolveURL(result.url, image);
 
     // Image link
     if ([".png", ".jpg", ".jpeg", ".gif"].find((e: string) => result.url.endsWith(e))) {
