@@ -1,52 +1,47 @@
 import cheerio from "cheerio";
 import { ParserData } from "../../classes/Command/Command";
-import parseItemList from "./parse/itemList";
 import parseList from "./parse/list";
 import parseMain from "./parse/main";
-import parseQuestions from "./parse/questions";
-import parseRichPanel from "./parse/richPanel/main";
-import parseTwitter from "./parse/twitter";
+import parseNews from "./parse/news";
+import parseProducts from "./parse/products";
+import parseVideos from "./parse/videos";
 
 export default function parse(data: string): ParserData | undefined {
 
     // Parse
     const dom: any = cheerio.load(data);
 
-    // The `g` class and `g-section-with-header` elements are wrapper divs for each result
-    let results: any = dom(".g, g-section-with-header");
+    // The element with the `b_results` id is the wrapper for all the results
+    let results: any = dom("#b_results");
 
     // Map results
     let richPanel: any;
-    results = results.map((_index: any, result: any) => {
+    results = results.children().map((_index: any, result: any) => {
 
         // Get result from dom
         result = dom(result);
-
-        // Element has `g-section-with-header` element
-        if (result.find("g-section-with-header").first().length) return;
 
         // Get classes
         let classes: any = result.attr("class");
         classes = classes ? classes.split(" ") : [];
 
         // Rich panel
-        if (classes.includes("liYKde")) {
-            richPanel = parseRichPanel(result);
-            return;
-        }
+        // if (classes.includes("liYKde")) {
+        //     richPanel = parseRichPanel(result);
+        //     return;
+        // }
 
         // Parse
-        if (result.find(".rQgnxe").first().length) return parseTwitter(result);
-        else if (result.find(".EDblX").first().length) return parseList(result);
-        else if ((classes.includes("kno-kp")) && (classes.includes("mnr-c")) && (classes.includes("g-blk")) && (classes.length === 4)) return parseQuestions(result);
-        else if ((classes.includes("mnr-c")) && (classes.includes("g-blk")) && (classes.length === 3)) return parseItemList(result);
-        else if (classes.length === 1) return parseMain(result);
-    }).get().filter((r: any) => r);
+        if (result.find(".ans_nws").first().length) return parseNews(result);
+        else if (result.find(".vsathm").first().length) return parseVideos(result);
+        else if (result.find(".brandAns").first().length) return parseProducts(result);
+        else if (result.find(".b_vList").first().length) return parseList(result);
+        else if (classes.includes("b_algo")) return parseMain(result);
+    }).get().filter((r: any) => r).slice(0, 5);
 
     // Return
     return {
         data: {
-            totalResults: dom("#result-stats").text().split(" ").slice(1, 2).join(" "),
             richPanel,
             results
         }

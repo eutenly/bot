@@ -2,11 +2,11 @@ import cheerio from "cheerio";
 
 export default function main(result: any): any {
 
-    // Get the text from the first element with the `st` class
-    let description: any = result.find(".st").first().html();
+    // Get the text from the first `p` element in the element with the `b_caption` class
+    let description: any = result.find(".b_caption p").first().html();
 
-    // Replace `em` tags with `**`
-    description = description.replace(/(<em>|<\/em>)/g, "**");
+    // Replace `strong` tags with `**`
+    description = description.replace(/(<strong>|<\/strong>)/g, "**");
 
     // Parse html to text
     description = cheerio.load(description);
@@ -18,8 +18,8 @@ export default function main(result: any): any {
         // Set type
         type: "main",
 
-        // Get the text from the first `h3` element
-        title: result.find("h3").first().text(),
+        // Get the text from the first `h2` element
+        title: result.find("h2").first().text(),
 
         description,
 

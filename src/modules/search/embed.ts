@@ -1,6 +1,5 @@
 import Command from "../../classes/Command/Command";
 import Embed from "../../classes/Embed/Embed";
-import truncateString from "../../util/truncateString";
 
 export default function embed(command: Command, data: any): Embed {
 
@@ -10,7 +9,7 @@ export default function embed(command: Command, data: any): Embed {
     // Embed
     const embed = new Embed()
         .setAuthor(`Search: ${command.pageManager?.input}`, "https://eutenly.com/assets/search-colored.png")
-        .setDescription(`Page ${command.pageManager?.page}, About ${data.totalResults} results`)
+        .setDescription(`Page ${command.pageManager?.page}`)
         .setColor(0x4086f4)
         .setBranding();
 
@@ -30,83 +29,81 @@ export default function embed(command: Command, data: any): Embed {
         /**
          * Normal
          *
-         * **1. [Google](https://google.com)**
-         * Search the world's information, including webpages, images, videos and more.
+         * **1. [Title](https://example.com)**
+         * Description
          */
         if (r.type === "main") embed.addField(null, `**${i + 1}. [${r.title}](${r.link})**\n${r.description}`);
 
         /**
-         * List
+         * News
          *
-         * **1. Top stories**
+         * **1. News about Example**
+         *
+         * **[1-1. Source:](https://example.com)** Title - 1h ago
+         * **[1-2. Source:](https://example.com)** Title - 1h ago
+         * **[1-3. Source:](https://example.com)** Title - 1h ago
+         */
+        else if (r.type === "news") {
+
+            // Get items
+            const items: string[] = [r.topItem, ...r.items.slice(0, 2)].map((item: any, ii: number) => `**[${i + 1}-${ii + 1}. ${item.source}:](${item.link})** ${item.title} - **${item.time} ago**`);
+
+            // Add field
+            embed.addField(null, `**${i + 1}. ${r.title}**\n\n${items.join("\n")}`);
+        }
+
+        /**
+         * Videos
+         *
+         * **1. Videos of Example**
          *
          * **[1-1. Source:](https://example.com)** Title - 1 hour ago
+         * **[1-2. Source:](https://example.com)** Title - 1 hour ago
+         * **[1-3. Source:](https://example.com)** Title - 1 hour ago
+         */
+        else if (r.type === "videos") {
+
+            // Get items
+            const items: string[] = r.items.slice(0, 3).map((item: any, ii: number) => `**[${i + 1}-${ii + 1}. ${item.source}:](${item.link})** ${item.title} - **${item.time}**`);
+
+            // Add field
+            embed.addField(null, `**${i + 1}. ${r.title}**\n\n${items.join("\n")}`);
+        }
+
+        /**
+         * Products
          *
-         * **[1-2.](https://example.com)** Title - 1 hour ago
+         * **1. Products**
          *
+         * **1-1.** Title
+         * **1-2.** Title
          * **1-3.** Title
+         */
+        else if (r.type === "products") {
+
+            // Get items
+            const items: string[] = r.items.slice(0, 3).map((item: any, ii: number) => `**${i + 1}-${ii + 1}.** ${item.title}`);
+
+            // Add field
+            embed.addField(null, `**${i + 1}. Products**\n\n${items.join("\n")}`);
+        }
+
+        /**
+         * List
+         *
+         * **1. [Example](https://example.com)**
+         *
+         * • Item
+         * • Item
+         * • Item
          */
         else if (r.type === "list") {
 
             // Get items
-            const items: string[] = r.items.map((item: any, ii: number) => `**${item.link ? "[" : ""}${i + 1}-${ii + 1}.${item.source ? ` ${item.source}:` : ""}${item.link ? `](${item.link})` : ""}** ${item.title.replace(/\n/g, " ")}${item.time ? ` - ${item.time}` : ""}${item.rating ? ` - ${item.rating.rating} (${item.rating.totalRatings} Total Ratings)` : ""}`);
+            const items: string[] = r.items.slice(0, 3).map((item: any) => `\u2022 ${item}`);
 
             // Add field
-            embed.addField(null, `**${i + 1}. ${r.title}**\n\n${items.join("\n\n")}`);
-        }
-
-        /**
-         * Twitter
-         *
-         * **1. [Eutenly (@eutenly) · Twitter](https://twitter.com/eutenly)**
-         *
-         * **[1-1.](https://twitter.com/eutenly/status/123)** Tweet example - 1 hour ago
-         *
-         * **[1-2.](https://twitter.com/eutenly/status/456)** Tweet example - 1 hour ago
-         *
-         * **[1-3.](https://twitter.com/eutenly/status/789)** Tweet example - 1 hour ago
-         */
-        else if (r.type === "twitter") {
-
-            // Get items
-            const items: string[] = r.items.map((item: any, ii: number) => `**[${i + 1}-${ii + 1}.](${item.link})** ${truncateString(item.text, 80)} - ${item.time}`);
-
-            // Add field
-            embed.addField(null, `**${i + 1}. [${r.title}](${r.link})**\n\n${items.join("\n\n")}`);
-        }
-
-        /**
-         * Questions
-         *
-         * **1. People Also Ask**
-         * **1-1.** Question
-         * **1-2.** Question
-         * **1-3.** Question
-         * **1-4.** Question
-         * **1-5.** Question
-         */
-        else if (r.type === "questions") {
-
-            // Get questions
-            const questions: string[] = r.questions.map((q: any, ii: number) => `**${i + 1}-${ii + 1}.** ${q}`);
-
-            // Add field
-            embed.addField(null, `**${i + 1}. People Also Ask**\n${questions.join("\n")}`);
-        }
-
-        /**
-         * Item List
-         *
-         * **1. Title**
-         * [**1-1.** Item], [**1-2.** Item], [**1-3.** Item], [**1-4.** Item], [**1-5.** Item], [**1-6.** Item], [**1-7.** Item]
-         */
-        else if (r.type === "itemList") {
-
-            // Get items
-            const items: string[] = r.items.map((item: any, ii: number) => `[**${i + 1}-${ii + 1}.** ${item.name}]`);
-
-            // Add field
-            embed.addField(null, `**${i + 1}. ${r.title}**\n${items.join(", ")}`);
+            embed.addField(null, `**${i + 1}. [${r.title}](${r.link})**\n\n${items.join("\n")}`);
         }
     });
 

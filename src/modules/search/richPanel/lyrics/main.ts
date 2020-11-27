@@ -8,7 +8,7 @@ export default async function main(message: Message, data: any, commandHistoryIn
     // Create command
     const command: Command = new Command(message.client, {
         name: "lyrics",
-        category: "google",
+        category: "search",
         message,
         data,
         getEmbed: embed

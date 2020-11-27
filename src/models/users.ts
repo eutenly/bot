@@ -38,7 +38,7 @@ export interface IUser extends Document {
         };
     };
     commandsUsed: {
-        google?: number;
+        search?: number;
         youtube?: number;
         twitter?: number;
         spotify?: number;
@@ -90,7 +90,7 @@ export const usersSchema: Schema = new Schema({
         }
     },
     commandsUsed: {
-        google: Number,
+        search: Number,
         youtube: Number,
         twitter: Number,
         spotify: Number,

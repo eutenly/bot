@@ -10,12 +10,12 @@ export default async function search(message: Message, query: string, commandHis
     // Create command
     const command: Command = new Command(message.client, {
         name: "search",
-        category: "google",
+        category: "search",
         message,
         webScraper: true,
         input: query,
         url: url(query),
-        getData: (query: string = "", page: number = 1): string => `https://google.com/search?q=${encodeURIComponent(query)}&num=5&start=${(page - 1) * 5}`,
+        getData: (query: string = "", page: number = 1): string => `https://bing.com/search?q=${encodeURIComponent(query)}&first=${(page - 1) * 5}`,
         fetch,
         perPage: 5,
         parser: parse,

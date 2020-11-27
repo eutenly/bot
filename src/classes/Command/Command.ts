@@ -234,7 +234,7 @@ export default class Command {
         if (this.message.author.commandHistory.length >= 10) this.message.author.commandHistory.splice(0, this.message.author.commandHistory.length - 10);
 
         // Command used
-        if (["google", "youtube", "twitter", "spotify", "reddit", "github", "wikipedia"].includes(this.category)) this.message.author.commandUsed(this.category);
+        if (["search", "youtube", "twitter", "spotify", "reddit", "github", "wikipedia"].includes(this.category)) this.message.author.commandUsed(this.category);
 
         // Collect stats
         collectStat(this.client, {
