@@ -6,7 +6,7 @@ import parseNews from "./parse/news";
 import parseProducts from "./parse/products";
 import parseVideos from "./parse/videos";
 
-export default function parse(data: string): ParserData | undefined {
+export default function parse(data: string, extraData?: any[]): ParserData | undefined {
 
     // Parse
     const dom: any = cheerio.load(data);
@@ -33,7 +33,7 @@ export default function parse(data: string): ParserData | undefined {
 
         // Parse
         if (result.find(".ans_nws").first().length) return parseNews(result);
-        else if (result.find(".vsathm").first().length) return parseVideos(result);
+        else if (result.find(".vsathm").first().length) return parseVideos(extraData?.[0]);
         else if (result.find(".brandAns").first().length) return parseProducts(result);
         else if (result.find(".b_vList").first().length) return parseList(result);
         else if (classes.includes("b_algo")) return parseMain(result);

@@ -1,3 +1,4 @@
+import cheerio from "cheerio";
 import Command, { ViewDataURL } from "../../classes/Command/Command";
 import Message from "../../classes/Message/Message";
 import embed from "./embed";
@@ -16,6 +17,25 @@ export default async function search(message: Message, query: string, commandHis
         input: query,
         url: url(query),
         getData: (query: string = "", page: number = 1): string => `https://bing.com/search?q=${encodeURIComponent(query)}&first=${(page - 1) * 5}`,
+        getExtraData: [
+            async (data: any): Promise<any> => {
+
+                // Parse
+                const dom: any = cheerio.load(data);
+
+                // If there's an element with the `vsathm` class in the element with the `b_results` id, then this result has videos
+                const videos: any = dom("#b_results .vsathm").first();
+                if (!videos.length) return;
+
+                // Return
+                return await message.client.youtube.search.list({
+                    part: ["snippet"],
+                    q: query,
+                    maxResults: 3,
+                    type: ["video"]
+                });
+            }
+        ],
         fetch,
         perPage: 5,
         parser: parse,

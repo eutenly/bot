@@ -55,19 +55,19 @@ export default function embed(command: Command, data: any): Embed {
         /**
          * Videos
          *
-         * **1. Videos of Example**
+         * **1. Videos**
          *
-         * **[1-1. Source:](https://example.com)** Title - 1 hour ago
-         * **[1-2. Source:](https://example.com)** Title - 1 hour ago
-         * **[1-3. Source:](https://example.com)** Title - 1 hour ago
+         * **[1-1. Channel Name:](https://youtube.com)** Title
+         * **[1-2. Channel Name:](https://youtube.com)** Title
+         * **[1-3. Channel Name:](https://youtube.com)** Title
          */
         else if (r.type === "videos") {
 
             // Get items
-            const items: string[] = r.items.slice(0, 3).map((item: any, ii: number) => `**[${i + 1}-${ii + 1}. ${item.source}:](${item.link})** ${item.title} - **${item.time}**`);
+            const items: string[] = r.items.map((item: any, ii: number) => `**[${i + 1}-${ii + 1}. ${item.channelName}:](https://youtube.com/watch?v=${item.id})** ${item.title}`);
 
             // Add field
-            embed.addField(null, `**${i + 1}. ${r.title}**\n\n${items.join("\n")}`);
+            embed.addField(null, `**${i + 1}. Videos**\n\n${items.join("\n")}`);
         }
 
         /**
