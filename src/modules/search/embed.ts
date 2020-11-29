@@ -1,5 +1,6 @@
 import Command from "../../classes/Command/Command";
 import Embed from "../../classes/Embed/Embed";
+import truncateString from "../../util/truncateString";
 
 export default function embed(command: Command, data: any): Embed {
 
@@ -27,12 +28,12 @@ export default function embed(command: Command, data: any): Embed {
     data.results.forEach((r: any, i: number) => {
 
         /**
-         * Normal
+         * Normal and Wikipedia
          *
          * **1. [Title](https://example.com)**
          * Description
          */
-        if (r.type === "main") embed.addField(null, `**${i + 1}. [${r.title}](${r.link})**\n${r.description}`);
+        if ((r.type === "main") || (r.type === "wikipedia")) embed.addField(null, `**${i + 1}. [${r.title}](${r.link})**\n${truncateString(r.description, 200)}`);
 
         /**
          * News
