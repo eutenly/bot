@@ -4,6 +4,7 @@ import parseList from "./parse/list";
 import parseMain from "./parse/main";
 import parseNews from "./parse/news";
 import parseProducts from "./parse/products";
+import parseRichPanel from "./parse/richPanel/main";
 import parseVideos from "./parse/videos";
 import parseWikipedia from "./parse/wikipedia";
 
@@ -16,7 +17,6 @@ export default function parse(data: string, extraData?: any[]): ParserData | und
     let results: any = dom("#b_results");
 
     // Map results
-    let richPanel: any;
     results = results.children().map((_index: any, result: any) => {
 
         // Get result from dom
@@ -25,12 +25,6 @@ export default function parse(data: string, extraData?: any[]): ParserData | und
         // Get classes
         let classes: any = result.attr("class");
         classes = classes ? classes.split(" ") : [];
-
-        // Rich panel
-        // if (classes.includes("liYKde")) {
-        //     richPanel = parseRichPanel(result);
-        //     return;
-        // }
 
         // Parse
         if (result.find(".ans_nws").first().length) return parseNews(result);
@@ -41,11 +35,14 @@ export default function parse(data: string, extraData?: any[]): ParserData | und
         else if (classes.includes("b_algo")) return parseMain(result);
     }).get().filter((r: any) => r).slice(0, 5);
 
+    // Rich panel
+    const richPanel: any = parseRichPanel(dom);
+
     // Return
     return {
         data: {
-            richPanel,
-            results
+            results,
+            richPanel
         }
     };
 }

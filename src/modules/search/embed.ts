@@ -22,7 +22,7 @@ export default function embed(command: Command, data: any): Embed {
     // Build embed
     if (data.richPanel) embed
         .addField(null, null, true)
-        .addField(null, `**${data.richPanel.link ? `[${data.richPanel.title.title}](${data.richPanel.link})` : data.richPanel.title.title}**${data.richPanel.title.label ? `\n${data.richPanel.title.label}\n` : ""}\n*Use the \`${prefix}view rich panel\` command to get more info about this rich panel*`, true)
+        .addField(null, `**[${data.richPanel.title}](${data.richPanel.link})**\n${data.richPanel.label}\n\n*Use the \`${prefix}view rich panel\` command to get more info about this rich panel*`, true)
         .addField(null, null, true);
 
     data.results.forEach((r: any, i: number) => {
