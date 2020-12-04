@@ -26,7 +26,7 @@ export default async function fetchData(command: Command, input?: string, page?:
             const pendingExtraData = typeof d === "function" ? d(data) : d;
 
             // Return
-            if (!command.fetch) return new Promise((resolve) => resolve());
+            if (!command.fetch) return new Promise<void>((resolve) => resolve());
             else if (typeof pendingExtraData === "string") return command.fetch(command.message.author, command.message.channel, pendingExtraData, "GET");
             else return pendingExtraData;
         });

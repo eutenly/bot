@@ -2,7 +2,7 @@ import sendLoginEmbed from "../../util/sendLoginEmbed";
 import Command from "./Command";
 
 export default function getConnection(command: Command) {
-    command.uninitializedConnection = new Promise(async (resolve) => {
+    command.uninitializedConnection = new Promise<any>(async (resolve) => {
 
         // Get connection
         if (!command.connectionName) return resolve();

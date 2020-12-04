@@ -29,7 +29,7 @@ export default async function main(message: Message, itemID: string, itemName: s
              *
              * If a page higher than 2 is requested, return nothing
              */
-            if (type === "topTracks") return page !== 1 ? new Promise((resolve) => resolve()) : `https://api.spotify.com/v1/artists/${itemID}/top-tracks?market=from_token`;
+            if (type === "topTracks") return page !== 1 ? new Promise<void>((resolve) => resolve()) : `https://api.spotify.com/v1/artists/${itemID}/top-tracks?market=from_token`;
 
             // Albums and playlists
             else return `https://api.spotify.com/v1/${type === "album" ? "albums" : "playlists"}/${itemID}/tracks?limit=5${page ? `&offset=${(page - 1) * 5}` : ""}`;
