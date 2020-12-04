@@ -9,14 +9,16 @@ export default function data(section: any): any {
         // Get item
         item = cheerio(item);
 
+        // Get the text of the first `a` element
+        const title: any = item.find("a").first().text();
+
         // Return
         return {
 
-            // Get the text of the first `a` element
-            title: item.find("a").first().text(),
+            title,
 
             // Get the text
-            text: item.contents().first().text(),
+            text: item.text().substring(title.length + 1),
 
             // Get the query
             query: new URL(resolveURL("https://bing.com", item.find("a").first().attr("href"))).searchParams.get("q")

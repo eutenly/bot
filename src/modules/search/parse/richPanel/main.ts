@@ -1,5 +1,4 @@
 import cheerio from "cheerio";
-import { resolve as resolveURL } from "url";
 import parseData from "./data";
 import parseEvents from "./events";
 import parseGridList from "./gridList";
@@ -30,9 +29,6 @@ export default function main(dom: any): any {
         // Get the href from the first `a` element
         link: richPanel.find(".b_subModule a").first().attr("href"),
 
-        // Get the source from the first `img` element
-        image: resolveURL("https://bing.com", richPanel.find(".b_subModule img").first().attr("src")),
-
         // Other
         lists: []
     };
@@ -62,8 +58,6 @@ export default function main(dom: any): any {
         else if (section.find(".ev_tpTble").first().length) data.events = parseEvents(section);
         else if (section.find(".music-songlistitem").first().length) data.topSongs = parseTopSongs(section);
     }).get();
-
-    console.log(JSON.stringify(data, null, 4));
 
     // Return
     return data;

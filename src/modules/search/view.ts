@@ -1,6 +1,7 @@
 import { ViewData } from "../../classes/Command/Command";
 import Message from "../../classes/Message/Message";
 import website from "../website/website/main";
+import video, { url as videoURL } from "../youtube/video/main";
 import richPanel from "./richPanel/main";
 import search, { url as searchURL } from "./search";
 
@@ -37,7 +38,7 @@ export default function view(data: any, message: Message): ViewData | undefined 
     if (!result) return { error: ":x:  **|  That result number is invalid**" };
 
     // Normal
-    if (result.type === "main") {
+    if ((result.type === "main") || (result.type === "wikipedia")) {
 
         // Run module
         return {
@@ -46,8 +47,8 @@ export default function view(data: any, message: Message): ViewData | undefined 
         };
     }
 
-    // List, Twitter, Questions, and Item List
-    else if (["list", "twitter", "questions", "itemList"].includes(result.type)) {
+    // News, videos, products, lists
+    else if (["news", "videos", "products", "list"].includes(result.type)) {
 
         // Get subresult number
         const subresultNumber: number = parseInt(results[1]);
@@ -59,13 +60,17 @@ export default function view(data: any, message: Message): ViewData | undefined 
         if (!subresult) return { error: ":x:  **|  That subresult number is invalid**" };
 
         // Run module
-        if (typeof subresult.link === "string") return {
+        if (result.type === "videos") return {
+            module: () => video(message, subresult.id),
+            url: videoURL(subresult.id)
+        };
+        else if (typeof subresult.link === "string") return {
             module: () => website(message, subresult.link),
             url: subresult.link
         };
         else return {
-            module: () => search(message, subresult.query || subresult),
-            url: searchURL(subresult.query || subresult)
+            module: () => search(message, subresult.query),
+            url: searchURL(subresult.query)
         };
     }
 }

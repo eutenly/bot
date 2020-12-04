@@ -1,7 +1,6 @@
 import { ViewData } from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
 import search, { url as searchURL } from "../search";
-import lyrics from "./lyrics/main";
 
 export default function view(data: any, message: Message): ViewData | undefined {
 
@@ -12,18 +11,6 @@ export default function view(data: any, message: Message): ViewData | undefined 
     const input: string = message.commandContent.split(" ").slice(1).join(" ");
     if (!input) return { error: ":x:  **|  Which result would you like to view?**" };
 
-    // Lyrics
-    if (input.toLowerCase().replace(/\s+/g, "") === "lyrics") {
-
-        // No lyrics
-        if (!data.lyrics) return { error: ":x:  **|  That result doesn't have any lyrics**" };
-
-        // Run module
-        return {
-            module: () => lyrics(message, data)
-        };
-    }
-
     // Get results
     const results: string[] = input.toLowerCase().split("-");
 
@@ -33,8 +20,7 @@ export default function view(data: any, message: Message): ViewData | undefined 
     if (
         !result ||
         (
-            result !== "p" &&
-            result !== "rs" &&
+            result !== "s" &&
             !resultNumber
         ) ||
         (
@@ -42,14 +28,11 @@ export default function view(data: any, message: Message): ViewData | undefined 
         )
     ) return { error: ":x:  **|  That result number is invalid**" };
 
-    // No products
-    if ((result === "p") && (!data.products)) return { error: ":x:  **|  That result number is invalid**" };
-
-    // No related searches
-    if ((result === "rs") && (!data.relatedSearches)) return { error: ":x:  **|  That result number is invalid**" };
+    // No top songs
+    if ((result === "s") && (!data.topSongs)) return { error: ":x:  **|  That result number is invalid**" };
 
     // No list
-    const list = data.list[resultNumber - 1];
+    const list = data.lists[resultNumber - 1];
     if ((resultNumber) && (!list)) return { error: ":x:  **|  That result number is invalid**" };
 
     // Get subresult
@@ -58,8 +41,7 @@ export default function view(data: any, message: Message): ViewData | undefined 
 
     // Get result item
     let resultItem: any;
-    if (result === "p") resultItem = data.products[subresultNumber - 1];
-    else if (result === "rs") resultItem = data.relatedSearches[subresultNumber - 1];
+    if (result === "s") resultItem = data.topSongs[subresultNumber - 1];
     else resultItem = list.items[subresultNumber - 1];
 
     if (!resultItem) return { error: ":x:  **|  That result number is invalid**" };
