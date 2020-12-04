@@ -16,6 +16,7 @@ export default function embed(command: Command, data: SavedLink[]): Embed {
         .setBranding();
 
     // No data
+    command.noData = data.length === 0;
     if (data.length === 0) return embed
         .setDescription("You don't have that many saved links")
         .setColor(0xf44242);

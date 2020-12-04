@@ -16,6 +16,7 @@ export default function embed(command: Command, data: ListedPost[]): Embed {
         .setBranding();
 
     // No data
+    command.noData = data.length === 0;
     if (data.length === 0) return embed
         .setDescription("Your search didn't match any results")
         .setColor(0xf44242);

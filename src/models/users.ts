@@ -38,7 +38,7 @@ export interface IUser extends Document {
         };
     };
     commandsUsed: {
-        google?: number;
+        search?: number;
         youtube?: number;
         twitter?: number;
         spotify?: number;
@@ -47,6 +47,7 @@ export interface IUser extends Document {
         wikipedia?: number;
     };
     savedLinks: Types.Array<SavedLink>;
+    compactMode?: boolean;
     reactionConfirmationsDisabled?: boolean;
     voteExpireTimestamp?: number;
     patreonTier?: number;
@@ -89,7 +90,7 @@ export const usersSchema: Schema = new Schema({
         }
     },
     commandsUsed: {
-        google: Number,
+        search: Number,
         youtube: Number,
         twitter: Number,
         spotify: Number,
@@ -102,6 +103,7 @@ export const usersSchema: Schema = new Schema({
         description: String,
         url: String
     }],
+    compactMode: Boolean,
     reactionConfirmationsDisabled: Boolean,
     voteExpireTimestamp: Number,
     patreonTier: Number,

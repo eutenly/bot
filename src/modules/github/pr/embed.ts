@@ -16,6 +16,7 @@ export default function embed(command: Command, data?: PR): Embed {
         .setBranding();
 
     // No data
+    command.noData = !data;
     if (!data) return embed
         .setDescription("Unknown PR")
         .setColor(0xf44242);

@@ -1,3 +1,4 @@
+import { URL } from "url";
 import Message from "../../classes/Message/Message";
 import { LinkCheckerModule } from "../website/website/main";
 import twitterHome from "./home/main";
@@ -9,20 +10,28 @@ import twitterUser from "./user/main";
 
 export default function linkChecker(input: string, linksOnly?: boolean): LinkCheckerModule | undefined {
 
-    // Check if input is a tweet link
-    const tweet = input.match(/twitter\.com\/(.+)\/status\/(.+)/);
-    if (tweet) return (message: Message) => twitterTweet(message, tweet[2], tweet[1]);
+    // Create url
+    let inputURL: string = input;
+    if ((!inputURL.startsWith("http://")) && (!inputURL.startsWith("https://"))) inputURL = `http://${inputURL}`;
+    let url: URL = new URL("https://this_variable_needs_to_be_defined");
+    try { url = new URL(inputURL); } catch { }
 
-    // Check if input is a user link
-    const user = input.match(/twitter\.com\/(.+)/);
-    if (user) return (message: Message) => twitterUser(message, user[1], "username");
+    if (url.hostname === "twitter.com") {
 
-    // Check if input is a search link
-    const search = input.match(/twitter\.com\/search\?q=(.+)/);
-    if (search) return (message: Message) => twitterSearch(message, search[1]);
+        // Check if input is a tweet link
+        const tweet = url.pathname.match(/\/(.+)\/status\/(.+)/);
+        if (tweet) return (message: Message) => twitterTweet(message, tweet[2], tweet[1]);
 
-    // Check if input is home
-    if (/twitter\.com/.test(input)) return (message: Message) => twitterHome(message);
+        // Check if input is a search link
+        if ((url.pathname === "/search") && (url.searchParams.get("q"))) return (message: Message) => twitterSearch(message, url.searchParams.get("q") as string);
+
+        // Check if input is a user link
+        const user = url.pathname.match(/\/(.+)/);
+        if (user) return (message: Message) => twitterUser(message, user[1], "username");
+
+        // Check if input is home
+        if (url.pathname === "/") return (message: Message) => twitterHome(message);
+    }
 
     if (!linksOnly) {
 

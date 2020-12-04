@@ -17,6 +17,7 @@ export default function embed(command: Command, data?: File): Embed {
         .setBranding();
 
     // No data
+    command.noData = !data;
     if (!data) return embed
         .setDescription("Unknown file")
         .setColor(0xf44242);

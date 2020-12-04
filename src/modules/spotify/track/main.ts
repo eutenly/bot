@@ -54,7 +54,7 @@ export default async function main(message: Message, trackID: string, progress?:
 
     // Fetch
     await command.fetchData();
-    if (!command.data) return;
+    if (command.data === null) return;
 
     // Channel commands
     message.channel.commands = new ChannelCommands(message.channel, {

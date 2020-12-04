@@ -60,7 +60,7 @@ export const InfluxDBSchema: InfluxDBSchemaItem[] = [
     },
     {
         measurement: "commands_used",
-        tags: ["dms", "viaHistory"],
+        tags: ["dms", "viaHistory", "compactMode"],
         fields: {
             command: FieldType.STRING,
             commandType: FieldType.STRING
@@ -75,6 +75,14 @@ export const InfluxDBSchema: InfluxDBSchemaItem[] = [
         }
     },
     {
+        measurement: "compact_mode_toggled",
+        tags: ["dms", "action"],
+        fields: {
+            command: FieldType.STRING,
+            commandType: FieldType.STRING
+        }
+    },
+    {
         measurement: "results_viewed",
         tags: ["dms"],
         fields: {
@@ -82,6 +90,22 @@ export const InfluxDBSchema: InfluxDBSchemaItem[] = [
             commandType: FieldType.STRING,
             resultCommand: FieldType.STRING,
             resultCommandType: FieldType.STRING
+        }
+    },
+    {
+        measurement: "spotify_commands_used",
+        tags: ["dms"],
+        fields: {
+            command: FieldType.STRING
+        }
+    },
+    {
+        measurement: "custom_reactions_used",
+        tags: ["action", "dms", "confirmationMessageSent"],
+        fields: {
+            reaction: FieldType.STRING,
+            commandType: FieldType.STRING,
+            reactionType: FieldType.STRING
         }
     },
     {

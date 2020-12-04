@@ -31,7 +31,7 @@ export default async function main(message: Message, query: string, commandHisto
 
     // Fetch
     await command.fetchData();
-    if (!command.data) return;
+    if (command.data === null) return;
 
     // Get embed
     const commandEmbed: Embed = command.getEmbed(command, command.data);

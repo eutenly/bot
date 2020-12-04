@@ -16,13 +16,13 @@ export default async function reactionAdded(reaction: Reaction) {
     if (!reaction.user.checkCooldown()) return;
 
     // Custom reactions
-    if (command.reactions) {
+    if ((command.reactions) && (!command.noData)) {
 
         // Get custom reaction
         const customReaction: CommandReaction | undefined = command.reactions.find((r: CommandReaction) => reaction.client.eutenlyEmojis.get(r.emoji) === reaction.id);
 
         // Run module
-        if (customReaction) return customReaction.module(command, reaction.user, "added", reaction);
+        if (customReaction) return customReaction.module(command, reaction.user, reaction, "added");
     }
 
     // Restrict to command author

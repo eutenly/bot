@@ -10,7 +10,10 @@ export default async function fetch(user: User, channel: Channel, url: string, m
 
     // Get connection
     const connection: Connection | undefined = user.connections["twitter"];
-    if (!connection) return;
+    if (!connection) {
+        sendLoginEmbed(user, channel, "twitter");
+        return;
+    }
 
     // Get data
     const CONSUMER_KEY: string = process.env.TWITTER_API_KEY || "";

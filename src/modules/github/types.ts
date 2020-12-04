@@ -2,6 +2,7 @@ export interface HomeRepo {
     name: string;
     ownerName: string;
     description: string;
+    private: boolean;
 }
 
 export interface HomeNotification {

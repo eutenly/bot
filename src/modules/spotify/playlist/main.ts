@@ -33,7 +33,7 @@ export default async function main(message: Message, playlistID: string, command
 
     // Fetch
     await command.fetchData();
-    if (!command.data) return;
+    if (command.data === null) return;
 
     // Get embed
     const commandEmbed: Embed = command.getEmbed(command, command.data);

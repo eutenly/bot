@@ -15,6 +15,7 @@ export default function embed(command: Command, data?: Artist): Embed {
         .setBranding();
 
     // No data
+    command.noData = !data;
     if (!data) return embed
         .setDescription("Unknown artist")
         .setColor(0xf44242);

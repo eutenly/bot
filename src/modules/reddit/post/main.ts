@@ -1,6 +1,8 @@
 import Command, { CommandReactionModuleAction, ViewDataURL } from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import Message from "../../../classes/Message/Message";
+import PartialReaction from "../../../classes/PartialReaction/PartialReaction";
+import Reaction from "../../../classes/Reaction/Reaction";
 import User from "../../../classes/User/User";
 import fetch from "../fetch";
 import savePost from "../savePost";
@@ -26,11 +28,11 @@ export default async function main(message: Message, postID: string, subredditNa
         reactions: [
             {
                 emoji: "reddit_upvote",
-                module: (cmd: Command, user: User, action: CommandReactionModuleAction) => votePost(cmd, user, action, "upvote")
+                module: (cmd: Command, user: User, reaction: Reaction | PartialReaction, action: CommandReactionModuleAction) => votePost(cmd, user, reaction, action, "upvote")
             },
             {
                 emoji: "reddit_downvote",
-                module: (cmd: Command, user: User, action: CommandReactionModuleAction) => votePost(cmd, user, action, "downvote")
+                module: (cmd: Command, user: User, reaction: Reaction | PartialReaction, action: CommandReactionModuleAction) => votePost(cmd, user, reaction, action, "downvote")
             },
             {
                 emoji: "reddit_save",
@@ -45,7 +47,7 @@ export default async function main(message: Message, postID: string, subredditNa
 
     // Fetch
     await command.fetchData();
-    if (!command.data) return;
+    if (command.data === null) return;
 
     // Get embed
     const commandEmbed: Embed = command.getEmbed(command, command.data);

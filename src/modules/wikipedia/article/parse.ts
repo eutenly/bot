@@ -37,6 +37,9 @@ export default function parse(data: any): ParserData | undefined {
     snippet = cheerio.load(snippet);
     snippet = snippet.text();
 
+    // Replace 2 or more line breaks in a row
+    snippet = snippet.replace(/\r/g, "").replace(/\n{2,}/g, "\n\n");
+
     // Return
     return {
         data: {

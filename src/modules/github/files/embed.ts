@@ -19,6 +19,7 @@ export default function embed(command: Command, data: ListedFile[]): Embed {
         .setBranding();
 
     // No data
+    command.noData = data.length === 0;
     if (data.length === 0) return embed
         .setDescription("There aren't that many files")
         .setColor(0xf44242);

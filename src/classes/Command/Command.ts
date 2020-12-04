@@ -4,6 +4,7 @@ import Channel from "../Channel/Channel";
 import Client from "../Client/Client";
 import Embed from "../Embed/Embed";
 import Message from "../Message/Message";
+import PartialReaction from "../PartialReaction/PartialReaction";
 import Reaction from "../Reaction/Reaction";
 import User, { CommandHistoryEntry, RunCommand } from "../User/User";
 import { DebugExtraData } from "../User/debug";
@@ -22,7 +23,7 @@ export type ViewDataURL = string | ViewDataURLData;
 
 export type CommandReactionModuleAction = "added" | "removed";
 
-export type CommandReactionModule = (command: Command, user: User, action: CommandReactionModuleAction, reaction?: Reaction) => any;
+export type CommandReactionModule = (command: Command, user: User, reaction: Reaction | PartialReaction, action: CommandReactionModuleAction) => any;
 
 export interface CommandReaction {
     emoji: string;
@@ -120,6 +121,7 @@ export default class Command {
 
     // The result of this command
     data?: any;
+    noData?: boolean;
 
     // Whether or not compact mode is enabled
     compactMode: boolean;
@@ -161,12 +163,14 @@ export default class Command {
         /**
          * Set Compact Mode
          *
-         * If the setting is set, use that
+         * If the setting is set for the channel, use that
+         * If the setting is enabled for the user, use that
          * If the channel name includes `bot` or `command`, we know that the default should be `false`
          * Otherwise, default to `true`
          */
-        const compactModeByName: boolean = !(["bot", "command"].find((i: string) => this.message.guild?.channelNames.get(this.message.channel.id)?.includes(i)));
-        this.compactMode = this.message.channel.compactMode === undefined ? compactModeByName : this.message.channel.compactMode;
+        this.compactMode = !(["bot", "command"].find((i: string) => this.message.guild?.channelNames.get(this.message.channel.id)?.includes(i)));
+        if (this.message.channel.compactMode !== undefined) this.compactMode = this.message.channel.compactMode;
+        if (this.message.author.compactMode) this.compactMode = true;
 
         // Create page manager
         if ((data.input) && (data.perPage)) this.pageManager = new PageManager(this, {
@@ -230,14 +234,15 @@ export default class Command {
         if (this.message.author.commandHistory.length >= 10) this.message.author.commandHistory.splice(0, this.message.author.commandHistory.length - 10);
 
         // Command used
-        if (["google", "youtube", "twitter", "spotify", "reddit", "github", "wikipedia"].includes(this.category)) this.message.author.commandUsed(this.category);
+        if (["search", "youtube", "twitter", "spotify", "reddit", "github", "wikipedia"].includes(this.category)) this.message.author.commandUsed(this.category);
 
         // Collect stats
         collectStat(this.client, {
             measurement: "commands_used",
             tags: {
                 dms: this.message.guild ? undefined : true,
-                viaHistory: commandHistoryIndex !== undefined ? true : undefined
+                viaHistory: commandHistoryIndex !== undefined ? true : undefined,
+                compactMode: this.compactMode || undefined
             },
             fields: {
                 command: this.name,
@@ -247,7 +252,7 @@ export default class Command {
     }
 
     // Fetch this command's data
-    fetchData = (input?: string, page?: number, nextPageToken?: string | null): Promise<ParserData | undefined> => fetchData(this, input, page, nextPageToken);
+    fetchData = (input?: string, page?: number, nextPageToken?: string | null): Promise<ParserData | null | undefined> => fetchData(this, input, page, nextPageToken);
 
     // Send or edit the command message
     send = (embed: Embed) => send(this, embed);

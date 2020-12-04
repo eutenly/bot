@@ -10,7 +10,7 @@ export default function embed(command: Command, data: any): Embed {
     // Embed
     const embed = new Embed()
         .setAuthor(`Search: ${command.pageManager?.input}`, "https://eutenly.com/assets/search-colored.png")
-        .setDescription(`Page ${command.pageManager?.page}, About ${data.totalResults} results`)
+        .setDescription(`Page ${command.pageManager?.page}`)
         .setColor(0x4086f4)
         .setBranding();
 
@@ -22,91 +22,89 @@ export default function embed(command: Command, data: any): Embed {
     // Build embed
     if (data.richPanel) embed
         .addField(null, null, true)
-        .addField(null, `**${data.richPanel.link ? `[${data.richPanel.title.title}](${data.richPanel.link})` : data.richPanel.title.title}**${data.richPanel.title.label ? `\n${data.richPanel.title.label}\n` : ""}\n*Use the \`${prefix}view rich panel\` command to get more info about this rich panel*`, true)
+        .addField(null, `**[${data.richPanel.title}](${data.richPanel.link})**\n${data.richPanel.label}\n\n*Use the \`${prefix}view rich panel\` command to get more info about this rich panel*`, true)
         .addField(null, null, true);
 
     data.results.forEach((r: any, i: number) => {
 
         /**
-         * Normal
+         * Normal and Wikipedia
          *
-         * **1. [Google](https://google.com)**
-         * Search the world's information, including webpages, images, videos and more.
+         * **1. [Title](https://example.com)**
+         * Description
          */
-        if (r.type === "main") embed.addField(null, `**${i + 1}. [${r.title}](${r.link})**\n${r.description}`);
+        if ((r.type === "main") || (r.type === "wikipedia")) embed.addField(null, `**${i + 1}. [${r.title}](${r.link})**\n${truncateString(r.description, 200)}`);
+
+        /**
+         * News
+         *
+         * **1. News about Example**
+         *
+         * **[1-1. Source:](https://example.com)** Title - 1h ago
+         * **[1-2. Source:](https://example.com)** Title - 1h ago
+         * **[1-3. Source:](https://example.com)** Title - 1h ago
+         */
+        else if (r.type === "news") {
+
+            // Get items
+            const items: string[] = [r.topItem, ...r.items.slice(0, 2)].map((item: any, ii: number) => `**[${i + 1}-${ii + 1}. ${item.source}:](${item.link})** ${item.title} - **${item.time} ago**`);
+
+            // Add field
+            embed.addField(null, `**${i + 1}. ${r.title}**\n\n${items.join("\n")}`);
+        }
+
+        /**
+         * Videos
+         *
+         * **1. Videos**
+         *
+         * **[1-1. Channel Name:](https://youtube.com)** Title
+         * **[1-2. Channel Name:](https://youtube.com)** Title
+         * **[1-3. Channel Name:](https://youtube.com)** Title
+         */
+        else if (r.type === "videos") {
+
+            // Get items
+            const items: string[] = r.items.map((item: any, ii: number) => `**[${i + 1}-${ii + 1}. ${item.channelName}:](https://youtube.com/watch?v=${item.id})** ${item.title}`);
+
+            // Add field
+            embed.addField(null, `**${i + 1}. Videos**\n\n${items.join("\n")}`);
+        }
+
+        /**
+         * Products
+         *
+         * **1. Products**
+         *
+         * **1-1.** Title
+         * **1-2.** Title
+         * **1-3.** Title
+         */
+        else if (r.type === "products") {
+
+            // Get items
+            const items: string[] = r.items.slice(0, 3).map((item: any, ii: number) => `**${i + 1}-${ii + 1}.** ${item.title}`);
+
+            // Add field
+            embed.addField(null, `**${i + 1}. Products**\n\n${items.join("\n")}`);
+        }
 
         /**
          * List
          *
-         * **1. Top stories**
+         * **1. [Example](https://example.com)**
          *
-         * **[1-1. Source:](https://example.com)** Title - 1 hour ago
-         *
-         * **[1-2.](https://example.com)** Title - 1 hour ago
-         *
-         * **1-3.** Title
+         * • Item
+         * • Item
+         * • Item
          */
         else if (r.type === "list") {
 
             // Get items
-            const items: string[] = r.items.map((item: any, ii: number) => `**${item.link ? "[" : ""}${i + 1}-${ii + 1}.${item.source ? ` ${item.source}:` : ""}${item.link ? `](${item.link})` : ""}** ${item.title.replace(/\n/g, " ")}${item.time ? ` - ${item.time}` : ""}${item.rating ? ` - ${item.rating.rating} (${item.rating.totalRatings} Total Ratings)` : ""}`);
+            const items: string[] = r.items.slice(0, 3).map((item: any) => `\u2022 ${item}`);
 
             // Add field
-            embed.addField(null, `**${i + 1}. ${r.title}**\n\n${items.join("\n\n")}`);
-        }
-
-        /**
-         * Twitter
-         *
-         * **1. [Eutenly (@eutenly) · Twitter](https://twitter.com/eutenly)**
-         *
-         * **[1-1.](https://twitter.com/eutenly/status/123)** Tweet example - 1 hour ago
-         *
-         * **[1-2.](https://twitter.com/eutenly/status/456)** Tweet example - 1 hour ago
-         *
-         * **[1-3.](https://twitter.com/eutenly/status/789)** Tweet example - 1 hour ago
-         */
-        else if (r.type === "twitter") {
-
-            // Get items
-            const items: string[] = r.items.map((item: any, ii: number) => `**[${i + 1}-${ii + 1}.](${item.link})** ${truncateString(item.text, 80)} - ${item.time}`);
-
-            // Add field
-            embed.addField(null, `**${i + 1}. [${r.title}](${r.link})**\n\n${items.join("\n\n")}`);
-        }
-
-        /**
-         * Questions
-         *
-         * **1. People Also Ask**
-         * **1-1.** Question
-         * **1-2.** Question
-         * **1-3.** Question
-         * **1-4.** Question
-         * **1-5.** Question
-         */
-        else if (r.type === "questions") {
-
-            // Get questions
-            const questions: string[] = r.questions.map((q: any, ii: number) => `**${i + 1}-${ii + 1}.** ${q}`);
-
-            // Add field
-            embed.addField(null, `**${i + 1}. People Also Ask**\n${questions.join("\n")}`);
-        }
-
-        /**
-         * Item List
-         *
-         * **1. Title**
-         * [**1-1.** Item], [**1-2.** Item], [**1-3.** Item], [**1-4.** Item], [**1-5.** Item], [**1-6.** Item], [**1-7.** Item]
-         */
-        else if (r.type === "itemList") {
-
-            // Get items
-            const items: string[] = r.items.map((item: any, ii: number) => `[**${i + 1}-${ii + 1}.** ${item.name}]`);
-
-            // Add field
-            embed.addField(null, `**${i + 1}. ${r.title}**\n${items.join(", ")}`);
+            embed.addField(null, `**${i + 1}. [${r.title}](${r.link})**\n\n${items.join("\n")}`);
         }
     });
 

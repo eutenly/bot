@@ -7,7 +7,10 @@ export default async function fetch(user: User, channel: Channel, url: string, m
 
     // Get connection
     const connection: Connection | undefined = user.connections["github"];
-    if (!connection) return;
+    if (!connection) {
+        sendLoginEmbed(user, channel, "github");
+        return;
+    }
 
     // Make request
     const result: Response = await nodeFetch(url, {

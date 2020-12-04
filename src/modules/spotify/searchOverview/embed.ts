@@ -15,7 +15,8 @@ export default function embed(command: Command, data?: SearchOverviewResult[]): 
         .setBranding();
 
     // No data
-    if ((!data) || (data.length === 0)) return embed
+    command.noData = !data;
+    if (!data) return embed
         .setDescription("Your search didn't match any results")
         .setColor(0xf44242);
 

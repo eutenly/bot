@@ -1,4 +1,5 @@
 import Message from "../../classes/Message/Message";
+import badgeCommand from "../badge";
 import compactCommand from "../compact";
 import debugCommand from "../debug";
 import evalCommand from "../eval";
@@ -15,6 +16,7 @@ import removeCommand from "../remove";
 import saveCommand from "../save";
 import savedLinksCommand from "../savedLinks/main";
 import searchCommand from "../search/main";
+import setPrefixCommand from "../setPrefix";
 import spotifyCommand from "../spotify/main";
 import supportCommand from "../support";
 import twitterCommand from "../twitter/main";
@@ -127,6 +129,12 @@ export const routes: CommandRoute[] = [
         module: saveCommand
     },
     {
+        name: "Set Prefix",
+        information: "Set the prefix in the server. You need to be a moderator to use this command",
+        inputs: ["setprefix"],
+        module: setPrefixCommand
+    },
+    {
         name: "Compact",
         information: "Enable or disable compact mode for a channel. You need to be a moderator to use this command",
         inputs: ["compact"],
@@ -135,7 +143,7 @@ export const routes: CommandRoute[] = [
     {
         name: "Reaction Confirmations",
         information: "Enable or disable reaction confirmations",
-        inputs: ["reactionconfirmations", "reactionconfirms"],
+        inputs: ["reactionconfirmations", "reactionconfirms", "rc"],
         module: reactionConfirmationsCommand
     },
     {
@@ -162,6 +170,13 @@ export const routes: CommandRoute[] = [
         information: "Enable or disable debug mode",
         inputs: ["debug"],
         module: debugCommand,
+        private: true
+    },
+    {
+        name: "Badge",
+        information: "Add or remove badges from users",
+        inputs: ["badge"],
+        module: badgeCommand,
         private: true
     },
     {

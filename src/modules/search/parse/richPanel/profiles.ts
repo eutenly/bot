@@ -2,20 +2,20 @@ import cheerio from "cheerio";
 
 export default function profiles(section: any): any {
 
-    // Map each element with the `PZPZlf` class
-    return section.find(".PZPZlf").map((_index: any, profile: any) => {
+    // Return
+    return section.find("li").map((_index: any, item: any) => {
 
-        // Get profile
-        profile = cheerio(profile);
+        // Get item
+        item = cheerio(item);
 
         // Return
         return {
 
-            // Get the `CtCigf` class and then get the text
-            name: profile.find(".CtCigf").first().text(),
+            // Get the text of the first `span` element
+            name: item.find("span").first().text(),
 
-            // Get the `a` element and then get the href
-            link: profile.find("a").first().attr("href")
+            // Get the href of the first `a` element
+            link: item.find("a").first().attr("href")
         };
     }).get();
 }

@@ -1,33 +1,28 @@
 import cheerio from "cheerio";
-import url from "url";
+import { resolve as resolveURL, URL } from "url";
 
 export default function list(section: any): any {
 
     // Return
     return {
 
-        // Get the `Ss2Faf` class and then get the text
-        title: section.find(".Ss2Faf").first().text(),
+        // Get the text from the first `h2` element
+        title: section.find("h2").first().text(),
 
-        // Map each element with the `PZPZlf` class
-        items: section.find(".PZPZlf").map((_index: any, item: any) => {
+        // Get items
+        items: section.find("li").map((_index: any, item: any) => {
 
             // Get item
             item = cheerio(item);
 
-            // Get the href of the first `a` element
-            let query: any = item.find("a").first().attr("href");
-
-            // Get query from query url
-            query = url.parse(query, true).query.q;
-
             // Return
             return {
 
-                // Get the `title` class and then get the text
-                name: item.find(".title").first().text(),
+                // Get the text
+                text: item.find(".b_imgSetData a").first().text(),
 
-                query
+                // Get the query
+                query: new URL(resolveURL("https://bing.com", item.find("a").first().attr("href"))).searchParams.get("q")
             };
         }).get()
     };
