@@ -5,6 +5,8 @@ import event from "../socket/event";
 
 interface ReadyEventDataUser {
     id: string;
+    username: string;
+    discriminator: string;
     avatar: string;
 }
 
@@ -22,6 +24,7 @@ export default async function ready(client: Client, data: ReadyEventData) {
 
     // Set client data
     client.id = data.user.id;
+    client.tag = `${data.user.username}#${data.user.discriminator}`;
     client.avatarURL = `https://cdn.discordapp.com/avatars/${client.id}/${data.user.avatar}`;
     client.sessionID = data.session_id;
 

@@ -3,20 +3,21 @@ import { isBinary } from "istextorbinary";
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import truncateString from "../../../util/truncateString";
-import { GitHubFile } from "./parse";
+import { File } from "../types";
 
-export default function embed(command: Command, data?: GitHubFile): Embed {
+export default function embed(command: Command, data?: File): Embed {
 
     // Get prefix
     const prefix: string = command.message.channel.prefix;
 
     // Embed
     const embed = new Embed()
-        .setAuthor("GitHub Search", "https://i.imgur.com/FwnDNtd.png")
+        .setAuthor("GitHub File", "https://i.imgur.com/FwnDNtd.png")
         .setColor(0x000000)
         .setBranding();
 
     // No data
+    command.noData = !data;
     if (!data) return embed
         .setDescription("Unknown file")
         .setColor(0xf44242);

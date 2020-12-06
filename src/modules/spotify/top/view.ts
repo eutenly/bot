@@ -2,9 +2,9 @@ import Command, { ViewData } from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
 import artist, { url as artistURL } from "../artist/main";
 import track, { url as trackURL } from "../track/main";
-import { SpotifyItem } from "./parse";
+import { TopItem } from "../types";
 
-export default function view(data: SpotifyItem[], message: Message, command: Command): ViewData | undefined {
+export default function view(data: TopItem[], message: Message, command: Command): ViewData | undefined {
 
     // Get params
     const input: string = message.commandContent.split(" ").slice(1).join(" ");
@@ -15,7 +15,7 @@ export default function view(data: SpotifyItem[], message: Message, command: Com
     if ((!resultNumber) || (resultNumber < 1)) return { error: ":x:  **|  That result number is invalid**" };
 
     // Get result
-    const result: SpotifyItem = data[resultNumber - 1];
+    const result: TopItem = data[resultNumber - 1];
     if (!result) return { error: ":x:  **|  That result number is invalid**" };
 
     // Run module

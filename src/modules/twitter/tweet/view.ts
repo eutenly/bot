@@ -1,10 +1,10 @@
 import { ViewData } from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
+import { Tweet } from "../types";
 import user, { url as userURL } from "../user/main";
 import tweet, { url as tweetURL } from "./main";
-import { TwitterTweet } from "./parse";
 
-export default function view(data: TwitterTweet | undefined, message: Message): ViewData | undefined {
+export default function view(data: Tweet | undefined, message: Message): ViewData | undefined {
 
     // No data
     if (!data) return;

@@ -11,7 +11,7 @@ export default async function main(message: Message, videoID: string, commandHis
     // Create command
     const command: Command = new Command(message.client, {
         name: "video",
-        type: "youtube",
+        category: "youtube",
         message,
         url: url(videoID),
         getData: async (): Promise<any> => await message.client.youtube.videos.list({
@@ -29,6 +29,7 @@ export default async function main(message: Message, videoID: string, commandHis
 
     // Fetch
     await command.fetchData();
+    if (command.data === null) return;
 
     // Get embed
     const commandEmbed: Embed = command.getEmbed(command, command.data);

@@ -10,10 +10,10 @@ export default async function main(message: Message, title: string, commandHisto
     // Create command
     const command: Command = new Command(message.client, {
         name: "article",
-        type: "wikipedia",
+        category: "wikipedia",
         message,
         url: url(title),
-        getURL: (): string => `https://en.wikipedia.org/w/api.php?action=parse&format=json&page=${encodeURIComponent(title)}&redirects=true`,
+        getData: `https://en.wikipedia.org/w/api.php?action=parse&format=json&page=${encodeURIComponent(title)}&redirects=true`,
         fetch,
         parser: parse,
         getEmbed: embed
@@ -21,6 +21,7 @@ export default async function main(message: Message, title: string, commandHisto
 
     // Fetch
     await command.fetchData();
+    if (command.data === null) return;
 
     // Get embed
     const commandEmbed: Embed = command.getEmbed(command, command.data);

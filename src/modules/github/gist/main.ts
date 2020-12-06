@@ -11,13 +11,13 @@ export default async function main(message: Message, name: string, gistID: numbe
     // Create command
     const command: Command = new Command(message.client, {
         name: "gist",
-        type: "github",
+        category: "github",
         message,
         metadata: {
             name
         },
         url: url(name, gistID),
-        getURL: (): string => `https://api.github.com/gists/${encodeURIComponent(gistID)}`,
+        getData: `https://api.github.com/gists/${encodeURIComponent(gistID)}`,
         connectionName: "github",
         fetch,
         parser: parse,
@@ -31,6 +31,7 @@ export default async function main(message: Message, name: string, gistID: numbe
 
     // Fetch
     await command.fetchData();
+    if (command.data === null) return;
 
     // Get embed
     const commandEmbed: Embed = command.getEmbed(command, command.data);

@@ -1,9 +1,9 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import truncateString from "../../../util/truncateString";
-import { GitHubHome, GitHubNotification, GitHubRepo } from "./parse";
+import { Home, HomeNotification, HomeRepo } from "../types";
 
-export default function embed(command: Command, data?: GitHubHome): Embed {
+export default function embed(command: Command, data?: Home): Embed {
 
     // Get prefix
     const prefix: string = command.message.channel.prefix;
@@ -24,18 +24,19 @@ export default function embed(command: Command, data?: GitHubHome): Embed {
     };
 
     // Embed
+    command.noData = !data;
     if (!data) return new Embed();
 
-    const watchedRepos: GitHubRepo[] = command.compactMode ? data.watchedRepos.slice(0, 3) : data.watchedRepos;
-    const starredRepos: GitHubRepo[] = command.compactMode ? data.starredRepos.slice(0, 3) : data.starredRepos;
-    const notifications: GitHubNotification[] = command.compactMode ? data.notifications.slice(0, 3) : data.notifications;
+    const watchedRepos: HomeRepo[] = command.compactMode ? data.watchedRepos.slice(0, 3) : data.watchedRepos;
+    const starredRepos: HomeRepo[] = command.compactMode ? data.starredRepos.slice(0, 3) : data.starredRepos;
+    const notifications: HomeNotification[] = command.compactMode ? data.notifications.slice(0, 3) : data.notifications;
 
     const embed = new Embed()
         .setAuthor("GitHub", "https://i.imgur.com/FwnDNtd.png")
         .setColor(0x000000)
-        .addField("Your Watched Repos", `${watchedRepos.map((r: GitHubRepo, i: number) => `**w-${i + 1}. [${r.ownerName}/${r.name}](https://github.com/${r.ownerName}/${r.name})**\n${r.description ? truncateString(r.description, 50) : ""}`).join("\n")}\n\n\u2022 Use \`${prefix}view <Repo Number>\` to view a repo\n\u2022 Use \`${prefix}view watched repos\` to view more of your watched repos\n\u200b`)
-        .addField("Your Starred Repos", `${starredRepos.map((r: GitHubRepo, i: number) => `**s-${i + 1}. [${r.ownerName}/${r.name}](https://github.com/${r.ownerName}/${r.name})**\n${r.description ? truncateString(r.description, 50) : ""}`).join("\n")}\n\n\u2022 Use \`${prefix}view <Repo Number>\` to view a repo\n\u2022 Use \`${prefix}view starred repos\` to view more of your starred repos\n\u200b`)
-        .addField("Your Notifications", `${notifications.map((n: GitHubNotification, i: number) => `**${i + 1}. [${n.repoOwnerName}/${n.repoName}](https://github.com/${n.repoOwnerName}/${n.repoName})** - ${parseType(n.type)}`).join("\n")}`)
+        .addField("Your Watched Repos", watchedRepos.length ? `${watchedRepos.map((r: HomeRepo, i: number) => `**w-${i + 1}. ${((r.private) && (command.message.channel.guild)) ? "*Private*" : `[${r.ownerName}/${r.name}](https://github.com/${r.ownerName}/${r.name})**\n${r.description ? truncateString(r.description, 50) : ""}`}`).join("\n")}\n\n\u2022 Use \`${prefix}view <Repo Number>\` to view a repo\n\u2022 Use \`${prefix}view watched repos\` to view more of your watched repos\n\u200b` : "You don't have any watched repos")
+        .addField("Your Starred Repos", starredRepos.length ? `${starredRepos.map((r: HomeRepo, i: number) => `**s-${i + 1}. ${((r.private) && (command.message.channel.guild)) ? "*Private*" : `[${r.ownerName}/${r.name}](https://github.com/${r.ownerName}/${r.name})**\n${r.description ? truncateString(r.description, 50) : ""}`}`).join("\n")}\n\n\u2022 Use \`${prefix}view <Repo Number>\` to view a repo\n\u2022 Use \`${prefix}view starred repos\` to view more of your starred repos\n\u200b` : "You don't have any starred repos")
+        .addField("Your Notifications", notifications.length ? `${notifications.map((n: HomeNotification, i: number) => `**${i + 1}. [${n.repoOwnerName}/${n.repoName}](https://github.com/${n.repoOwnerName}/${n.repoName})** - ${parseType(n.type)}`).join("\n")}` : "You don't have any notifications")
         .setBranding();
 
     // Return

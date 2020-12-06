@@ -1,50 +1,63 @@
 import cheerio from "cheerio";
-import parseAvailableOn from "./availableOn";
 import parseData from "./data";
-import parseDescription from "./description";
-import parseLink from "./link";
+import parseEvents from "./events";
+import parseGridList from "./gridList";
 import parseList from "./list";
-import parseLyrics from "./lyrics";
-import parseProducts from "./products";
 import parseProfiles from "./profiles";
-import parseRelatedSearches from "./relatedSearches";
-import parseTitle from "./title";
-import parseVideo from "./video";
+import parseTopSongs from "./topSongs";
 
-export default function main(result: any): any {
+export default function main(dom: any): any {
 
-    // The `mod` class is a wrapper div for each section
-    let sections: any = result.find(".mod");
+    // The element with the `b_ans` class in the element with the `b_context` id is the wrapper for the rich panel
+    let richPanel: any = dom("#b_context .b_ans");
+
+    // No rich panel
+    if (!richPanel.find(".b_subModule").first().length) return;
+
+    // Define data
+    const data: any = {
+
+        // Get the text from the first element with the `b_entityTitle` class
+        title: richPanel.find(".b_subModule .b_entityTitle").first().text(),
+
+        // Get the text from the first element with the `b_entitySubTitle` class
+        label: richPanel.find(".b_subModule .b_entitySubTitle").first().text(),
+
+        // Get the text from the first element with an id that starts with `infoc_`
+        description: richPanel.find(`.b_subModule [id^="infoc_"]`).first().text(),
+
+        // Get the href from the first `a` element
+        link: richPanel.find(".b_subModule a").first().attr("href"),
+
+        // Other
+        lists: []
+    };
 
     // Map sections
-    let data: any = { data: [], list: [] };
-    sections.map((_index: any, section: any) => {
+    richPanel.find(".b_subModule").map((_index: any, section: any) => {
 
         // Get section from dom
         section = cheerio(section);
 
-        // Get type
-        const type: any = section.attr("data-md");
-
         // Parse
-        if (type === "16") data.title = parseTitle(section);
-        else if (type === "21") data.link = parseLink(section);
-        else if (type === "50") data.description = parseDescription(section);
-        else if (type === "1001") data.data.push(parseData(section));
-        else if (type === "70") data.profiles = parseProfiles(section);
-        else if (type === "13") data.relatedSearches = parseRelatedSearches(section);
-        else if (type === "418") data.products = parseProducts(section);
-        else if (type === "35") data.video = parseVideo(section);
-        else if (type === "113") data.lyrics = parseLyrics(section);
-        else if (type === "82") data.availableOn = parseAvailableOn(section);
-        else if (type === "23") data.list.push(parseList(section));
-    }).get();
+        if (section.find(".b_entityTitle").first().length) section.children().map((_index: any, subsection: any) => {
 
-    // Parse title
-    if (data.video) {
-        data.title = { title: data.video.title };
-        data.link = data.video.link;
-    }
+            // Get subsection from dom
+            subsection = cheerio(subsection);
+
+            // Get classes
+            let classes: any = subsection.attr("class");
+            classes = classes ? classes.split(" ") : [];
+
+            // Parse
+            if (classes.includes("infoCardIcons")) data.profiles = parseProfiles(subsection);
+            else if (classes.includes("b_vList")) data.data = parseData(subsection);
+        }).get();
+        else if (section.find(".b_imgSet").first().length) data.lists.push(parseList(section));
+        else if (section.find(".b_gridrow").first().length) data.gridList = parseGridList(section);
+        else if (section.find(".ev_tpTble").first().length) data.events = parseEvents(section);
+        else if (section.find(".music-songlistitem").first().length) data.topSongs = parseTopSongs(section);
+    }).get();
 
     // Return
     return data;

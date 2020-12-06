@@ -20,13 +20,13 @@ export default async function reactionRemoved(partialReaction: PartialReaction) 
     if (!user.checkCooldown()) return;
 
     // Custom reactions
-    if (command.reactions) {
+    if ((command.reactions) && (!command.noData)) {
 
         // Get custom reaction
         const customReaction: CommandReaction | undefined = command.reactions.find((r: CommandReaction) => partialReaction.client.eutenlyEmojis.get(r.emoji) === partialReaction.id);
 
         // Run module
-        if (customReaction) return customReaction.module(command, user, "removed");
+        if (customReaction) return customReaction.module(command, user, partialReaction, "removed");
     }
 
     // Restrict to command author

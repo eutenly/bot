@@ -2,22 +2,23 @@ import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import parseDuration from "../../../util/parseDuration";
 import truncateString from "../../../util/truncateString";
-import { SpotifyEpisode } from "./parse";
+import { Episode } from "../types";
 
-export default function embed(command: Command, data?: SpotifyEpisode): Embed {
+export default function embed(command: Command, data?: Episode): Embed {
 
     // Get prefix
     const prefix: string = command.message.channel.prefix;
 
     // Embed
     const embed = new Embed()
-        .setAuthor("Spotify Search", "https://i.imgur.com/tiqno7l.png")
+        .setAuthor("Spotify Episode", "https://i.imgur.com/tiqno7l.png")
         .setColor(0x1ed760)
         .setBranding();
 
     // No data
+    command.noData = !data;
     if (!data) return embed
-        .setDescription("Your search didn't match any results")
+        .setDescription("Unknown episode")
         .setColor(0xf44242);
 
     // Build embed
@@ -39,6 +40,17 @@ export default function embed(command: Command, data?: SpotifyEpisode): Embed {
         .setImage(data.image);
 
     embed.addField("Add This Episode", `Use the \`${prefix}add <Playlist>\` command to add this episode to a playlist`);
+
+    // Progress
+    if (data.progress) {
+
+        // Get progress percent data
+        const progressPercent: number = data.progress / data.length;
+        const fillAmount: number = Math.floor(progressPercent * 20);
+
+        // Add field
+        embed.addField("Progress", `${parseDuration(data.progress)} [${"█".repeat(fillAmount)}${"-".repeat(20 - fillAmount)}] ${parseDuration(data.length)}`);
+    }
 
     if (data.copyrights.length) embed.addField(null, data.copyrights.join("\n"));
 

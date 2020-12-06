@@ -2,20 +2,21 @@ import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import parseDate from "../../../util/parseDate";
 import truncateString from "../../../util/truncateString";
-import { GitHubRelease } from "./parse";
+import { Release } from "../types";
 
-export default function embed(command: Command, data?: GitHubRelease): Embed {
+export default function embed(command: Command, data?: Release): Embed {
 
     // Get prefix
     const prefix: string = command.message.channel.prefix;
 
     // Embed
     const embed = new Embed()
-        .setAuthor("GitHub Search", "https://i.imgur.com/FwnDNtd.png")
+        .setAuthor("GitHub Release", "https://i.imgur.com/FwnDNtd.png")
         .setColor(0x000000)
         .setBranding();
 
     // No data
+    command.noData = !data;
     if (!data) return embed
         .setDescription("Unknown release")
         .setColor(0xf44242);

@@ -1,27 +1,9 @@
 import { ParserData } from "../../../classes/Command/Command";
 
-interface GitHubUser {
-    id: string;
-    name: string;
-}
-
-interface GitHubRepo {
-    id: string;
-    name: string;
-}
-
-export interface GitHubSearchResult {
-    type: string;
-    data: any;
-    user: GitHubUser;
-    repo: GitHubRepo;
-    timestamp: string;
-}
-
-export default function parse(data?: any): ParserData {
+export default function parse(data?: any): ParserData | undefined {
 
     // No data
-    if (data.message) return { noData: true };
+    if (data.message) return;
 
     // Return
     return {

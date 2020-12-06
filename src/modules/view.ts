@@ -14,18 +14,31 @@ export default async function view(message: Message) {
     // Get data
     let data: any;
     if (command.data) data = command.data;
-    else data = command.searchManager?.cache.get(command.searchManager.page || 0);
+    else data = command.pageManager?.cache.get(command.pageManager.page || 0);
 
     // Run module
     const viewData: ViewData | undefined = command.view(data, message, command);
     if (!viewData) return;
 
-    if (viewData.error) message.channel.sendMessage(viewData.error);
+    if (viewData.error) {
+        command.debug("Created error while viewing", {
+            input: message.commandContent.split(" ").slice(1).join(" "),
+            error: viewData.error
+        });
+        message.channel.sendMessage(viewData.error);
+    }
     else if (viewData.module) {
 
         // Run module
         const resultCommand: Command = await viewData.module();
         if (!resultCommand) return;
+
+        // Debug
+        command.debug("Viewed item", {
+            input: message.commandContent.split(" ").slice(1).join(" "),
+            resultCommand: resultCommand.name,
+            resultCommandType: resultCommand.category
+        });
 
         // Collect stats
         collectStat(message.client, {
@@ -35,9 +48,9 @@ export default async function view(message: Message) {
             },
             fields: {
                 command: command.name,
-                commandType: command.type,
+                commandType: command.category,
                 resultCommand: resultCommand.name,
-                resultCommandType: resultCommand.type
+                resultCommandType: resultCommand.category
             }
         });
     }

@@ -4,9 +4,9 @@ import artist, { url as artistURL } from "../artist/main";
 import playlist, { url as playlistURL } from "../playlist/main";
 import playlists, { url as playlistsURL } from "../playlists/main";
 import track, { url as trackURL } from "../track/main";
-import { SpotifyHome } from "./parse";
+import { Home } from "../types";
 
-export default function view(data: SpotifyHome | undefined, message: Message): ViewData | undefined {
+export default function view(data: Home | undefined, message: Message): ViewData | undefined {
 
     // No data
     if (!data) return;

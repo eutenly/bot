@@ -1,20 +1,21 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import parseDate from "../../../util/parseDate";
-import { TwitterUser } from "./parse";
+import { User } from "../types";
 
-export default function embed(command: Command, data?: TwitterUser): Embed {
+export default function embed(command: Command, data?: User): Embed {
 
     // Get prefix
     const prefix: string = command.message.channel.prefix;
 
     // Embed
     const embed = new Embed()
-        .setAuthor("Twitter Search", "https://1000logos.net/wp-content/uploads/2017/06/Twitter-Logo.png")
+        .setAuthor("Twitter User", "https://1000logos.net/wp-content/uploads/2017/06/Twitter-Logo.png")
         .setColor(0x1da1f2)
         .setBranding();
 
     // No data
+    command.noData = !data;
     if (!data) return embed
         .setDescription("Unknown user")
         .setColor(0xf44242);

@@ -1,3 +1,5 @@
+import randomTip from "../../util/randomTip";
+
 export interface EmbedData {
     title?: string;
     author?: ExtendedTextData;
@@ -136,7 +138,7 @@ export default class Embed {
         }
 
         // Parse color
-        if (typeof color === "string") color = parseInt(color, 16);
+        if (typeof color === "string") color = parseInt(color.replace(/#/g, ""), 16);
 
         // Set data
         this.color = color;
@@ -271,7 +273,7 @@ export default class Embed {
     setBranding = (): Embed => {
 
         // Set footer
-        this.setFooter("Eutenly.com", "https://eutenly.com/assets/avatar.png");
+        this.setFooter(`Eutenly.com \u2022 ${randomTip()}`, "https://eutenly.com/assets/avatar.png");
         return this;
     }
 

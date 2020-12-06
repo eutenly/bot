@@ -1,28 +1,12 @@
 import { ParserData } from "../../../classes/Command/Command";
 
-export interface RedditPost {
-    id: string;
-    title: string;
-    text: string;
-    subredditName: string;
-    score: number;
-    comments: number;
-    awards: number;
-    nsfw: boolean;
-    spoiler: boolean;
-    linkPath: string;
-    user: string;
-    image?: string;
-    postedAt: number;
-}
-
-export default function parse(data: any): ParserData {
+export default function parse(data: any): ParserData | undefined {
 
     // Get result
     const result: any = data.data.children[0];
 
     // No results
-    if (!result) return { noData: true };
+    if (!result) return;
 
     // Return
     return {
@@ -38,7 +22,7 @@ export default function parse(data: any): ParserData {
             spoiler: result.data.spoiler,
             linkPath: result.data.permalink,
             user: result.data.author,
-            image: result.data.preview?.images[0]?.source.url,
+            image: result.data.preview?.images[0]?.source.url || (Object.values(result.data.media_metadata || {})[0] as any)?.s.u,
             postedAt: result.data.created * 1000
         }
     };

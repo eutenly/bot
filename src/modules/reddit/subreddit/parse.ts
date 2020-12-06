@@ -1,25 +1,9 @@
 import { ParserData } from "../../../classes/Command/Command";
 
-export interface RedditPost {
-    id: string;
-    title: string;
-    score: number;
-}
-
-export interface RedditSubreddit {
-    name: string;
-    description: string;
-    subscribers: number;
-    onlineUsers: number;
-    nsfw: boolean;
-    hotPosts: RedditPost[];
-    createdAt: number;
-}
-
-export default function parse(data: any, extraData?: any[]): ParserData {
+export default function parse(data: any, extraData?: any[]): ParserData | undefined {
 
     // No data
-    if ((data.data.children) || (!extraData)) return { noData: true };
+    if ((data.error === 404) || (!extraData)) return;
 
     // Parse extra data
     const hotPostsData: any = extraData[0];
@@ -35,6 +19,7 @@ export default function parse(data: any, extraData?: any[]): ParserData {
             hotPosts: hotPostsData.data.children.slice(0, 5).map((d: any) => ({
                 id: d.data.name.split("_")[1],
                 title: d.data.title,
+                subredditName: d.data.subreddit,
                 score: d.data.score
             })),
             createdAt: data.data.created * 1000

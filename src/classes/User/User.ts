@@ -3,8 +3,11 @@ import Client from "../Client/Client";
 import Command from "../Command/Command";
 import Message from "../Message/Message";
 import commandUsed from "./commandUsed";
+import debug, { DebugData } from "./debug";
 import getConnection from "./getConnection";
 import getData from "./getData";
+import setCompactMode from "./setCompactMode";
+import setReactionConfirmations from "./setReactionConfirmations";
 
 export type RunCommand = (message: Message, commandHistoryIndex: number) => void;
 
@@ -29,9 +32,16 @@ interface Connections {
     github?: Connection;
 }
 
+interface StoredUserData {
+    compactMode?: boolean;
+    reactionConfirmationsDisabled?: boolean;
+}
+
 interface UserData {
     id: string;
+    tag: string;
     bot: boolean;
+    data: StoredUserData;
 }
 
 export default class User {
@@ -41,6 +51,7 @@ export default class User {
 
     // Data about the user
     id: string;
+    tag: string;
     bot: boolean;
     cooldown: number;
 
@@ -53,6 +64,11 @@ export default class User {
     // The users connections
     connections: Connections;
 
+    // Settings
+    compactMode?: boolean;
+    reactionConfirmationsDisabled?: boolean;
+    debugMode?: boolean;
+
     // Constructor
     constructor(client: Client, data: UserData) {
 
@@ -60,12 +76,16 @@ export default class User {
         this.client = client;
 
         this.id = data.id;
+        this.tag = data.tag; // This is only set when the user is cached
         this.bot = data.bot;
         this.cooldown = 0;
 
         this.commandHistory = [];
 
         this.connections = {};
+
+        this.compactMode = data.data.compactMode;
+        this.reactionConfirmationsDisabled = data.data.reactionConfirmationsDisabled;
 
         // Cache user
         this.client.users.set(this.id, this);
@@ -91,4 +111,13 @@ export default class User {
 
     // Increment a command used stat
     commandUsed = (type: string) => commandUsed(this, type);
+
+    // Set compact mode
+    setCompactMode = (enabled: boolean) => setCompactMode(this, enabled);
+
+    // Set reaction confirmations
+    setReactionConfirmations = (enabled: boolean) => setReactionConfirmations(this, enabled);
+
+    // Debug
+    debug = (data: DebugData) => debug(this, data);
 }

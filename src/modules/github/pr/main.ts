@@ -11,14 +11,14 @@ export default async function main(message: Message, ownerName: string, name: st
     // Create command
     const command: Command = new Command(message.client, {
         name: "pr",
-        type: "github",
+        category: "github",
         message,
         metadata: {
             ownerName,
             name
         },
         url: url(ownerName, name, prNumber),
-        getURL: (): string => `https://api.github.com/repos/${encodeURIComponent(ownerName)}/${encodeURIComponent(name)}/pulls/${encodeURIComponent(prNumber)}`,
+        getData: `https://api.github.com/repos/${encodeURIComponent(ownerName)}/${encodeURIComponent(name)}/pulls/${encodeURIComponent(prNumber)}`,
         connectionName: "github",
         fetch,
         parser: parse,
@@ -32,6 +32,7 @@ export default async function main(message: Message, ownerName: string, name: st
 
     // Fetch
     await command.fetchData();
+    if (command.data === null) return;
 
     // Get embed
     const commandEmbed: Embed = command.getEmbed(command, command.data);

@@ -2,6 +2,7 @@ import Command, { ViewDataURL } from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import Message from "../../../classes/Message/Message";
 import fetch from "../fetch";
+import play from "../play";
 import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
@@ -11,15 +12,19 @@ export default async function main(message: Message, albumID: string, commandHis
     // Create command
     const command: Command = new Command(message.client, {
         name: "album",
-        type: "spotify",
+        category: "spotify",
         message,
         url: url(albumID),
-        getURL: (): string => `https://api.spotify.com/v1/albums/${encodeURIComponent(albumID)}`,
+        getData: `https://api.spotify.com/v1/albums/${encodeURIComponent(albumID)}`,
         connectionName: "spotify",
         fetch,
         parser: parse,
         getEmbed: embed,
-        view
+        view,
+        reactions: [{
+            emoji: "spotify_play",
+            module: play
+        }]
     }, (m: Message, chIndex: number) => main(m, albumID, chIndex), commandHistoryIndex);
     await command.uninitializedConnection;
 
@@ -28,6 +33,7 @@ export default async function main(message: Message, albumID: string, commandHis
 
     // Fetch
     await command.fetchData();
+    if (command.data === null) return;
 
     // Get embed
     const commandEmbed: Embed = command.getEmbed(command, command.data);

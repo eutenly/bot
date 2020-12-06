@@ -7,7 +7,7 @@ export default async function fetch(user: User, channel: Channel, url: string): 
     // Make request
     const result: Response = await nodeFetch(url, {
         headers: {
-            "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36",
+            "User-Agent": process.env.WEB_SCRAPING_USER_AGENT as string,
         }
     });
 

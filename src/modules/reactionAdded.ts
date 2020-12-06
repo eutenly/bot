@@ -16,23 +16,23 @@ export default async function reactionAdded(reaction: Reaction) {
     if (!reaction.user.checkCooldown()) return;
 
     // Custom reactions
-    if (command.reactions) {
+    if ((command.reactions) && (!command.noData)) {
 
         // Get custom reaction
         const customReaction: CommandReaction | undefined = command.reactions.find((r: CommandReaction) => reaction.client.eutenlyEmojis.get(r.emoji) === reaction.id);
 
         // Run module
-        if (customReaction) return customReaction.module(command, reaction.user, "added", reaction);
+        if (customReaction) return customReaction.module(command, reaction.user, reaction, "added");
     }
 
     // Restrict to command author
     if (reaction.user.id !== command.message.author.id) return;
 
     // Previous page
-    if ((reaction.id === reaction.client.eutenlyEmojis.get("left_arrow")) && (command.searchManager)) setPage(reaction, command, -1);
+    if ((reaction.id === reaction.client.eutenlyEmojis.get("left_arrow")) && (command.pageManager)) setPage(reaction, command, -1);
 
     // Next page
-    else if ((reaction.id === reaction.client.eutenlyEmojis.get("right_arrow")) && (command.searchManager)) setPage(reaction, command, 1);
+    else if ((reaction.id === reaction.client.eutenlyEmojis.get("right_arrow")) && (command.pageManager)) setPage(reaction, command, 1);
 
     // Compact
     else if ((reaction.id === reaction.client.eutenlyEmojis.get("compact")) && (!command.compactMode)) setCompactMode(command, true);

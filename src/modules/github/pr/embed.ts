@@ -2,22 +2,23 @@ import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import parseDate from "../../../util/parseDate";
 import truncateString from "../../../util/truncateString";
-import { GitHubPR } from "./parse";
+import { PR } from "../types";
 
-export default function embed(command: Command, data?: GitHubPR): Embed {
+export default function embed(command: Command, data?: PR): Embed {
 
     // Get prefix
     const prefix: string = command.message.channel.prefix;
 
     // Embed
     const embed = new Embed()
-        .setAuthor("GitHub Search", "https://i.imgur.com/FwnDNtd.png")
+        .setAuthor("GitHub PR", "https://i.imgur.com/FwnDNtd.png")
         .setColor(0x000000)
         .setBranding();
 
     // No data
+    command.noData = !data;
     if (!data) return embed
-        .setDescription("Unknown pull request")
+        .setDescription("Unknown PR")
         .setColor(0xf44242);
 
     // Build embed

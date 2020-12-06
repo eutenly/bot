@@ -11,11 +11,12 @@ export default function embed(command: Command, data: SavedLink[]): Embed {
     // Embed
     const embed = new Embed()
         .setAuthor("Saved Links", "https://eutenly.com/assets/link-colored.png")
-        .setDescription(`Page ${command.searchManager?.page}`)
+        .setDescription(`Page ${command.pageManager?.page}`)
         .setColor(0xf40b3d)
         .setBranding();
 
     // No data
+    command.noData = data.length === 0;
     if (data.length === 0) return embed
         .setDescription("You don't have that many saved links")
         .setColor(0xf44242);

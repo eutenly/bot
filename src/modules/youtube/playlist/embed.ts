@@ -2,20 +2,21 @@ import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import parseDate from "../../../util/parseDate";
 import truncateString from "../../../util/truncateString";
-import { YouTubePlaylist } from "./parse";
+import { Playlist } from "../types";
 
-export default function embed(command: Command, data?: YouTubePlaylist): Embed {
+export default function embed(command: Command, data?: Playlist): Embed {
 
     // Get prefix
     const prefix: string = command.message.channel.prefix;
 
     // Embed
     const embed = new Embed()
-        .setAuthor("YouTube Search", "https://i0.wp.com/www.vectorico.com/wp-content/uploads/2018/02/youtube-red-square.png")
+        .setAuthor("YouTube Playlist", "https://i0.wp.com/www.vectorico.com/wp-content/uploads/2018/02/youtube-red-square.png")
         .setColor(0xff0000)
         .setBranding();
 
     // No data
+    command.noData = !data;
     if (!data) return embed
         .setDescription("Unknown playlist")
         .setColor(0xf44242);

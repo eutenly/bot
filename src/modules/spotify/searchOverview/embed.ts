@@ -1,9 +1,9 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import parseDuration from "../../../util/parseDuration";
-import { SpotifySearchOverview } from "./parse";
+import { SearchOverviewResult } from "../types";
 
-export default function embed(command: Command, data?: SpotifySearchOverview[]): Embed {
+export default function embed(command: Command, data?: SearchOverviewResult[]): Embed {
 
     // Get prefix
     const prefix: string = command.message.channel.prefix;
@@ -15,12 +15,13 @@ export default function embed(command: Command, data?: SpotifySearchOverview[]):
         .setBranding();
 
     // No data
-    if ((!data) || (data.length === 0)) return embed
+    command.noData = !data;
+    if (!data) return embed
         .setDescription("Your search didn't match any results")
         .setColor(0xf44242);
 
     // Build embed
-    data.forEach((d: SpotifySearchOverview, i: number) => {
+    data.forEach((d: SearchOverviewResult, i: number) => {
 
         /**
          * Track

@@ -9,13 +9,14 @@ export default async function main(message: Message, name: string, type: string,
     // Create command
     const command: Command = new Command(message.client, {
         name: "events",
-        type: "github",
+        category: "github",
         message,
         input: name,
         url: url(name),
-        getURL: (input: string = "", page: number = 1): string => `https://api.github.com/${type === "repo" ? `repos/${encodeURIComponent(name.split("/")[0])}/${encodeURIComponent(name.split("/")[1])}` : `users/${encodeURIComponent(name)}`}/events?per_page=5${page ? `&page=${page}` : ""}`,
+        getData: (input: string = "", page: number = 1): string => `https://api.github.com/${type === "repo" ? `repos/${encodeURIComponent(name.split("/")[0])}/${encodeURIComponent(name.split("/")[1])}` : `users/${encodeURIComponent(name)}`}/events?per_page=5${page ? `&page=${page}` : ""}`,
         connectionName: "github",
         fetch,
+        perPage: 5,
         parser: parse,
         getEmbed: embed
     }, (m: Message, chIndex: number) => main(m, name, type, chIndex), commandHistoryIndex);
@@ -25,7 +26,7 @@ export default async function main(message: Message, name: string, type: string,
     if (command.noConnection) return;
 
     // Search
-    command.searchManager?.setPage(1);
+    command.pageManager?.setPage(1);
 
     // Return
     return command;

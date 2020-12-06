@@ -2,10 +2,10 @@ import cheerio from "cheerio";
 import { URL } from "url";
 import { ParserData } from "../../../classes/Command/Command";
 
-export default function parse(data: any): ParserData {
+export default function parse(data: any): ParserData | undefined {
 
     // No article
-    if (data.error) return { noData: true };
+    if (data.error) return;
 
     // Parse
     const dom: any = cheerio.load(data.parse.text["*"]);
@@ -36,6 +36,9 @@ export default function parse(data: any): ParserData {
     // Remove other html
     snippet = cheerio.load(snippet);
     snippet = snippet.text();
+
+    // Replace 2 or more line breaks in a row
+    snippet = snippet.replace(/\r/g, "").replace(/\n{2,}/g, "\n\n");
 
     // Return
     return {

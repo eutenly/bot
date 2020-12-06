@@ -1,25 +1,6 @@
 import { ParserData } from "../../../classes/Command/Command";
 
-export interface GitHubRepo {
-    name: string;
-    ownerName: string;
-    description: string;
-}
-
-export interface GitHubNotification {
-    repoName: string;
-    repoOwnerName: string;
-    type: string;
-}
-
-export interface GitHubHome {
-    username: string;
-    watchedRepos: GitHubRepo[];
-    starredRepos: GitHubRepo[];
-    notifications: GitHubNotification[];
-}
-
-export default function parse(data: any, extraData?: any[]): ParserData {
+export default function parse(data: any, extraData?: any[]): ParserData | undefined {
 
     // Parse extra data
     const watchedRepos: any = extraData && extraData[0];
@@ -33,12 +14,14 @@ export default function parse(data: any, extraData?: any[]): ParserData {
             watchedRepos: watchedRepos.map((r: any) => ({
                 name: r.name,
                 ownerName: r.owner.login,
-                description: r.description
+                description: r.description,
+                private: r.private
             })),
             starredRepos: starredRepos.map((r: any) => ({
                 name: r.name,
                 ownerName: r.owner.login,
-                description: r.description
+                description: r.description,
+                private: r.private
             })),
             notifications: notifications.map((n: any) => ({
                 repoName: n.repository.name,

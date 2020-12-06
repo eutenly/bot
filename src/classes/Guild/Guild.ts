@@ -9,6 +9,7 @@ import getMember from "./getMember";
 import getPermissions, { GuildPermissions, GuildPermissionsInputData } from "./getPermissions";
 import getRoles from "./getRoles";
 import setCompactMode from "./setCompactMode";
+import setPrefix from "./setPrefix";
 
 export interface PermissionOverwrites {
     id: string;
@@ -137,6 +138,9 @@ export default class Guild {
 
     // Calculate the permissions for the bot in all the channels in this guild
     calculateBotPermissions = (data?: PartialPermissionsGuildData): Promise<void> => calculateBotPermissions(this, data);
+
+    // Set prefix
+    setPrefix = (prefix: string) => setPrefix(this, prefix);
 
     // Set compact mode for a channel
     setCompactMode = (channels: string | string[], enabled: boolean) => setCompactMode(this, channels, enabled);

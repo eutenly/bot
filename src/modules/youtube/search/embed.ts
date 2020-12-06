@@ -1,27 +1,28 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import parseDate from "../../../util/parseDate";
-import { YouTubeSearchResult } from "./parse";
+import { SearchResult } from "../types";
 
-export default function embed(command: Command, data: YouTubeSearchResult[]): Embed {
+export default function embed(command: Command, data: SearchResult[]): Embed {
 
     // Get prefix
     const prefix: string = command.message.channel.prefix;
 
     // Embed
     const embed = new Embed()
-        .setAuthor(`YouTube Search: ${command.searchManager?.input}`, "https://i0.wp.com/www.vectorico.com/wp-content/uploads/2018/02/youtube-red-square.png")
-        .setDescription(`Page ${command.searchManager?.page}`)
+        .setAuthor(`YouTube Search: ${command.pageManager?.input}`, "https://i0.wp.com/www.vectorico.com/wp-content/uploads/2018/02/youtube-red-square.png")
+        .setDescription(`Page ${command.pageManager?.page}`)
         .setColor(0xff0000)
         .setBranding();
 
     // No data
+    command.noData = data.length === 0;
     if (data.length === 0) return embed
         .setDescription("Your search didn't match any results")
         .setColor(0xf44242);
 
     // Build embed
-    data.forEach((d: YouTubeSearchResult, i: number) => {
+    data.forEach((d: SearchResult, i: number) => {
 
         /**
          * Video

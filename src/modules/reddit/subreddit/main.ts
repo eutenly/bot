@@ -2,6 +2,7 @@ import Command, { ViewDataURL } from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import Message from "../../../classes/Message/Message";
 import fetch from "../fetch";
+import joinSubreddit from "../joinSubreddit";
 import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
@@ -11,18 +12,22 @@ export default async function main(message: Message, subredditName: string, comm
     // Create command
     const command: Command = new Command(message.client, {
         name: "subreddit",
-        type: "reddit",
+        category: "reddit",
         message,
         url: url(subredditName),
-        getURL: (): string => `https://oauth.reddit.com/r/${encodeURIComponent(subredditName)}/about?raw_json=1`,
+        getData: `https://oauth.reddit.com/r/${encodeURIComponent(subredditName)}/about?raw_json=1`,
         getExtraData: [
-            (): string => `https://oauth.reddit.com/r/${encodeURIComponent(subredditName)}/hot?raw_json=1&limit=5`
+            `https://oauth.reddit.com/r/${encodeURIComponent(subredditName)}/hot?raw_json=1&limit=5`
         ],
         connectionName: "reddit",
         fetch,
         parser: parse,
         getEmbed: embed,
-        view
+        view,
+        reactions: [{
+            emoji: "reddit_join",
+            module: joinSubreddit
+        }]
     }, (m: Message, chIndex: number) => main(m, subredditName, chIndex), commandHistoryIndex);
     await command.uninitializedConnection;
 
@@ -31,6 +36,7 @@ export default async function main(message: Message, subredditName: string, comm
 
     // Fetch
     await command.fetchData();
+    if (command.data === null) return;
 
     // Get embed
     const commandEmbed: Embed = command.getEmbed(command, command.data);

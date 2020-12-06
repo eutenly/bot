@@ -1,32 +1,33 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
-import { GitHubSearchResult } from "./parse";
+import { Event } from "../types";
 
-export default function embed(command: Command, data: GitHubSearchResult[]): Embed {
+export default function embed(command: Command, data: Event[]): Embed {
 
     // Get prefix
     const prefix: string = command.message.channel.prefix;
 
     // Embed
     const embed = new Embed()
-        .setAuthor("GitHub Search", "https://i.imgur.com/FwnDNtd.png")
-        .setDescription(`Page ${command.searchManager?.page}`)
+        .setAuthor("GitHub Events", "https://i.imgur.com/FwnDNtd.png")
+        .setDescription(`Page ${command.pageManager?.page}`)
         .setColor(0x000000)
         .setBranding();
 
     // No data
+    command.noData = data.length === 0;
     if (data.length === 0) return embed
-        .setDescription("Your search didn't match any results")
+        .setDescription("There aren't that many events")
         .setColor(0xf44242);
 
     // Build embed
     embed
-        .setAuthor(`${command.searchManager?.input}: Events`, "https://i.imgur.com/FwnDNtd.png", `https://github.com/${command.searchManager?.input}`)
+        .setAuthor(`${command.pageManager?.input}: Events`, "https://i.imgur.com/FwnDNtd.png", `https://github.com/${command.pageManager?.input}`)
         .addField(null, null, true)
-        .addField("Link", `[github.com...](https://github.com/${command.searchManager?.input})`, true)
+        .addField("Link", `[github.com...](https://github.com/${command.pageManager?.input})`, true)
         .addField(null, null, true);
 
-    data.forEach((d: GitHubSearchResult, i: number) => {
+    data.forEach((d: Event, i: number) => {
 
         /**
          * Commit Comment

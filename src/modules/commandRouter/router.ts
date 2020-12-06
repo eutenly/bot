@@ -54,14 +54,15 @@ export default function router(message: Message): boolean {
     }
 
     // Run module
-    try {
-        route.module(message);
-    } catch (error) {
-        // Catch errors and log on Sentry
-        message.channel.sendMessage(":x:  **|  Uh oh, Something went wrong! We've traced the issue and our team has been alerted. If this happens continuously, then report the issue on the support server: `e;support`**");
-        Sentry.captureException(error);
-        console.log("Captured Exception");
-    }
+    route.module(message).catch((err) => {
+
+        // Log error
+        console.error(err);
+        Sentry.captureException(err);
+
+        // Send
+        message.channel.sendMessage(":x:  **|  Uh oh, Something went wrong! We've traced the issue and our team has been alerted. If this happens continuously, please report the issue on our support server with `e;support`**");
+    });
 
     // Return
     return true;

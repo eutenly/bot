@@ -10,7 +10,7 @@ export default async function fetch(user: User, channel: Channel, url: string): 
 
     // Make request
     const result: Response = await nodeFetch(url, {
-        headers: { "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36" }
+        headers: { "User-Agent": process.env.WEB_SCRAPING_USER_AGENT as string }
     });
 
     // Invalid response
@@ -25,14 +25,19 @@ export default async function fetch(user: User, channel: Channel, url: string): 
     // Get title
     let title: any = dom("title").first();
     title = title.length ? title.text() : null;
+    if (!title) {
+        title = dom(`meta[property="og:title"], meta[name="og:title"]`).first();
+        title = title.length ? title.attr("content") : null;
+    }
 
     // Get description
-    let description: any = dom(`meta[name="description"]`).first();
+    let description: any = dom(`meta[name="description"], meta[property="og:description"], meta[name="og:description"]`).first();
     description = description.length ? description.attr("content") : null;
 
     // Get icon
     let icon: any = dom(`link[rel*="icon"]`).first();
-    icon = icon.length ? icon.attr("href") : "/favicon.ico";
+    icon = icon.length ? icon.attr("href") : null;
+    if (!icon) icon = "/favicon.ico";
     icon = resolveURL(result.url, icon);
 
     // Fetch icon image
@@ -51,6 +56,16 @@ export default async function fetch(user: User, channel: Channel, url: string): 
     // Get image
     let image: any = dom(`meta[property="og:image"]`).first();
     image = image.length ? image.attr("content") : null;
+    if (image) image = resolveURL(result.url, image);
+
+    // Image link
+    if ([".png", ".jpg", ".jpeg", ".gif"].find((e: string) => result.url.endsWith(e))) {
+
+        title = result.url.split("/");
+        title = title[title.length - 1];
+
+        image = result.url;
+    }
 
     // Get website data
     const parsedURL: UrlWithStringQuery = parseURL(result.url);

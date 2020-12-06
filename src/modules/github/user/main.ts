@@ -2,6 +2,7 @@ import Command, { ViewDataURL } from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import Message from "../../../classes/Message/Message";
 import fetch from "../fetch";
+import followUser from "../followUser";
 import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
@@ -11,15 +12,19 @@ export default async function main(message: Message, name: string, commandHistor
     // Create command
     const command: Command = new Command(message.client, {
         name: "user",
-        type: "github",
+        category: "github",
         message,
         url: url(name),
-        getURL: (): string => `https://api.github.com/users/${encodeURIComponent(name)}`,
+        getData: `https://api.github.com/users/${encodeURIComponent(name)}`,
         connectionName: "github",
         fetch,
         parser: parse,
         getEmbed: embed,
-        view
+        view,
+        reactions: [{
+            emoji: "github_follow",
+            module: followUser
+        }]
     }, (m: Message, chIndex: number) => main(m, name, chIndex), commandHistoryIndex);
     await command.uninitializedConnection;
 
@@ -28,6 +33,7 @@ export default async function main(message: Message, name: string, commandHistor
 
     // Fetch
     await command.fetchData();
+    if (command.data === null) return;
 
     // Get embed
     const commandEmbed: Embed = command.getEmbed(command, command.data);

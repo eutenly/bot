@@ -15,9 +15,11 @@ import RateLimit from "../common/RateLimit";
 import botInteractionAPI from "./botInteractionAPI";
 import connectInfluxDB from "./connectInfluxDB";
 import connectMongoDB from "./connectMongoDB";
+import createUser, { CreateUserData } from "./createUser";
 import fetch from "./fetch";
 import activateGarbageCollection from "./garbageCollector";
 import getDMChannel from "./getDMChannel";
+import getRawDMChannel from "./getRawDMChannel";
 import leaveGuild from "./leaveGuild";
 import resourceUsage from "./resourceUsage";
 
@@ -54,8 +56,12 @@ export default class Client extends EventEmitter {
 
     // Data about the client
     id: string;
+    tag: string;
     avatarURL: string;
     sessionID: string | undefined;
+
+    // ID generation increment
+    idGenerationIncrement: number;
 
     // The InfluxDB connection
     influxDB: InfluxDB;
@@ -98,6 +104,8 @@ export default class Client extends EventEmitter {
         // Set data
         this.token = token;
         this.sequence = null;
+
+        this.idGenerationIncrement = 0;
 
         this.eventQueue = [];
 
@@ -154,7 +162,7 @@ export default class Client extends EventEmitter {
 
         // Resource usage
         resourceUsage(this);
-    };
+    }
 
     // Update the sequence
     updateSequence = (sequence: number) => this.sequence = sequence;
@@ -162,9 +170,15 @@ export default class Client extends EventEmitter {
     // Make requests to the API
     fetch = (path: string, options?: RequestInit, headers?: object): Promise<{ data: any; rateLimit: RateLimit | undefined; }> => fetch(this, path, options, headers);
 
-    // Get a DM channel
+    // Get a raw DM channel
+    getRawDMChannel = (userID: string): Promise<any> => getRawDMChannel(this, userID);
+
+    // Get a DM channel as a `Channel` object
     getDMChannel = (userID: string): Promise<Channel> => getDMChannel(this, userID);
 
     // Leave a guild
     leaveGuild = (guild: Guild, reason?: string): Promise<void> => leaveGuild(this, guild, reason);
+
+    // Create user
+    createUser = (data: CreateUserData): Promise<User> => createUser(this, data);
 }

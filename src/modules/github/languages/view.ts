@@ -1,9 +1,9 @@
 import Command, { ViewData } from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
 import repo, { url as repoURL } from "../repo/main";
-import { GitHubLanguages } from "./parse";
+import { Languages } from "../types";
 
-export default function view(data: GitHubLanguages | undefined, message: Message, command: Command): ViewData | undefined {
+export default function view(data: Languages | undefined, message: Message, command: Command): ViewData | undefined {
 
     // Get prefix
     const prefix: string = command.message.channel.prefix;

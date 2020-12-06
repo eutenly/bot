@@ -1,21 +1,6 @@
 import { ParserData } from "../../../classes/Command/Command";
 
-interface SpotifyArtist {
-    id: string;
-    name: string;
-}
-
-export interface SpotifySearchOverview {
-    id: string;
-    type: string;
-    name: string;
-    artist: SpotifyArtist;
-    length?: number;
-    followers?: number;
-    tracks?: number;
-}
-
-export default function parse(data: any): ParserData {
+export default function parse(data: any): ParserData | undefined {
 
     // Define results
     const results: any[] = [];
@@ -28,10 +13,10 @@ export default function parse(data: any): ParserData {
     const topArtist: any = data.artists.items[0];
 
     // Add both to data ordered by popularity
-    if (!topTrack) results.push(topArtist);
-    else if (!topArtist) results.push(topTrack);
-    else if (topTrack.popularity > topArtist.popularity) results.push(topTrack, topArtist);
-    else results.push(topArtist, topTrack);
+    if ((!topTrack) && (topArtist)) results.push(topArtist);
+    else if ((!topArtist) && (topTrack)) results.push(topTrack);
+    else if ((topTrack) && (topArtist) && (topTrack.popularity > topArtist.popularity)) results.push(topTrack, topArtist);
+    else if ((topArtist) && (topTrack)) results.push(topArtist, topTrack);
 
     // Remove from tracks and artists
     if (topTrack) tracksAndArtists.splice(tracksAndArtists.indexOf(topTrack), 1);
@@ -45,7 +30,7 @@ export default function parse(data: any): ParserData {
     results.push(...tracksAndArtists.slice(0, 5 - results.length));
 
     // No results
-    if (results.length === 0) return { noData: true };
+    if (results.length === 0) return;
 
     // Return
     return {

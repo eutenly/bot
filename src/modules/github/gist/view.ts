@@ -1,10 +1,10 @@
 import Command, { ViewData } from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
 import gists, { url as gistsURL } from "../gists/main";
+import { Gist } from "../types";
 import user, { url as userURL } from "../user/main";
-import { GitHubGist } from "./parse";
 
-export default function view(data: GitHubGist | undefined, message: Message, command: Command): ViewData | undefined {
+export default function view(data: Gist | undefined, message: Message, command: Command): ViewData | undefined {
 
     // No data
     if (!data) return;

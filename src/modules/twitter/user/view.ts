@@ -1,9 +1,9 @@
 import { ViewData } from "../../../classes/Command/Command";
 import Message from "../../../classes/Message/Message";
 import timeline, { url as timelineURL } from "../timeline/main";
-import { TwitterUser } from "./parse";
+import { User } from "../types";
 
-export default function view(data: TwitterUser | undefined, message: Message): ViewData | undefined {
+export default function view(data: User | undefined, message: Message): ViewData | undefined {
 
     // Get prefix
     const prefix: string = message.channel.prefix;

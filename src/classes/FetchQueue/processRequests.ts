@@ -3,7 +3,7 @@ import FetchQueue, { RequestData } from "./FetchQueue";
 export default async function processRequests(fetchQueue: FetchQueue) {
 
     // Sleep
-    const sleep = (amount: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, amount));
+    const sleep = (amount: number) => new Promise((resolve) => setTimeout(resolve, amount));
 
     // Set processing requests
     fetchQueue.processingRequests = true;

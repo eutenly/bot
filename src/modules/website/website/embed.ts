@@ -1,6 +1,6 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
-import { WebsiteData } from "./parse";
+import { WebsiteData } from "../types";
 
 export default function embed(command: Command, data?: WebsiteData): Embed {
 
@@ -11,6 +11,7 @@ export default function embed(command: Command, data?: WebsiteData): Embed {
         .setBranding();
 
     // No data
+    command.noData = !data;
     if (!data) return embed
         .setDescription("Unknown website")
         .setColor(0xf44242);

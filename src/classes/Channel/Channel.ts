@@ -11,6 +11,8 @@ import sendMessage from "./sendMessage";
 
 interface RawMessageAuthor {
     id: string;
+    username: string;
+    discriminator: string;
     bot?: boolean;
 }
 

@@ -13,10 +13,10 @@ export default async function main(message: Message, tweetID: string, user: stri
     // Create command
     const command: Command = new Command(message.client, {
         name: "tweet",
-        type: "twitter",
+        category: "twitter",
         message,
         url: url(user, tweetID),
-        getURL: (): string => `https://api.twitter.com/1.1/statuses/show.json?id=${encodeURIComponent(tweetID)}&tweet_mode=extended`,
+        getData: `https://api.twitter.com/1.1/statuses/show.json?id=${encodeURIComponent(tweetID)}&tweet_mode=extended`,
         connectionName: "twitter",
         fetch,
         parser: parse,
@@ -40,6 +40,7 @@ export default async function main(message: Message, tweetID: string, user: stri
 
     // Fetch
     await command.fetchData();
+    if (command.data === null) return;
 
     // Get embed
     const commandEmbed: Embed = command.getEmbed(command, command.data);

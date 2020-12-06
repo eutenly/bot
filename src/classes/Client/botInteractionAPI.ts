@@ -35,14 +35,8 @@ export default async function botInteractionAPI(client: Client) {
     // Help embed
     app.post("/api/v1/helpEmbed", async (req, res) => {
 
-        // Get user
-        const user: User = client.users.get(req.body.user_id) || new User(client, {
-            id: req.body.user_id,
-            bot: false
-        });
-
         // Get DM channel
-        const dmChannel: Channel = await user.getDMChannel();
+        const dmChannel: Channel = await client.getDMChannel(req.body.user_id);
 
         // Get help embed
         let helpEmbed: Embed;
@@ -65,14 +59,8 @@ export default async function botInteractionAPI(client: Client) {
     // DM
     app.post("/api/v1/dm", async (req, res) => {
 
-        // Get user
-        const user: User = client.users.get(req.body.user_id) || new User(client, {
-            id: req.body.user_id,
-            bot: false
-        });
-
         // Get DM channel
-        const dmChannel: Channel = await user.getDMChannel();
+        const dmChannel: Channel = await client.getDMChannel(req.body.user_id);
 
         // Send message
         dmChannel.sendMessage(req.body.message);

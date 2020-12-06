@@ -4,9 +4,9 @@ import album, { url as albumURL } from "../album/main";
 import artist, { url as artistURL } from "../artist/main";
 import search from "../search/main";
 import track, { url as trackURL } from "../track/main";
-import { SpotifySearchOverview } from "./parse";
+import { SearchOverviewResult } from "../types";
 
-export default function view(data: SpotifySearchOverview[] | undefined, message: Message, command: Command): ViewData | undefined {
+export default function view(data: SearchOverviewResult[] | undefined, message: Message, command: Command): ViewData | undefined {
 
     // No data
     if (!data) return;
@@ -45,7 +45,7 @@ export default function view(data: SpotifySearchOverview[] | undefined, message:
     if ((!resultNumber) || (resultNumber < 1)) return { error: ":x:  **|  That result number is invalid**" };
 
     // Get result
-    const result: SpotifySearchOverview = data[resultNumber - 1];
+    const result: SearchOverviewResult = data[resultNumber - 1];
     if (!result) return { error: ":x:  **|  That result number is invalid**" };
 
     // Run module

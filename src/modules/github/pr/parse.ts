@@ -1,20 +1,9 @@
 import { ParserData } from "../../../classes/Command/Command";
 
-export interface GitHubPR {
-    title: string;
-    number: number;
-    text: string;
-    state: string;
-    user: string;
-    locked: boolean;
-    labels: string[];
-    createdOn: string;
-}
-
-export default function parse(data: any): ParserData {
+export default function parse(data: any): ParserData | undefined {
 
     // No issue
-    if (data.message) return { noData: true };
+    if (data.message) return;
 
     // Return
     return {

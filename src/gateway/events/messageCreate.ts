@@ -4,6 +4,8 @@ import Message from "../../classes/Message/Message";
 
 interface MessageCreateEventDataAuthor {
     id: string;
+    username: string;
+    discriminator: string;
     bot?: boolean;
 }
 
@@ -34,6 +36,7 @@ export default async function messageCreate(client: Client, data: MessageCreateE
         content: data.content,
         author: {
             id: data.author.id,
+            tag: `${data.author.username}#${data.author.discriminator}`,
             bot: Boolean(data.author.bot)
         }
     });

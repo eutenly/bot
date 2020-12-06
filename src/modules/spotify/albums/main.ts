@@ -10,16 +10,17 @@ export default async function main(message: Message, artistID: string, artistNam
     // Create command
     const command: Command = new Command(message.client, {
         name: "albums",
-        type: "spotify",
+        category: "spotify",
         message,
         input: artistID,
         metadata: {
             artistName
         },
         url: url(artistID),
-        getURL: (artistID: string = "", page: number = 1): string => `https://api.spotify.com/v1/artists/${artistID}/albums?include_groups=album,single&market=from_token&limit=5${page ? `&offset=${(page - 1) * 5}` : ""}`,
+        getData: (artistID: string = "", page: number = 1): string => `https://api.spotify.com/v1/artists/${artistID}/albums?include_groups=album,single&market=from_token&limit=5${page ? `&offset=${(page - 1) * 5}` : ""}`,
         connectionName: "spotify",
         fetch,
+        perPage: 5,
         parser: parse,
         getEmbed: embed,
         view
@@ -30,7 +31,7 @@ export default async function main(message: Message, artistID: string, artistNam
     if (command.noConnection) return;
 
     // Search
-    command.searchManager?.setPage(1);
+    command.pageManager?.setPage(1);
 
     // Return
     return command;

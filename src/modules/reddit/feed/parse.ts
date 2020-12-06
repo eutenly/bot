@@ -1,22 +1,9 @@
 import { ParserData } from "../../../classes/Command/Command";
 
-export interface RedditPost {
-    id: string;
-    title: string;
-    text: string;
-    subredditName: string;
-    score: number;
-    comments: number;
-    awards: number;
-    nsfw: boolean;
-    spoiler: boolean;
-    user: string;
-}
-
-export default function parse(data?: any): ParserData {
+export default function parse(data?: any): ParserData | undefined {
 
     // No data
-    if (data.data.children.length === 0) return { noData: true };
+    if (data.data.children.length === 0) return;
 
     // Return
     return {
