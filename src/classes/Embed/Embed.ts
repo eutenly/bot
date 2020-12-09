@@ -149,8 +149,8 @@ export default class Embed {
     addField = (name?: string | number | null, value?: string | number | null, inline: boolean = false): Embed => {
 
         // Parse data
-        if ((name === undefined) || (name === null)) name = "\u200b";
-        if ((value === undefined) || (value === null)) value = "\u200b";
+        if ((name === undefined) || (name === null) || (name === "")) name = "\u200b";
+        if ((value === undefined) || (value === null) || (value === "")) value = "\u200b";
 
         // Parse name
         if (typeof name === "number") name = name.toString();
