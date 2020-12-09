@@ -10,7 +10,7 @@ export default async function fetch(user: User, channel: Channel, url: string): 
 
     // Make request
     const result: Response = await nodeFetch(url, {
-        headers: { "User-Agent": process.env.WEB_SCRAPING_USER_AGENT as string }
+        headers: { "User-Agent": "Mozilla/5.0 (compatible; Eutenly/1.0; +https://eutenly.com)" }
     });
 
     // Invalid response
