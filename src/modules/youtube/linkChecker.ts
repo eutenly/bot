@@ -16,20 +16,24 @@ export default function linkChecker(input: string, linksOnly?: boolean): LinkChe
     let url: URL = new URL("https://this_variable_needs_to_be_defined");
     try { url = new URL(inputURL); } catch { }
 
+    // Regexes
+    const HOSTNAME_REGEX: RegExp = /^(www\.)?(m\.)?youtube\.com$/;
+    const SHORTLINK_HOSTNAME_REGEX: RegExp = /^(www\.)?youtu\.be$/;
+
     // Check if input is a video link
     if (
         (
-            url.hostname === "youtube.com" &&
+            HOSTNAME_REGEX.test(url.hostname) &&
             url.pathname === "/watch" &&
             url.searchParams.get("v")
         ) ||
         (
-            url.hostname === "youtu.be" &&
+            SHORTLINK_HOSTNAME_REGEX.test(url.hostname) &&
             url.pathname !== "/"
         )
-    ) return (message: Message) => youtubeVideo(message, url.hostname === "youtube.com" ? (url.searchParams.get("v") as string) : url.pathname.substring(1));
+    ) return (message: Message) => youtubeVideo(message, HOSTNAME_REGEX.test(url.hostname) ? (url.searchParams.get("v") as string) : url.pathname.substring(1));
 
-    if (url.hostname === "youtube.com") {
+    if (HOSTNAME_REGEX.test(url.hostname)) {
 
         // Check if input is a videos link
         const videos = url.pathname.match(/\/channel\/(.+)\/videos/);
