@@ -1,5 +1,6 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
+import truncateString from "../../../util/truncateString";
 import { WebsiteData } from "../types";
 
 export default function embed(command: Command, data?: WebsiteData): Embed {
@@ -19,7 +20,7 @@ export default function embed(command: Command, data?: WebsiteData): Embed {
     // Build embed
     embed
         .setAuthor(data.title || data.url, data.icon, data.url)
-        .setDescription(data.description)
+        .setDescription(truncateString(data.description || "", 500))
         .setColor(data.color || 0xf40b3d);
 
     if (data.websiteData) data.websiteData.fields.forEach((f) => embed.addField(f.title, f.description, f.inline));
