@@ -1,11 +1,11 @@
 import Client from "../Client/Client";
+import { RequestOptions } from "../Client/fetch";
 import RateLimit from "../common/RateLimit";
 import processRequests from "./processRequests";
 import request from "./request";
 
 export interface RequestData {
-    path: string;
-    data?: object;
+    options: RequestOptions;
     resolve: Function;
     reject: Function;
 }
@@ -31,7 +31,7 @@ export default class FetchQueue {
     }
 
     // Request data to be fetched
-    request = (path: string, data?: object): Promise<any> => request(this, path, data);
+    request = (path: string, options?: object, apiVersion?: number): Promise<any> => request(this, path, options, apiVersion);
 
     // Process requests
     processRequests = () => processRequests(this);

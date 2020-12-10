@@ -2,7 +2,6 @@ import { EventEmitter } from "events";
 import { google, youtube_v3 } from "googleapis";
 import { InfluxDB } from "influx";
 import mongoose from "mongoose";
-import { RequestInit } from "node-fetch";
 import { Terminal } from "terminal-kit";
 import WebSocket from "ws";
 import connect from "../../gateway/socket/connect";
@@ -16,7 +15,7 @@ import botInteractionAPI from "./botInteractionAPI";
 import connectInfluxDB from "./connectInfluxDB";
 import connectMongoDB from "./connectMongoDB";
 import createUser, { CreateUserData } from "./createUser";
-import fetch from "./fetch";
+import fetch, { RequestOptions } from "./fetch";
 import activateGarbageCollection from "./garbageCollector";
 import getDMChannel from "./getDMChannel";
 import getRawDMChannel from "./getRawDMChannel";
@@ -164,11 +163,14 @@ export default class Client extends EventEmitter {
         resourceUsage(this);
     }
 
+    // Register slash commands
+    registerSlashCommands = () => registerSlashCommands(this);
+
     // Update the sequence
     updateSequence = (sequence: number) => this.sequence = sequence;
 
     // Make requests to the API
-    fetch = (path: string, options?: RequestInit, headers?: object): Promise<{ data: any; rateLimit: RateLimit | undefined; }> => fetch(this, path, options, headers);
+    fetch = (requestOptions: RequestOptions): Promise<{ data: any; rateLimit: RateLimit | undefined; }> => fetch(this, requestOptions);
 
     // Get a raw DM channel
     getRawDMChannel = (userID: string): Promise<any> => getRawDMChannel(this, userID);
