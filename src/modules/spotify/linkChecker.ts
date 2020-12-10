@@ -21,7 +21,10 @@ export default function linkChecker(input: string, linksOnly?: boolean): LinkChe
     let url: URL = new URL("https://this_variable_needs_to_be_defined");
     try { url = new URL(inputURL); } catch { }
 
-    if (url.hostname === "open.spotify.com") {
+    // Regexes
+    const HOSTNAME_REGEX: RegExp = /^(www\.)?open\.spotify\.com$/;
+
+    if (HOSTNAME_REGEX.test(url.hostname)) {
 
         // Check if input is a track link
         const track = url.pathname.match(/\/track\/(.+)/);

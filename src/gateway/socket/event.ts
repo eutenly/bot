@@ -8,6 +8,7 @@ import guildMemberUpdate from "../events/guildMemberUpdate";
 import messageCreate from "../events/messageCreate";
 import messageReactionAdd from "../events/messageReactionAdd";
 import messageReactionRemove from "../events/messageReactionRemove";
+import interactionCreate from "../events/interactionCreate"
 import ready from "../events/ready";
 import roleDelete from "../events/roleDelete";
 import roleUpdate from "../events/roleUpdate";
@@ -52,4 +53,7 @@ export default function event(client: Client, type: string, data: any) {
 
     // Guild member update
     else if (type === "GUILD_MEMBER_UPDATE") guildMemberUpdate(client, data);
+
+    // Interactions
+    else if (type === "INTERACTION_CREATE") interactionCreate(client, data);
 }

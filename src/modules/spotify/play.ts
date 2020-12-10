@@ -30,7 +30,7 @@ export default async function play(command: Command, user: User, reaction: React
     if (result.error?.reason === "NO_ACTIVE_DEVICE") return command.message.channel.sendMessage(`:x:  **|  <@${user.id}>, You aren't listening to anything**`);
 
     // User doesn't have premium
-    if (result.error?.reason === "PREMIUM_REQUIRED") return command.message.channel.sendMessage(`:x:  **|  <@${user.id}>, You need to have Spotify Premium in order for bots to be able to control your player**`);
+    if (result.error?.reason === "PREMIUM_REQUIRED") return command.message.channel.sendMessage(`:x:  **|  <@${user.id}>, You need to have Spotify Premium in order for 3rd party services to be able to control your player**`);
 
     // Send
     if (!user.reactionConfirmationsDisabled) command.message.channel.sendMessage(`<:spotify_play:${command.client.eutenlyEmojis.get("spotify_play")}>  **|  <@${user.id}>, ${command.data.name} is now playing**`);

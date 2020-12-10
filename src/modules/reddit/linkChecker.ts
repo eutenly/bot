@@ -17,7 +17,10 @@ export default function linkChecker(input: string, linksOnly?: boolean): LinkChe
     let url: URL = new URL("https://this_variable_needs_to_be_defined");
     try { url = new URL(inputURL); } catch { }
 
-    if (url.hostname === "reddit.com") {
+    // Regexes
+    const HOSTNAME_REGEX: RegExp = /^(www\.)?reddit\.com$/;
+
+    if (HOSTNAME_REGEX.test(url.hostname)) {
 
         // Check if input is a post
         const post = url.pathname.match(/\/r\/(.+)\/comments\/(.+)/);
