@@ -1,8 +1,8 @@
 import * as Sentry from "@sentry/node";
 import Message from "../../classes/Message/Message";
-import { routes, BaseCommand } from "./routes";
+import { routes, CommandRoute } from "./routes";
 
-export default function router(message: Message): boolean {
+export default function textRouter(message: Message): boolean {
 
     // Ignore bots
     if (message.author.bot) return false;
@@ -14,12 +14,11 @@ export default function router(message: Message): boolean {
     const requestedCommand = message.commandContent.toLowerCase();
 
     // Parse routes
-    let allRoutes: BaseCommand[] = routes;
-    if (message.channel.commands) allRoutes = allRoutes.concat(message.channel.commands.commands);
+    let allRoutes: CommandRoute[] = routes;
 
     // Get command route
     const route = allRoutes.find(
-        (route: BaseCommand) => route.inputs.some((routeInput: string) => requestedCommand.startsWith(routeInput))
+        (route: CommandRoute) => route.inputs.some((routeInput: string) => requestedCommand.startsWith(routeInput))
     );
 
     if (!route) return false;

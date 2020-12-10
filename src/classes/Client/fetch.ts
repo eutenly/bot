@@ -46,7 +46,7 @@ export default async function fetch(client: Client, requestOptions: RequestOptio
     };
 
     // API error
-    if (data.code !== undefined) throw new Error(`API Error: ${data.code} ${data.message} at ${requestOptions.path}`);
+    if (data.code !== undefined) throw new Error(`API error at ${requestOptions.path}: ${JSON.stringify(data, null, 4)}`);
 
     // Return
     return {

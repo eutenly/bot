@@ -20,6 +20,7 @@ import activateGarbageCollection from "./garbageCollector";
 import getDMChannel from "./getDMChannel";
 import getRawDMChannel from "./getRawDMChannel";
 import leaveGuild from "./leaveGuild";
+import registerSlashCommands from "./registerSlashCommands";
 import resourceUsage from "./resourceUsage";
 
 export interface ServerData {
@@ -35,6 +36,9 @@ export interface EventQueueEvent {
 interface ClientFetchQueue {
     getDMChannel: FetchQueue;
     leaveGuild: FetchQueue;
+    fetchSlashCommands: FetchQueue;
+    registerSlashCommand: FetchQueue;
+    unregisterSlashCommand: FetchQueue;
 }
 
 export default class Client extends EventEmitter {
@@ -119,7 +123,10 @@ export default class Client extends EventEmitter {
         // Set fetch queues
         this.fetchQueues = {
             getDMChannel: new FetchQueue(this),
-            leaveGuild: new FetchQueue(this)
+            leaveGuild: new FetchQueue(this),
+            fetchSlashCommands: new FetchQueue(this),
+            registerSlashCommand: new FetchQueue(this),
+            unregisterSlashCommand: new FetchQueue(this)
         };
 
         // Set youtube client

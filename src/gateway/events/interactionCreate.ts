@@ -14,6 +14,12 @@ interface InteractionEventData {
 interface InteractionCommand {
     name: string;
     id: string;
+    options: InteractionOptions[];
+}
+
+interface InteractionOptions {
+    name: string;
+    value: string | number;
 }
 
 interface InteractionMember {
@@ -23,17 +29,18 @@ interface InteractionMember {
 }
 
 export default async function interactionCreate(client: Client, data: InteractionEventData) {
-    await fetch(`https://discord.com/api/v8/interactions/${data.id}/${data.token}/callback`, {
-        method: "POST",
-        body: JSON.stringify({
-            type: 4,
-            data: {
-                tts: false,
-                content: "Pong!",
-                embeds: [],
-                allowed_mentions: []
-            }
-        }),
-        headers: { "Content-Type": "application/json" }
-    });
+    // await fetch(`https://discord.com/api/v8/interactions/${data.id}/${data.token}/callback`, {
+    //     method: "POST",
+    //     body: JSON.stringify({
+    //         type: 4,
+    //         data: {
+    //             tts: false,
+    //             content: "Pong!",
+    //             embeds: [],
+    //             allowed_mentions: []
+    //         }
+    //     }),
+    //     headers: { "Content-Type": "application/json" }
+    // });
+
 }
