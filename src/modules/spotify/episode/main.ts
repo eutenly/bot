@@ -1,4 +1,3 @@
-import ChannelCommands from "../../../classes/Channel/ChannelCommands/ChannelCommands";
 import Command, { ViewDataURL } from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
 import Message from "../../../classes/Message/Message";
@@ -32,15 +31,6 @@ export default async function main(message: Message, episodeID: string, progress
     // Fetch
     await command.fetchData();
     if (command.data === null) return;
-
-    // Channel commands
-    message.channel.commands = new ChannelCommands(message.channel, {
-        sourceCommand: command,
-        commands: [{
-            inputs: ["add", "save"],
-            module: (msg: Message) => add(msg, command.data.id, command.data.name, "episode")
-        }]
-    });
 
     // Get embed
     const commandEmbed: Embed = command.getEmbed(command, command.data);

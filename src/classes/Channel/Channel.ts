@@ -3,7 +3,6 @@ import { EmbedData } from "../Embed/Embed";
 import FetchQueue from "../FetchQueue/FetchQueue";
 import Guild from "../Guild/Guild";
 import Message from "../Message/Message";
-import ChannelCommands from "./ChannelCommands/ChannelCommands";
 import fetchMessage from "./fetchMessage";
 import fetchMessages, { FetchMessagesOptions } from "./fetchMessages";
 import registerMessage, { MessageData } from "./registerMessage";
@@ -52,10 +51,6 @@ export default class Channel {
 
     // Fetch queues
     fetchQueues: ChannelFetchQueue;
-
-    // The commands for this channel
-    // For example, the spotify `add` command lets any user add a track to a playlist
-    commands?: ChannelCommands;
 
     // Compact mode
     get compactMode(): boolean | undefined {
