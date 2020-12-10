@@ -1,6 +1,6 @@
+import fetch from "node-fetch";
 import Client from "../../classes/Client/Client";
 import User from "../../classes/User/User";
-import fetch from "node-fetch";
 
 interface InteractionEventData {
     token: string; // Interactions token
@@ -24,17 +24,16 @@ interface InteractionMember {
 
 export default async function interactionCreate(client: Client, data: InteractionEventData) {
     await fetch(`https://discord.com/api/v8/interactions/${data.id}/${data.token}/callback`, {
-        method: 'POST', body: JSON.stringify(
-            {
-                "type": 4,
-                "data": {
-                    "tts": false,
-                    "content": "Pong!",
-                    "embeds": [],
-                    "allowed_mentions": []
-                }
+        method: "POST",
+        body: JSON.stringify({
+            type: 4,
+            data: {
+                tts: false,
+                content: "Pong!",
+                embeds: [],
+                allowed_mentions: []
             }
-        ),
-        headers: { 'Content-Type': 'application/json' },
-    })
+        }),
+        headers: { "Content-Type": "application/json" }
+    });
 }
