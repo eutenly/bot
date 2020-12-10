@@ -37,6 +37,4 @@ export default async function interactionCreate(client: Client, data: Interactio
         ),
         headers: { 'Content-Type': 'application/json' },
     })
-
-    client.emit("message", message);
 }
