@@ -4,12 +4,10 @@ import Command from "../Command/Command";
 import { EmbedData } from "../Embed/Embed";
 import Guild from "../Guild/Guild";
 import User from "../User/User";
-import addReaction from "./addReaction";
-import edit from "./edit";
-import getLastMessage from "./getLastMessage";
 
 interface InteractionData {
     id: string;
+    token: string;
     commandID: string;
     parameters: InteractionParameter[];
     user: User;
@@ -29,6 +27,7 @@ export default class Interaction {
 
     // Data about the interaction
     id: string;
+    token: string;
     commandID: string;
     parameters: InteractionParameter[];
     user: User;
@@ -44,26 +43,13 @@ export default class Interaction {
         this.client = client;
 
         this.id = data.id;
+        this.token = data.token;
         this.user = data.user;
         this.commandID = data.commandID;
         this.parameters = data.parameters;
         this.channel = data.channel;
         this.guild = data.guild;
     }
-
-    // Edit message
-    edit = (content: string | EmbedData, embed?: EmbedData): Promise<void> => edit(this, content, embed);
-
-    // Add reaction
-    addReaction = (emoji: string): Promise<any> => addReaction(this, emoji);
-
-    /**
-     * Get Last Message
-     *
-     * Gets the last message that has `content`
-     * Used for commands like `e;search ^`
-     */
-    getLastMessage = (): Promise<RawMessage | undefined> => getLastMessage(this);
 
     // Uncaches this message
     uncache = () => this.channel.messages.delete(this.id);

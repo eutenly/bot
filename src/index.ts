@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import { terminal } from "terminal-kit";
 import Client from "./classes/Client/Client";
 import message from "./modules/message";
+import interaction from "./modules/interaction";
 import reactionAdded from "./modules/reactionAdded";
 import reactionRemoved from "./modules/reactionRemoved";
 import serverJoin from "./modules/serverJoin";
@@ -45,3 +46,6 @@ client.on("guildCreate", serverJoin);
 
 // Server Left
 client.on("guildDelete", serverLeave);
+
+// Interaction
+client.on("interaction", interaction);

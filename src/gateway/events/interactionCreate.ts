@@ -1,6 +1,8 @@
 import fetch from "node-fetch";
 import Client from "../../classes/Client/Client";
 import User from "../../classes/User/User";
+import Interaction from "../../classes/Interaction/Interaction";
+import Channel from "../../classes/Channel/Channel";
 
 interface InteractionEventData {
     token: string; // Interactions token
@@ -28,19 +30,24 @@ interface InteractionMember {
     permissions: string;
 }
 
-export default async function interactionCreate(client: Client, data: InteractionEventData) {
-    // await fetch(`https://discord.com/api/v8/interactions/${data.id}/${data.token}/callback`, {
-    //     method: "POST",
-    //     body: JSON.stringify({
-    //         type: 4,
-    //         data: {
-    //             tts: false,
-    //             content: "Pong!",
-    //             embeds: [],
-    //             allowed_mentions: []
-    //         }
-    //     }),
-    //     headers: { "Content-Type": "application/json" }
-    // });
+export default function interactionCreate(client: Client, event: InteractionEventData) {
 
+    // Get channel
+    const channel: Channel = client.channels.get(event.channel_id) || new Channel(client, {
+        id: event.channel_id,
+        guildID: event.guild_id
+    });
+
+    const interaction =  new Interaction(client, {
+        id: event.id,
+        token: event.token,
+        commandID: event.data.id,
+        parameters: event.data.options,
+        user: event.member.user,
+        guild: client.guilds.get(event.guild_id),
+        channel: channel,
+    });
+
+    // Emit event
+    client.emit("interaction", interaction);
 }

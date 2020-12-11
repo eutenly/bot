@@ -4,9 +4,9 @@ import Command from "../Command/Command";
 import { EmbedData } from "../Embed/Embed";
 import Guild from "../Guild/Guild";
 import User from "../User/User";
-import addReaction from "./addReaction";
-import edit from "./edit";
-import getLastMessage from "./getLastMessage";
+// import addReaction from "./addReaction";
+// import edit from "./edit";
+// import getLastMessage from "./getLastMessage";
 
 interface UserRequestData {
     commandName: string;
@@ -49,10 +49,10 @@ export default class UserRequest {
     }
 
     // Edit message
-    edit = (content: string | EmbedData, embed?: EmbedData): Promise<void> => edit(this, content, embed);
+    // edit = (content: string | EmbedData, embed?: EmbedData): Promise<void> => edit(this, content, embed);
 
     // Add reaction
-    addReaction = (emoji: string): Promise<any> => addReaction(this, emoji);
+    // addReaction = (emoji: string): Promise<any> => addReaction(this, emoji);
 
     /**
      * Get Last Message
@@ -60,8 +60,8 @@ export default class UserRequest {
      * Gets the last message that has `content`
      * Used for commands like `e;search ^`
      */
-    getLastMessage = (): Promise<RawMessage | undefined> => getLastMessage(this);
+    // getLastMessage = (): Promise<RawMessage | undefined> => getLastMessage(this);
 
     // Uncaches this message
-    uncache = () => this.channel.messages.delete(this.id);
+    // uncache = () => this.channel.messages.delete(this.id);
 }
