@@ -179,6 +179,7 @@ export const routes: CommandRoute[] = [
             type: STRING,
             name: "page",
             description: "Do you want to go to the next or previous page?",
+            required: true,
             choices: [{
                 name: "next",
                 value: "next"
@@ -199,6 +200,7 @@ export const routes: CommandRoute[] = [
             type: STRING,
             name: "movement",
             description: "Do you want to go back or forward?",
+            required: true,
             choices: [{
                 name: "back",
                 value: "back"
@@ -212,13 +214,25 @@ export const routes: CommandRoute[] = [
         name: "view",
         information: "View more info about a result",
         inputs: ["view", "result", "select"],
-        module: viewCommand
+        module: viewCommand,
+        parameters: [{
+            type: STRING,
+            name: "result",
+            required: true,
+            description: "The result ID that you'd like to view",
+        }]
     },
     {
         name: "remove",
         information: "Remove a saved link",
         inputs: ["remove"],
-        module: removeCommand
+        module: removeCommand,
+        parameters: [{
+            type: INTEGER,
+            name: "id",
+            description: "The saved link that you'd like to remove",
+            required: true
+        }]
     },
     {
         name: "saved-links",
@@ -230,25 +244,49 @@ export const routes: CommandRoute[] = [
         name: "save",
         information: "Save a link to view later",
         inputs: ["save"],
-        module: saveCommand
+        module: saveCommand,
+        parameters: [{
+            type: STRING,
+            name: "result",
+            description: "The result ID that you'd like to view",
+            required: true,
+        }]
     },
     {
         name: "set-prefix",
         information: "Set the prefix in the server. You need to be a moderator to use this command",
         inputs: ["setprefix"],
-        module: setPrefixCommand
+        module: setPrefixCommand,
+        parameters: [{
+            type: STRING,
+            name: "prefix",
+            description: "The prefix to be set",
+            required: true,
+        }]
     },
     {
         name: "compact",
         information: "Enable or disable compact mode for a channel. You need to be a moderator to use this command",
         inputs: ["compact"],
-        module: compactCommand
+        module: compactCommand,
+        parameters: [{
+            type: BOOLEAN,
+            name: "mode",
+            description: "Would you like compact mode on or off?",
+            required: true,
+        }]
     },
     {
         name: "reaction-confirmations",
         information: "Enable or disable reaction confirmations",
         inputs: ["reactionconfirmations", "reactionconfirms", "rc"],
-        module: reactionConfirmationsCommand
+        module: reactionConfirmationsCommand,
+        parameters: [{
+            type: BOOLEAN,
+            name: "mode",
+            description: "Would you like confirmations on or off?",
+            required: true,
+        }]
     },
     {
         name: "invite",
