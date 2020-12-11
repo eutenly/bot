@@ -83,7 +83,13 @@ export const routes: CommandRoute[] = [
         information: "View details about a website",
         description: "Enter a link to view details about any website.",
         inputs: ["website", "websiteinfo", "site", "siteinfo", "web", "webinfo"],
-        module: websiteCommand
+        module: websiteCommand,
+        parameters: [{
+            type: STRING,
+            name: "link",
+            description: "The website link you'd like to visit",
+            required: true
+        }]
     },
     {
         name: "search",
@@ -134,7 +140,12 @@ export const routes: CommandRoute[] = [
         name: "spotify",
         information: "Search Spotify",
         inputs: ["spotify", "spt"],
-        module: spotifyCommand
+        module: spotifyCommand,
+        parameters: [{
+            type: STRING,
+            name: "search-query",
+            description: "What you'd like to search Spotify for",
+        }]
     },
     {
         name: "github",
@@ -163,14 +174,39 @@ export const routes: CommandRoute[] = [
         information: "Navigate between pages",
         description: "When viewing something with multiple pages, use the `next` and `previous` commands to navigate between pages You can also use the `page` command to jump to a page.",
         inputs: ["page", "next", "previous"],
-        module: pageCommand
+        module: pageCommand,
+        parameters: [{
+            type: STRING,
+            name: "page",
+            description: "Do you want to go to the next or previous page?",
+            choices: [{
+                name: "next",
+                value: "next"
+            },
+            {
+                name: "previous",
+                value: "previous"
+            }],
+        }]
     },
     {
         name: "move",
         information: "Move through your recent command history",
         description: "Use the `back` and `forward` commands to navigate through your recently used commands.",
         inputs: ["back", "forward"],
-        module: moveCommand
+        module: moveCommand,
+        parameters: [{
+            type: STRING,
+            name: "movement",
+            description: "Do you want to go back or forward?",
+            choices: [{
+                name: "back",
+                value: "back"
+            }, {
+                name: "forward",
+                value: "forward"
+            }],
+        }]
     },
     {
         name: "view",
