@@ -1,9 +1,11 @@
-import Channel, { RawMessage } from "../Channel/Channel";
+import Channel from "../Channel/Channel";
 import Client from "../Client/Client";
-import Command from "../Command/Command";
 import { EmbedData } from "../Embed/Embed";
+import FetchQueue from "../FetchQueue/FetchQueue";
 import Guild from "../Guild/Guild";
+import Message from "../Message/Message";
 import User from "../User/User";
+import reply from "./reply";
 
 interface InteractionData {
     id: string;
@@ -15,9 +17,13 @@ interface InteractionData {
     guild: Guild | undefined;
 }
 
-interface InteractionParameter {
+export interface InteractionParameter {
     name: string;
     value: string | number;
+}
+
+interface InteractionFetchQueue {
+    reply: FetchQueue;
 }
 
 export default class Interaction {
@@ -34,7 +40,8 @@ export default class Interaction {
     channel: Channel;
     guild: Guild | undefined;
 
-    command?: Command;
+    // Fetch queues
+    fetchQueues: InteractionFetchQueue;
 
     // Constructor
     constructor(client: Client, data: InteractionData) {
@@ -49,8 +56,16 @@ export default class Interaction {
         this.parameters = data.parameters;
         this.channel = data.channel;
         this.guild = data.guild;
+
+        // Set fetch queues
+        this.fetchQueues = {
+            reply: new FetchQueue(client)
+        };
     }
 
-    // Uncaches this message
-    uncache = () => this.channel.messages.delete(this.id);
+    // Reply
+    reply = (content: string | EmbedData, embed?: EmbedData): Promise<Message> => reply(this, content, embed);
+
+    // Uncaches this interaction
+    uncache = () => this.channel.interactions.delete(this.id);
 }

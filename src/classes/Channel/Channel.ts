@@ -2,9 +2,11 @@ import Client from "../Client/Client";
 import { EmbedData } from "../Embed/Embed";
 import FetchQueue from "../FetchQueue/FetchQueue";
 import Guild from "../Guild/Guild";
+import Interaction from "../Interaction/Interaction";
 import Message from "../Message/Message";
 import fetchMessage from "./fetchMessage";
 import fetchMessages, { FetchMessagesOptions } from "./fetchMessages";
+import registerInteraction, { InteractionData } from "./registerInteraction";
 import registerMessage, { MessageData } from "./registerMessage";
 import sendMessage from "./sendMessage";
 
@@ -37,12 +39,13 @@ interface ChannelFetchQueue {
 export default class Channel {
 
     // The client
-    client: Client;
+    client: Client; o
 
     // Data about the channel
     id: string;
     guild: Guild | undefined;
     messages: Map<string, Message>;
+    interactions: Map<string, Interaction>;
 
     // Prefix
     get prefix(): string {
@@ -67,6 +70,7 @@ export default class Channel {
         if (data.guildID) this.guild = this.client.guilds.get(data.guildID);
 
         this.messages = new Map();
+        this.interactions = new Map();
 
         // Set fetch queues
         this.fetchQueues = {
@@ -83,6 +87,9 @@ export default class Channel {
 
     // Register a new message into cache
     registerMessage = (data: MessageData): Promise<Message> => registerMessage(this, data);
+
+    // Register a new interaction into cache
+    registerInteraction = (data: InteractionData): Promise<Interaction> => registerInteraction(this, data);
 
     // Send a message
     sendMessage = (content: string | EmbedData, embed?: EmbedData): Promise<Message> => sendMessage(this, content, embed);

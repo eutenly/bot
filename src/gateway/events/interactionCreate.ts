@@ -1,13 +1,13 @@
-import fetch from "node-fetch";
-import Client from "../../classes/Client/Client";
-import User from "../../classes/User/User";
-import Interaction from "../../classes/Interaction/Interaction";
 import Channel from "../../classes/Channel/Channel";
+import Client from "../../classes/Client/Client";
+import Interaction, { InteractionParameter } from "../../classes/Interaction/Interaction";
 
-interface InteractionEventData {
-    token: string; // Interactions token
-    member: InteractionMember;
+interface InteractionCreateEventData {
     id: string; // Interaction event ID
+    token: string; // Interactions token
+    member: {
+        user: InteractionUser;
+    };
     guild_id: string;
     data: InteractionCommand;
     channel_id: string;
@@ -16,36 +16,37 @@ interface InteractionEventData {
 interface InteractionCommand {
     name: string;
     id: string;
-    options: InteractionOptions[];
+    options: InteractionParameter[];
 }
 
-interface InteractionOptions {
-    name: string;
-    value: string | number;
+interface InteractionUser {
+    id: string;
+    username: string;
+    discriminator: string;
 }
 
-interface InteractionMember {
-    user: User;
-    roles: string[];
-    permissions: string;
-}
+export default async function interactionCreate(client: Client, data: InteractionCreateEventData) {
 
-export default function interactionCreate(client: Client, event: InteractionEventData) {
+    // Check if Eutenly is in guild
+    if (!client.guilds.get(data.guild_id)) return;
 
     // Get channel
-    const channel: Channel = client.channels.get(event.channel_id) || new Channel(client, {
-        id: event.channel_id,
-        guildID: event.guild_id
+    const channel: Channel = client.channels.get(data.channel_id) || new Channel(client, {
+        id: data.channel_id,
+        guildID: data.guild_id
     });
 
-    const interaction =  new Interaction(client, {
-        id: event.id,
-        token: event.token,
-        commandID: event.data.id,
-        parameters: event.data.options,
-        user: event.member.user,
-        guild: client.guilds.get(event.guild_id),
-        channel: channel,
+    // Register interaction
+    const interaction: Interaction = await channel.registerInteraction({
+        id: data.id,
+        token: data.token,
+        commandID: data.data.id,
+        parameters: data.data.options,
+        user: {
+            id: data.member.user.id,
+            tag: `${data.member.user.username}#${data.member.user.discriminator}`,
+            bot: false
+        }
     });
 
     // Emit event

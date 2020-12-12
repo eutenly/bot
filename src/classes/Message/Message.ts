@@ -1,6 +1,5 @@
 import Channel, { RawMessage } from "../Channel/Channel";
 import Client from "../Client/Client";
-import Command from "../Command/Command";
 import { EmbedData } from "../Embed/Embed";
 import Guild from "../Guild/Guild";
 import User from "../User/User";
@@ -30,8 +29,6 @@ export default class Message {
 
     // The content without the prefix, ie `e;search eutenly` > `search eutenly`
     commandContent: string;
-
-    command?: Command;
 
     // Constructor
     constructor(client: Client, data: MessageData) {

@@ -22,11 +22,11 @@ export default function interactionRouter(interaction: Interaction): boolean {
 
     // Run module
     // route.module(message).catch((err) => {
-    //
+
     //     // Log error
     //     console.error(err);
     //     Sentry.captureException(err);
-    //
+
     //     // Send
     //     message.channel.sendMessage(":x:  **|  Uh oh, Something went wrong! We've traced the issue and our team has been alerted. If this happens continuously, please report the issue on our support server with `e;support`**");
     // });

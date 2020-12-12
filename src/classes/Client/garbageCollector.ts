@@ -5,6 +5,7 @@ import { GuildPermissions } from "../Guild/getPermissions";
 import Message from "../Message/Message";
 import User from "../User/User";
 import Client from "./Client";
+import Interaction from "../Interaction/Interaction";
 
 export default function activateGarbageCollection(client: Client) {
     // Setup Garbage Collection to run every 60 seconds
@@ -43,18 +44,34 @@ function collectGarbage(client: Client) {
 
         // Cycle through messages within channel
         channel.messages.forEach((message: Message) => {
+
             // Get Timestamp
             const timestamp = convertToTimestamp(message.id);
 
             // Check age of Timestamp
             if (timestamp.getTime() < Date.now() - 600000) {
+
                 // Delete messages older than 10 minutes
                 channel.messages.delete(message.id);
             }
         });
 
-        // Check if the channel doesn't have any cached messages and doesn't have any commands
-        if (channel.messages.size === 0) {
+        // Cycle through interactions within channel
+        channel.interactions.forEach((interaction: Interaction) => {
+
+            // Get Timestamp
+            const timestamp = convertToTimestamp(interaction.id);
+
+            // Check age of Timestamp
+            if (timestamp.getTime() < Date.now() - 600000) {
+
+                // Delete interactions older than 10 minutes
+                channel.messages.delete(interaction.id);
+            }
+        });
+
+        // Check if the channel doesn't have any cached messages or interactions and doesn't have any commands
+        if ((channel.messages.size === 0) && (channel.interactions.size === 0)) {
 
             // Check for exclusions
             if (exclusions.includes(channel.id)) return;

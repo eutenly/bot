@@ -1,4 +1,4 @@
-import Message from "../../classes/Message/Message";
+import UserRequest from "../../classes/UserRequest/UserRequest";
 import badgeCommand from "../badge";
 import compactCommand from "../compact";
 import debugCommand from "../debug";
@@ -25,7 +25,7 @@ import websiteCommand from "../website/main";
 import wikipediaCommand from "../wikipedia/main";
 import youtubeCommand from "../youtube/main";
 
-type CommandModule = (message: Message) => Promise<any>;
+type CommandModule = (request: UserRequest) => Promise<any>;
 
 export interface CommandRoute {
     id?: string;
@@ -53,14 +53,14 @@ export interface CommandChoice {
 }
 
 // Option types
-const SUB_COMMAND = 1;
-const SUB_COMMAND_GROUP = 2;
-const STRING = 3;
-const INTEGER = 4;
-const BOOLEAN = 5;
-const USER = 6;
-const CHANNEL = 7;
-const ROLE = 8;
+export const SUB_COMMAND = 1;
+export const SUB_COMMAND_GROUP = 2;
+export const STRING = 3;
+export const NUMBER = 4;
+export const BOOLEAN = 5;
+export const USER = 6;
+export const CHANNEL = 7;
+export const ROLE = 8;
 
 // Define routes
 export const routes: CommandRoute[] = [
@@ -228,7 +228,7 @@ export const routes: CommandRoute[] = [
         inputs: ["remove"],
         module: removeCommand,
         parameters: [{
-            type: INTEGER,
+            type: NUMBER,
             name: "id",
             description: "The saved link that you'd like to remove",
             required: true
@@ -269,12 +269,24 @@ export const routes: CommandRoute[] = [
         information: "Enable or disable compact mode for a channel. You need to be a moderator to use this command",
         inputs: ["compact"],
         module: compactCommand,
-        parameters: [{
-            type: BOOLEAN,
-            name: "mode",
-            description: "Would you like compact mode on or off?",
-            required: true,
-        }]
+        parameters: [
+            {
+                type: BOOLEAN,
+                name: "mode",
+                description: "Would you like compact mode on or off?",
+                required: true
+            },
+            {
+                type: CHANNEL,
+                name: "channel",
+                description: "The channel to change the setting in"
+            },
+            {
+                type: BOOLEAN,
+                name: "all",
+                description: "Whether or not you'd like to affect all channels"
+            }
+        ]
     },
     {
         name: "reaction-confirmations",
