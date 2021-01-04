@@ -1,33 +1,29 @@
 import Command, { ParserData } from "../classes/Command/Command";
 import Embed from "../classes/Embed/Embed";
-import Message from "../classes/Message/Message";
+import UserRequest from "../classes/UserRequest/UserRequest";
 import save from "../models/save";
 import { SavedLink } from "../models/users";
 import collectStat from "../util/collectStat";
 
-export default async function remove(message: Message) {
+export default async function remove(userRequest: UserRequest) {
 
     // Get command
-    const command: Command | undefined = message.author.command;
-    if ((!command) || (command.category !== "savedLinks")) return message.channel.sendMessage(":x:  **|  You aren't viewing your saved links**");
+    const command: Command | undefined = userRequest.user.command;
+    if ((!command) || (command.category !== "savedLinks")) return userRequest.respond(":x:  **|  You aren't viewing your saved links**");
 
     // Get user data
-    const userData = await message.author.getData();
-    if ((!userData) || (userData.savedLinks.length === 0)) return message.channel.sendMessage(`:x:  **|  You don't have any saved links. You can save a link with \`${message.channel.prefix}save <Link>\`. You can also save what you're currently viewing with \`${message.channel.prefix}save\`**`);
+    const userData = await userRequest.user.getData();
+    if ((!userData) || (userData.savedLinks.length === 0)) return userRequest.respond(`:x:  **|  You don't have any saved links. You can save a link with \`${userRequest.channel.prefix}save <Link>\`. You can also save what you're currently viewing with \`${userRequest.channel.prefix}save\`**`);
 
     // Get params
-    const input: string = message.commandContent.split(" ").slice(1).join(" ");
-    if (!input) return message.channel.sendMessage(":x:  **|  Which saved link would you like to remove?**");
+    const resultNumber: number | undefined = userRequest.getParameter<number>("link-number");
+    if (!resultNumber) return userRequest.respond(":x:  **|  Which saved link would you like to remove?**");
 
     // Get data
     const data: SavedLink[] = command.pageManager?.cache.get(command.pageManager.page || 0);
 
-    // Get result number
-    const resultNumber: number = parseInt(input);
-    if ((!resultNumber) || (resultNumber < 1)) return message.channel.sendMessage(":x:  **|  That result number is invalid**");
-
     // Get result
-    if (!data[resultNumber - 1]) return message.channel.sendMessage(":x:  **|  That result number is invalid**");
+    if (!data[resultNumber - 1]) return userRequest.respond(":x:  **|  That result number is invalid**");
 
     // Remove saved link
     userData.savedLinks.splice(resultNumber - 1, 1);
@@ -52,14 +48,14 @@ export default async function remove(message: Message) {
     await save(userData);
 
     // Collect stats
-    collectStat(message.client, {
+    collectStat(userRequest.client, {
         measurement: "saved_links_updated",
         tags: {
             action: "remove",
-            dms: message.guild ? undefined : true
+            dms: userRequest.guild ? undefined : true
         }
     });
 
     // Send
-    message.channel.sendMessage(":white_check_mark:  **|  Removed link!**");
+    userRequest.respond(":white_check_mark:  **|  Removed link!**");
 }

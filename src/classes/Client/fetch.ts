@@ -2,21 +2,28 @@ import nodeFetch, { RequestInit, Response } from "node-fetch";
 import RateLimit from "../common/RateLimit";
 import Client from "./Client";
 
-export default async function fetch(client: Client, path: string, options: RequestInit = {}, headers: object = {}): Promise<{ data: any; rateLimit: RateLimit | undefined; }> {
+export interface RequestOptions {
+    path: string;
+    apiVersion?: number;
+    options?: RequestInit;
+    headers?: object;
+}
+
+export default async function fetch(client: Client, requestOptions: RequestOptions): Promise<{ data: any; rateLimit: RateLimit | undefined; }> {
 
     // Parse body
-    if (options.body) options.body = JSON.stringify(options.body);
+    if (requestOptions.options?.body) requestOptions.options.body = JSON.stringify(requestOptions.options.body);
 
     // Make request
-    const result: Response = await nodeFetch(`https://discord.com/api/v6${path}`, {
+    const result: Response = await nodeFetch(`https://discord.com/api/v${requestOptions.apiVersion || 6}${requestOptions.path}`, {
         headers: {
             "User-Agent": "Eutenly (https://eutenly.com, 1.0)",
             "Authorization": `Bot ${client.token}`,
-            "Content-Type": options.method === "DELETE" ? undefined : "application/json",
+            "Content-Type": requestOptions.options?.method === "DELETE" ? undefined : "application/json",
             "X-RateLimit-Precision": "millisecond",
-            ...headers
+            ...requestOptions.headers
         } as any,
-        ...options
+        ...requestOptions.options
     });
 
     // Parse result
@@ -39,7 +46,7 @@ export default async function fetch(client: Client, path: string, options: Reque
     };
 
     // API error
-    if (data.code !== undefined) throw new Error(`API Error: ${data.code} ${data.message} at ${path}`);
+    if (data.code !== undefined) throw new Error(`API error at ${requestOptions.path}: ${JSON.stringify(data, null, 4)}`);
 
     // Return
     return {

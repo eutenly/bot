@@ -1,23 +1,23 @@
 import { ViewData } from "../../../classes/Command/Command";
-import Message from "../../../classes/Message/Message";
+import UserRequest from "../../../classes/UserRequest/UserRequest";
 import timeline, { url as timelineURL } from "../timeline/main";
 import { User } from "../types";
 
-export default function view(data: User | undefined, message: Message): ViewData | undefined {
+export default function view(data: User | undefined, userRequest: UserRequest): ViewData | undefined {
 
     // Get prefix
-    const prefix: string = message.channel.prefix;
+    const prefix: string = userRequest.channel.prefix;
 
     // No data
     if (!data) return;
 
     // Get params
-    const input: string = message.commandContent.split(" ").slice(1).join(" ");
+    const input: string | undefined = userRequest.getParameter<string>("result") || userRequest.getParameter<string>("link-or-result");
     if (!input) return { error: ":x:  **|  Which result would you like to view?**" };
 
     // Tweets
     if (input.toLowerCase().replace(/\s+/g, "") === "tweets") return {
-        module: () => timeline(message, data.id),
+        module: () => timeline(userRequest, data.id),
         url: timelineURL(data.id)
     };
 

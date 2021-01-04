@@ -1,7 +1,7 @@
 import Channel from "../Channel/Channel";
 import Client from "../Client/Client";
 import Command from "../Command/Command";
-import Message from "../Message/Message";
+import UserRequest from "../UserRequest/UserRequest";
 import commandUsed from "./commandUsed";
 import debug, { DebugData } from "./debug";
 import getConnection from "./getConnection";
@@ -9,7 +9,7 @@ import getData from "./getData";
 import setCompactMode from "./setCompactMode";
 import setReactionConfirmations from "./setReactionConfirmations";
 
-export type RunCommand = (message: Message, commandHistoryIndex: number) => void;
+export type RunCommand = (userRequest: UserRequest, commandHistoryIndex: number) => void;
 
 export interface CommandHistoryEntry {
     run: RunCommand;

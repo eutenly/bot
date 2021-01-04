@@ -1,19 +1,19 @@
 import Command, { ViewDataURL } from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
-import Message from "../../../classes/Message/Message";
+import UserRequest from "../../../classes/UserRequest/UserRequest";
 import fetch from "../fetch";
 import play from "../play";
 import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
 
-export default async function main(message: Message, playlistID: string, commandHistoryIndex?: number): Promise<Command | undefined> {
+export default async function main(userRequest: UserRequest, playlistID: string, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Create command
-    const command: Command = new Command(message.client, {
+    const command: Command = new Command(userRequest.client, {
         name: "playlist",
         category: "spotify",
-        message,
+        userRequest,
         url: url(playlistID),
         getData: `https://api.spotify.com/v1/playlists/${encodeURIComponent(playlistID)}`,
         connectionName: "spotify",
@@ -25,7 +25,7 @@ export default async function main(message: Message, playlistID: string, command
             emoji: "spotify_play",
             module: play
         }]
-    }, (m: Message, chIndex: number) => main(m, playlistID, chIndex), commandHistoryIndex);
+    }, (r: UserRequest, chIndex: number) => main(r, playlistID, chIndex), commandHistoryIndex);
     await command.uninitializedConnection;
 
     // No connection

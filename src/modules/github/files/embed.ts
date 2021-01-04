@@ -6,7 +6,7 @@ import { ListedFile } from "../types";
 export default function embed(command: Command, data: ListedFile[]): Embed {
 
     // Get prefix
-    const prefix: string = command.message.channel.prefix;
+    const prefix: string = command.userRequest.channel.prefix;
 
     // Get path
     const path: string = command.metadata?.path;

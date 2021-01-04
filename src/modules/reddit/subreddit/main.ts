@@ -1,19 +1,19 @@
 import Command, { ViewDataURL } from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
-import Message from "../../../classes/Message/Message";
+import UserRequest from "../../../classes/UserRequest/UserRequest";
 import fetch from "../fetch";
 import joinSubreddit from "../joinSubreddit";
 import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
 
-export default async function main(message: Message, subredditName: string, commandHistoryIndex?: number): Promise<Command | undefined> {
+export default async function main(userRequest: UserRequest, subredditName: string, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Create command
-    const command: Command = new Command(message.client, {
+    const command: Command = new Command(userRequest.client, {
         name: "subreddit",
         category: "reddit",
-        message,
+        userRequest,
         url: url(subredditName),
         getData: `https://oauth.reddit.com/r/${encodeURIComponent(subredditName)}/about?raw_json=1`,
         getExtraData: [
@@ -28,7 +28,7 @@ export default async function main(message: Message, subredditName: string, comm
             emoji: "reddit_join",
             module: joinSubreddit
         }]
-    }, (m: Message, chIndex: number) => main(m, subredditName, chIndex), commandHistoryIndex);
+    }, (r: UserRequest, chIndex: number) => main(r, subredditName, chIndex), commandHistoryIndex);
     await command.uninitializedConnection;
 
     // No connection

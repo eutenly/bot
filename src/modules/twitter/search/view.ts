@@ -1,12 +1,12 @@
 import { ViewData } from "../../../classes/Command/Command";
-import Message from "../../../classes/Message/Message";
+import UserRequest from "../../../classes/UserRequest/UserRequest";
 import tweet, { url as tweetURL } from "../tweet/main";
 import { ListedTweet } from "../types";
 
-export default function view(data: ListedTweet[], message: Message): ViewData | undefined {
+export default function view(data: ListedTweet[], userRequest: UserRequest): ViewData | undefined {
 
     // Get params
-    const input: string = message.commandContent.split(" ").slice(1).join(" ");
+    const input: string | undefined = userRequest.getParameter<string>("result") || userRequest.getParameter<string>("link-or-result");
     if (!input) return { error: ":x:  **|  Which result would you like to view?**" };
 
     // Get result number
@@ -19,7 +19,7 @@ export default function view(data: ListedTweet[], message: Message): ViewData | 
 
     // View tweet
     return {
-        module: () => tweet(message, result.id, result.user.handle),
+        module: () => tweet(userRequest, result.id, result.user.handle),
         url: tweetURL(result.user.handle, result.id)
     };
 }

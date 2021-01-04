@@ -6,7 +6,7 @@ import { ListedIssue } from "../types";
 export default function embed(command: Command, data: ListedIssue[]): Embed {
 
     // Get prefix
-    const prefix: string = command.message.channel.prefix;
+    const prefix: string = command.userRequest.channel.prefix;
 
     // Embed
     const embed = new Embed()

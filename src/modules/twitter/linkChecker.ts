@@ -1,5 +1,6 @@
 import { URL } from "url";
 import Message from "../../classes/Message/Message";
+import UserRequest from "../../classes/UserRequest/UserRequest";
 import { LinkCheckerModule } from "../website/website/main";
 import twitterHome from "./home/main";
 import twitterSearch from "./search/main";
@@ -23,29 +24,29 @@ export default function linkChecker(input: string, linksOnly?: boolean): LinkChe
 
         // Check if input is a tweet link
         const tweet = url.pathname.match(/\/(.+)\/status\/(.+)/);
-        if (tweet) return (message: Message) => twitterTweet(message, tweet[2], tweet[1]);
+        if (tweet) return (userRequest: UserRequest) => twitterTweet(userRequest, tweet[2], tweet[1]);
 
         // Check if input is a search link
-        if ((url.pathname === "/search") && (url.searchParams.get("q"))) return (message: Message) => twitterSearch(message, url.searchParams.get("q") as string);
+        if ((url.pathname === "/search") && (url.searchParams.get("q"))) return (userRequest: UserRequest) => twitterSearch(userRequest, url.searchParams.get("q") as string);
 
         // Check if input is a user link
         const user = url.pathname.match(/\/(.+)/);
-        if (user) return (message: Message) => twitterUser(message, user[1], "username");
+        if (user) return (userRequest: UserRequest) => twitterUser(userRequest, user[1], "username");
 
         // Check if input is home
-        if (url.pathname === "/") return (message: Message) => twitterHome(message);
+        if (url.pathname === "/") return (userRequest: UserRequest) => twitterHome(userRequest);
     }
 
     if (!linksOnly) {
 
         // Check if input is a user @
         const username = input.match(/@(.+)/);
-        if (username) return (message: Message) => twitterUser(message, username[1], "username");
+        if (username) return (userRequest: UserRequest) => twitterUser(userRequest, username[1], "username");
 
         // Check if input is timeline
-        if (input.toLowerCase().replace(/\s+/g, "") === "timeline") return (message: Message) => twitterTimeline(message, "home");
+        if (input.toLowerCase().replace(/\s+/g, "") === "timeline") return (userRequest: UserRequest) => twitterTimeline(userRequest, "home");
 
         // Check if input is to search last message
-        if (input === "^") return (message: Message) => searchLastMessage(message);
+        if (input === "^") return (userRequest: UserRequest) => searchLastMessage(userRequest);
     }
 }

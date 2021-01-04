@@ -1,18 +1,18 @@
 import cheerio from "cheerio";
 import Command, { ViewDataURL } from "../../classes/Command/Command";
-import Message from "../../classes/Message/Message";
+import UserRequest from "../../classes/UserRequest/UserRequest";
 import embed from "./embed";
 import fetch from "./fetch";
 import parse from "./parse";
 import view from "./view";
 
-export default async function search(message: Message, query: string, commandHistoryIndex?: number): Promise<Command | undefined> {
+export default async function search(userRequest: UserRequest, query: string, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Create command
-    const command: Command = new Command(message.client, {
+    const command: Command = new Command(userRequest.client, {
         name: "search",
         category: "search",
-        message,
+        userRequest,
         webScraper: true,
         input: query,
         url: url(query),
@@ -28,7 +28,7 @@ export default async function search(message: Message, query: string, commandHis
                 if (!videos.length) return;
 
                 // Return
-                return await message.client.youtube.search.list({
+                return await userRequest.client.youtube.search.list({
                     part: ["snippet"],
                     q: query,
                     maxResults: 3,
@@ -41,7 +41,7 @@ export default async function search(message: Message, query: string, commandHis
         parser: parse,
         getEmbed: embed,
         view
-    }, (m: Message, chIndex: number) => search(m, query, chIndex), commandHistoryIndex);
+    }, (r: UserRequest, chIndex: number) => search(r, query, chIndex), commandHistoryIndex);
 
     // Search
     command.pageManager?.setPage(1);

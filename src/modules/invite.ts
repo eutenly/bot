@@ -1,7 +1,7 @@
-import Message from "../classes/Message/Message";
+import UserRequest from "../classes/UserRequest/UserRequest";
 
-export default async function invite(message: Message) {
+export default async function invite(userRequest: UserRequest) {
 
     // Send
-    message.channel.sendMessage(`<:eutenly:${message.client.eutenlyEmojis.get("eutenly")}>  **|  Add me at https://eutenly.com/invite**`);
+    userRequest.respond(`<:eutenly:${userRequest.client.eutenlyEmojis.get("eutenly")}>  **|  Add me at https://eutenly.com/invite**`);
 }

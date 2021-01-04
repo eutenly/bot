@@ -1,6 +1,5 @@
 import collectStat from "../../util/collectStat";
 import generateID from "../../util/generateID";
-import Channel from "../Channel/Channel";
 import Client from "../Client/Client";
 import Embed from "../Embed/Embed";
 import Message from "../Message/Message";
@@ -8,6 +7,7 @@ import PartialReaction from "../PartialReaction/PartialReaction";
 import Reaction from "../Reaction/Reaction";
 import User, { CommandHistoryEntry, RunCommand } from "../User/User";
 import { DebugExtraData } from "../User/debug";
+import UserRequest from "../UserRequest/UserRequest";
 import PageManager from "./PageManager/PageManager";
 import fetchData from "./fetchData";
 import getConnection from "./getConnection";
@@ -30,7 +30,7 @@ export interface CommandReaction {
     module: CommandReactionModule;
 }
 
-export type Fetch = (user: User, channel: Channel, url: string, method?: string, body?: any) => Promise<any>;
+export type Fetch = (user: User, userRequest: UserRequest, url: string, method?: string, body?: any) => Promise<any>;
 
 export type GetData = (input?: string, page?: number, nextPageToken?: string, user?: User) => string | Promise<any>;
 
@@ -51,7 +51,7 @@ export interface ViewData {
     error?: string;
 }
 
-export type View = (data: any, message: Message, metadata: any) => ViewData | undefined;
+export type View = (data: any, userRequest: UserRequest, metadata: any) => ViewData | undefined;
 
 interface CommandData {
 
@@ -59,8 +59,8 @@ interface CommandData {
     name: string;
     category: string;
 
-    // Message
-    message: Message;
+    // User request
+    userRequest: UserRequest;
 
     // Metadata
     input?: string;
@@ -95,8 +95,8 @@ export default class Command {
     name: string;
     category: string;
 
-    // Message
-    message: Message;
+    // User request
+    userRequest: UserRequest;
     responseMessage?: Message;
 
     // Metadata
@@ -143,7 +143,7 @@ export default class Command {
         this.name = data.name;
         this.category = data.category;
 
-        this.message = data.message;
+        this.userRequest = data.userRequest;
 
         this.connectionName = data.connectionName;
         this.webScraper = data.webScraper;
@@ -168,9 +168,9 @@ export default class Command {
          * If the channel name includes `bot` or `command`, we know that the default should be `false`
          * Otherwise, default to `true`
          */
-        this.compactMode = !(["bot", "command"].find((i: string) => this.message.guild?.channelNames.get(this.message.channel.id)?.includes(i)));
-        if (this.message.channel.compactMode !== undefined) this.compactMode = this.message.channel.compactMode;
-        if (this.message.author.compactMode) this.compactMode = true;
+        this.compactMode = !(["bot", "command"].find((i: string) => this.userRequest.guild?.channelNames.get(this.userRequest.channel.id)?.includes(i)));
+        if (this.userRequest.channel.compactMode !== undefined) this.compactMode = this.userRequest.channel.compactMode;
+        if (this.userRequest.user.compactMode) this.compactMode = true;
 
         // Create page manager
         if ((data.input) && (data.perPage)) this.pageManager = new PageManager(this, {
@@ -186,16 +186,16 @@ export default class Command {
         this.debug("Command created");
 
         // Set cooldown
-        this.message.author.setCooldown(this.webScraper ? 4000 : 2000);
+        this.userRequest.user.setCooldown(this.webScraper ? 4000 : 2000);
 
         // Get connection
         getConnection(this);
 
         // Set user's command
-        this.message.author.command = this;
+        this.userRequest.user.command = this;
 
         // Remove latest flag from user's command history
-        const latestCommand: CommandHistoryEntry | undefined = this.message.author.commandHistory.find((h: CommandHistoryEntry) => h.latest);
+        const latestCommand: CommandHistoryEntry | undefined = this.userRequest.user.commandHistory.find((h: CommandHistoryEntry) => h.latest);
         if (latestCommand) delete latestCommand.latest;
 
         /**
@@ -214,10 +214,10 @@ export default class Command {
         if ((latestCommand) && (commandHistoryIndex === undefined)) {
 
             // Get latest command index
-            const latestCommandIndex: number = this.message.author.commandHistory.indexOf(latestCommand);
+            const latestCommandIndex: number = this.userRequest.user.commandHistory.indexOf(latestCommand);
 
             // Remove newer commands
-            this.message.author.commandHistory.splice(latestCommandIndex + 1, this.message.author.commandHistory.length);
+            this.userRequest.user.commandHistory.splice(latestCommandIndex + 1, this.userRequest.user.commandHistory.length);
         }
 
         // Add to user's command history
@@ -227,20 +227,20 @@ export default class Command {
             latest: true
         };
 
-        if (commandHistoryIndex !== undefined) this.message.author.commandHistory[commandHistoryIndex] = commandHistoryEntry;
-        else this.message.author.commandHistory.push(commandHistoryEntry);
+        if (commandHistoryIndex !== undefined) this.userRequest.user.commandHistory[commandHistoryIndex] = commandHistoryEntry;
+        else this.userRequest.user.commandHistory.push(commandHistoryEntry);
 
         // Limit command history to 10 commands
-        if (this.message.author.commandHistory.length >= 10) this.message.author.commandHistory.splice(0, this.message.author.commandHistory.length - 10);
+        if (this.userRequest.user.commandHistory.length >= 10) this.userRequest.user.commandHistory.splice(0, this.userRequest.user.commandHistory.length - 10);
 
         // Command used
-        if (["search", "youtube", "twitter", "spotify", "reddit", "github", "wikipedia"].includes(this.category)) this.message.author.commandUsed(this.category);
+        if (["search", "youtube", "twitter", "spotify", "reddit", "github", "wikipedia"].includes(this.category)) this.userRequest.user.commandUsed(this.category);
 
         // Collect stats
         collectStat(this.client, {
             measurement: "commands_used",
             tags: {
-                dms: this.message.guild ? undefined : true,
+                dms: this.userRequest.guild ? undefined : true,
                 viaHistory: commandHistoryIndex !== undefined ? true : undefined,
                 compactMode: this.compactMode || undefined
             },
@@ -258,7 +258,7 @@ export default class Command {
     send = (embed: Embed) => send(this, embed);
 
     // Debug
-    debug = (message: string, data?: DebugExtraData) => this.message.author.debug({
+    debug = (message: string, data?: DebugExtraData) => this.userRequest.user.debug({
         message,
         fingerprint: this.debugFingerprint,
         data,

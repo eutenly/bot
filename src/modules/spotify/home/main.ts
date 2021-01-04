@@ -1,22 +1,22 @@
 import Command, { ViewDataURL } from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
-import Message from "../../../classes/Message/Message";
+import UserRequest from "../../../classes/UserRequest/UserRequest";
 import fetch from "../fetch";
 import helpEmbed from "../helpEmbed";
 import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
 
-export default async function main(message: Message, commandHistoryIndex?: number): Promise<Command | undefined> {
+export default async function main(userRequest: UserRequest, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Get prefix
-    const prefix: string = message.channel.prefix;
+    const prefix: string = userRequest.channel.prefix;
 
     // Create command
-    const command: Command = new Command(message.client, {
+    const command: Command = new Command(userRequest.client, {
         name: "home",
         category: "spotify",
-        message,
+        userRequest,
         url: url(),
         getData: "https://api.spotify.com/v1/me/playlists?limit=5",
         getExtraData: [
@@ -30,7 +30,7 @@ export default async function main(message: Message, commandHistoryIndex?: numbe
         parser: parse,
         getEmbed: embed,
         view
-    }, (m: Message, chIndex: number) => main(m, chIndex), commandHistoryIndex);
+    }, (r: UserRequest, chIndex: number) => main(r, chIndex), commandHistoryIndex);
     await command.uninitializedConnection;
 
     // No connection

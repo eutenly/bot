@@ -1,22 +1,22 @@
 import Command, { ViewData } from "../../../classes/Command/Command";
-import Message from "../../../classes/Message/Message";
+import UserRequest from "../../../classes/UserRequest/UserRequest";
 import timeline, { url as timelineURL } from "../timeline/main";
 import tweet, { url as tweetURL } from "../tweet/main";
 import { Home } from "../types";
 
-export default function view(data: Home | undefined, message: Message, command: Command): ViewData | undefined {
+export default function view(data: Home | undefined, userRequest: UserRequest, command: Command): ViewData | undefined {
 
     // No data
     if (!data) return;
 
     // Get params
-    const input: string = message.commandContent.split(" ").slice(1).join(" ");
+    const input: string | undefined = userRequest.getParameter<string>("result") || userRequest.getParameter<string>("link-or-result");
     if (!input) return { error: ":x:  **|  What would you like to view?**" };
 
     // Tweets
     if (input.toLowerCase().replace(/\s+/g, "") === "tweets") return {
-        module: () => timeline(message, command.message.author.connections["twitter"]?.id || ""),
-        url: timelineURL(command.message.author.connections["twitter"]?.id || "")
+        module: () => timeline(userRequest, command.userRequest.user.connections["twitter"]?.id || ""),
+        url: timelineURL(command.userRequest.user.connections["twitter"]?.id || "")
     };
 
     // Get item type
@@ -37,11 +37,11 @@ export default function view(data: Home | undefined, message: Message, command: 
 
     // Run module
     if (itemType === "t") return {
-        module: () => tweet(message, itemResult.id, itemResult.user.handle),
+        module: () => tweet(userRequest, itemResult.id, itemResult.user.handle),
         url: tweetURL(itemResult.user.handle, itemResult.id)
     };
     else if (itemType === "tl") return {
-        module: () => tweet(message, itemResult.id, itemResult.user.handle),
+        module: () => tweet(userRequest, itemResult.id, itemResult.user.handle),
         url: tweetURL(itemResult.user.handle, itemResult.id)
     };
 }

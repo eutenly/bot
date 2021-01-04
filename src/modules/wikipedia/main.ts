@@ -1,23 +1,23 @@
-import Message from "../../classes/Message/Message";
+import UserRequest from "../../classes/UserRequest/UserRequest";
 import helpEmbed from "./helpEmbed";
 import linkChecker from "./linkChecker";
 import search from "./search/main";
 
-export default async function main(message: Message) {
+export default async function main(userRequest: UserRequest) {
 
     // Get prefix
-    const prefix: string = message.channel.prefix;
+    const prefix: string = userRequest.channel.prefix;
 
-    // Get input
-    const input = message.commandContent.split(" ").slice(1).join(" ");
+    // Get params
+    const input: string | undefined = userRequest.getParameter<string>("search-query");
 
     // No input
-    if (!input) return message.channel.sendMessage(helpEmbed(prefix));
+    if (!input) return userRequest.respond(helpEmbed(prefix));
 
     // Link checker
     const runModule: Function | undefined = linkChecker(input);
-    if (runModule) return runModule(message);
+    if (runModule) return runModule(userRequest);
 
     // Search
-    search(message, input);
+    search(userRequest, input);
 }

@@ -1,20 +1,20 @@
 import Command, { ViewDataURL } from "../../../classes/Command/Command";
-import Message from "../../../classes/Message/Message";
+import UserRequest from "../../../classes/UserRequest/UserRequest";
 import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
 
-export default async function main(message: Message, query: string, commandHistoryIndex?: number): Promise<Command | undefined> {
+export default async function main(userRequest: UserRequest, query: string, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Create command
-    const command: Command = new Command(message.client, {
+    const command: Command = new Command(userRequest.client, {
         name: "search",
         category: "youtube",
-        message,
+        userRequest,
         input: query,
         url: url(query),
         orderedPages: true,
-        getData: async (query?: string, page?: number, nextPageToken?: string): Promise<any> => await message.client.youtube.search.list({
+        getData: async (query?: string, page?: number, nextPageToken?: string): Promise<any> => await userRequest.client.youtube.search.list({
             part: ["snippet"],
             q: query,
             pageToken: nextPageToken
@@ -23,7 +23,7 @@ export default async function main(message: Message, query: string, commandHisto
         parser: parse,
         getEmbed: embed,
         view
-    }, (m: Message, chIndex: number) => main(m, query, chIndex), commandHistoryIndex);
+    }, (r: UserRequest, chIndex: number) => main(r, query, chIndex), commandHistoryIndex);
 
     // Search
     command.pageManager?.setPage(1);

@@ -1,27 +1,27 @@
 import { ViewData } from "../../../classes/Command/Command";
-import Message from "../../../classes/Message/Message";
+import UserRequest from "../../../classes/UserRequest/UserRequest";
 import repo, { url as repoURL } from "../repo/main";
 import repos, { url as reposURL } from "../repos/main";
 import { Home, HomeRepo } from "../types";
 
-export default function view(data: Home | undefined, message: Message): ViewData | undefined {
+export default function view(data: Home | undefined, userRequest: UserRequest): ViewData | undefined {
 
     // No data
     if (!data) return;
 
     // Get params
-    const input: string = message.commandContent.split(" ").slice(1).join(" ");
+    const input: string | undefined = userRequest.getParameter<string>("result") || userRequest.getParameter<string>("link-or-result");
     if (!input) return { error: ":x:  **|  What would you like to view?**" };
 
     // Watched repos
     if (input.toLowerCase().replace(/\s+/g, "") === "watchedrepos") return {
-        module: () => repos(message, data.username, "subscriptions"),
+        module: () => repos(userRequest, data.username, "subscriptions"),
         url: reposURL(data.username)
     };
 
     // Starred repos
     else if (input.toLowerCase().replace(/\s+/g, "") === "starredrepos") return {
-        module: () => repos(message, data.username, "starred"),
+        module: () => repos(userRequest, data.username, "starred"),
         url: reposURL(data.username)
     };
 
@@ -43,11 +43,11 @@ export default function view(data: Home | undefined, message: Message): ViewData
 
     // Run module
     if (itemType === "w") return {
-        module: () => repo(message, itemResult?.ownerName || "", itemResult?.name || ""),
+        module: () => repo(userRequest, itemResult?.ownerName || "", itemResult?.name || ""),
         url: repoURL(itemResult.ownerName, itemResult.name)
     };
     else if (itemType === "s") return {
-        module: () => repo(message, itemResult?.ownerName || "", itemResult?.name || ""),
+        module: () => repo(userRequest, itemResult?.ownerName || "", itemResult?.name || ""),
         url: repoURL(itemResult.ownerName, itemResult.name)
     };
 }

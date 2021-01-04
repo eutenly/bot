@@ -1,21 +1,21 @@
 import { ViewData } from "../../../classes/Command/Command";
-import Message from "../../../classes/Message/Message";
+import UserRequest from "../../../classes/UserRequest/UserRequest";
 import { Tweet } from "../types";
 import user, { url as userURL } from "../user/main";
 import tweet, { url as tweetURL } from "./main";
 
-export default function view(data: Tweet | undefined, message: Message): ViewData | undefined {
+export default function view(data: Tweet | undefined, userRequest: UserRequest): ViewData | undefined {
 
     // No data
     if (!data) return;
 
     // Get params
-    const input: string = message.commandContent.split(" ").slice(1).join(" ");
+    const input: string | undefined = userRequest.getParameter<string>("result") || userRequest.getParameter<string>("link-or-result");
     if (!input) return { error: ":x:  **|  Which result would you like to view?**" };
 
     // User
     if (input.toLowerCase().replace(/\s+/g, "") === "user") return {
-        module: () => user(message, data.user.id, "id"),
+        module: () => user(userRequest, data.user.id, "id"),
         url: userURL(data.user.id)
     };
 
@@ -27,7 +27,7 @@ export default function view(data: Tweet | undefined, message: Message): ViewDat
 
         // View tweet
         return {
-            module: () => tweet(message, data.quotedTweet?.id || "", data.quotedTweet?.user.handle || ""),
+            module: () => tweet(userRequest, data.quotedTweet?.id || "", data.quotedTweet?.user.handle || ""),
             url: tweetURL(data.quotedTweet.user.handle, data.quotedTweet.id)
         };
     }

@@ -1,26 +1,26 @@
 import Command, { ViewDataURL } from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
-import Message from "../../../classes/Message/Message";
+import UserRequest from "../../../classes/UserRequest/UserRequest";
 import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
 
-export default async function main(message: Message, channelID: string, commandHistoryIndex?: number): Promise<Command | undefined> {
+export default async function main(userRequest: UserRequest, channelID: string, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Create command
-    const command: Command = new Command(message.client, {
+    const command: Command = new Command(userRequest.client, {
         name: "channel",
         category: "youtube",
-        message,
+        userRequest,
         url: url(channelID),
-        getData: async (): Promise<any> => await message.client.youtube.channels.list({
+        getData: async (): Promise<any> => await userRequest.client.youtube.channels.list({
             part: ["snippet", "statistics"],
             id: [channelID]
         }),
         parser: parse,
         getEmbed: embed,
         view
-    }, (m: Message, chIndex: number) => main(m, channelID, chIndex), commandHistoryIndex);
+    }, (r: UserRequest, chIndex: number) => main(r, channelID, chIndex), commandHistoryIndex);
 
     // Fetch
     await command.fetchData();

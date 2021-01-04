@@ -1,11 +1,13 @@
+import Channel from "../../classes/Channel/Channel";
 import Client from "../../classes/Client/Client";
-import User from "../../classes/User/User";
-import fetch from "node-fetch";
+import Interaction, { InteractionParameter } from "../../classes/Interaction/Interaction";
 
-interface InteractionEventData {
-    token: string; // Interactions token
-    member: InteractionMember;
+interface InteractionCreateEventData {
     id: string; // Interaction event ID
+    token: string; // Interactions token
+    member: {
+        user: InteractionUser;
+    };
     guild_id: string;
     data: InteractionCommand;
     channel_id: string;
@@ -14,27 +16,39 @@ interface InteractionEventData {
 interface InteractionCommand {
     name: string;
     id: string;
+    options?: InteractionParameter[];
 }
 
-interface InteractionMember {
-    user: User;
-    roles: string[];
-    permissions: string;
+interface InteractionUser {
+    id: string;
+    username: string;
+    discriminator: string;
 }
 
-export default async function interactionCreate(client: Client, data: InteractionEventData) {
-    await fetch(`https://discord.com/api/v8/interactions/${data.id}/${data.token}/callback`, {
-        method: 'POST', body: JSON.stringify(
-            {
-                "type": 4,
-                "data": {
-                    "tts": false,
-                    "content": "Pong!",
-                    "embeds": [],
-                    "allowed_mentions": []
-                }
-            }
-        ),
-        headers: { 'Content-Type': 'application/json' },
-    })
+export default async function interactionCreate(client: Client, data: InteractionCreateEventData) {
+
+    // Check if Eutenly is in guild
+    if (!client.guilds.get(data.guild_id)) return;
+
+    // Get channel
+    const channel: Channel = client.channels.get(data.channel_id) || new Channel(client, {
+        id: data.channel_id,
+        guildID: data.guild_id
+    });
+
+    // Register interaction
+    const interaction: Interaction = await channel.registerInteraction({
+        id: data.id,
+        token: data.token,
+        commandID: data.data.id,
+        parameters: data.data.options || [],
+        user: {
+            id: data.member.user.id,
+            tag: `${data.member.user.username}#${data.member.user.discriminator}`,
+            bot: false
+        }
+    });
+
+    // Emit event
+    client.emit("interaction", interaction);
 }

@@ -1,20 +1,20 @@
 import Command, { ViewDataURL } from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
-import Message from "../../../classes/Message/Message";
+import UserRequest from "../../../classes/UserRequest/UserRequest";
 import embedVideo from "../embedVideo";
 import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
 
-export default async function main(message: Message, videoID: string, commandHistoryIndex?: number): Promise<Command | undefined> {
+export default async function main(userRequest: UserRequest, videoID: string, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Create command
-    const command: Command = new Command(message.client, {
+    const command: Command = new Command(userRequest.client, {
         name: "video",
         category: "youtube",
-        message,
+        userRequest,
         url: url(videoID),
-        getData: async (): Promise<any> => await message.client.youtube.videos.list({
+        getData: async (): Promise<any> => await userRequest.client.youtube.videos.list({
             part: ["snippet", "contentDetails", "statistics"],
             id: [videoID]
         }),
@@ -25,7 +25,7 @@ export default async function main(message: Message, videoID: string, commandHis
             emoji: "youtube",
             module: embedVideo
         }]
-    }, (m: Message, chIndex: number) => main(m, videoID, chIndex), commandHistoryIndex);
+    }, (r: UserRequest, chIndex: number) => main(r, videoID, chIndex), commandHistoryIndex);
 
     // Fetch
     await command.fetchData();

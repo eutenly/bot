@@ -1,21 +1,21 @@
 import { ViewData } from "../../../classes/Command/Command";
-import Message from "../../../classes/Message/Message";
+import UserRequest from "../../../classes/UserRequest/UserRequest";
 import post, { url as postURL } from "../post/main";
 import posts, { url as postsURL } from "../posts/main";
 import { BasicPost, Subreddit } from "../types";
 
-export default function view(data: Subreddit | undefined, message: Message): ViewData | undefined {
+export default function view(data: Subreddit | undefined, userRequest: UserRequest): ViewData | undefined {
 
     // No data
     if (!data) return;
 
     // Get params
-    const input: string = message.commandContent.split(" ").slice(1).join(" ");
+    const input: string | undefined = userRequest.getParameter<string>("result") || userRequest.getParameter<string>("link-or-result");
     if (!input) return { error: ":x:  **|  What would you like to view?**" };
 
     // Posts
     if (input.toLowerCase().replace(/\s+/g, "") === "posts") return {
-        module: () => posts(message, data.name, "subreddit"),
+        module: () => posts(userRequest, data.name, "subreddit"),
         url: postsURL(data.name, "subreddit")
     };
 
@@ -29,7 +29,7 @@ export default function view(data: Subreddit | undefined, message: Message): Vie
 
     // Run module
     return {
-        module: () => post(message, postResult.id, data.name),
+        module: () => post(userRequest, postResult.id, data.name),
         url: postURL(postResult.id, data.name)
     };
 }

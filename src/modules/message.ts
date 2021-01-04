@@ -1,10 +1,10 @@
 import Message from "../classes/Message/Message";
-import router from "./commandRouter/router";
+import textRouter from "./commandRouter/textRouter";
 
-export default function messageHandler(message: Message) {
+export default async function messageHandler(message: Message) {
 
     // Run router
-    const commandRun: boolean = router(message);
+    const commandRun: boolean = await textRouter(message);
 
     /**
      * Uncache Message

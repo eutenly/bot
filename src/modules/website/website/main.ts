@@ -1,6 +1,6 @@
 import Command from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
-import Message from "../../../classes/Message/Message";
+import UserRequest from "../../../classes/UserRequest/UserRequest";
 import githubLinkChecker from "../../github/linkChecker";
 import redditLinkChecker from "../../reddit/linkChecker";
 import spotifyLinkChecker from "../../spotify/linkChecker";
@@ -10,30 +10,30 @@ import fetch from "../fetch";
 import embed from "./embed";
 import parse from "./parse";
 
-export type LinkCheckerModule = (message: Message) => Promise<Command | undefined>;
+export type LinkCheckerModule = (userRequest: UserRequest) => Promise<Command | undefined>;
 
 type LinkChecker = (input: string, linksOnly?: boolean) => LinkCheckerModule | undefined;
 
-export default async function main(message: Message, url: string, commandHistoryIndex?: number): Promise<Command | undefined> {
+export default async function main(userRequest: UserRequest, url: string, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Link checkers
     const linkCheckers: LinkChecker[] = [youtubeLinkChecker, twitterLinkChecker, githubLinkChecker, spotifyLinkChecker, redditLinkChecker];
     for (let lc of linkCheckers) {
         const runModule: LinkCheckerModule | undefined = lc(url, true);
-        if (runModule) return runModule(message);
+        if (runModule) return runModule(userRequest);
     }
 
     // Create command
-    const command: Command = new Command(message.client, {
+    const command: Command = new Command(userRequest.client, {
         name: "website",
         category: "website",
-        message,
+        userRequest,
         url,
         getData: url,
         fetch,
         parser: parse,
         getEmbed: embed
-    }, (m: Message, chIndex: number) => main(m, url, chIndex), commandHistoryIndex);
+    }, (r: UserRequest, chIndex: number) => main(r, url, chIndex), commandHistoryIndex);
 
     // Fetch
     await command.fetchData();

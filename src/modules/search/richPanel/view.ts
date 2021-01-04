@@ -1,14 +1,14 @@
 import { ViewData } from "../../../classes/Command/Command";
-import Message from "../../../classes/Message/Message";
+import UserRequest from "../../../classes/UserRequest/UserRequest";
 import search, { url as searchURL } from "../search";
 
-export default function view(data: any, message: Message): ViewData | undefined {
+export default function view(data: any, userRequest: UserRequest): ViewData | undefined {
 
     // Get prefix
-    const prefix: string = message.channel.prefix;
+    const prefix: string = userRequest.channel.prefix;
 
     // Get params
-    const input: string = message.commandContent.split(" ").slice(1).join(" ");
+    const input: string | undefined = userRequest.getParameter<string>("result") || userRequest.getParameter<string>("link-or-result");
     if (!input) return { error: ":x:  **|  Which result would you like to view?**" };
 
     // Get results
@@ -48,7 +48,7 @@ export default function view(data: any, message: Message): ViewData | undefined 
 
     // Run module
     return {
-        module: () => search(message, resultItem.query),
+        module: () => search(userRequest, resultItem.query),
         url: searchURL(resultItem.query)
     };
 }

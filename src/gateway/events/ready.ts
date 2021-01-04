@@ -54,4 +54,7 @@ export default async function ready(client: Client, data: ReadyEventData) {
     // Process queued events
     client.eventQueue.forEach((e: EventQueueEvent) => event(client, e.type, e.data));
     client.eventQueue = [];
+
+    // Register slash commands
+    client.registerSlashCommands();
 }

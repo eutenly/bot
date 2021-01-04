@@ -1,17 +1,18 @@
 import mongoose from "mongoose";
 import Message from "../classes/Message/Message";
+import UserRequest from "../classes/UserRequest/UserRequest";
 
-export default async function ping(message: Message) {
+export default async function ping(userRequest: UserRequest) {
 
     // Set cooldown
-    message.author.setCooldown(2000);
+    userRequest.user.setCooldown(2000);
 
     // Websocket
-    const websocketPing: number = message.client.ping;
+    const websocketPing: number = userRequest.client.ping;
 
     // Message sending
     let start: number = Date.now();
-    const m: Message = await message.channel.sendMessage(":ping_pong:  **|  Pinging...**");
+    const m: Message = await userRequest.respond(":ping_pong:  **|  Pinging...**");
     const messageSending: number = Date.now() - start;
 
     // Database ping

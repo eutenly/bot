@@ -1,37 +1,26 @@
-import Message from "../classes/Message/Message";
+import UserRequest from "../classes/UserRequest/UserRequest";
 import { Users } from "../models";
 
-export default async function badge(message: Message) {
+export default async function badge(userRequest: UserRequest) {
 
     // Get params
-    const PARAMS: string[] = message.commandContent.split(" ").slice(1);
-
-    let target: string | undefined;
-    let type: string | undefined;
-    let input: string | undefined;
-    PARAMS.forEach((p: string) => {
-        if ((["suggester", "bughunter"].includes(p.toLowerCase())) && (!type)) type = p.toLowerCase();
-        else if ((["add", "remove", "yes", "no", "y", "n"].includes(p.toLowerCase())) && (!input)) input = p.toLowerCase();
-        else if (!target) target = p.replace(/[<>@!]/g, "");
-    });
+    const target: string | undefined = userRequest.getParameter<string>("target");
+    let action: boolean | undefined = userRequest.getParameter<boolean>("action");
+    let badge: string | undefined = userRequest.getParameter<string>("badge")?.toLowerCase();
 
     // Invalid params
-    if (!target) return message.channel.sendMessage(":x:  **|  Which user would you like to modify a badge for?**");
-    if (!type) return message.channel.sendMessage(":x:  **|  Which badge would you like to modify?**");
+    if (!target) return userRequest.respond(":x:  **|  Which user would you like to modify a badge for?**");
+    if (!badge) return userRequest.respond(":x:  **|  Which badge would you like to modify?**");
 
     // Parse type
-    type = type === "suggester" ? "suggester" : "bugHunter";
-
-    // Parse input
-    if (!input) input = "add";
-    const action: string = ["add", "yes", "y"].includes(input) ? "add" : "remove";
+    badge = badge === "suggester" ? "suggester" : "bugHunter";
 
     // Update database
-    const updated = await Users.findByIdAndUpdate(target, action === "add" ? { [type]: true } : { $unset: { [type]: 1 } });
+    const updated = await Users.findByIdAndUpdate(target, action ? { [badge]: true } : { $unset: { [badge]: 1 } });
 
     // No user
-    if (!updated) return message.channel.sendMessage(":x:  **|  I couldn't find that user**");
+    if (!updated) return userRequest.respond(":x:  **|  I couldn't find that user**");
 
     // Send
-    message.channel.sendMessage(`:white_check_mark:  **|  The ${type === "suggester" ? "Suggester" : "Bug Hunter"} badge has been ${action === "add" ? "added to" : "removed from"} <@${target}>**`);
+    userRequest.respond(`:white_check_mark:  **|  The ${badge === "suggester" ? "Suggester" : "Bug Hunter"} badge has been ${action ? "added to" : "removed from"} <@${target}>**`);
 }

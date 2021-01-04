@@ -1,20 +1,20 @@
-import Message from "../../classes/Message/Message";
+import UserRequest from "../../classes/UserRequest/UserRequest";
 import home from "./home/main";
 import linkChecker from "./linkChecker";
 import search from "./search/main";
 
-export default async function main(message: Message) {
+export default async function main(userRequest: UserRequest) {
 
-    // Get input
-    const input = message.commandContent.split(" ").slice(1).join(" ");
+    // Get params
+    const input: string | undefined = userRequest.getParameter<string>("search-query");
 
     // No input
-    if (!input) return home(message);
+    if (!input) return home(userRequest);
 
     // Link checker
     const runModule: Function | undefined = linkChecker(input);
-    if (runModule) return runModule(message);
+    if (runModule) return runModule(userRequest);
 
     // Search
-    search(message, input);
+    search(userRequest, input);
 }

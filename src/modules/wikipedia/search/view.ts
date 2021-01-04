@@ -1,12 +1,12 @@
 import { ViewData } from "../../../classes/Command/Command";
-import Message from "../../../classes/Message/Message";
+import UserRequest from "../../../classes/UserRequest/UserRequest";
 import article, { url as articleURL } from "../article/main";
 import { SearchResult } from "../types";
 
-export default function view(data: SearchResult[], message: Message): ViewData | undefined {
+export default function view(data: SearchResult[], userRequest: UserRequest): ViewData | undefined {
 
     // Get params
-    const input: string = message.commandContent.split(" ").slice(1).join(" ");
+    const input: string | undefined = userRequest.getParameter<string>("result") || userRequest.getParameter<string>("link-or-result");
     if (!input) return { error: ":x:  **|  Which result would you like to view?**" };
 
     // Get result number
@@ -19,7 +19,7 @@ export default function view(data: SearchResult[], message: Message): ViewData |
 
     // View article
     return {
-        module: () => article(message, result.title),
+        module: () => article(userRequest, result.title),
         url: articleURL(result.title)
     };
 }

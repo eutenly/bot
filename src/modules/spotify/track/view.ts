@@ -1,19 +1,19 @@
 import { ViewData } from "../../../classes/Command/Command";
-import Message from "../../../classes/Message/Message";
+import UserRequest from "../../../classes/UserRequest/UserRequest";
 import album, { url as albumURL } from "../album/main";
 import artist, { url as artistURL } from "../artist/main";
 import { BasicUser, Track } from "../types";
 
-export default function view(data: Track | undefined, message: Message): ViewData | undefined {
+export default function view(data: Track | undefined, userRequest: UserRequest): ViewData | undefined {
 
     // Get prefix
-    const prefix: string = message.channel.prefix;
+    const prefix: string = userRequest.channel.prefix;
 
     // No data
     if (!data) return;
 
     // Get params
-    const input: string = message.commandContent.split(" ").slice(1).join(" ");
+    const input: string | undefined = userRequest.getParameter<string>("result") || userRequest.getParameter<string>("link-or-result");
     if (!input) return { error: ":x:  **|  What would you like to view?**" };
 
     // Artist
@@ -22,14 +22,14 @@ export default function view(data: Track | undefined, message: Message): ViewDat
         if (data.artists.length > 1) return { error: `:x:  **|  There are multiple artists. Please enter an artist number, for example \`${prefix}view a-2\`**` };
 
         return {
-            module: () => artist(message, data.artists[0].id),
+            module: () => artist(userRequest, data.artists[0].id),
             url: artistURL(data.artists[0].id)
         };
     }
 
     // Album
     else if (input.toLowerCase().replace(/\s+/g, "") === "album") return {
-        module: () => album(message, data.album.id),
+        module: () => album(userRequest, data.album.id),
         url: albumURL(data.album.id)
     };
 
@@ -43,7 +43,7 @@ export default function view(data: Track | undefined, message: Message): ViewDat
 
     // Run module
     return {
-        module: () => artist(message, artistResult.id),
+        module: () => artist(userRequest, artistResult.id),
         url: artistURL(artistResult.id)
     };
 }

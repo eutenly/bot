@@ -5,7 +5,7 @@ import collectStat from "../../util/collectStat";
 export default function setCompactMode(command: Command, compactMode: boolean) {
 
     // Set cooldown
-    command.message.author.setCooldown(2000);
+    command.userRequest.user.setCooldown(2000);
 
     // Set compact mode
     command.compactMode = compactMode;
@@ -20,7 +20,7 @@ export default function setCompactMode(command: Command, compactMode: boolean) {
     collectStat(command.client, {
         measurement: "compact_mode_toggled",
         tags: {
-            dms: command.message.guild ? undefined : true,
+            dms: command.userRequest.guild ? undefined : true,
             action: command.compactMode ? "compact" : "expand"
         },
         fields: {

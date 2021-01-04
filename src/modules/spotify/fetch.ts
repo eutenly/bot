@@ -1,15 +1,15 @@
 import nodeFetch, { Response } from "node-fetch";
-import Channel from "../../classes/Channel/Channel";
 import User, { Connection } from "../../classes/User/User";
+import UserRequest from "../../classes/UserRequest/UserRequest";
 import sendLoginEmbed from "../../util/sendLoginEmbed";
 import refreshToken from "./refreshToken";
 
-export default async function fetch(user: User, channel: Channel, url: string, method: string = "GET", body?: any): Promise<any> {
+export default async function fetch(user: User, userRequest: UserRequest, url: string, method: string = "GET", body?: any): Promise<any> {
 
     // Get connection
     const connection: Connection | undefined = user.connections["spotify"];
     if (!connection) {
-        sendLoginEmbed(user, channel, "spotify");
+        sendLoginEmbed(user, userRequest, "spotify");
         return;
     }
 
@@ -28,7 +28,7 @@ export default async function fetch(user: User, channel: Channel, url: string, m
 
     // Authorization failed
     if (data.error?.message === "Invalid access token") {
-        sendLoginEmbed(user, channel, "spotify");
+        sendLoginEmbed(user, userRequest, "spotify");
         return;
     }
 
@@ -39,7 +39,7 @@ export default async function fetch(user: User, channel: Channel, url: string, m
         await refreshToken(user);
 
         // Fetch
-        return await fetch(user, channel, url, method, body);
+        return await fetch(user, userRequest, url, method, body);
     }
 
     // Return

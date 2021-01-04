@@ -1,19 +1,19 @@
 import Command, { ViewDataURL } from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
-import Message from "../../../classes/Message/Message";
+import UserRequest from "../../../classes/UserRequest/UserRequest";
 import fetch from "../fetch";
 import helpEmbed from "../helpEmbed";
 import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
 
-export default async function main(message: Message, commandHistoryIndex?: number): Promise<Command | undefined> {
+export default async function main(userRequest: UserRequest, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Create command
-    const command: Command = new Command(message.client, {
+    const command: Command = new Command(userRequest.client, {
         name: "home",
         category: "github",
-        message,
+        userRequest,
         url: url(),
         getData: "https://api.github.com/user",
         getExtraData: [
@@ -22,12 +22,12 @@ export default async function main(message: Message, commandHistoryIndex?: numbe
             `https://api.github.com/notifications?per_page=5`
         ],
         connectionName: "github",
-        helpEmbed: helpEmbed(message.channel.prefix),
+        helpEmbed: helpEmbed(userRequest.channel.prefix),
         fetch,
         parser: parse,
         getEmbed: embed,
         view
-    }, (m: Message, chIndex: number) => main(m, chIndex), commandHistoryIndex);
+    }, (r: UserRequest, chIndex: number) => main(r, chIndex), commandHistoryIndex);
     await command.uninitializedConnection;
 
     // No connection

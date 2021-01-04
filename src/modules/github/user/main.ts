@@ -1,19 +1,19 @@
 import Command, { ViewDataURL } from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
-import Message from "../../../classes/Message/Message";
+import UserRequest from "../../../classes/UserRequest/UserRequest";
 import fetch from "../fetch";
 import followUser from "../followUser";
 import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
 
-export default async function main(message: Message, name: string, commandHistoryIndex?: number): Promise<Command | undefined> {
+export default async function main(userRequest: UserRequest, name: string, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Create command
-    const command: Command = new Command(message.client, {
+    const command: Command = new Command(userRequest.client, {
         name: "user",
         category: "github",
-        message,
+        userRequest,
         url: url(name),
         getData: `https://api.github.com/users/${encodeURIComponent(name)}`,
         connectionName: "github",
@@ -25,7 +25,7 @@ export default async function main(message: Message, name: string, commandHistor
             emoji: "github_follow",
             module: followUser
         }]
-    }, (m: Message, chIndex: number) => main(m, name, chIndex), commandHistoryIndex);
+    }, (r: UserRequest, chIndex: number) => main(r, name, chIndex), commandHistoryIndex);
     await command.uninitializedConnection;
 
     // No connection

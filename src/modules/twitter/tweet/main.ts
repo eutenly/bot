@@ -1,6 +1,6 @@
 import Command, { ViewDataURL } from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
-import Message from "../../../classes/Message/Message";
+import UserRequest from "../../../classes/UserRequest/UserRequest";
 import fetch from "../fetch";
 import likeTweet from "../likeTweet";
 import retweetTweet from "../retweetTweet";
@@ -8,13 +8,13 @@ import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
 
-export default async function main(message: Message, tweetID: string, user: string, commandHistoryIndex?: number): Promise<Command | undefined> {
+export default async function main(userRequest: UserRequest, tweetID: string, user: string, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Create command
-    const command: Command = new Command(message.client, {
+    const command: Command = new Command(userRequest.client, {
         name: "tweet",
         category: "twitter",
-        message,
+        userRequest,
         url: url(user, tweetID),
         getData: `https://api.twitter.com/1.1/statuses/show.json?id=${encodeURIComponent(tweetID)}&tweet_mode=extended`,
         connectionName: "twitter",
@@ -32,7 +32,7 @@ export default async function main(message: Message, tweetID: string, user: stri
                 module: retweetTweet
             }
         ]
-    }, (m: Message, chIndex: number) => main(m, tweetID, user, chIndex), commandHistoryIndex);
+    }, (r: UserRequest, chIndex: number) => main(r, tweetID, user, chIndex), commandHistoryIndex);
     await command.uninitializedConnection;
 
     // No connection

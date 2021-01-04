@@ -1,17 +1,17 @@
 import { ViewData } from "../../classes/Command/Command";
-import Message from "../../classes/Message/Message";
+import UserRequest from "../../classes/UserRequest/UserRequest";
 import website from "../website/website/main";
 import video, { url as videoURL } from "../youtube/video/main";
 import richPanel from "./richPanel/main";
 import search, { url as searchURL } from "./search";
 
-export default function view(data: any, message: Message): ViewData | undefined {
+export default function view(data: any, userRequest: UserRequest): ViewData | undefined {
 
     // Get prefix
-    const prefix: string = message.channel.prefix;
+    const prefix: string = userRequest.channel.prefix;
 
     // Get params
-    const input: string = message.commandContent.split(" ").slice(1).join(" ");
+    const input: string | undefined = userRequest.getParameter<string>("result") || userRequest.getParameter<string>("link-or-result");
     if (!input) return { error: ":x:  **|  Which result would you like to view?**" };
 
     // Rich panel
@@ -22,7 +22,7 @@ export default function view(data: any, message: Message): ViewData | undefined 
 
         // Run module
         return {
-            module: () => richPanel(message, data.richPanel)
+            module: () => richPanel(userRequest, data.richPanel)
         };
     }
 
@@ -42,7 +42,7 @@ export default function view(data: any, message: Message): ViewData | undefined 
 
         // Run module
         return {
-            module: () => website(message, result.link),
+            module: () => website(userRequest, result.link),
             url: result.link
         };
     }
@@ -61,15 +61,15 @@ export default function view(data: any, message: Message): ViewData | undefined 
 
         // Run module
         if (result.type === "videos") return {
-            module: () => video(message, subresult.id),
+            module: () => video(userRequest, subresult.id),
             url: videoURL(subresult.id)
         };
         else if (typeof subresult.link === "string") return {
-            module: () => website(message, subresult.link),
+            module: () => website(userRequest, subresult.link),
             url: subresult.link
         };
         else return {
-            module: () => search(message, subresult.query),
+            module: () => search(userRequest, subresult.query),
             url: searchURL(subresult.query)
         };
     }

@@ -1,8 +1,6 @@
-import ChannelCommands from "../../../classes/Channel/ChannelCommands/ChannelCommands";
 import Command, { ViewDataURL } from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
-import Message from "../../../classes/Message/Message";
-import add from "../add";
+import UserRequest from "../../../classes/UserRequest/UserRequest";
 import fetch from "../fetch";
 import play from "../play";
 import queue from "../queue";
@@ -11,13 +9,13 @@ import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
 
-export default async function main(message: Message, trackID: string, progress?: number, commandHistoryIndex?: number): Promise<Command | undefined> {
+export default async function main(userRequest: UserRequest, trackID: string, progress?: number, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Create command
-    const command: Command = new Command(message.client, {
+    const command: Command = new Command(userRequest.client, {
         name: "track",
         category: "spotify",
-        message,
+        userRequest,
         metadata: {
             progress
         },
@@ -46,7 +44,7 @@ export default async function main(message: Message, trackID: string, progress?:
                 module: save
             }
         ]
-    }, (m: Message, chIndex: number) => main(m, trackID, progress, chIndex), commandHistoryIndex);
+    }, (r: UserRequest, chIndex: number) => main(r, trackID, progress, chIndex), commandHistoryIndex);
     await command.uninitializedConnection;
 
     // No connection
@@ -55,15 +53,6 @@ export default async function main(message: Message, trackID: string, progress?:
     // Fetch
     await command.fetchData();
     if (command.data === null) return;
-
-    // Channel commands
-    message.channel.commands = new ChannelCommands(message.channel, {
-        sourceCommand: command,
-        commands: [{
-            inputs: ["add", "save"],
-            module: (msg: Message) => add(msg, command.data.id, command.data.name, "track")
-        }]
-    });
 
     // Get embed
     const commandEmbed: Embed = command.getEmbed(command, command.data);

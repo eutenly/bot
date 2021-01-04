@@ -1,12 +1,12 @@
 import { ViewData } from "../../../classes/Command/Command";
-import Message from "../../../classes/Message/Message";
+import UserRequest from "../../../classes/UserRequest/UserRequest";
 import repo, { url as repoURL } from "../repo/main";
 import { ListedRepo } from "../types";
 
-export default function view(data: ListedRepo[], message: Message): ViewData | undefined {
+export default function view(data: ListedRepo[], userRequest: UserRequest): ViewData | undefined {
 
     // Get params
-    const input: string = message.commandContent.split(" ").slice(1).join(" ");
+    const input: string | undefined = userRequest.getParameter<string>("result") || userRequest.getParameter<string>("link-or-result");
     if (!input) return { error: ":x:  **|  Which result would you like to view?**" };
 
     // Get result number
@@ -19,7 +19,7 @@ export default function view(data: ListedRepo[], message: Message): ViewData | u
 
     // View repo
     return {
-        module: () => repo(message, result.ownerName, result.name),
+        module: () => repo(userRequest, result.ownerName, result.name),
         url: repoURL(result.ownerName, result.name)
     };
 }

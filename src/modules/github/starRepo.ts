@@ -14,11 +14,11 @@ export default async function starRepo(command: Command, user: User, reaction: R
     await user.getConnection("github");
 
     // Star repo
-    const result: any = await fetch(user, command.message.channel, `https://api.github.com/user/starred/${command.data.ownerName}/${command.data.name}`, action === "added" ? "PUT" : "DELETE");
+    const result: any = await fetch(user, command.userRequest, `https://api.github.com/user/starred/${command.data.ownerName}/${command.data.name}`, action === "added" ? "PUT" : "DELETE");
     if (!result) return;
 
     // Send
-    if (!user.reactionConfirmationsDisabled) command.message.channel.sendMessage(`<:github_star:${command.client.eutenlyEmojis.get("github_star")}>  **|  <@${user.id}>, ${command.data.ownerName}/${command.data.name} has been ${action === "added" ? "starred" : "unstarred"}**`);
+    if (!user.reactionConfirmationsDisabled) command.userRequest.respond(`<:github_star:${command.client.eutenlyEmojis.get("github_star")}>  **|  <@${user.id}>, ${command.data.ownerName}/${command.data.name} has been ${action === "added" ? "starred" : "unstarred"}**`);
 
     // Collect stats
     collectStat(command.client, {
