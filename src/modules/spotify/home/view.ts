@@ -1,23 +1,23 @@
 import { ViewData } from "../../../classes/Command/Command";
-import Message from "../../../classes/Message/Message";
+import UserRequest from "../../../classes/UserRequest/UserRequest";
 import artist, { url as artistURL } from "../artist/main";
 import playlist, { url as playlistURL } from "../playlist/main";
 import playlists, { url as playlistsURL } from "../playlists/main";
 import track, { url as trackURL } from "../track/main";
 import { Home } from "../types";
 
-export default function view(data: Home | undefined, message: Message): ViewData | undefined {
+export default function view(data: Home | undefined, userRequest: UserRequest): ViewData | undefined {
 
     // No data
     if (!data) return;
 
     // Get params
-    const input: string = message.commandContent.split(" ").slice(1).join(" ");
+    const input: string | undefined = userRequest.getParameter<string>("result") || userRequest.getParameter<string>("link-or-result");
     if (!input) return { error: ":x:  **|  What would you like to view?**" };
 
     // Playlists
     if (input.toLowerCase().replace(/\s+/g, "") === "playlists") return {
-        module: () => playlists(message),
+        module: () => playlists(userRequest),
         url: playlistsURL()
     };
 
@@ -41,19 +41,19 @@ export default function view(data: Home | undefined, message: Message): ViewData
 
     // Run module
     if (itemType === "p") return {
-        module: () => playlist(message, itemResult.id),
+        module: () => playlist(userRequest, itemResult.id),
         url: playlistURL(itemResult.id)
     };
     else if (itemType === "t") return {
-        module: () => track(message, itemResult.id),
+        module: () => track(userRequest, itemResult.id),
         url: trackURL(itemResult.id)
     };
     else if (itemType === "a") return {
-        module: () => artist(message, itemResult.id),
+        module: () => artist(userRequest, itemResult.id),
         url: artistURL(itemResult.id)
     };
     else if (itemType === "r") return {
-        module: () => track(message, itemResult.id),
+        module: () => track(userRequest, itemResult.id),
         url: trackURL(itemResult.id)
     };
 }

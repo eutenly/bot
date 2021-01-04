@@ -6,7 +6,7 @@ import PageManager from "./PageManager";
 export default async function setPage(pageManager: PageManager, page: number) {
 
     // Set cooldown
-    pageManager.command.message.author.setCooldown(pageManager.command.webScraper ? 4000 : 2000);
+    pageManager.command.userRequest.user.setCooldown(pageManager.command.webScraper ? 4000 : 2000);
 
     // Invalid page
     if (page < 1) page = 1;
@@ -31,7 +31,7 @@ export default async function setPage(pageManager: PageManager, page: number) {
         collectStat(pageManager.command.client, {
             measurement: "pages_cycled",
             tags: {
-                dms: pageManager.command.message.guild ? undefined : true
+                dms: pageManager.command.userRequest.guild ? undefined : true
             },
             fields: {
                 command: pageManager.command.name,
@@ -73,7 +73,7 @@ export default async function setPage(pageManager: PageManager, page: number) {
     collectStat(pageManager.command.client, {
         measurement: "pages_cycled",
         tags: {
-            dms: pageManager.command.message.guild ? undefined : true
+            dms: pageManager.command.userRequest.guild ? undefined : true
         },
         fields: {
             command: pageManager.command.name,

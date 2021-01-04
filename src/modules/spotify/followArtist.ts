@@ -14,13 +14,13 @@ export default async function followArtist(command: Command, user: User, reactio
     await user.getConnection("spotify");
 
     // Follow artist
-    const result: any = await fetch(user, command.message.channel, `https://api.spotify.com/v1/me/following?type=artist`, action === "added" ? "PUT" : "DELETE", {
+    const result: any = await fetch(user, command.userRequest, `https://api.spotify.com/v1/me/following?type=artist`, action === "added" ? "PUT" : "DELETE", {
         ids: [command.data.id]
     });
     if (!result) return;
 
     // Send
-    if (!user.reactionConfirmationsDisabled) command.message.channel.sendMessage(`<:spotify_follow:${command.client.eutenlyEmojis.get("spotify_follow")}>  **|  <@${user.id}>, ${command.data.name} has been ${action === "added" ? "followed" : "unfollowed"}**`);
+    if (!user.reactionConfirmationsDisabled) command.userRequest.respond(`<:spotify_follow:${command.client.eutenlyEmojis.get("spotify_follow")}>  **|  <@${user.id}>, ${command.data.name} has been ${action === "added" ? "followed" : "unfollowed"}**`);
 
     // Collect stats
     collectStat(command.client, {

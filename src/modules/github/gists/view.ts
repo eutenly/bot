@@ -1,12 +1,12 @@
 import Command, { ViewData } from "../../../classes/Command/Command";
-import Message from "../../../classes/Message/Message";
+import UserRequest from "../../../classes/UserRequest/UserRequest";
 import gist, { url as gistURL } from "../gist/main";
 import { ListedGist } from "../types";
 
-export default function view(data: ListedGist[], message: Message, command: Command): ViewData | undefined {
+export default function view(data: ListedGist[], userRequest: UserRequest, command: Command): ViewData | undefined {
 
     // Get params
-    const input: string = message.commandContent.split(" ").slice(1).join(" ");
+    const input: string | undefined = userRequest.getParameter<string>("result") || userRequest.getParameter<string>("link-or-result");
     if (!input) return { error: ":x:  **|  Which result would you like to view?**" };
 
     // Get result number
@@ -19,7 +19,7 @@ export default function view(data: ListedGist[], message: Message, command: Comm
 
     // View gist
     return {
-        module: () => gist(message, command.metadata.name, result.id),
+        module: () => gist(userRequest, command.metadata.name, result.id),
         url: gistURL(command.metadata.name, result.id)
     };
 }

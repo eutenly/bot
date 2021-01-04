@@ -1,12 +1,12 @@
 import { ViewData } from "../../../classes/Command/Command";
-import Message from "../../../classes/Message/Message";
+import UserRequest from "../../../classes/UserRequest/UserRequest";
 import track, { url as trackURL } from "../track/main";
 import { ListedTrack } from "../types";
 
-export default function view(data: ListedTrack[], message: Message): ViewData | undefined {
+export default function view(data: ListedTrack[], userRequest: UserRequest): ViewData | undefined {
 
     // Get params
-    const input: string = message.commandContent.split(" ").slice(1).join(" ");
+    const input: string | undefined = userRequest.getParameter<string>("result") || userRequest.getParameter<string>("link-or-result");
     if (!input) return { error: ":x:  **|  Which result would you like to view?**" };
 
     // Get result number
@@ -19,7 +19,7 @@ export default function view(data: ListedTrack[], message: Message): ViewData | 
 
     // View track
     return {
-        module: () => track(message, result.id),
+        module: () => track(userRequest, result.id),
         url: trackURL(result.id)
     };
 }

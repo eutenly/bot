@@ -7,7 +7,7 @@ export default async function fetchData(command: Command, input?: string, page?:
     let extraData: any[] | undefined;
 
     // Get pending data
-    const pendingData = ((typeof command.getData === "function") && (nextPageToken !== null)) ? command.getData(input, page, nextPageToken, command.message.author) : command.getData;
+    const pendingData = ((typeof command.getData === "function") && (nextPageToken !== null)) ? command.getData(input, page, nextPageToken, command.userRequest.user) : command.getData;
 
     // Regular commands
     if ((command.fetch) && (typeof pendingData === "string")) {
@@ -16,7 +16,7 @@ export default async function fetchData(command: Command, input?: string, page?:
         const url: string = pendingData;
 
         // Fetch
-        data = await command.fetch(command.message.author, command.message.channel, url, "GET");
+        data = await command.fetch(command.userRequest.user, command.userRequest, url, "GET");
         if (!data) return null;
 
         // Get extra data
@@ -27,7 +27,7 @@ export default async function fetchData(command: Command, input?: string, page?:
 
             // Return
             if (!command.fetch) return new Promise<void>((resolve) => resolve());
-            else if (typeof pendingExtraData === "string") return command.fetch(command.message.author, command.message.channel, pendingExtraData, "GET");
+            else if (typeof pendingExtraData === "string") return command.fetch(command.userRequest.user, command.userRequest, pendingExtraData, "GET");
             else return pendingExtraData;
         });
 

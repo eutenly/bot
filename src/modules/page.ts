@@ -1,21 +1,14 @@
 import Command from "../classes/Command/Command";
-import Message from "../classes/Message/Message";
+import UserRequest from "../classes/UserRequest/UserRequest";
 
-export default async function page(message: Message) {
+export default async function page(userRequest: UserRequest, type?: "next" | "previous") {
 
     // Get params
-    const PARAMS: string[] = message.commandContent.split(" ");
-
-    // The first param of the command is the type
-    // ie. for `e;next [amount]` the type would be `next`
-    const type: string = PARAMS[0].toLowerCase();
-
-    // The second param of the command is the amount
-    const amount: number = parseInt(PARAMS.slice(1).join(" ")) || 1;
+    const amount: number = userRequest.getParameter<number>("amount") || userRequest.getParameter<number>("page") || 1;
 
     // Get command
-    const command: Command | undefined = message.author.command;
-    if ((!command) || (!command.pageManager)) return message.channel.sendMessage(":x:  **|  You haven't searched anything recently**");
+    const command: Command | undefined = userRequest.user.command;
+    if ((!command) || (!command.pageManager)) return userRequest.respond(":x:  **|  You haven't searched anything recently**");
 
     // Get page
     let page: number = command.pageManager.page || 1;

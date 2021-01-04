@@ -72,6 +72,17 @@ export const routes: CommandRoute[] = [
         module: pingCommand
     },
     {
+        name: "help",
+        information: "Help about Eutenly",
+        inputs: ["help"],
+        module: helpCommand,
+        parameters: [{
+            type: STRING,
+            name: "module",
+            description: "The module you'd like to view"
+        }]
+    },
+    {
         name: "info",
         information: "View info about Eutenly",
         description: "View info about Eutenly and get some helpful links.",
@@ -99,8 +110,7 @@ export const routes: CommandRoute[] = [
         parameters: [{
             type: STRING,
             name: "search-query",
-            description: "What you'd like to search the web for",
-            required: true
+            description: "What you'd like to search the web for"
         }]
     },
     {
@@ -171,44 +181,49 @@ export const routes: CommandRoute[] = [
     },
     {
         name: "page",
-        information: "Navigate between pages",
-        description: "When viewing something with multiple pages, use the `next` and `previous` commands to navigate between pages You can also use the `page` command to jump to a page.",
-        inputs: ["page", "next", "previous"],
-        module: pageCommand,
+        information: "Jump to a page",
+        inputs: ["page"],
+        module: async (userRequest: UserRequest) => pageCommand(userRequest),
         parameters: [{
-            type: STRING,
+            type: NUMBER,
             name: "page",
-            description: "Do you want to go to the next or previous page?",
-            required: true,
-            choices: [{
-                name: "next",
-                value: "next"
-            },
-            {
-                name: "previous",
-                value: "previous"
-            }],
+            description: "The page that you'd like to view",
+            required: true
         }]
     },
     {
-        name: "move",
-        information: "Move through your recent command history",
-        description: "Use the `back` and `forward` commands to navigate through your recently used commands.",
-        inputs: ["back", "forward"],
-        module: moveCommand,
+        name: "next",
+        information: "Go to the next page",
+        inputs: ["next"],
+        module: async (userRequest: UserRequest) => pageCommand(userRequest, "next"),
         parameters: [{
-            type: STRING,
-            name: "movement",
-            description: "Do you want to go back or forward?",
-            required: true,
-            choices: [{
-                name: "back",
-                value: "back"
-            }, {
-                name: "forward",
-                value: "forward"
-            }],
+            type: NUMBER,
+            name: "amount",
+            description: "The amount of pages that you'd like to go forward by"
         }]
+    },
+    {
+        name: "previous",
+        information: "Go to the previous page",
+        inputs: ["previous"],
+        module: async (userRequest: UserRequest) => pageCommand(userRequest, "previous"),
+        parameters: [{
+            type: NUMBER,
+            name: "amount",
+            description: "The amount of pages that you'd like to go backwards by"
+        }]
+    },
+    {
+        name: "back",
+        information: "Go back through your recent command history",
+        inputs: ["back"],
+        module: async (userRequest: UserRequest) => moveCommand(userRequest, "back")
+    },
+    {
+        name: "forward",
+        information: "Go forward through your recent command history",
+        inputs: ["forward"],
+        module: async (userRequest: UserRequest) => moveCommand(userRequest, "forward")
     },
     {
         name: "view",
@@ -229,7 +244,7 @@ export const routes: CommandRoute[] = [
         module: removeCommand,
         parameters: [{
             type: NUMBER,
-            name: "id",
+            name: "link-number",
             description: "The saved link that you'd like to remove",
             required: true
         }]
@@ -238,7 +253,19 @@ export const routes: CommandRoute[] = [
         name: "saved-links",
         information: "View your saved links",
         inputs: ["savedlinks", "saved"],
-        module: savedLinksCommand
+        module: savedLinksCommand,
+        parameters: [
+            {
+                type: STRING,
+                name: "search-query",
+                description: "What you'd like to search your saved links for"
+            },
+            {
+                type: NUMBER,
+                name: "page",
+                description: "The page you'd like to view"
+            }
+        ]
     },
     {
         name: "save",
@@ -247,9 +274,8 @@ export const routes: CommandRoute[] = [
         module: saveCommand,
         parameters: [{
             type: STRING,
-            name: "result",
-            description: "The result ID that you'd like to view",
-            required: true,
+            name: "link-or-result",
+            description: "The link or result number that you'd like to save"
         }]
     },
     {
@@ -261,7 +287,7 @@ export const routes: CommandRoute[] = [
             type: STRING,
             name: "prefix",
             description: "The prefix to be set",
-            required: true,
+            required: true
         }]
     },
     {
@@ -297,7 +323,7 @@ export const routes: CommandRoute[] = [
             type: BOOLEAN,
             name: "mode",
             description: "Would you like confirmations on or off?",
-            required: true,
+            required: true
         }]
     },
     {
@@ -324,19 +350,38 @@ export const routes: CommandRoute[] = [
         information: "Enable or disable debug mode",
         inputs: ["debug"],
         module: debugCommand,
-        private: true
+        private: true,
+        parameters: [{
+            type: BOOLEAN,
+            name: "mode",
+            description: "Would you like debug mode on or off?",
+            required: true
+        }]
     },
     {
         name: "badge",
         information: "Add or remove badges from users",
         inputs: ["badge"],
         module: badgeCommand,
-        private: true
-    },
-    {
-        name: "help",
-        information: "Help about eutenly",
-        inputs: ["help", "h", "?"],
-        module: helpCommand
+        private: true,
+        parameters: [
+            {
+                type: STRING,
+                name: "user",
+                description: "The user to modify badges for",
+                required: true
+            },
+            {
+                type: BOOLEAN,
+                name: "action",
+                description: "Whether you'd like to add or remove the badge"
+            },
+            {
+                type: STRING,
+                name: "badge",
+                description: "The badge you'd like to modify",
+                required: true
+            }
+        ]
     }
 ];

@@ -6,7 +6,8 @@ import Guild from "../Guild/Guild";
 import Interaction from "../Interaction/Interaction";
 import Message from "../Message/Message";
 import User from "../User/User";
-import reply from "./reply";
+import getParameter, { ParameterTypes } from "./getParameter";
+import respond from "./respond";
 
 interface UserRequestData {
     commandName: string;
@@ -19,7 +20,7 @@ interface UserRequestData {
 
 export interface UserRequestParameter {
     name: string;
-    value?: string | number;
+    value?: string | number | boolean;
 }
 
 export default class UserRequest {
@@ -51,6 +52,9 @@ export default class UserRequest {
         this.guild = data.guild;
     }
 
-    // Reply
-    reply = (content: string | EmbedData, embed?: EmbedData): Promise<Message> => reply(this, content, embed);
+    // Get parameter
+    getParameter = <ParameterType extends ParameterTypes>(name: string): ParameterType | undefined => getParameter(this, name);
+
+    // Respond
+    respond = (content: string | EmbedData, embed?: EmbedData): Promise<Message> => respond(this, content, embed);
 }

@@ -16,7 +16,7 @@ interface InteractionCreateEventData {
 interface InteractionCommand {
     name: string;
     id: string;
-    options: InteractionParameter[];
+    options?: InteractionParameter[];
 }
 
 interface InteractionUser {
@@ -41,7 +41,7 @@ export default async function interactionCreate(client: Client, data: Interactio
         id: data.id,
         token: data.token,
         commandID: data.data.id,
-        parameters: data.data.options,
+        parameters: data.data.options || [],
         user: {
             id: data.member.user.id,
             tag: `${data.member.user.username}#${data.member.user.discriminator}`,

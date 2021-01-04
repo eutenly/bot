@@ -12,7 +12,7 @@ export default async function send(command: Command, embed: Embed) {
     }
 
     // Send
-    const m: Message = await command.message.channel.sendMessage(embed);
+    const m: Message = await command.userRequest.respond(embed);
 
     // Debug
     command.debug("Sent response message", { embed, messageID: m.id });

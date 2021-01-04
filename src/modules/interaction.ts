@@ -9,7 +9,7 @@ export default function interactionHandler(interaction: Interaction) {
     /**
      * Uncache Interaction
      *
-     * If the interaction doesn't run a command and it isn't sent by the client, uncache it
+     * If the interaction doesn't run a command, uncache it
      */
-    if ((!commandRun) && (interaction.user.id !== interaction.client.id)) interaction.uncache();
+    if (!commandRun) interaction.uncache();
 }

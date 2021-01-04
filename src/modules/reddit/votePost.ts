@@ -19,11 +19,11 @@ export default async function votePost(command: Command, user: User, reaction: R
     else if ((action === "added") && (voteAction === "downvote")) voteDirection = -1;
 
     // Vote on post
-    const result: any = await fetch(user, command.message.channel, `https://oauth.reddit.com/api/vote?id=t3_${command.data.id}&dir=${voteDirection}`, "POST");
+    const result: any = await fetch(user, command.userRequest, `https://oauth.reddit.com/api/vote?id=t3_${command.data.id}&dir=${voteDirection}`, "POST");
     if (!result) return;
 
     // Send
-    if (!user.reactionConfirmationsDisabled) command.message.channel.sendMessage(`<:${voteAction === "upvote" ? "reddit_upvote" : "reddit_downvote"}:${command.client.eutenlyEmojis.get(voteAction === "upvote" ? "reddit_upvote" : "reddit_downvote")}>  **|  <@${user.id}>, ${voteDirection === 0 ? `Removed ${voteAction === "upvote" ? "upvote" : "downvote"} from` : (voteDirection === 1 ? "Upvoted" : "Downvoted")} post**`);
+    if (!user.reactionConfirmationsDisabled) command.userRequest.respond(`<:${voteAction === "upvote" ? "reddit_upvote" : "reddit_downvote"}:${command.client.eutenlyEmojis.get(voteAction === "upvote" ? "reddit_upvote" : "reddit_downvote")}>  **|  <@${user.id}>, ${voteDirection === 0 ? `Removed ${voteAction === "upvote" ? "upvote" : "downvote"} from` : (voteDirection === 1 ? "Upvoted" : "Downvoted")} post**`);
 
     // Collect stats
     collectStat(command.client, {

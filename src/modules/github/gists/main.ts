@@ -1,17 +1,17 @@
 import Command, { ViewDataURL } from "../../../classes/Command/Command";
-import Message from "../../../classes/Message/Message";
+import UserRequest from "../../../classes/UserRequest/UserRequest";
 import fetch from "../fetch";
 import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
 
-export default async function main(message: Message, name: string, commandHistoryIndex?: number): Promise<Command | undefined> {
+export default async function main(userRequest: UserRequest, name: string, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Create command
-    const command: Command = new Command(message.client, {
+    const command: Command = new Command(userRequest.client, {
         name: "gists",
         category: "github",
-        message,
+        userRequest,
         input: name,
         metadata: {
             name
@@ -24,7 +24,7 @@ export default async function main(message: Message, name: string, commandHistor
         parser: parse,
         getEmbed: embed,
         view
-    }, (m: Message, chIndex: number) => main(m, name, chIndex), commandHistoryIndex);
+    }, (r: UserRequest, chIndex: number) => main(r, name, chIndex), commandHistoryIndex);
     await command.uninitializedConnection;
 
     // No connection

@@ -1,28 +1,28 @@
 import { ViewData } from "../../../classes/Command/Command";
-import Message from "../../../classes/Message/Message";
+import UserRequest from "../../../classes/UserRequest/UserRequest";
 import artist, { url as artistURL } from "../artist/main";
 import track, { url as trackURL } from "../track/main";
 import tracks, { url as tracksURL } from "../tracks/main";
 import { Album, BasicTrack } from "../types";
 
-export default function view(data: Album | undefined, message: Message): ViewData | undefined {
+export default function view(data: Album | undefined, userRequest: UserRequest): ViewData | undefined {
 
     // No data
     if (!data) return;
 
     // Get params
-    const input: string = message.commandContent.split(" ").slice(1).join(" ");
+    const input: string | undefined = userRequest.getParameter<string>("result") || userRequest.getParameter<string>("link-or-result");
     if (!input) return { error: ":x:  **|  What would you like to view?**" };
 
     // Tracks
     if (input.toLowerCase().replace(/\s+/g, "") === "tracks") return {
-        module: () => tracks(message, data.id, data.name, "album"),
+        module: () => tracks(userRequest, data.id, data.name, "album"),
         url: tracksURL(data.id, data.name, "album")
     };
 
     // Artist
     else if (input.toLowerCase().replace(/\s+/g, "") === "artist") return {
-        module: () => artist(message, data.artist.id),
+        module: () => artist(userRequest, data.artist.id),
         url: artistURL(data.artist.id)
     };
 
@@ -36,7 +36,7 @@ export default function view(data: Album | undefined, message: Message): ViewDat
 
     // Run module
     return {
-        module: () => track(message, trackResult.id),
+        module: () => track(userRequest, trackResult.id),
         url: trackURL(trackResult.id)
     };
 }

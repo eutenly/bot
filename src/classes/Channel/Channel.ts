@@ -6,6 +6,7 @@ import Interaction from "../Interaction/Interaction";
 import Message from "../Message/Message";
 import fetchMessage from "./fetchMessage";
 import fetchMessages, { FetchMessagesOptions } from "./fetchMessages";
+import getLastMessage from "./getLastMessage";
 import registerInteraction, { InteractionData } from "./registerInteraction";
 import registerMessage, { MessageData } from "./registerMessage";
 import sendMessage from "./sendMessage";
@@ -39,7 +40,7 @@ interface ChannelFetchQueue {
 export default class Channel {
 
     // The client
-    client: Client; o
+    client: Client;
 
     // Data about the channel
     id: string;
@@ -99,4 +100,12 @@ export default class Channel {
 
     // Fetch messages from this channel
     fetchMessages = (options?: FetchMessagesOptions): Promise<RawMessage[]> => fetchMessages(this, options);
+
+    /**
+     * Get Last Message
+     *
+     * Gets the last message that has `content`
+     * Used for commands like `e;search ^`
+     */
+    getLastMessage = (messageOrInteraction: Message | Interaction): Promise<RawMessage | undefined> => getLastMessage(this, messageOrInteraction);
 }

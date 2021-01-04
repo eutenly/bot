@@ -1,17 +1,17 @@
 import crypto from "crypto";
 import nodeFetch, { Response } from "node-fetch";
 import { URL, URLSearchParams } from "url";
-import Channel from "../../classes/Channel/Channel";
 import User, { Connection } from "../../classes/User/User";
+import UserRequest from "../../classes/UserRequest/UserRequest";
 import randomString from "../../util/randomString";
 import sendLoginEmbed from "../../util/sendLoginEmbed";
 
-export default async function fetch(user: User, channel: Channel, url: string, method: string = "GET"): Promise<any> {
+export default async function fetch(user: User, userRequest: UserRequest, url: string, method: string = "GET"): Promise<any> {
 
     // Get connection
     const connection: Connection | undefined = user.connections["twitter"];
     if (!connection) {
-        sendLoginEmbed(user, channel, "twitter");
+        sendLoginEmbed(user, userRequest, "twitter");
         return;
     }
 
@@ -61,7 +61,7 @@ export default async function fetch(user: User, channel: Channel, url: string, m
 
     // Authorization failed
     if ((data.errors) && ([215, 32].includes(data.errors[0].code))) {
-        sendLoginEmbed(user, channel, "twitter");
+        sendLoginEmbed(user, userRequest, "twitter");
         return;
     }
 

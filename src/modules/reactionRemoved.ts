@@ -30,7 +30,7 @@ export default async function reactionRemoved(partialReaction: PartialReaction) 
     }
 
     // Restrict to command author
-    if (partialReaction.userID !== command.message.author.id) return;
+    if (partialReaction.userID !== command.userRequest.user.id) return;
 
     // Compact
     if ((partialReaction.id === partialReaction.client.eutenlyEmojis.get("compact")) && (command.compactMode)) setCompactMode(command, false);

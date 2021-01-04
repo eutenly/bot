@@ -2,10 +2,10 @@ import collectStat from "../../util/collectStat";
 import Channel from "../Channel/Channel";
 import Guild from "../Guild/Guild";
 import { GuildPermissions } from "../Guild/getPermissions";
+import Interaction from "../Interaction/Interaction";
 import Message from "../Message/Message";
 import User from "../User/User";
 import Client from "./Client";
-import Interaction from "../Interaction/Interaction";
 
 export default function activateGarbageCollection(client: Client) {
     // Setup Garbage Collection to run every 60 seconds

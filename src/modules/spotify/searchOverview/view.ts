@@ -1,43 +1,43 @@
 import Command, { ViewData } from "../../../classes/Command/Command";
-import Message from "../../../classes/Message/Message";
+import UserRequest from "../../../classes/UserRequest/UserRequest";
 import album, { url as albumURL } from "../album/main";
 import artist, { url as artistURL } from "../artist/main";
 import search from "../search/main";
 import track, { url as trackURL } from "../track/main";
 import { SearchOverviewResult } from "../types";
 
-export default function view(data: SearchOverviewResult[] | undefined, message: Message, command: Command): ViewData | undefined {
+export default function view(data: SearchOverviewResult[] | undefined, userRequest: UserRequest, command: Command): ViewData | undefined {
 
     // No data
     if (!data) return;
 
     // Get params
-    const input: string = message.commandContent.split(" ").slice(1).join(" ");
+    const input: string | undefined = userRequest.getParameter<string>("result") || userRequest.getParameter<string>("link-or-result");
     if (!input) return { error: ":x:  **|  What would you like to view?**" };
 
     // Tracks
     if (["tracks", "track", "songs", "song"].includes(input.toLowerCase().replace(/\s+/g, ""))) return {
-        module: () => search(message, command.metadata.query, "track")
+        module: () => search(userRequest, command.metadata.query, "track")
     };
 
     // Artists
     else if (["artists", "artist"].includes(input.toLowerCase().replace(/\s+/g, ""))) return {
-        module: () => search(message, command.metadata.query, "artist")
+        module: () => search(userRequest, command.metadata.query, "artist")
     };
 
     // Albums
     else if (["albums", "album"].includes(input.toLowerCase().replace(/\s+/g, ""))) return {
-        module: () => search(message, command.metadata.query, "album")
+        module: () => search(userRequest, command.metadata.query, "album")
     };
 
     // Playlists
     else if (["playlists", "playlist"].includes(input.toLowerCase().replace(/\s+/g, ""))) return {
-        module: () => search(message, command.metadata.query, "playlist")
+        module: () => search(userRequest, command.metadata.query, "playlist")
     };
 
     // Episodes
     else if (["episodes", "episode"].includes(input.toLowerCase().replace(/\s+/g, ""))) return {
-        module: () => search(message, command.metadata.query, "episode")
+        module: () => search(userRequest, command.metadata.query, "episode")
     };
 
     // Get result number
@@ -50,15 +50,15 @@ export default function view(data: SearchOverviewResult[] | undefined, message: 
 
     // Run module
     if (result.type === "track") return {
-        module: () => track(message, result.id),
+        module: () => track(userRequest, result.id),
         url: trackURL(result.id)
     };
     else if (result.type === "artist") return {
-        module: () => artist(message, result.id),
+        module: () => artist(userRequest, result.id),
         url: artistURL(result.id)
     };
     else if (result.type === "album") return {
-        module: () => album(message, result.id),
+        module: () => album(userRequest, result.id),
         url: albumURL(result.id)
     };
 }

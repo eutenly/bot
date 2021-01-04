@@ -1,23 +1,23 @@
 import Command, { ViewData } from "../../../classes/Command/Command";
-import Message from "../../../classes/Message/Message";
+import UserRequest from "../../../classes/UserRequest/UserRequest";
 import repo, { url as repoURL } from "../repo/main";
 import { Languages } from "../types";
 
-export default function view(data: Languages | undefined, message: Message, command: Command): ViewData | undefined {
+export default function view(data: Languages | undefined, userRequest: UserRequest, command: Command): ViewData | undefined {
 
     // Get prefix
-    const prefix: string = command.message.channel.prefix;
+    const prefix: string = command.userRequest.channel.prefix;
 
     // No data
     if (!data) return;
 
     // Get params
-    const input: string = message.commandContent.split(" ").slice(1).join(" ");
+    const input: string | undefined = userRequest.getParameter<string>("result") || userRequest.getParameter<string>("link-or-result");
     if (!input) return { error: ":x:  **|  Which result would you like to view?**" };
 
     // Repo
     if (input.toLowerCase().replace(/\s+/g, "") === "repo") return {
-        module: () => repo(message, command.metadata.ownerName, command.metadata.name),
+        module: () => repo(userRequest, command.metadata.ownerName, command.metadata.name),
         url: repoURL(command.metadata.ownerName, command.metadata.name)
     };
 

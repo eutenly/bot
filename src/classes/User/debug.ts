@@ -24,11 +24,11 @@ export default function debug(user: User, data: DebugData) {
         name: data.command.name,
         category: data.command.category,
         author: {
-            id: data.command.message.author.id,
-            tag: data.command.message.author.tag
+            id: data.command.userRequest.user.id,
+            tag: data.command.userRequest.user.tag
         },
-        guildID: data.command.message.guild?.id,
-        channelID: data.command.message.channel.id,
+        guildID: data.command.userRequest.guild?.id,
+        channelID: data.command.userRequest.channel.id,
         url: data.command.url,
         compactMode: data.command.compactMode,
         page: data.command.pageManager?.page

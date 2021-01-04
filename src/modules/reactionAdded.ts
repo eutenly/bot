@@ -26,7 +26,7 @@ export default async function reactionAdded(reaction: Reaction) {
     }
 
     // Restrict to command author
-    if (reaction.user.id !== command.message.author.id) return;
+    if (reaction.user.id !== command.userRequest.user.id) return;
 
     // Previous page
     if ((reaction.id === reaction.client.eutenlyEmojis.get("left_arrow")) && (command.pageManager)) setPage(reaction, command, -1);

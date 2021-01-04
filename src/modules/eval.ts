@@ -3,17 +3,16 @@ import Client from "../classes/Client/Client";
 import Embed from "../classes/Embed/Embed";
 import Guild from "../classes/Guild/Guild";
 import Message from "../classes/Message/Message";
+import UserRequest from "../classes/UserRequest/UserRequest";
 
-export default async function (message: Message) {
+export default async function evalCommand(userRequest: UserRequest) {
 
-    // Get code
-    const code = message.commandContent.split("eval").slice(1).join("eval");
+    // Get params
+    if (!(userRequest.source instanceof Message)) return;
+    const code: string = userRequest.source.commandContent.split("eval").slice(1).join("eval");
 
     // Done function
     const done = (result: any) => {
-
-        // React
-        message.addReaction("✅");
 
         // Embed
         const embed = new Embed()
@@ -69,14 +68,11 @@ export default async function (message: Message) {
         if (formattedResult) embed.setDescription(`\`\`\`\n${formattedResult}\`\`\``);
 
         // Send
-        message.channel.sendMessage(embed);
+        userRequest.respond(embed);
     };
 
     // Error function
     const err = (e: Error) => {
-
-        // React
-        message.addReaction("❌").catch(() => { });
 
         // Embed
         const embed = new Embed()
@@ -86,7 +82,7 @@ export default async function (message: Message) {
             .setColor(0xe05151);
 
         // Send
-        message.channel.sendMessage(embed);
+        userRequest.respond(embed);
     };
 
     // Eval

@@ -1,22 +1,22 @@
-import Message from "../../classes/Message/Message";
+import UserRequest from "../../classes/UserRequest/UserRequest";
 import helpEmbed from "./helpEmbed";
 import search from "./search";
 import searchLastMessage from "./searchLastMessage";
 
-export default async function main(message: Message) {
+export default async function main(userRequest: UserRequest) {
 
     // Get prefix
-    const prefix: string = message.channel.prefix;
+    const prefix: string = userRequest.channel.prefix;
 
-    // Get query
-    const query = message.commandContent.split(" ").slice(1).join(" ");
+    // Get params
+    const query: string | undefined = userRequest.getParameter<string>("search-query");
 
     // No query
-    if (!query) return message.channel.sendMessage(helpEmbed(prefix));
+    if (!query) return userRequest.respond(helpEmbed(prefix));
 
     // Check if input is to search last message
-    if (query === "^") return searchLastMessage(message);
+    if (query === "^") return searchLastMessage(userRequest);
 
     // Run module
-    search(message, query);
+    search(userRequest, query);
 }

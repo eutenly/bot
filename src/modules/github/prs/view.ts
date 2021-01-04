@@ -1,12 +1,12 @@
 import Command, { ViewData } from "../../../classes/Command/Command";
-import Message from "../../../classes/Message/Message";
+import UserRequest from "../../../classes/UserRequest/UserRequest";
 import pr, { url as prURL } from "../pr/main";
 import { ListedPR } from "../types";
 
-export default function view(data: ListedPR[], message: Message, command: Command): ViewData | undefined {
+export default function view(data: ListedPR[], userRequest: UserRequest, command: Command): ViewData | undefined {
 
     // Get params
-    const input: string = message.commandContent.split(" ").slice(1).join(" ");
+    const input: string | undefined = userRequest.getParameter<string>("result") || userRequest.getParameter<string>("link-or-result");
     if (!input) return { error: ":x:  **|  Which result would you like to view?**" };
 
     // Get result number
@@ -19,7 +19,7 @@ export default function view(data: ListedPR[], message: Message, command: Comman
 
     // View pr
     return {
-        module: () => pr(message, command.metadata.ownerName, command.metadata.name, result.number),
+        module: () => pr(userRequest, command.metadata.ownerName, command.metadata.name, result.number),
         url: prURL(command.metadata.ownerName, command.metadata.name, result.number)
     };
 }

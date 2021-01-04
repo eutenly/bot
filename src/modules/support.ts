@@ -1,7 +1,7 @@
-import Message from "../classes/Message/Message";
+import UserRequest from "../classes/UserRequest/UserRequest";
 
-export default async function support(message: Message) {
+export default async function support(userRequest: UserRequest) {
 
     // Send
-    message.channel.sendMessage(`<:eutenly:${message.client.eutenlyEmojis.get("eutenly")}>  **|  Join my support server at** https://discord.gg/feE2vaR`);
+    userRequest.respond(`<:eutenly:${userRequest.client.eutenlyEmojis.get("eutenly")}>  **|  Join my support server at** https://discord.gg/feE2vaR`);
 }

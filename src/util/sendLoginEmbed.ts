@@ -1,8 +1,8 @@
-import Channel from "../classes/Channel/Channel";
 import Embed from "../classes/Embed/Embed";
 import User from "../classes/User/User";
+import UserRequest from "../classes/UserRequest/UserRequest";
 
-export default async function sendLoginEmbed(user: User, channel: Channel, connectionName: string): Promise<void> {
+export default async function sendLoginEmbed(user: User, userRequest: UserRequest, connectionName: string): Promise<void> {
 
     // Remove from connections
     delete user.connections[connectionName];
@@ -27,6 +27,6 @@ export default async function sendLoginEmbed(user: User, channel: Channel, conne
         .setDescription(`To use ${name} integration, [login with ${name}](https://eutenly.com/login/${connectionName})`)
         .setColor(color);
 
-    // Send
-    await channel.sendMessage(embed);
+    // Respond
+    await userRequest.respond(embed);
 }

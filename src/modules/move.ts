@@ -1,22 +1,19 @@
-import Message from "../classes/Message/Message";
 import { CommandHistoryEntry } from "../classes/User/User";
+import UserRequest from "../classes/UserRequest/UserRequest";
 
-export default async function move(message: Message) {
-
-    // Get the type, ie. `back` or `forward`
-    const type: string = message.commandContent.toLowerCase();
+export default async function move(userRequest: UserRequest, type: "back" | "forward") {
 
     // Get latest command
-    const latestCommand: CommandHistoryEntry | undefined = message.author.commandHistory.find((h: CommandHistoryEntry) => h.latest);
-    if (!latestCommand) return message.channel.sendMessage(":x:  **|  You haven't used any commands recently**");
+    const latestCommand: CommandHistoryEntry | undefined = userRequest.user.commandHistory.find((h: CommandHistoryEntry) => h.latest);
+    if (!latestCommand) return userRequest.respond(":x:  **|  You haven't used any commands recently**");
 
     // Get command
-    const latestCommandIndex: number = message.author.commandHistory.indexOf(latestCommand);
+    const latestCommandIndex: number = userRequest.user.commandHistory.indexOf(latestCommand);
     const commandHistoryIndex: number = latestCommandIndex + (type === "back" ? -1 : 1);
 
-    const command: CommandHistoryEntry | undefined = message.author.commandHistory[commandHistoryIndex];
-    if (!command) return message.channel.sendMessage(`:x:  **|  Use another command to be able to use the ${type} command**`);
+    const command: CommandHistoryEntry | undefined = userRequest.user.commandHistory[commandHistoryIndex];
+    if (!command) return userRequest.respond(`:x:  **|  Use another command to be able to use the ${type} command**`);
 
     // Run command
-    command.run(message, commandHistoryIndex);
+    command.run(userRequest, commandHistoryIndex);
 }

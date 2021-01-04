@@ -5,7 +5,7 @@ import FetchQueue from "../FetchQueue/FetchQueue";
 import Guild from "../Guild/Guild";
 import Message from "../Message/Message";
 import User from "../User/User";
-import reply from "./reply";
+import respond from "./respond";
 
 interface InteractionData {
     id: string;
@@ -19,11 +19,11 @@ interface InteractionData {
 
 export interface InteractionParameter {
     name: string;
-    value: string | number;
+    value: string | number | boolean;
 }
 
 interface InteractionFetchQueue {
-    reply: FetchQueue;
+    respond: FetchQueue;
 }
 
 export default class Interaction {
@@ -59,12 +59,12 @@ export default class Interaction {
 
         // Set fetch queues
         this.fetchQueues = {
-            reply: new FetchQueue(client)
+            respond: new FetchQueue(client)
         };
     }
 
-    // Reply
-    reply = (content: string | EmbedData, embed?: EmbedData): Promise<Message> => reply(this, content, embed);
+    // Respond
+    respond = (content: string | EmbedData, embed?: EmbedData): Promise<Message> => respond(this, content, embed);
 
     // Uncaches this interaction
     uncache = () => this.channel.interactions.delete(this.id);

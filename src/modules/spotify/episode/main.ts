@@ -1,18 +1,18 @@
 import Command, { ViewDataURL } from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
-import Message from "../../../classes/Message/Message";
+import UserRequest from "../../../classes/UserRequest/UserRequest";
 import add from "../add";
 import fetch from "../fetch";
 import embed from "./embed";
 import parse from "./parse";
 
-export default async function main(message: Message, episodeID: string, progress?: number, commandHistoryIndex?: number): Promise<Command | undefined> {
+export default async function main(userRequest: UserRequest, episodeID: string, progress?: number, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Create command
-    const command: Command = new Command(message.client, {
+    const command: Command = new Command(userRequest.client, {
         name: "episode",
         category: "spotify",
-        message,
+        userRequest,
         metadata: {
             progress
         },
@@ -22,7 +22,7 @@ export default async function main(message: Message, episodeID: string, progress
         fetch,
         parser: parse,
         getEmbed: embed
-    }, (m: Message, chIndex: number) => main(m, episodeID, progress, chIndex), commandHistoryIndex);
+    }, (r: UserRequest, chIndex: number) => main(r, episodeID, progress, chIndex), commandHistoryIndex);
     await command.uninitializedConnection;
 
     // No connection

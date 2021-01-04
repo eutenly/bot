@@ -1,23 +1,17 @@
-import Message from "../classes/Message/Message";
+import UserRequest from "../classes/UserRequest/UserRequest";
 
-export default async function debug(message: Message) {
+export default async function debug(userRequest: UserRequest) {
 
     // Get params
-    const input: string = message.commandContent.split(" ").slice(1).join(" ");
-
-    // Define inputs
-    const inputs: string[] = ["enabled", "enable", "disabled", "disable", "on", "off", "yes", "no", "y", "n", "true", "false"];
+    const enabled: boolean | undefined = userRequest.getParameter<boolean>("mode");
 
     // Invalid input
-    if (!inputs.includes(input)) return message.channel.sendMessage(":x:  **|  Please enter if you'd like debug mode to be enabled or disabled**");
-
-    // Parse input
-    const enabled: boolean = ["enabled", "enable", "on", "yes", "y", "true"].includes(input);
+    if (enabled === undefined) return userRequest.respond(":x:  **|  Please enter if you'd like debug mode to be enabled or disabled**");
 
     // Set debug mode
-    message.author.debugMode = enabled;
-    if (!message.author.debugMode) delete message.author.debugMode;
+    userRequest.user.debugMode = enabled;
+    if (!userRequest.user.debugMode) delete userRequest.user.debugMode;
 
     // Send
-    message.channel.sendMessage(`:white_check_mark:  **|  Debug mode is now ${enabled ? "enabled" : "disabled"}**`);
+    userRequest.respond(`:white_check_mark:  **|  Debug mode is now ${enabled ? "enabled" : "disabled"}**`);
 }

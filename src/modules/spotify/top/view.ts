@@ -1,13 +1,13 @@
 import Command, { ViewData } from "../../../classes/Command/Command";
-import Message from "../../../classes/Message/Message";
+import UserRequest from "../../../classes/UserRequest/UserRequest";
 import artist, { url as artistURL } from "../artist/main";
 import track, { url as trackURL } from "../track/main";
 import { TopItem } from "../types";
 
-export default function view(data: TopItem[], message: Message, command: Command): ViewData | undefined {
+export default function view(data: TopItem[], userRequest: UserRequest, command: Command): ViewData | undefined {
 
     // Get params
-    const input: string = message.commandContent.split(" ").slice(1).join(" ");
+    const input: string | undefined = userRequest.getParameter<string>("result") || userRequest.getParameter<string>("link-or-result");
     if (!input) return { error: ":x:  **|  Which result would you like to view?**" };
 
     // Get result number
@@ -20,11 +20,11 @@ export default function view(data: TopItem[], message: Message, command: Command
 
     // Run module
     if (command.metadata.type === "tracks") return {
-        module: () => track(message, result.id),
+        module: () => track(userRequest, result.id),
         url: trackURL(result.id)
     };
     else if (command.metadata.type === "artists") return {
-        module: () => artist(message, result.id),
+        module: () => artist(userRequest, result.id),
         url: artistURL(result.id)
     };
 }

@@ -1,21 +1,21 @@
 import { ViewData } from "../../../classes/Command/Command";
-import Message from "../../../classes/Message/Message";
+import UserRequest from "../../../classes/UserRequest/UserRequest";
 import post, { url as postURL } from "../post/main";
 import posts, { url as postsURL } from "../posts/main";
 import { BasicPost, Home } from "../types";
 
-export default function view(data: Home | undefined, message: Message): ViewData | undefined {
+export default function view(data: Home | undefined, userRequest: UserRequest): ViewData | undefined {
 
     // No data
     if (!data) return;
 
     // Get params
-    const input: string = message.commandContent.split(" ").slice(1).join(" ");
+    const input: string | undefined = userRequest.getParameter<string>("result") || userRequest.getParameter<string>("link-or-result");
     if (!input) return { error: ":x:  **|  What would you like to view?**" };
 
     // Posts
     if (input.toLowerCase().replace(/\s+/g, "") === "posts") return {
-        module: () => posts(message, data.name, "user"),
+        module: () => posts(userRequest, data.name, "user"),
         url: postsURL(data.name, "user")
     };
 
@@ -37,11 +37,11 @@ export default function view(data: Home | undefined, message: Message): ViewData
 
     // Run module
     if (itemType === "p") return {
-        module: () => post(message, itemResult?.id || "", itemResult?.subredditName || ""),
+        module: () => post(userRequest, itemResult?.id || "", itemResult?.subredditName || ""),
         url: postURL(itemResult.id, itemResult.id)
     };
     else if (itemType === "f") return {
-        module: () => post(message, itemResult?.id || "", itemResult?.subredditName || ""),
+        module: () => post(userRequest, itemResult?.id || "", itemResult?.subredditName || ""),
         url: postURL(itemResult.id, itemResult.id)
     };
 }

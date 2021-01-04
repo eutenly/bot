@@ -1,17 +1,17 @@
 import Command, { ViewDataURL } from "../../../classes/Command/Command";
-import Message from "../../../classes/Message/Message";
+import UserRequest from "../../../classes/UserRequest/UserRequest";
 import fetch from "../fetch";
 import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
 
-export default async function main(message: Message, artistID: string, artistName: string, commandHistoryIndex?: number): Promise<Command | undefined> {
+export default async function main(userRequest: UserRequest, artistID: string, artistName: string, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Create command
-    const command: Command = new Command(message.client, {
+    const command: Command = new Command(userRequest.client, {
         name: "albums",
         category: "spotify",
-        message,
+        userRequest,
         input: artistID,
         metadata: {
             artistName
@@ -24,7 +24,7 @@ export default async function main(message: Message, artistID: string, artistNam
         parser: parse,
         getEmbed: embed,
         view
-    }, (m: Message, chIndex: number) => main(m, artistID, artistName, chIndex), commandHistoryIndex);
+    }, (r: UserRequest, chIndex: number) => main(r, artistID, artistName, chIndex), commandHistoryIndex);
     await command.uninitializedConnection;
 
     // No connection

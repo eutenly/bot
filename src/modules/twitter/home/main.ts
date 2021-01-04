@@ -1,23 +1,23 @@
 import Command, { ViewDataURL } from "../../../classes/Command/Command";
 import Embed from "../../../classes/Embed/Embed";
-import Message from "../../../classes/Message/Message";
 import User from "../../../classes/User/User";
+import UserRequest from "../../../classes/UserRequest/UserRequest";
 import fetch from "../fetch";
 import helpEmbed from "../helpEmbed";
 import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
 
-export default async function main(message: Message, commandHistoryIndex?: number): Promise<Command | undefined> {
+export default async function main(userRequest: UserRequest, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Get prefix
-    const prefix: string = message.channel.prefix;
+    const prefix: string = userRequest.channel.prefix;
 
     // Create command
-    const command: Command = new Command(message.client, {
+    const command: Command = new Command(userRequest.client, {
         name: "home",
         category: "twitter",
-        message,
+        userRequest,
         url: url(),
         getData: (input?: string, page?: number, nextPageToken?: string, user?: User): string => `https://api.twitter.com/1.1/statuses/user_timeline.json?user_id=${user?.connections["twitter"]?.id}&tweet_mode=extended&count=5`,
         getExtraData: ["https://api.twitter.com/1.1/statuses/home_timeline.json?tweet_mode=extended&count=5"],
@@ -27,7 +27,7 @@ export default async function main(message: Message, commandHistoryIndex?: numbe
         parser: parse,
         getEmbed: embed,
         view
-    }, (m: Message, chIndex: number) => main(m, chIndex), commandHistoryIndex);
+    }, (r: UserRequest, chIndex: number) => main(r, chIndex), commandHistoryIndex);
     await command.uninitializedConnection;
 
     // No connection

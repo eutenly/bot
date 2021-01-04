@@ -1,4 +1,5 @@
 import Message from "../../classes/Message/Message";
+import UserRequest from "../../classes/UserRequest/UserRequest";
 import { LinkCheckerModule } from "../website/website/main";
 import wikipediaArticle from "./article/main";
 import wikipediaSearch from "./search/main";
@@ -19,19 +20,19 @@ export default function linkChecker(input: string, linksOnly?: boolean): LinkChe
 
         // Check if input is an article link
         const article = url.pathname.match(/\/wiki\/(.+)/);
-        if (article) return (message: Message) => wikipediaArticle(message, article[1]);
+        if (article) return (userRequest: UserRequest) => wikipediaArticle(userRequest, article[1]);
 
         // Check if input is a search link
-        if ((url.pathname === "/w/index.php") && (url.searchParams.get("search"))) return (message: Message) => wikipediaSearch(message, url.searchParams.get("search") as string);
+        if ((url.pathname === "/w/index.php") && (url.searchParams.get("search"))) return (userRequest: UserRequest) => wikipediaSearch(userRequest, url.searchParams.get("search") as string);
     }
 
     if (!linksOnly) {
 
         // Check if input is an article name
         const articleName = input.match(/"(.+)"/);
-        if (articleName) return (message: Message) => wikipediaArticle(message, articleName[1]);
+        if (articleName) return (userRequest: UserRequest) => wikipediaArticle(userRequest, articleName[1]);
 
         // Check if input is to search last message
-        if (input === "^") return (message: Message) => searchLastMessage(message);
+        if (input === "^") return (userRequest: UserRequest) => searchLastMessage(userRequest);
     }
 }

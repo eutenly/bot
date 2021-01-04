@@ -6,17 +6,17 @@ export default function getConnection(command: Command) {
 
         // Get connection
         if (!command.connectionName) return resolve();
-        await command.message.author.getConnection(command.connectionName);
+        await command.userRequest.user.getConnection(command.connectionName);
 
         // Connection found
-        if (command.message.author.connections[command.connectionName]) {
+        if (command.userRequest.user.connections[command.connectionName]) {
             command.debug("Found connection");
             return resolve();
         }
 
         // Send embed
-        if (command.helpEmbed) command.message.channel.sendMessage(command.helpEmbed);
-        else sendLoginEmbed(command.message.author, command.message.channel, command.connectionName);
+        if (command.helpEmbed) command.userRequest.respond(command.helpEmbed);
+        else sendLoginEmbed(command.userRequest.user, command.userRequest, command.connectionName);
 
         // Set no connection
         command.noConnection = true;

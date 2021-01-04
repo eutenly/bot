@@ -1,28 +1,18 @@
 import Command from "../../classes/Command/Command";
-import Message from "../../classes/Message/Message";
+import UserRequest from "../../classes/UserRequest/UserRequest";
 import { SavedLink } from "../../models/users";
 import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
 
-export default async function main(message: Message, commandHistoryIndex?: number): Promise<Command | undefined> {
+export default async function main(userRequest: UserRequest, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Get params
-    const PARAMS: string[] = message.commandContent.split(" ").slice(1);
-    let query: string | undefined = PARAMS[0]?.toLowerCase();
-    let pageInput: string | undefined = PARAMS[1];
-
-    // Swap parameters
-    if ((!parseInt(pageInput)) && (parseInt(query))) {
-        query = PARAMS[1]?.toLowerCase();
-        pageInput = PARAMS[0];
-    }
-
-    // Parse page
-    const page: number = parseInt(pageInput) || 1;
+    const query: string | undefined = userRequest.getParameter<string>("search-query")?.toLowerCase();
+    const page: number | undefined = userRequest.getParameter<number>("page") || 1;
 
     // Get user data
-    const userData = await message.author.getData();
+    const userData = await userRequest.user.getData();
 
     // Get saved links
     let savedLinks: SavedLink[] = userData?.savedLinks || [];
@@ -31,10 +21,10 @@ export default async function main(message: Message, commandHistoryIndex?: numbe
     savedLinks = savedLinks.filter((l: SavedLink) => l.url.includes(query || ""));
 
     // Create command
-    const command: Command = new Command(message.client, {
+    const command: Command = new Command(userRequest.client, {
         name: "view",
         category: "savedLinks",
-        message,
+        userRequest,
         input: "links",
         getData: async (input: string = "", page: number = 1): Promise<any> => {
             const data: SavedLink[] = savedLinks.slice(page - 1, (page - 1) + 5);
@@ -44,7 +34,7 @@ export default async function main(message: Message, commandHistoryIndex?: numbe
         parser: parse,
         getEmbed: embed,
         view
-    }, (m: Message, chIndex: number) => main(m, chIndex), commandHistoryIndex);
+    }, (r: UserRequest, chIndex: number) => main(r, chIndex), commandHistoryIndex);
 
     // Search
     command.pageManager?.setPage(page);

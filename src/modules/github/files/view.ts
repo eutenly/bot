@@ -1,18 +1,18 @@
 import Command, { ViewData } from "../../../classes/Command/Command";
-import Message from "../../../classes/Message/Message";
+import UserRequest from "../../../classes/UserRequest/UserRequest";
 import file, { url as fileURL } from "../file/main";
 import files, { url as filesURL } from "../files/main";
 import { ListedFile } from "../types";
 
-export default function view(data: ListedFile[], message: Message, command: Command): ViewData | undefined {
+export default function view(data: ListedFile[], userRequest: UserRequest, command: Command): ViewData | undefined {
 
     // Get params
-    const input: string = message.commandContent.split(" ").slice(1).join(" ");
+    const input: string | undefined = userRequest.getParameter<string>("result") || userRequest.getParameter<string>("link-or-result");
     if (!input) return { error: ":x:  **|  Which result would you like to view?**" };
 
     // Previous directory
     if ((command.metadata.path) && (parseInt(input) === 1)) return {
-        module: () => files(message, command.metadata.ownerName, command.metadata.name, command.metadata.path.split("/").slice(0, command.metadata.path.split("/").length - 1).join("/")),
+        module: () => files(userRequest, command.metadata.ownerName, command.metadata.name, command.metadata.path.split("/").slice(0, command.metadata.path.split("/").length - 1).join("/")),
         url: filesURL(command.metadata.ownerName, command.metadata.name, command.metadata.path.split("/").slice(0, command.metadata.path.split("/").length - 1).join("/"))
     };
 
@@ -26,11 +26,11 @@ export default function view(data: ListedFile[], message: Message, command: Comm
 
     // View file
     if (result.type === "dir") return {
-        module: () => files(message, command.metadata.ownerName, command.metadata.name, result.path),
+        module: () => files(userRequest, command.metadata.ownerName, command.metadata.name, result.path),
         url: filesURL(command.metadata.ownerName, command.metadata.name, result.path)
     };
     else return {
-        module: () => file(message, command.metadata.ownerName, command.metadata.name, result.path),
+        module: () => file(userRequest, command.metadata.ownerName, command.metadata.name, result.path),
         url: fileURL(command.metadata.ownerName, command.metadata.name, result.path)
     };
 }

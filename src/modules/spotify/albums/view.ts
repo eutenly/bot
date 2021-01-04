@@ -1,12 +1,12 @@
 import { ViewData } from "../../../classes/Command/Command";
-import Message from "../../../classes/Message/Message";
+import UserRequest from "../../../classes/UserRequest/UserRequest";
 import album, { url as albumURL } from "../album/main";
 import { ListedAlbum } from "../types";
 
-export default function view(data: ListedAlbum[], message: Message): ViewData | undefined {
+export default function view(data: ListedAlbum[], userRequest: UserRequest): ViewData | undefined {
 
     // Get params
-    const input: string = message.commandContent.split(" ").slice(1).join(" ");
+    const input: string | undefined = userRequest.getParameter<string>("result") || userRequest.getParameter<string>("link-or-result");
     if (!input) return { error: ":x:  **|  Which result would you like to view?**" };
 
     // Get result number
@@ -19,7 +19,7 @@ export default function view(data: ListedAlbum[], message: Message): ViewData | 
 
     // View album
     return {
-        module: () => album(message, result.id),
+        module: () => album(userRequest, result.id),
         url: albumURL(result.id)
     };
 }

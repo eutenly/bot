@@ -1,20 +1,20 @@
 import Command, { ViewDataURL } from "../../../classes/Command/Command";
-import Message from "../../../classes/Message/Message";
+import UserRequest from "../../../classes/UserRequest/UserRequest";
 import fetch from "../fetch";
 import embed from "./embed";
 import parse from "./parse";
 import view from "./view";
 
-export default async function main(message: Message, name: string | null, type: string, commandHistoryIndex?: number): Promise<Command | undefined> {
+export default async function main(userRequest: UserRequest, name: string | null, type: string, commandHistoryIndex?: number): Promise<Command | undefined> {
 
     // Get logged in user's username
     if (!name) {
 
         // Get connection
-        await message.author.getConnection("reddit");
+        await userRequest.user.getConnection("reddit");
 
         // Get user data
-        const userData: any = await fetch(message.author, message.channel, "https://oauth.reddit.com/api/v1/me");
+        const userData: any = await fetch(userRequest.user, userRequest, "https://oauth.reddit.com/api/v1/me");
 
         // Set name
         name = userData.name;
@@ -24,10 +24,10 @@ export default async function main(message: Message, name: string | null, type: 
     name = name as string;
 
     // Create command
-    const command: Command = new Command(message.client, {
+    const command: Command = new Command(userRequest.client, {
         name: "posts",
         category: "reddit",
-        message,
+        userRequest,
         input: name,
         url: url(name, type),
         orderedPages: true,
@@ -38,7 +38,7 @@ export default async function main(message: Message, name: string | null, type: 
         parser: parse,
         getEmbed: embed,
         view
-    }, (m: Message, chIndex: number) => main(m, name, type, chIndex), commandHistoryIndex);
+    }, (r: UserRequest, chIndex: number) => main(r, name, type, chIndex), commandHistoryIndex);
     await command.uninitializedConnection;
 
     // No connection

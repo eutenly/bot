@@ -6,7 +6,7 @@ import { Home, ListedArtist, ListedPlaylist, ListedTrack } from "../types";
 export default function embed(command: Command, data?: Home): Embed {
 
     // Get prefix
-    const prefix: string = command.message.channel.prefix;
+    const prefix: string = command.userRequest.channel.prefix;
 
     // Embed
     command.noData = !data;

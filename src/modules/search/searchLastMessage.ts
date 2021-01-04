@@ -1,19 +1,19 @@
 import { RawMessage } from "../../classes/Channel/Channel";
 import Command from "../../classes/Command/Command";
-import Message from "../../classes/Message/Message";
+import UserRequest from "../../classes/UserRequest/UserRequest";
 import search from "./search";
 
-export default async function searchLastMessage(message: Message): Promise<Command | undefined> {
+export default async function searchLastMessage(userRequest: UserRequest): Promise<Command | undefined> {
 
     // Get last message
-    const lastMessage: RawMessage | undefined = await message.getLastMessage();
+    const lastMessage: RawMessage | undefined = await userRequest.channel.getLastMessage(userRequest.source);
 
     // No message
     if (!lastMessage) {
-        message.channel.sendMessage(":x:  **|  There haven't been any messages recently**");
+        userRequest.respond(":x:  **|  There haven't been any messages recently**");
         return;
     }
 
     // Search
-    return search(message, lastMessage.content);
+    return search(userRequest, lastMessage.content);
 }

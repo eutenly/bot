@@ -1,12 +1,12 @@
 import { ViewData } from "../../../classes/Command/Command";
-import Message from "../../../classes/Message/Message";
+import UserRequest from "../../../classes/UserRequest/UserRequest";
 import { ListedVideo } from "../types";
 import video, { url as videoURL } from "../video/main";
 
-export default function view(data: ListedVideo[], message: Message): ViewData | undefined {
+export default function view(data: ListedVideo[], userRequest: UserRequest): ViewData | undefined {
 
     // Get params
-    const input: string = message.commandContent.split(" ").slice(1).join(" ");
+    const input: string | undefined = userRequest.getParameter<string>("result") || userRequest.getParameter<string>("link-or-result");
     if (!input) return { error: ":x:  **|  Which result would you like to view?**" };
 
     // Get result number
@@ -19,7 +19,7 @@ export default function view(data: ListedVideo[], message: Message): ViewData | 
 
     // View video
     return {
-        module: () => video(message, result.id),
+        module: () => video(userRequest, result.id),
         url: videoURL(result.id)
     };
 }
