@@ -16,6 +16,23 @@ export default function activateGarbageCollection(client: Client) {
 
 function collectGarbage(client: Client) {
 
+    // Collect stats
+    collectStat(client, {
+        type: "cacheStat",
+        cacheType: "channels",
+        amount: client.channels.size
+    });
+    collectStat(client, {
+        type: "cacheStat",
+        cacheType: "messages",
+        amount: [...client.channels.entries()].reduce((acc, cur) => acc + cur[1].messages.size, 0)
+    });
+    collectStat(client, {
+        type: "cacheStat",
+        cacheType: "users",
+        amount: client.users.size
+    });
+
     // Define exclusions
     const exclusions: string[] = [client.serverJoinLeave.id];
 
