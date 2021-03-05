@@ -18,14 +18,11 @@ export default function setCompactMode(command: Command, compactMode: boolean) {
 
     // Collect stats
     collectStat(command.client, {
-        measurement: "compact_mode_toggled",
-        tags: {
-            dms: command.userRequest.guild ? undefined : true,
-            action: command.compactMode ? "compact" : "expand"
-        },
-        fields: {
-            command: command.name,
-            commandType: command.category
-        }
+        type: "userInitiatedGuildEvent",
+        userID: command.userRequest.user.id,
+        guildID: command.userRequest.guild?.id,
+        eventTrigger: "reaction",
+        eventService: "setCompactMode",
+        eventAction: command.compactMode ? "compact" : "expand"
     });
 }

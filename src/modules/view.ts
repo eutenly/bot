@@ -39,19 +39,5 @@ export default async function view(userRequest: UserRequest) {
             resultCommand: resultCommand.name,
             resultCommandType: resultCommand.category
         });
-
-        // Collect stats
-        collectStat(userRequest.client, {
-            measurement: "results_viewed",
-            tags: {
-                dms: userRequest.guild ? undefined : true
-            },
-            fields: {
-                command: command.name,
-                commandType: command.category,
-                resultCommand: resultCommand.name,
-                resultCommandType: resultCommand.category
-            }
-        });
     }
 }

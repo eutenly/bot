@@ -1,5 +1,6 @@
 import Command, { ParserData } from "../classes/Command/Command";
 import Embed from "../classes/Embed/Embed";
+import Message from "../classes/Message/Message";
 import UserRequest from "../classes/UserRequest/UserRequest";
 import save from "../models/save";
 import { SavedLink } from "../models/users";
@@ -49,11 +50,12 @@ export default async function remove(userRequest: UserRequest) {
 
     // Collect stats
     collectStat(userRequest.client, {
-        measurement: "saved_links_updated",
-        tags: {
-            action: "remove",
-            dms: userRequest.guild ? undefined : true
-        }
+        type: "userInitiatedGuildEvent",
+        userID: userRequest.user.id,
+        guildID: userRequest.guild?.id,
+        eventTrigger: userRequest.source instanceof Message ? "textCommand" : "slashCommand",
+        eventService: "savedLinks",
+        eventAction: "remove"
     });
 
     // Send

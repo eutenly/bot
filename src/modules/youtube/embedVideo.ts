@@ -20,13 +20,11 @@ export default async function embedVideo(command: Command, user: User, reaction:
 
     // Collect stats
     collectStat(command.client, {
-        measurement: "custom_reactions_used",
-        tags: {
-            dms: reaction.guild ? undefined : true
-        },
-        fields: {
-            reaction: "embedVideo",
-            commandType: "youtube"
-        }
+        type: "userInitiatedGuildEvent",
+        userID: user.id,
+        guildID: reaction.guild?.id,
+        eventTrigger: "reaction",
+        eventService: "youtube",
+        eventAction: "embedVideo"
     });
 }

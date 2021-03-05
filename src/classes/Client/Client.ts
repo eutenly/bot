@@ -1,7 +1,7 @@
 import { EventEmitter } from "events";
 import { google, youtube_v3 } from "googleapis";
-import { InfluxDB } from "influx";
 import mongoose from "mongoose";
+import { Client as PGClient } from "pg";
 import { Terminal } from "terminal-kit";
 import WebSocket from "ws";
 import connect from "../../gateway/socket/connect";
@@ -12,8 +12,8 @@ import Guild from "../Guild/Guild";
 import User from "../User/User";
 import RateLimit from "../common/RateLimit";
 import botInteractionAPI from "./botInteractionAPI";
-import connectInfluxDB from "./connectInfluxDB";
 import connectMongoDB from "./connectMongoDB";
+import connectPostgres from "./connectPostgres";
 import createUser, { CreateUserData } from "./createUser";
 import fetch, { RequestOptions } from "./fetch";
 import activateGarbageCollection from "./garbageCollector";
@@ -66,8 +66,8 @@ export default class Client extends EventEmitter {
     // ID generation increment
     idGenerationIncrement: number;
 
-    // The InfluxDB connection
-    influxDB: InfluxDB;
+    // The Postgres client
+    postgres: PGClient;
 
     // Whether or not the client is ready to handle events from Discord
     ready: boolean;
@@ -154,8 +154,8 @@ export default class Client extends EventEmitter {
         // Connect to MongoDB
         await connectMongoDB();
 
-        // Connect to InfluxDB
-        connectInfluxDB(this);
+        // Connect to Postgres
+        connectPostgres(this);
 
         // Activate the Garbage Collector
         activateGarbageCollection(this);

@@ -1,5 +1,4 @@
 import UserRequest from "../../classes/UserRequest/UserRequest";
-import collectStat from "../../util/collectStat";
 import sendLoginEmbed from "../../util/sendLoginEmbed";
 import episode from "./episode/main";
 import fetch from "./fetch";
@@ -26,15 +25,4 @@ export default async function current(userRequest: UserRequest) {
     // View item
     if (data.currently_playing_type === "track") track(userRequest, data.item.id, data.progress_ms);
     else if (data.currently_playing_type === "episode") episode(userRequest, data.item.id, data.progress_ms);
-
-    // Collect stats
-    collectStat(userRequest.client, {
-        measurement: "spotify_commands_used",
-        tags: {
-            dms: userRequest.guild ? undefined : true
-        },
-        fields: {
-            command: "current"
-        }
-    });
 }

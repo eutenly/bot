@@ -24,15 +24,11 @@ export default async function followArtist(command: Command, user: User, reactio
 
     // Collect stats
     collectStat(command.client, {
-        measurement: "custom_reactions_used",
-        tags: {
-            action,
-            dms: reaction.guild ? undefined : true,
-            confirmationMessageSent: user.reactionConfirmationsDisabled ? undefined : true
-        },
-        fields: {
-            reaction: "followArtist",
-            commandType: "spotify"
-        }
+        type: "userInitiatedGuildEvent",
+        userID: user.id,
+        guildID: reaction.guild?.id,
+        eventTrigger: "reaction",
+        eventService: "spotify",
+        eventAction: "followArtist"
     });
 }

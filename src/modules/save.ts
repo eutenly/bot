@@ -1,6 +1,7 @@
 import cheerio from "cheerio";
 import fetch from "node-fetch";
 import Command, { ViewData, ViewDataURL } from "../classes/Command/Command";
+import Message from "../classes/Message/Message";
 import UserRequest from "../classes/UserRequest/UserRequest";
 import saveDocument from "../models/save";
 import catchPromise from "../util/catchPromise";
@@ -107,11 +108,12 @@ export default async function save(userRequest: UserRequest) {
 
     // Collect stats
     collectStat(userRequest.client, {
-        measurement: "saved_links_updated",
-        tags: {
-            action: "add",
-            dms: userRequest.guild ? undefined : true
-        }
+        type: "userInitiatedGuildEvent",
+        userID: userRequest.user.id,
+        guildID: userRequest.guild?.id,
+        eventTrigger: userRequest.source instanceof Message ? "textCommand" : "slashCommand",
+        eventService: "savedLinks",
+        eventAction: "add"
     });
 
     // Send

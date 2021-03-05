@@ -37,15 +37,11 @@ export default async function play(command: Command, user: User, reaction: React
 
     // Collect stats
     collectStat(command.client, {
-        measurement: "custom_reactions_used",
-        tags: {
-            dms: reaction.guild ? undefined : true,
-            confirmationMessageSent: user.reactionConfirmationsDisabled ? undefined : true
-        },
-        fields: {
-            reaction: "play",
-            commandType: "spotify",
-            reactionType: command.name
-        }
+        type: "userInitiatedGuildEvent",
+        userID: user.id,
+        guildID: reaction.guild?.id,
+        eventTrigger: "reaction",
+        eventService: "spotify",
+        eventAction: "play"
     });
 }

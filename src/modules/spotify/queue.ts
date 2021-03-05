@@ -34,14 +34,11 @@ export default async function queue(command: Command, user: User, reaction: Reac
 
     // Collect stats
     collectStat(command.client, {
-        measurement: "custom_reactions_used",
-        tags: {
-            dms: reaction.guild ? undefined : true,
-            confirmationMessageSent: user.reactionConfirmationsDisabled ? undefined : true
-        },
-        fields: {
-            reaction: "queue",
-            commandType: "spotify"
-        }
+        type: "userInitiatedGuildEvent",
+        userID: user.id,
+        guildID: reaction.guild?.id,
+        eventTrigger: "reaction",
+        eventService: "spotify",
+        eventAction: "queue"
     });
 }
