@@ -8,20 +8,17 @@ export default function resourceUsage(client: Client) {
     setInterval(() => {
 
         // CPU usage
-        osUtils.cpuUsage((cpuUsage: number) => collectStat(client, {
-            measurement: "cpu_usage",
-            fields: {
-                value: cpuUsage
-            }
-        }));
+        osUtils.cpuUsage((cpuUsage: number) => {
 
-        // Memory usage
-        const memoryUsage: number = Math.round(process.memoryUsage().heapUsed / 1024 / 1024 * 100) / 100;
-        collectStat(client, {
-            measurement: "memory_usage",
-            fields: {
-                value: memoryUsage
-            }
+            // Memory usage
+            const memoryUsage: number = Math.round(process.memoryUsage().heapUsed / 1024 / 1024 * 100) / 100;
+
+            // Collect stat
+            collectStat(client, {
+                type: "resourceUsageStat",
+                cpu: cpuUsage,
+                memory: memoryUsage
+            });
         });
     }, 60000);
 }

@@ -1,3 +1,4 @@
+import Message from "../../classes/Message/Message";
 import UserRequest from "../../classes/UserRequest/UserRequest";
 import collectStat from "../../util/collectStat";
 import fetch from "./fetch";
@@ -35,12 +36,11 @@ export default async function updatePlayer(userRequest: UserRequest, action: str
 
     // Collect stats
     collectStat(userRequest.client, {
-        measurement: "spotify_commands_used",
-        tags: {
-            dms: userRequest.guild ? undefined : true
-        },
-        fields: {
-            command: action
-        }
+        type: "userInitiatedGuildEvent",
+        userID: userRequest.user.id,
+        guildID: userRequest.guild?.id,
+        eventTrigger: userRequest.source instanceof Message ? "textCommand" : "slashCommand",
+        eventService: "spotify",
+        eventAction: action
     });
 }

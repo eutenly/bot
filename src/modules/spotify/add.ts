@@ -1,3 +1,4 @@
+import Message from "../../classes/Message/Message";
 import UserRequest from "../../classes/UserRequest/UserRequest";
 import collectStat from "../../util/collectStat";
 import fetch from "./fetch";
@@ -38,14 +39,12 @@ export default async function add(userRequest: UserRequest, itemID: string, item
 
     // Collect stats
     collectStat(userRequest.client, {
-        measurement: "commands_used",
-        tags: {
-            dms: userRequest.guild ? undefined : true
-        },
-        fields: {
-            command: "add",
-            commandType: "spotify"
-        }
+        type: "userInitiatedGuildEvent",
+        userID: userRequest.user.id,
+        guildID: userRequest.guild?.id,
+        eventTrigger: userRequest.source instanceof Message ? "textCommand" : "slashCommand",
+        eventService: "spotify",
+        eventAction: "add"
     });
 
     // Send

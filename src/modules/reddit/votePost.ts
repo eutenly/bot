@@ -27,16 +27,11 @@ export default async function votePost(command: Command, user: User, reaction: R
 
     // Collect stats
     collectStat(command.client, {
-        measurement: "custom_reactions_used",
-        tags: {
-            action,
-            dms: reaction.guild ? undefined : true,
-            confirmationMessageSent: user.reactionConfirmationsDisabled ? undefined : true
-        },
-        fields: {
-            reaction: "votePost",
-            commandType: "reddit",
-            reactionType: voteAction
-        }
+        type: "userInitiatedGuildEvent",
+        userID: user.id,
+        guildID: reaction.guild?.id,
+        eventTrigger: "reaction",
+        eventService: "reddit",
+        eventAction: "votePost"
     });
 }

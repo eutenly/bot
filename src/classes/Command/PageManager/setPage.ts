@@ -27,18 +27,6 @@ export default async function setPage(pageManager: PageManager, page: number) {
         // Send
         pageManager.command.send(embed);
 
-        // Collect stats
-        collectStat(pageManager.command.client, {
-            measurement: "pages_cycled",
-            tags: {
-                dms: pageManager.command.userRequest.guild ? undefined : true
-            },
-            fields: {
-                command: pageManager.command.name,
-                commandType: pageManager.command.category
-            }
-        });
-
         // Return
         return;
     }
@@ -68,16 +56,4 @@ export default async function setPage(pageManager: PageManager, page: number) {
 
     // Send
     pageManager.command.send(embed);
-
-    // Collect stats
-    collectStat(pageManager.command.client, {
-        measurement: "pages_cycled",
-        tags: {
-            dms: pageManager.command.userRequest.guild ? undefined : true
-        },
-        fields: {
-            command: pageManager.command.name,
-            commandType: pageManager.command.category
-        }
-    });
 }

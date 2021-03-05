@@ -13,13 +13,9 @@ export default async function serverJoin(guild: Guild) {
 
     // Collect stats
     collectStat(guild.client, {
-        measurement: "server_join_leaves",
-        tags: {
-            type: "leave"
-        },
-        fields: {
-            totalServers: guild.client.guilds.size
-        }
+        type: "guildInitiatedEvent",
+        guildID: guild.id,
+        event: "serverLeft"
     });
 
     // Server join/leave embed

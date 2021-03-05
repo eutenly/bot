@@ -238,16 +238,12 @@ export default class Command {
 
         // Collect stats
         collectStat(this.client, {
-            measurement: "commands_used",
-            tags: {
-                dms: this.userRequest.guild ? undefined : true,
-                viaHistory: commandHistoryIndex !== undefined ? true : undefined,
-                compactMode: this.compactMode || undefined
-            },
-            fields: {
-                command: this.name,
-                commandType: this.category
-            }
+            type: "userInitiatedGuildEvent",
+            userID: this.userRequest.user.id,
+            guildID: this.userRequest.guild?.id,
+            eventTrigger: this.userRequest.source instanceof Message ? "textCommand" : "slashCommand",
+            eventService: this.category,
+            eventAction: this.name
         });
     }
 

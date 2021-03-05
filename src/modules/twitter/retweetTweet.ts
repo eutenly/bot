@@ -22,15 +22,11 @@ export default async function retweetTweet(command: Command, user: User, reactio
 
     // Collect stats
     collectStat(command.client, {
-        measurement: "custom_reactions_used",
-        tags: {
-            action,
-            dms: reaction.guild ? undefined : true,
-            confirmationMessageSent: user.reactionConfirmationsDisabled ? undefined : true
-        },
-        fields: {
-            reaction: "retweetTweet",
-            commandType: "twitter"
-        }
+        type: "userInitiatedGuildEvent",
+        userID: user.id,
+        guildID: reaction.guild?.id,
+        eventTrigger: "reaction",
+        eventService: "twitter",
+        eventAction: "retweetTweet"
     });
 }
