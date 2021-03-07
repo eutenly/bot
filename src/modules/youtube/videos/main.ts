@@ -19,8 +19,10 @@ export default async function main(userRequest: UserRequest, channelID: string, 
             channelId: channelID,
             type: ["video"],
             order: "date",
-            pageToken: nextPageToken
+            pageToken: nextPageToken,
+            access_token: userRequest.user.connections["youtube"]?.accessToken
         }),
+        connectionName: "youtube",
         perPage: 5,
         parser: parse,
         getEmbed: embed,

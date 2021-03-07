@@ -9,6 +9,12 @@ export interface SavedLink {
 export interface IUser extends Document {
     _id: string;
     connections: {
+        youtube: {
+            id?: string;
+            username?: string;
+            accessToken?: string;
+            connectedAt?: number;
+        },
         twitter: {
             id?: string;
             username?: string;
@@ -61,6 +67,12 @@ export interface IUser extends Document {
 export const usersSchema: Schema = new Schema({
     _id: String,
     connections: {
+        youtube: {
+            id: String,
+            username: String,
+            accessToken: String,
+            connectedAt: Number
+        },
         twitter: {
             id: String,
             username: String,

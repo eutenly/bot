@@ -15,8 +15,10 @@ export default async function main(userRequest: UserRequest, channelID: string, 
         url: url(channelID),
         getData: async (): Promise<any> => await userRequest.client.youtube.channels.list({
             part: ["snippet", "statistics"],
-            id: [channelID]
+            id: [channelID],
+            access_token: userRequest.user.connections["youtube"]?.accessToken
         }),
+        connectionName: "youtube",
         parser: parse,
         getEmbed: embed,
         view
