@@ -26,6 +26,7 @@ export interface Connection {
 
 interface Connections {
     [index: string]: Connection | undefined;
+    youtube?: Connection;
     twitter?: Connection;
     reddit?: Connection;
     spotify?: Connection;

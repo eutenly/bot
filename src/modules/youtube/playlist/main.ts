@@ -15,8 +15,10 @@ export default async function main(userRequest: UserRequest, playlistID: string,
         url: url(playlistID),
         getData: async (): Promise<any> => await userRequest.client.youtube.playlists.list({
             part: ["snippet", "contentDetails"],
-            id: [playlistID]
+            id: [playlistID],
+            access_token: userRequest.user.connections["youtube"]?.accessToken
         }),
+        connectionName: "youtube",
         parser: parse,
         getEmbed: embed,
         view

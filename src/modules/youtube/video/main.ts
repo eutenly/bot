@@ -16,8 +16,10 @@ export default async function main(userRequest: UserRequest, videoID: string, co
         url: url(videoID),
         getData: async (): Promise<any> => await userRequest.client.youtube.videos.list({
             part: ["snippet", "contentDetails", "statistics"],
-            id: [videoID]
+            id: [videoID],
+            access_token: userRequest.user.connections["youtube"]?.accessToken
         }),
+        connectionName: "youtube",
         parser: parse,
         getEmbed: embed,
         view,

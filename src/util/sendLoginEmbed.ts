@@ -9,14 +9,16 @@ export default async function sendLoginEmbed(user: User, userRequest: UserReques
 
     // Get name
     let name: string | undefined;
-    if (connectionName === "twitter") name = "Twitter";
+    if (connectionName === "youtube") name = "YouTube";
+    else if (connectionName === "twitter") name = "Twitter";
     else if (connectionName === "github") name = "GitHub";
     else if (connectionName === "spotify") name = "Spotify";
     else if (connectionName === "reddit") name = "Reddit";
 
     // Get color
     let color: number | undefined;
-    if (connectionName === "twitter") color = 0x1da1f2;
+    if (connectionName === "youtube") color = 0xff0000;
+    else if (connectionName === "twitter") color = 0x1da1f2;
     else if (connectionName === "github") color = 0x000000;
     else if (connectionName === "spotify") color = 0x1ed760;
     else if (connectionName === "reddit") color = 0xff3f18;

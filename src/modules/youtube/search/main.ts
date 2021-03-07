@@ -17,8 +17,10 @@ export default async function main(userRequest: UserRequest, query: string, comm
         getData: async (query?: string, page?: number, nextPageToken?: string): Promise<any> => await userRequest.client.youtube.search.list({
             part: ["snippet"],
             q: query,
-            pageToken: nextPageToken
+            pageToken: nextPageToken,
+            access_token: userRequest.user.connections["youtube"]?.accessToken
         }),
+        connectionName: "youtube",
         perPage: 5,
         parser: parse,
         getEmbed: embed,
