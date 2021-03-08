@@ -3,16 +3,26 @@ import UserRequest from "../../classes/UserRequest/UserRequest";
 import collectStat from "../../util/collectStat";
 import fetch from "./fetch";
 
-export default async function add(userRequest: UserRequest, itemID: string, itemName: string, type: string) {
+export default async function add(userRequest: UserRequest) {
 
     // Get params
-    const input: string | undefined = userRequest.getParameter<string>("result") || userRequest.getParameter<string>("link-or-result");
+    const input: string | undefined = userRequest.getParameter<string>("playlist");
 
-    // No input
-    if (!input) return userRequest.respond(":x:  **|  Which playlist would you like to add this song to?**");
+    // Not viewing a track or episode
+    if (
+        !userRequest.user.command ||
+        userRequest.user.command.category !== "spotify" ||
+        (
+            userRequest.user.command.name !== "track" &&
+            userRequest.user.command.name !== "episode"
+        )
+    ) return userRequest.respond(":x:  **|  You aren't viewing a Spotify track or episode**");
 
     // Get connection
     await userRequest.user.getConnection("spotify");
+
+    // No input
+    if (!input) return userRequest.respond(":x:  **|  Which playlist would you like to add this song to?**");
 
     // Get playlists
     const playlists: any = await fetch(userRequest.user, userRequest, "https://api.spotify.com/v1/me/playlists?limit=50");
@@ -34,7 +44,7 @@ export default async function add(userRequest: UserRequest, itemID: string, item
 
     // Add item
     await fetch(userRequest.user, userRequest, `https://api.spotify.com/v1/playlists/${playlist.id}/tracks`, "POST", {
-        uris: [`spotify:${type}:${itemID}`]
+        uris: [`spotify:${userRequest.user.command.name}:${userRequest.user.command.data.id}`]
     });
 
     // Collect stats
@@ -48,5 +58,5 @@ export default async function add(userRequest: UserRequest, itemID: string, item
     });
 
     // Send
-    userRequest.respond(`<:spotify:${userRequest.client.eutenlyEmojis.get("spotify")}>  **|  ${itemName} has been added to ${playlist.name}**`);
+    userRequest.respond(`<:spotify:${userRequest.client.eutenlyEmojis.get("spotify")}>  **|  ${userRequest.user.command.data.name} has been added to ${playlist.name}**`);
 }
