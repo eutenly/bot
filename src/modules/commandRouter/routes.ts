@@ -17,6 +17,7 @@ import saveCommand from "../save";
 import savedLinksCommand from "../savedLinks/main";
 import searchCommand from "../search/main";
 import setPrefixCommand from "../setPrefix";
+import addCommand from "../spotify/add";
 import spotifyCommand from "../spotify/main";
 import supportCommand from "../support";
 import twitterCommand from "../twitter/main";
@@ -154,7 +155,19 @@ export const routes: CommandRoute[] = [
         parameters: [{
             type: STRING,
             name: "search-query",
-            description: "What you'd like to search Spotify for",
+            description: "What you'd like to search Spotify for"
+        }]
+    },
+    {
+        name: "add",
+        information: "Add the Spotify track or episode you're viewing to a playlist",
+        inputs: ["add"],
+        module: addCommand,
+        parameters: [{
+            type: STRING,
+            name: "playlist",
+            description: "The playlist to add the track or episode to",
+            required: true
         }]
     },
     {
