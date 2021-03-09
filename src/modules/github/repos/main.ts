@@ -31,7 +31,7 @@ export default async function main(userRequest: UserRequest, user: string, type:
     if (command.noConnection) return;
 
     // Search
-    command.pageManager?.setPage(1);
+    await command.pageManager?.setPage(1);
 
     // Return
     return command;

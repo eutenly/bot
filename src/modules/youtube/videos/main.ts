@@ -30,7 +30,7 @@ export default async function main(userRequest: UserRequest, channelID: string, 
     }, (r: UserRequest, chIndex: number) => main(r, channelID, chIndex), commandHistoryIndex);
 
     // Search
-    command.pageManager?.setPage(1);
+    await command.pageManager?.setPage(1);
 
     // Return
     return command;

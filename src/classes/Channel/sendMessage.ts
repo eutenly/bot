@@ -10,8 +10,8 @@ export default async function sendMessage(channel: Channel, content: string | Em
 
     // Missing perms
     const permissions: number | undefined = channel.guild?.permissions.get(channel.id);
-    if ((permissions) && ((permissions & 0x800) !== 0x800)) throw new Error("Missing permissions");
-    if ((permissions) && (Object.keys(payloadBody.embed).length) && ((permissions & 0x4000) !== 0x4000)) throw new Error("Missing permissions");
+    if ((permissions) && ((permissions & 0x800) !== 0x800)) throw new Error("Missing permissions to send messages");
+    if ((permissions) && (Object.keys(payloadBody.embed).length) && ((permissions & 0x4000) !== 0x4000)) throw new Error("Missing permissions to embed links");
 
     // Contruct Payload
     const payload: object = {

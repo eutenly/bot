@@ -176,6 +176,14 @@ export default async function textRouter(message: Message): Promise<boolean> {
     // Run module
     route.module(userRequest).catch((err) => {
 
+        console.log(err.message);
+
+        // Ignore missing permissions to send messages errors
+        if (err.message.includes("Missing permissions to send messages")) return;
+
+        // Send error message for missing permissions errors
+        if (err.message.includes("Missing permissions")) return message.channel.sendMessage(`:x:  **|  ${err.message}. If you need help fixing this issue you can ask on our support server with \`e;support\`**`);
+
         // Log error
         console.error(err);
         Sentry.captureException(err);

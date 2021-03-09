@@ -31,7 +31,7 @@ export default async function main(userRequest: UserRequest, artistID: string, a
     if (command.noConnection) return;
 
     // Search
-    command.pageManager?.setPage(1);
+    await command.pageManager?.setPage(1);
 
     // Return
     return command;

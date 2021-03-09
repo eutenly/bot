@@ -55,5 +55,5 @@ export default async function setPage(pageManager: PageManager, page: number) {
     const embed: Embed = pageManager.command.getEmbed(pageManager.command, pageManager.cache.get(pageManager.page) || []);
 
     // Send
-    pageManager.command.send(embed);
+    await pageManager.command.send(embed);
 }

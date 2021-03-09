@@ -13,8 +13,8 @@ export default async function main(userRequest: UserRequest) {
 
     // Link checker
     const runModule: Function | undefined = linkChecker(input);
-    if (runModule) return runModule(userRequest);
+    if (runModule) return await runModule(userRequest);
 
     // Search overview
-    searchOverview(userRequest, input);
+    await searchOverview(userRequest, input);
 }

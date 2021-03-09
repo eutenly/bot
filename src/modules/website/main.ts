@@ -21,7 +21,6 @@ export default async function main(userRequest: UserRequest) {
     if (!success) return userRequest.respond(":x:  **|  This website is unreachable!**");
     if (nsfw) return userRequest.respond(":x:  **|  This website is not permitted on Eutenly!**");
 
-
     // Run module
-    website(userRequest, url);
+    await website(userRequest, url);
 }

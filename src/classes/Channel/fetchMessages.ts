@@ -13,7 +13,7 @@ export default async function fetchMessages(channel: Channel, options: FetchMess
 
     // Missing perms
     const permissions: number | undefined = channel.guild?.permissions.get(channel.id);
-    if ((permissions) && ((permissions & 0x10000) !== 0x10000)) throw new Error("Missing permissions");
+    if ((permissions) && ((permissions & 0x10000) !== 0x10000)) throw new Error("Missing permissions to view message history");
 
     // Parse options
     if ((options.before instanceof Message) || (options.before instanceof Interaction)) options.before = options.before.id;
