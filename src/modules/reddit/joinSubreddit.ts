@@ -18,7 +18,7 @@ export default async function joinSubreddit(command: Command, user: User, reacti
     if (!result) return;
 
     // Send
-    if (!user.reactionConfirmationsDisabled) command.userRequest.respond(`<:reddit_join:${command.client.eutenlyEmojis.get("reddit_join")}>  **|  <@${user.id}>, ${action === "added" ? "Joined" : "Left"} subreddit**`);
+    if (!user.reactionConfirmationsDisabled) command.userRequest.channel.sendMessage(`<:reddit_join:${command.client.eutenlyEmojis.get("reddit_join")}>  **|  <@${user.id}>, ${action === "added" ? "Joined" : "Left"} subreddit**`);
 
     // Collect stats
     collectStat(command.client, {

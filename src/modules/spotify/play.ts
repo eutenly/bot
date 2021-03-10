@@ -27,13 +27,13 @@ export default async function play(command: Command, user: User, reaction: React
     if ((reaction.guild) && (reaction instanceof Reaction)) reaction.remove();
 
     // Not listening to anything
-    if (result.error?.reason === "NO_ACTIVE_DEVICE") return command.userRequest.respond(`:x:  **|  <@${user.id}>, You aren't listening to anything**`);
+    if (result.error?.reason === "NO_ACTIVE_DEVICE") return command.userRequest.channel.sendMessage(`:x:  **|  <@${user.id}>, You aren't listening to anything**`);
 
     // User doesn't have premium
-    if (result.error?.reason === "PREMIUM_REQUIRED") return command.userRequest.respond(`:x:  **|  <@${user.id}>, You need to have Spotify Premium in order for 3rd party services to be able to control your player**`);
+    if (result.error?.reason === "PREMIUM_REQUIRED") return command.userRequest.channel.sendMessage(`:x:  **|  <@${user.id}>, You need to have Spotify Premium in order for 3rd party services to be able to control your player**`);
 
     // Send
-    if (!user.reactionConfirmationsDisabled) command.userRequest.respond(`<:spotify_play:${command.client.eutenlyEmojis.get("spotify_play")}>  **|  <@${user.id}>, ${command.data.name} is now playing**`);
+    if (!user.reactionConfirmationsDisabled) command.userRequest.channel.sendMessage(`<:spotify_play:${command.client.eutenlyEmojis.get("spotify_play")}>  **|  <@${user.id}>, ${command.data.name} is now playing**`);
 
     // Collect stats
     collectStat(command.client, {
