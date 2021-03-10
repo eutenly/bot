@@ -1,4 +1,3 @@
-import collectStat from "../../../util/collectStat";
 import Embed from "../../Embed/Embed";
 import { ParserData } from "../Command";
 import PageManager from "./PageManager";
