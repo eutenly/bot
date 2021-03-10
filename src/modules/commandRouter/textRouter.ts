@@ -135,13 +135,29 @@ export default async function textRouter(message: Message): Promise<boolean> {
 
             // String
             const stringIndex: number = remainingParameters.findIndex((p: CommandParameter) => p.type === STRING);
-            if ((stringIndex !== -1) && (param !== "")) {
+            if (param !== "") {
 
-                // Remove from remaining parameters
-                remainingParameters.splice(stringIndex, 1);
+                // If there's a string parameter that hasn't been filled, use this parameter for it
+                if (stringIndex !== -1) {
 
-                // Add to parsed parameters
-                return parsedParameters.push({ type: STRING, value: param });
+                    // Remove from remaining parameters
+                    remainingParameters.splice(stringIndex, 1);
+
+                    // Add to parsed parameters
+                    return parsedParameters.push({ type: STRING, value: param });
+                }
+
+                // Otherwise concat it with the last string parameter
+                else {
+
+                    // Get parsed parameter
+                    const parsedParameter: ParsedParameter | undefined | null = parsedParameters.find((p: ParsedParameter | null) => p && p.type === STRING);
+                    if (!parsedParameter) return;
+
+                    // Add to value
+                    parsedParameter.value = `${parsedParameter.value} ${param}`;
+                    return;
+                }
             }
         });
 
