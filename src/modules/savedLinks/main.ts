@@ -26,10 +26,7 @@ export default async function main(userRequest: UserRequest, commandHistoryIndex
         category: "savedLinks",
         userRequest,
         input: "links",
-        getData: async (input: string = "", page: number = 1): Promise<any> => {
-            const data: SavedLink[] = savedLinks.slice(page - 1, (page - 1) + 5);
-            if (data.length) return data;
-        },
+        getData: async (input: string = "", page: number = 1): Promise<any> => savedLinks.slice(page - 1, (page - 1) + 5),
         perPage: 5,
         parser: parse,
         getEmbed: embed,
@@ -37,7 +34,7 @@ export default async function main(userRequest: UserRequest, commandHistoryIndex
     }, (r: UserRequest, chIndex: number) => main(r, chIndex), commandHistoryIndex);
 
     // Search
-    command.pageManager?.setPage(page);
+    await command.pageManager?.setPage(page);
 
     // Return
     return command;

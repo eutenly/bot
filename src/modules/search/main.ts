@@ -15,8 +15,8 @@ export default async function main(userRequest: UserRequest) {
     if (!query) return userRequest.respond(helpEmbed(prefix));
 
     // Check if input is to search last message
-    if (query === "^") return searchLastMessage(userRequest);
+    if (query === "^") return await searchLastMessage(userRequest);
 
     // Run module
-    search(userRequest, query);
+    await search(userRequest, query);
 }

@@ -18,7 +18,7 @@ export default async function starRepo(command: Command, user: User, reaction: R
     if (!result) return;
 
     // Send
-    if (!user.reactionConfirmationsDisabled) command.userRequest.respond(`<:github_star:${command.client.eutenlyEmojis.get("github_star")}>  **|  <@${user.id}>, ${command.data.ownerName}/${command.data.name} has been ${action === "added" ? "starred" : "unstarred"}**`);
+    if (!user.reactionConfirmationsDisabled) command.userRequest.channel.sendMessage(`<:github_star:${command.client.eutenlyEmojis.get("github_star")}>  **|  <@${user.id}>, ${command.data.ownerName}/${command.data.name} has been ${action === "added" ? "starred" : "unstarred"}**`);
 
     // Collect stats
     collectStat(command.client, {

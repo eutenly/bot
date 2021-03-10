@@ -58,5 +58,5 @@ export default async function add(userRequest: UserRequest) {
     });
 
     // Send
-    userRequest.respond(`<:spotify:${userRequest.client.eutenlyEmojis.get("spotify")}>  **|  ${userRequest.user.command.data.name} has been added to ${playlist.name}**`);
+    await userRequest.respond(`<:spotify:${userRequest.client.eutenlyEmojis.get("spotify")}>  **|  ${userRequest.user.command.data.name} has been added to ${playlist.name}**`);
 }

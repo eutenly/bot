@@ -18,7 +18,7 @@ export default async function savePost(command: Command, user: User, reaction: R
     if (!result) return;
 
     // Send
-    if (!user.reactionConfirmationsDisabled) command.userRequest.respond(`<:reddit_save:${command.client.eutenlyEmojis.get("reddit_save")}>  **|  <@${user.id}>, ${action === "added" ? "Saved" : "Unsaved"} post**`);
+    if (!user.reactionConfirmationsDisabled) command.userRequest.channel.sendMessage(`<:reddit_save:${command.client.eutenlyEmojis.get("reddit_save")}>  **|  <@${user.id}>, ${action === "added" ? "Saved" : "Unsaved"} post**`);
 
     // Collect stats
     collectStat(command.client, {

@@ -44,7 +44,7 @@ export default async function search(userRequest: UserRequest, query: string, co
     }, (r: UserRequest, chIndex: number) => search(r, query, chIndex), commandHistoryIndex);
 
     // Search
-    command.pageManager?.setPage(1);
+    await command.pageManager?.setPage(1);
 
     // Return
     return command;

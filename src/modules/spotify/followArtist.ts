@@ -20,7 +20,7 @@ export default async function followArtist(command: Command, user: User, reactio
     if (!result) return;
 
     // Send
-    if (!user.reactionConfirmationsDisabled) command.userRequest.respond(`<:spotify_follow:${command.client.eutenlyEmojis.get("spotify_follow")}>  **|  <@${user.id}>, ${command.data.name} has been ${action === "added" ? "followed" : "unfollowed"}**`);
+    if (!user.reactionConfirmationsDisabled) command.userRequest.channel.sendMessage(`<:spotify_follow:${command.client.eutenlyEmojis.get("spotify_follow")}>  **|  <@${user.id}>, ${command.data.name} has been ${action === "added" ? "followed" : "unfollowed"}**`);
 
     // Collect stats
     collectStat(command.client, {

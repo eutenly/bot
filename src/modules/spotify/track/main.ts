@@ -58,7 +58,7 @@ export default async function main(userRequest: UserRequest, trackID: string, pr
     const commandEmbed: Embed = command.getEmbed(command, command.data);
 
     // Send
-    command.send(commandEmbed);
+    await command.send(commandEmbed);
 
     // Return
     return command;

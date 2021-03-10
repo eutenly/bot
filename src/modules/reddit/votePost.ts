@@ -23,7 +23,7 @@ export default async function votePost(command: Command, user: User, reaction: R
     if (!result) return;
 
     // Send
-    if (!user.reactionConfirmationsDisabled) command.userRequest.respond(`<:${voteAction === "upvote" ? "reddit_upvote" : "reddit_downvote"}:${command.client.eutenlyEmojis.get(voteAction === "upvote" ? "reddit_upvote" : "reddit_downvote")}>  **|  <@${user.id}>, ${voteDirection === 0 ? `Removed ${voteAction === "upvote" ? "upvote" : "downvote"} from` : (voteDirection === 1 ? "Upvoted" : "Downvoted")} post**`);
+    if (!user.reactionConfirmationsDisabled) command.userRequest.channel.sendMessage(`<:${voteAction === "upvote" ? "reddit_upvote" : "reddit_downvote"}:${command.client.eutenlyEmojis.get(voteAction === "upvote" ? "reddit_upvote" : "reddit_downvote")}>  **|  <@${user.id}>, ${voteDirection === 0 ? `Removed ${voteAction === "upvote" ? "upvote" : "downvote"} from` : (voteDirection === 1 ? "Upvoted" : "Downvoted")} post**`);
 
     // Collect stats
     collectStat(command.client, {

@@ -18,7 +18,7 @@ export default async function retweetTweet(command: Command, user: User, reactio
     if (!result) return;
 
     // Send
-    if (!user.reactionConfirmationsDisabled) command.userRequest.respond(`<:twitter_retweet:${command.client.eutenlyEmojis.get("twitter_retweet")}>  **|  <@${user.id}>, ${action === "added" ? "Retweeted" : "Unretweeted"} Tweet**`);
+    if (!user.reactionConfirmationsDisabled) command.userRequest.channel.sendMessage(`<:twitter_retweet:${command.client.eutenlyEmojis.get("twitter_retweet")}>  **|  <@${user.id}>, ${action === "added" ? "Retweeted" : "Unretweeted"} Tweet**`);
 
     // Collect stats
     collectStat(command.client, {

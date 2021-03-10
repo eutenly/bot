@@ -18,7 +18,7 @@ export default async function likeTweet(command: Command, user: User, reaction: 
     if (!result) return;
 
     // Send
-    if (!user.reactionConfirmationsDisabled) command.userRequest.respond(`<:twitter_like:${command.client.eutenlyEmojis.get("twitter_like")}>  **|  <@${user.id}>, ${action === "added" ? "Liked" : "Unliked"} Tweet**`);
+    if (!user.reactionConfirmationsDisabled) command.userRequest.channel.sendMessage(`<:twitter_like:${command.client.eutenlyEmojis.get("twitter_like")}>  **|  <@${user.id}>, ${action === "added" ? "Liked" : "Unliked"} Tweet**`);
 
     // Collect stats
     collectStat(command.client, {
