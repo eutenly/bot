@@ -16,20 +16,20 @@ export default async function compact(userRequest: UserRequest) {
     // Get channel data
     let channelData: GuildDataChannel[] | undefined;
     let textChannelData: GuildDataChannel[] | undefined;
-    if ((userRequest.guild) && (target)) {
+    if ((userRequest.guild) && ((target) || (all))) {
         channelData = await userRequest.guild.getChannels();
         textChannelData = channelData.filter((c: GuildDataChannel) => ![2, 4].includes(c.type));
     }
 
     // Get target
     let channel: Channel | undefined;
-    if ((userRequest.guild) && (target)) {
-        if (!all) channel = await userRequest.guild.findChannel(target, textChannelData);
-        if ((!channel) && (!all)) return userRequest.respond(":x:  **|  I couldn't find that channel**");
+    if ((userRequest.guild) && (target) && (!all)) {
+        channel = await userRequest.guild.findChannel(target, textChannelData);
+        if (!channel) return userRequest.respond(":x:  **|  I couldn't find that channel**");
     }
 
     // Missing perms
-    if ((userRequest.guild) && (target)) {
+    if ((userRequest.guild) && ((target) || (all))) {
         const permissions: GuildPermissions = await userRequest.guild.getPermissions({
             channels: channelData,
             userID: userRequest.user.id
@@ -50,9 +50,9 @@ export default async function compact(userRequest: UserRequest) {
     }
 
     // Set compact mode
-    if ((userRequest.guild) && (target)) userRequest.guild.setCompactMode(all ? (textChannelData as GuildDataChannel[]).map((c: GuildDataChannel) => c.id) : (channel?.id as string), enabled);
+    if ((userRequest.guild) && ((target) || (all))) userRequest.guild.setCompactMode(all ? (textChannelData as GuildDataChannel[]).map((c: GuildDataChannel) => c.id) : (channel?.id as string), enabled);
     else userRequest.user.setCompactMode(enabled);
 
     // Send
-    userRequest.respond(`:white_check_mark:  **|  Compact mode is now ${enabled ? "enabled" : "disabled"} ${((userRequest.guild) && (target)) ? `in ${channel ? `<#${channel.id}>` : "all channels"}` : "for your commands"}**`);
+    userRequest.respond(`:white_check_mark:  **|  Compact mode is now ${enabled ? "enabled" : "disabled"} ${((userRequest.guild) && ((target) || (all))) ? `in ${channel ? `<#${channel.id}>` : "all channels"}` : "for your commands"}**`);
 }
