@@ -192,8 +192,6 @@ export default async function textRouter(message: Message): Promise<boolean> {
     // Run module
     route.module(userRequest).catch((err) => {
 
-        console.log(err.message);
-
         // Ignore missing permissions to send messages errors
         if (err.message.includes("Missing permissions to send messages")) return;
 
