@@ -14,7 +14,7 @@ export default async function help(userRequest: UserRequest) {
     userRequest.user.setCooldown(2000);
 
     // Get params
-    const helpModule: string | undefined = userRequest.getParameter<string>("module")?.toLowerCase();
+    const helpModule: string | undefined = userRequest.getParameter<string>("module")?.toLowerCase().replace(/\s+/g, "");
 
     // Embed
     const embed: Embed = new Embed()
