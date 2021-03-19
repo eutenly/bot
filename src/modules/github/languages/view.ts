@@ -5,9 +5,6 @@ import { Languages } from "../types";
 
 export default function view(data: Languages | undefined, userRequest: UserRequest, command: Command): ViewData | undefined {
 
-    // Get prefix
-    const prefix: string = command.userRequest.channel.prefix;
-
     // No data
     if (!data) return;
 
@@ -22,5 +19,5 @@ export default function view(data: Languages | undefined, userRequest: UserReque
     };
 
     // Invalid type
-    return { error: `:x:  **|  You can view the repo with \`${prefix}view repo\`**` };
+    return { error: ":x:  **|  You can view the repo with `/view result: repo`**" };
 }

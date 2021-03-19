@@ -7,9 +7,6 @@ import search, { url as searchURL } from "./search";
 
 export default function view(data: any, userRequest: UserRequest): ViewData | undefined {
 
-    // Get prefix
-    const prefix: string = userRequest.channel.prefix;
-
     // Get params
     const input: string | undefined = userRequest.getParameter<string>("result") || userRequest.getParameter<string>("link-or-result");
     if (!input) return { error: ":x:  **|  Which result would you like to view?**" };
@@ -52,7 +49,7 @@ export default function view(data: any, userRequest: UserRequest): ViewData | un
 
         // Get subresult number
         const subresultNumber: number = parseInt(results[1]);
-        if ((!subresultNumber) || (subresultNumber < 1)) return { error: `:x:  **|  That result has multiple subresults. Please enter a subresult, for example \`${prefix}view ${resultNumber}-2\`**` };
+        if ((!subresultNumber) || (subresultNumber < 1)) return { error: `:x:  **|  That result has multiple subresults. Please enter a subresult, for example \`/view result: ${resultNumber}-2\`**` };
 
         // Get subresult
         const subresultItems: any[] = result.items || result.questions;

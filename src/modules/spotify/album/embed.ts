@@ -5,9 +5,6 @@ import { Album, BasicTrack } from "../types";
 
 export default function embed(command: Command, data?: Album): Embed {
 
-    // Get prefix
-    const prefix: string = command.userRequest.channel.prefix;
-
     // Embed
     const embed = new Embed()
         .setAuthor("Spotify Album", "https://i.imgur.com/tiqno7l.png")
@@ -28,15 +25,15 @@ export default function embed(command: Command, data?: Album): Embed {
         .addField(null, null, true);
 
     if (command.compactMode) embed
-        .addField(null, `**Release Year:** ${(new Date(data.releasedOn)).getFullYear()}\n**Artist:** ${data.artist.name} (\`${prefix}view artist\`)`)
+        .addField(null, `**Release Year:** ${(new Date(data.releasedOn)).getFullYear()}\n**Artist:** ${data.artist.name} (\`/view result: artist\`)`)
         .setThumbnail(data.albumArt);
 
     else embed
-        .addField("Artist", `${data.artist.name}\n(\`${prefix}view artist\`)`, true)
+        .addField("Artist", `${data.artist.name}\n(\`/view result: artist\`)`, true)
         .addField("Release Year", (new Date(data.releasedOn)).getFullYear(), true)
         .setImage(data.albumArt);
 
-    embed.addField("Tracks", `${data.tracks.map((t: BasicTrack, i: number) => `**t-${i + 1}.** [${t.name}](https://open.spotify.com/track/${t.id}) - ${parseDuration(t.length)}`).join("\n")}\n\n\u2022 Use \`${prefix}view <Track Number>\` to view a track\n\u2022 Use \`${prefix}view tracks\` to view more tracks`);
+    embed.addField("Tracks", `${data.tracks.map((t: BasicTrack, i: number) => `**t-${i + 1}.** [${t.name}](https://open.spotify.com/track/${t.id}) - ${parseDuration(t.length)}`).join("\n")}\n\n\u2022 Use \`/view\` to view a track\n\u2022 Use \`/view result: tracks\` to view more tracks`);
 
     if (data.copyrights.length) embed.addField(null, data.copyrights.join("\n"));
 

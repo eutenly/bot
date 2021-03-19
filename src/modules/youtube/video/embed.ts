@@ -7,9 +7,6 @@ import { Video } from "../types";
 
 export default function embed(command: Command, data?: Video): Embed {
 
-    // Get prefix
-    const prefix: string = command.userRequest.channel.prefix;
-
     // Embed
     const embed = new Embed()
         .setAuthor("YouTube Video", "https://i0.wp.com/www.vectorico.com/wp-content/uploads/2018/02/youtube-red-square.png")
@@ -31,12 +28,12 @@ export default function embed(command: Command, data?: Video): Embed {
         .addField(null, null, true);
 
     if (command.compactMode) embed
-        .addField(null, `**Views:** ${data.views.toLocaleString()}\n**Likes:** ${data.likes.toLocaleString()}\n**Dislikes:** ${data.dislikes.toLocaleString()}\n**Comments:** ${data.comments.toLocaleString()}\n**Captions:** ${data.captions ? "Yes" : "No"}\n**Length:** ${parseISO8601(data.length)}\n**Uploaded By:** [${data.channel.name}](https://youtube.com/channel/${data.channel.id}) (\`${prefix}view channel\`)\n**Uploaded:** ${parseDate(data.uploadedOn)}`)
+        .addField(null, `**Views:** ${data.views.toLocaleString()}\n**Likes:** ${data.likes.toLocaleString()}\n**Dislikes:** ${data.dislikes.toLocaleString()}\n**Comments:** ${data.comments.toLocaleString()}\n**Captions:** ${data.captions ? "Yes" : "No"}\n**Length:** ${parseISO8601(data.length)}\n**Uploaded By:** [${data.channel.name}](https://youtube.com/channel/${data.channel.id}) (\`/view result: channel\`)\n**Uploaded:** ${parseDate(data.uploadedOn)}`)
         .setThumbnail(data.thumbnail);
 
     else embed
         .addField("Views", data.views.toLocaleString(), true)
-        .addField("Uploaded By", `[${data.channel.name}](https://youtube.com/channel/${data.channel.id})\n(\`${prefix}view channel\`)`, true)
+        .addField("Uploaded By", `[${data.channel.name}](https://youtube.com/channel/${data.channel.id})\n(\`/view result: channel\`)`, true)
         .addField("Length", parseISO8601(data.length), true)
         .addField("Likes", data.likes.toLocaleString(), true)
         .addField("Comments", data.comments.toLocaleString(), true)

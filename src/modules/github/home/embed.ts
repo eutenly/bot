@@ -5,9 +5,6 @@ import { Home, HomeNotification, HomeRepo } from "../types";
 
 export default function embed(command: Command, data?: Home): Embed {
 
-    // Get prefix
-    const prefix: string = command.userRequest.channel.prefix;
-
     // Parse type
     const parseType = (type: string): string | undefined => {
         if (type === "assign") return "Issue Assigned";
@@ -34,8 +31,8 @@ export default function embed(command: Command, data?: Home): Embed {
     const embed = new Embed()
         .setAuthor("GitHub", "https://i.imgur.com/FwnDNtd.png")
         .setColor(0x000000)
-        .addField("Your Watched Repos", watchedRepos.length ? `${watchedRepos.map((r: HomeRepo, i: number) => `**w-${i + 1}. ${((r.private) && (command.userRequest.channel.guild)) ? "*Private*" : `[${r.ownerName}/${r.name}](https://github.com/${r.ownerName}/${r.name})**\n${r.description ? truncateString(r.description, 50) : ""}`}`).join("\n")}\n\n\u2022 Use \`${prefix}view <Repo Number>\` to view a repo\n\u2022 Use \`${prefix}view watched repos\` to view more of your watched repos\n\u200b` : "You don't have any watched repos")
-        .addField("Your Starred Repos", starredRepos.length ? `${starredRepos.map((r: HomeRepo, i: number) => `**s-${i + 1}. ${((r.private) && (command.userRequest.channel.guild)) ? "*Private*" : `[${r.ownerName}/${r.name}](https://github.com/${r.ownerName}/${r.name})**\n${r.description ? truncateString(r.description, 50) : ""}`}`).join("\n")}\n\n\u2022 Use \`${prefix}view <Repo Number>\` to view a repo\n\u2022 Use \`${prefix}view starred repos\` to view more of your starred repos\n\u200b` : "You don't have any starred repos")
+        .addField("Your Watched Repos", watchedRepos.length ? `${watchedRepos.map((r: HomeRepo, i: number) => `**w-${i + 1}. ${((r.private) && (command.userRequest.channel.guild)) ? "*Private*" : `[${r.ownerName}/${r.name}](https://github.com/${r.ownerName}/${r.name})**\n${r.description ? truncateString(r.description, 50) : ""}`}`).join("\n")}\n\n\u2022 Use \`/view\` to view a repo\n\u2022 Use \`/view result: watched repos\` to view more of your watched repos\n\u200b` : "You don't have any watched repos")
+        .addField("Your Starred Repos", starredRepos.length ? `${starredRepos.map((r: HomeRepo, i: number) => `**s-${i + 1}. ${((r.private) && (command.userRequest.channel.guild)) ? "*Private*" : `[${r.ownerName}/${r.name}](https://github.com/${r.ownerName}/${r.name})**\n${r.description ? truncateString(r.description, 50) : ""}`}`).join("\n")}\n\n\u2022 Use \`/view\` to view a repo\n\u2022 Use \`/view result: starred repos\` to view more of your starred repos\n\u200b` : "You don't have any starred repos")
         .addField("Your Notifications", notifications.length ? `${notifications.map((n: HomeNotification, i: number) => `**${i + 1}. [${n.repoOwnerName}/${n.repoName}](https://github.com/${n.repoOwnerName}/${n.repoName})** - ${parseType(n.type)}`).join("\n")}` : "You don't have any notifications")
         .setBranding();
 

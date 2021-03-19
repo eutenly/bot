@@ -6,9 +6,6 @@ import { ListedTrack, Playlist } from "../types";
 
 export default function embed(command: Command, data?: Playlist): Embed {
 
-    // Get prefix
-    const prefix: string = command.userRequest.channel.prefix;
-
     // Embed
     const embed = new Embed()
         .setAuthor("Spotify Playlist", "https://i.imgur.com/tiqno7l.png")
@@ -38,7 +35,7 @@ export default function embed(command: Command, data?: Playlist): Embed {
         .addField("Owner", data.ownerName, true)
         .setImage(data.image);
 
-    embed.addField("Tracks", `${data.tracks.map((t: ListedTrack, i: number) => `**t-${i + 1}. [${t.name}](https://open.spotify.com/track/${t.id})**\n[${t.artist.name}](https://open.spotify.com/artist/${t.artist.id}) - ${parseDuration(t.length)}`).join("\n")}\n\n\u2022 Use \`${prefix}view <Track Number>\` to view a track\n\u2022 Use \`${prefix}view tracks\` to view more tracks`);
+    embed.addField("Tracks", `${data.tracks.map((t: ListedTrack, i: number) => `**t-${i + 1}. [${t.name}](https://open.spotify.com/track/${t.id})**\n[${t.artist.name}](https://open.spotify.com/artist/${t.artist.id}) - ${parseDuration(t.length)}`).join("\n")}\n\n\u2022 Use \`/view\` to view a track\n\u2022 Use \`/view result: tracks\` to view more tracks`);
 
     // Return
     return embed;

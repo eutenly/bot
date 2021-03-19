@@ -6,9 +6,6 @@ import { Playlist } from "../types";
 
 export default function embed(command: Command, data?: Playlist): Embed {
 
-    // Get prefix
-    const prefix: string = command.userRequest.channel.prefix;
-
     // Embed
     const embed = new Embed()
         .setAuthor("YouTube Playlist", "https://i0.wp.com/www.vectorico.com/wp-content/uploads/2018/02/youtube-red-square.png")
@@ -30,12 +27,12 @@ export default function embed(command: Command, data?: Playlist): Embed {
         .addField(null, null, true);
 
     if (command.compactMode) embed
-        .addField(null, `**Total Videos:** ${data.videos.toLocaleString()}\n**Channel:** [${data.channel.name}](https://youtube.com/channel/${data.channel.id}) (\`${prefix}view channel\`)\n**Created:** ${parseDate(data.createdOn)}`)
+        .addField(null, `**Total Videos:** ${data.videos.toLocaleString()}\n**Channel:** [${data.channel.name}](https://youtube.com/channel/${data.channel.id}) (\`/view result: channel\`)\n**Created:** ${parseDate(data.createdOn)}`)
         .setThumbnail(data.thumbnail);
 
     else embed
         .addField("Total Videos", data.videos.toLocaleString(), true)
-        .addField("Channel", `[${data.channel.name}](https://youtube.com/channel/${data.channel.id})\n(\`${prefix}view channel\`)`, true)
+        .addField("Channel", `[${data.channel.name}](https://youtube.com/channel/${data.channel.id})\n(\`/view result: channel\`)`, true)
         .addField("Created", parseDate(data.createdOn))
         .setImage(data.thumbnail);
 

@@ -3,9 +3,6 @@ import Embed from "../../../classes/Embed/Embed";
 
 export default function embed(command: Command, data: any): Embed {
 
-    // Get prefix
-    const prefix: string = command.userRequest.channel.prefix;
-
     // Embed
     const embed = new Embed()
         .setAuthor(data.title, "https://eutenly.com/assets/search-colored.png", data.link)
@@ -31,7 +28,7 @@ export default function embed(command: Command, data: any): Embed {
         const items = data.topSongs.items.map((s: any, i: number) => `**s-${i + 1}.** ${s.title} (${s.description})`);
 
         // Add field
-        embed.addField(data.topSongs.title, `${items.join("\n")}\n\n*Use the \`${prefix}view <Song ID>\` command to search for a song*`);
+        embed.addField(data.topSongs.title, `${items.join("\n")}\n\n*Use the \`/view\` command to search for a song*`);
     }
 
     // Events
@@ -47,7 +44,7 @@ export default function embed(command: Command, data: any): Embed {
         const items = l.items.map((item: any, ii: number) => `[**${i + 1}-${ii + 1}.** ${item.text}]`);
 
         // Add field
-        embed.addField(l.title, `${items.join(", ")}\n\n*Use the \`${prefix}view <Item Number>\` command to search for an item*`);
+        embed.addField(l.title, `${items.join(", ")}\n\n*Use the \`/view\` command to search for an item*`);
     });
 
     // Return

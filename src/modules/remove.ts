@@ -14,7 +14,7 @@ export default async function remove(userRequest: UserRequest) {
 
     // Get user data
     const userData = await userRequest.user.getData();
-    if ((!userData) || (userData.savedLinks.length === 0)) return userRequest.respond(`:x:  **|  You don't have any saved links. You can save a link with \`${userRequest.channel.prefix}save <Link>\`. You can also save what you're currently viewing with \`${userRequest.channel.prefix}save\`**`);
+    if ((!userData) || (userData.savedLinks.length === 0)) return userRequest.respond(`:x:  **|  You don't have any saved links. You can save a link with the \`/save\` command**`);
 
     // Get params
     const resultNumber: number | undefined = userRequest.getParameter<number>("link-number");

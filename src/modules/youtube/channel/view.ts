@@ -5,9 +5,6 @@ import videos, { url as videosURL } from "../videos/main";
 
 export default function view(data: Channel | undefined, userRequest: UserRequest): ViewData | undefined {
 
-    // Get prefix
-    const prefix: string = userRequest.channel.prefix;
-
     // No data
     if (!data) return;
 
@@ -22,5 +19,5 @@ export default function view(data: Channel | undefined, userRequest: UserRequest
     };
 
     // Invalid type
-    else return { error: `:x:  **|  You can view this channel's videos with \`${prefix}view videos\`**` };
+    else return { error: ":x:  **|  You can view this channel's videos with `/view result: videos`**" };
 }

@@ -5,9 +5,6 @@ import { SearchOverviewResult } from "../types";
 
 export default function embed(command: Command, data?: SearchOverviewResult[]): Embed {
 
-    // Get prefix
-    const prefix: string = command.userRequest.channel.prefix;
-
     // Embed
     const embed = new Embed()
         .setAuthor(`Spotify Search: ${command.metadata?.query}`, "https://i.imgur.com/tiqno7l.png")
@@ -48,11 +45,11 @@ export default function embed(command: Command, data?: SearchOverviewResult[]): 
         else if (d.type === "album") embed.addField(null, `**${i + 1}. [${d.name}](https://open.spotify.com/album/${d.id})**\n[${d.artist.name}](https://open.spotify.com/artist/${d.artist.id}) - ${d.tracks?.toLocaleString()} Track${d.tracks === 1 ? "" : "s"}`);
     });
 
-    if (command.compactMode) embed.addField("More", `\u2022 Use the \`${prefix}view <Result Number>\` command to get more info about a result\n\u2022 Use the \`${prefix}view tracks/artists/albums/playlists/episodes\` command to see more results`);
+    if (command.compactMode) embed.addField("More", "\u2022 Use the `/view` command to get more info about a result\n\u2022 Use the `/view result: tracks/artists/albums/playlists/episodes` command to see more results");
     else embed
         .addField()
-        .addField("View", `Use the \`${prefix}view <Result Number>\` command to get more info about a result`)
-        .addField("More", `**\u2022 Tracks:** \`${prefix}view tracks\`\n**\u2022 Artists:** \`${prefix}view artists\`\n**\u2022 Albums:** \`${prefix}view albums\`\n**\u2022 Playlists:** \`${prefix}view playlists\`\n**\u2022 Episodes:** \`${prefix}view episodes\``)
+        .addField("View", "Use the `/view` command to get more info about a result")
+        .addField("More", "**\u2022 Tracks:** `/view result: tracks`\n**\u2022 Artists:** `/view result: artists`\n**\u2022 Albums:** `/view result: albums`\n**\u2022 Playlists:** `/view result: playlists`\n**\u2022 Episodes:** `/view result: episodes`")
         .addField();
 
     // Return

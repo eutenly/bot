@@ -29,7 +29,7 @@ export default function identify(ws: Websocket, token: string) {
             },
             presence: {
                 game: {
-                    name: `say ${process.env.DEFAULT_PREFIX}help`,
+                    name: "say /help",
                     type: 0
                 }
             },

@@ -40,13 +40,13 @@ export default async function botInteractionAPI(client: Client) {
 
         // Get help embed
         let helpEmbed: Embed;
-        if (req.body.embed === "search") helpEmbed = searchHelpEmbed(process.env.DEFAULT_PREFIX as string);
-        else if (req.body.embed === "youtube") helpEmbed = youtubeHelpEmbed(process.env.DEFAULT_PREFIX as string);
-        else if (req.body.embed === "twitter") helpEmbed = twitterHelpEmbed(process.env.DEFAULT_PREFIX as string);
-        else if (req.body.embed === "spotify") helpEmbed = spotifyHelpEmbed(process.env.DEFAULT_PREFIX as string);
-        else if (req.body.embed === "reddit") helpEmbed = redditHelpEmbed(process.env.DEFAULT_PREFIX as string);
-        else if (req.body.embed === "github") helpEmbed = githubHelpEmbed(process.env.DEFAULT_PREFIX as string);
-        else if (req.body.embed === "wikipedia") helpEmbed = wikipediaHelpEmbed(process.env.DEFAULT_PREFIX as string);
+        if (req.body.embed === "search") helpEmbed = searchHelpEmbed;
+        else if (req.body.embed === "youtube") helpEmbed = youtubeHelpEmbed;
+        else if (req.body.embed === "twitter") helpEmbed = twitterHelpEmbed;
+        else if (req.body.embed === "spotify") helpEmbed = spotifyHelpEmbed;
+        else if (req.body.embed === "reddit") helpEmbed = redditHelpEmbed;
+        else if (req.body.embed === "github") helpEmbed = githubHelpEmbed;
+        else if (req.body.embed === "wikipedia") helpEmbed = wikipediaHelpEmbed;
         else return res.sendStatus(400);
 
         // Send message

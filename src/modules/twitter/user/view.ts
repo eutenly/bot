@@ -5,9 +5,6 @@ import { User } from "../types";
 
 export default function view(data: User | undefined, userRequest: UserRequest): ViewData | undefined {
 
-    // Get prefix
-    const prefix: string = userRequest.channel.prefix;
-
     // No data
     if (!data) return;
 
@@ -22,5 +19,5 @@ export default function view(data: User | undefined, userRequest: UserRequest): 
     };
 
     // Invalid type
-    else return { error: `:x:  **|  You can view this user's tweets with the \`${prefix}view tweets\` command**` };
+    else return { error: ":x:  **|  You can view this user's tweets with the `/view result: tweets` command**" };
 }

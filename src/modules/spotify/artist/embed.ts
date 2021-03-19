@@ -5,9 +5,6 @@ import { Artist, BasicTrack, ListedAlbum } from "../types";
 
 export default function embed(command: Command, data?: Artist): Embed {
 
-    // Get prefix
-    const prefix: string = command.userRequest.channel.prefix;
-
     // Embed
     const embed = new Embed()
         .setAuthor("Spotify Artist", "https://i.imgur.com/tiqno7l.png")
@@ -38,8 +35,8 @@ export default function embed(command: Command, data?: Artist): Embed {
         .setImage(data.avatar);
 
     embed
-        .addField("Top Tracks", `${data.topTracks.map((t: BasicTrack, i: number) => `**t-${i + 1}.** [${t.name}](https://open.spotify.com/track/${t.id}) - ${parseDuration(t.length)}`).join("\n")}\n\n\u2022 Use \`${prefix}view <Track Number>\` to view a track\n\u2022 Use \`${prefix}view top tracks\` to view all tracks`)
-        .addField("Albums", `${data.albums.map((a: ListedAlbum, i: number) => `**a-${i + 1}.** [${a.name}](https://open.spotify.com/album/${a.id}) - ${a.tracks.toLocaleString()} Track${a.tracks === 1 ? "" : "s"}`).join("\n")}\n\n\u2022 Use \`${prefix}view <Album Number>\` to view an album\n\u2022 Use \`${prefix}view albums\` to view more albums`);
+        .addField("Top Tracks", `${data.topTracks.map((t: BasicTrack, i: number) => `**t-${i + 1}.** [${t.name}](https://open.spotify.com/track/${t.id}) - ${parseDuration(t.length)}`).join("\n")}\n\n\u2022 Use \`/view\` to view a track\n\u2022 Use \`/view result: top tracks\` to view all tracks`)
+        .addField("Albums", `${data.albums.map((a: ListedAlbum, i: number) => `**a-${i + 1}.** [${a.name}](https://open.spotify.com/album/${a.id}) - ${a.tracks.toLocaleString()} Track${a.tracks === 1 ? "" : "s"}`).join("\n")}\n\n\u2022 Use \`/view\` to view an album\n\u2022 Use \`/view result: albums\` to view more albums`);
 
     if (!command.compactMode) embed.addField("Genres", data.genres.join(", ") || "*None*");
 

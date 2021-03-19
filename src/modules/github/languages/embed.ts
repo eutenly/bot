@@ -5,9 +5,6 @@ import { Languages } from "../types";
 
 export default function embed(command: Command, data?: Languages): Embed {
 
-    // Get prefix
-    const prefix: string = command.userRequest.channel.prefix;
-
     // Embed
     const embed = new Embed()
         .setAuthor("GitHub Languages", "https://i.imgur.com/FwnDNtd.png")
@@ -34,7 +31,7 @@ export default function embed(command: Command, data?: Languages): Embed {
         .addField("Link", `[github.com...](https://github.com/${command.metadata?.ownerName}/${command.metadata?.name})`, true)
         .addField(null, null, true)
         .addField()
-        .addField("Repo", `For info about this repo, use the \`${prefix}view repo\` command`);
+        .addField("Repo", "For info about this repo, use the `/view result: repo` command");
 
     // Return
     return embed;

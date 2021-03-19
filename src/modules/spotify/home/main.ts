@@ -9,9 +9,6 @@ import view from "./view";
 
 export default async function main(userRequest: UserRequest, commandHistoryIndex?: number): Promise<Command | undefined> {
 
-    // Get prefix
-    const prefix: string = userRequest.channel.prefix;
-
     // Create command
     const command: Command = new Command(userRequest.client, {
         name: "home",
@@ -25,7 +22,7 @@ export default async function main(userRequest: UserRequest, commandHistoryIndex
             "https://api.spotify.com/v1/me/player/recently-played?limit=5"
         ],
         connectionName: "spotify",
-        helpEmbed: helpEmbed(prefix),
+        helpEmbed,
         fetch,
         parser: parse,
         getEmbed: embed,

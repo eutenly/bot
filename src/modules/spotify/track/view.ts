@@ -6,9 +6,6 @@ import { BasicUser, Track } from "../types";
 
 export default function view(data: Track | undefined, userRequest: UserRequest): ViewData | undefined {
 
-    // Get prefix
-    const prefix: string = userRequest.channel.prefix;
-
     // No data
     if (!data) return;
 
@@ -19,7 +16,7 @@ export default function view(data: Track | undefined, userRequest: UserRequest):
     // Artist
     if (input.toLowerCase().replace(/\s+/g, "") === "artist") {
 
-        if (data.artists.length > 1) return { error: `:x:  **|  There are multiple artists. Please enter an artist number, for example \`${prefix}view a-2\`**` };
+        if (data.artists.length > 1) return { error: ":x:  **|  There are multiple artists. Please enter an artist number, for example `/view result: a-2`**" };
 
         return {
             module: () => artist(userRequest, data.artists[0].id),
