@@ -113,12 +113,12 @@ export default async function guildCreate(client: Client, data: EventData) {
      */
     if (joinedAt.getTime() < Date.now() - 300000) return;
 
-    // Leave the server if APixel or Maia aren't on the it
-    let noAPixel: boolean = false;
-    let noMaia: boolean = false;
-    await guild.getMember("196795781410324480").catch(() => noAPixel = true);
-    await guild.getMember("149862827027464193").catch(() => noMaia = true);
-    if ((noAPixel) && (noMaia)) return guild.leave("Eutenly is currently in beta, and you need to be approved to be able to invite the bot to your server. Please join our support server at https://discord.gg/feE2vaR and request approval");
+    // // Leave the server if APixel or Maia aren't on it
+    // let noAPixel: boolean = false;
+    // let noMaia: boolean = false;
+    // await guild.getMember("196795781410324480").catch(() => noAPixel = true);
+    // await guild.getMember("149862827027464193").catch(() => noMaia = true);
+    // if ((noAPixel) && (noMaia)) return guild.leave("Eutenly is currently in beta, and you need to be approved to be able to invite the bot to your server. Please join our support server at https://discord.gg/feE2vaR and request approval");
 
     // Emit event
     client.emit("guildCreate", guild);
