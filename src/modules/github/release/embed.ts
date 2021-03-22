@@ -6,9 +6,6 @@ import { Release } from "../types";
 
 export default function embed(command: Command, data?: Release): Embed {
 
-    // Get prefix
-    const prefix: string = command.userRequest.channel.prefix;
-
     // Embed
     const embed = new Embed()
         .setAuthor("GitHub Release", "https://i.imgur.com/FwnDNtd.png")
@@ -29,15 +26,15 @@ export default function embed(command: Command, data?: Release): Embed {
         .addField("Link", `[github.com...](https://github.com/${command.metadata?.ownerName}/${command.metadata?.name}/releases/tag/${data.tag})`, true)
         .addField(null, null, true);
 
-    if (command.compactMode) embed.addField(null, `**User:** ${data.user} (\`${prefix}view user\`)\n**Zipball:** [github.com...](${data.zipball})\n**Tarball:** [github.com...](${data.tarball})\n**Repo:** \`${prefix}view repo\`\n**Releases:** \`${prefix}view releases\`\n**Created:** ${parseDate(data.createdOn)}`);
+    if (command.compactMode) embed.addField(null, `**User:** ${data.user} (\`/view result: user\`)\n**Zipball:** [github.com...](${data.zipball})\n**Tarball:** [github.com...](${data.tarball})\n**Repo:** \`/view result: repo\`\n**Releases:** \`/view result: releases\`\n**Created:** ${parseDate(data.createdOn)}`);
 
     else embed
         .addField("Zipball", `[github.com...](${data.zipball})`, true)
-        .addField("User", `${data.user}\n(\`${prefix}view user\`)`, true)
+        .addField("User", `${data.user}\n(\`/view result: user\`)`, true)
         .addField("Tarball", `[github.com...](${data.tarball})`, true)
         .addField("Created", parseDate(data.createdOn))
         .addField()
-        .addField("More", `**\u2022 Repo:** \`${prefix}view repo\`\n**\u2022 Releases:** \`${prefix}view releases\``);
+        .addField("More", "**\u2022 Repo:** `/view result: repo`\n**\u2022 Releases:** `/view result: releases`");
 
     // Return
     return embed;

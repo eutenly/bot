@@ -6,9 +6,6 @@ import { Channel } from "../types";
 
 export default function embed(command: Command, data?: Channel): Embed {
 
-    // Get prefix
-    const prefix: string = command.userRequest.channel.prefix;
-
     // Embed
     const embed = new Embed()
         .setAuthor("YouTube Channel", "https://i0.wp.com/www.vectorico.com/wp-content/uploads/2018/02/youtube-red-square.png")
@@ -30,13 +27,13 @@ export default function embed(command: Command, data?: Channel): Embed {
         .addField(null, null, true);
 
     if (command.compactMode) embed
-        .addField(null, `**Subscribers:** ${data.subscribersHidden ? "Hidden" : data.subscribers.toLocaleString()}\n**Total Views:** ${data.views.toLocaleString()}\n**Total Videos:** ${data.videos.toLocaleString()}\n\n**Videos:** Use the \`${prefix}view videos\` command to view this channel's videos\n**Created:** ${parseDate(data.createdOn)}`)
+        .addField(null, `**Subscribers:** ${data.subscribersHidden ? "Hidden" : data.subscribers.toLocaleString()}\n**Total Views:** ${data.views.toLocaleString()}\n**Total Videos:** ${data.videos.toLocaleString()}\n\n**Videos:** Use the \`/view result: videos\` command to view this channel's videos\n**Created:** ${parseDate(data.createdOn)}`)
         .setThumbnail(data.avatar);
 
     else embed.addField("Subscribers", data.subscribersHidden ? "Hidden" : data.subscribers.toLocaleString(), true)
         .addField("Total Views", data.views.toLocaleString(), true)
         .addField("Total Videos", data.videos.toLocaleString(), true)
-        .addField("Videos", `Use the \`${prefix}view videos\` command to view this channel's videos`)
+        .addField("Videos", "Use the `/view result: videos` command to view this channel's videos")
         .addField("Created", parseDate(data.createdOn))
         .setImage(data.avatar);
 

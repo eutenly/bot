@@ -10,9 +10,6 @@ import view from "./view";
 
 export default async function main(userRequest: UserRequest, commandHistoryIndex?: number): Promise<Command | undefined> {
 
-    // Get prefix
-    const prefix: string = userRequest.channel.prefix;
-
     // Create command
     const command: Command = new Command(userRequest.client, {
         name: "home",
@@ -22,7 +19,7 @@ export default async function main(userRequest: UserRequest, commandHistoryIndex
         getData: (input?: string, page?: number, nextPageToken?: string, user?: User): string => `https://api.twitter.com/1.1/statuses/user_timeline.json?user_id=${user?.connections["twitter"]?.id}&tweet_mode=extended&count=5`,
         getExtraData: ["https://api.twitter.com/1.1/statuses/home_timeline.json?tweet_mode=extended&count=5"],
         connectionName: "twitter",
-        helpEmbed: helpEmbed(prefix),
+        helpEmbed,
         fetch,
         parser: parse,
         getEmbed: embed,

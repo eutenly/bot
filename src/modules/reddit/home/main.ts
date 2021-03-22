@@ -9,9 +9,6 @@ import view from "./view";
 
 export default async function main(userRequest: UserRequest, commandHistoryIndex?: number): Promise<Command | undefined> {
 
-    // Get prefix
-    const prefix: string = userRequest.channel.prefix;
-
     // Create command
     const command: Command = new Command(userRequest.client, {
         name: "home",
@@ -24,7 +21,7 @@ export default async function main(userRequest: UserRequest, commandHistoryIndex
             "https://oauth.reddit.com/best?raw_json=1&limit=5"
         ],
         connectionName: "reddit",
-        helpEmbed: helpEmbed(prefix),
+        helpEmbed,
         fetch,
         parser: parse,
         getEmbed: embed,

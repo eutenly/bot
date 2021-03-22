@@ -22,7 +22,7 @@ export default async function main(userRequest: UserRequest, commandHistoryIndex
             `https://api.github.com/notifications?per_page=5`
         ],
         connectionName: "github",
-        helpEmbed: helpEmbed(userRequest.channel.prefix),
+        helpEmbed,
         fetch,
         parser: parse,
         getEmbed: embed,

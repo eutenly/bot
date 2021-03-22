@@ -5,9 +5,6 @@ import { User } from "../types";
 
 export default function embed(command: Command, data?: User): Embed {
 
-    // Get prefix
-    const prefix: string = command.userRequest.channel.prefix;
-
     // Embed
     const embed = new Embed()
         .setAuthor("Twitter User", "https://1000logos.net/wp-content/uploads/2017/06/Twitter-Logo.png")
@@ -29,7 +26,7 @@ export default function embed(command: Command, data?: User): Embed {
         .addField(null, null, true)
         .setImage(data.banner);
 
-    if (command.compactMode) embed.addField(null, `**Tweets:**: ${data.tweets.toLocaleString()}\n**Followers:** ${data.followers.toLocaleString()}\n**Following:** ${data.following.toLocaleString()}\n**Likes:** ${data.likes.toLocaleString()}\n**Tweets:** View ${data.name}'s tweets with the \`${prefix}view tweets\` command${data.location ? `\n**Location:** ${data.location}` : ""}${data.url ? `\n**URL:** ${data.url}` : ""}\n**Created:** ${parseDate(data.createdOn)}`);
+    if (command.compactMode) embed.addField(null, `**Tweets:**: ${data.tweets.toLocaleString()}\n**Followers:** ${data.followers.toLocaleString()}\n**Following:** ${data.following.toLocaleString()}\n**Likes:** ${data.likes.toLocaleString()}\n**Tweets:** View ${data.name}'s tweets with the \`/view result: tweets\` command${data.location ? `\n**Location:** ${data.location}` : ""}${data.url ? `\n**URL:** ${data.url}` : ""}\n**Created:** ${parseDate(data.createdOn)}`);
 
     else {
 
@@ -47,7 +44,7 @@ export default function embed(command: Command, data?: User): Embed {
         embed
             .addField("Created", parseDate(data.createdOn))
             .addField()
-            .addField("Tweets", `View ${data.name}'s tweets with the \`${prefix}view tweets\` command`);
+            .addField("Tweets", `View ${data.name}'s tweets with the \`/view result: tweets\` command`);
     }
 
     // Return

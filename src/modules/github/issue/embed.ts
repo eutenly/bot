@@ -6,9 +6,6 @@ import { Issue } from "../types";
 
 export default function embed(command: Command, data?: Issue): Embed {
 
-    // Get prefix
-    const prefix: string = command.userRequest.channel.prefix;
-
     // Embed
     const embed = new Embed()
         .setAuthor("GitHub Issue", "https://i.imgur.com/FwnDNtd.png")
@@ -29,16 +26,16 @@ export default function embed(command: Command, data?: Issue): Embed {
         .addField("Link", `[github.com...](https://github.com/${command.metadata?.ownerName}/${command.metadata?.name}/issues/${data.number})`, true)
         .addField(null, null, true);
 
-    if (command.compactMode) embed.addField(null, `**User:** ${data.user} (\`${prefix}view user\`)\n**State:** ${data.state.charAt(0).toUpperCase()}${data.state.substring(1)}\n**Locked:** ${data.locked ? "Yes" : "No"}\n**Labels:** ${data.labels.join(", ") || "*None*"}\n**Repo:** \`${prefix}view repo\`\n**Issues:** \`${prefix}view issues\`\n**Created:** ${parseDate(data.createdOn)}`);
+    if (command.compactMode) embed.addField(null, `**User:** ${data.user} (\`/view result: user\`)\n**State:** ${data.state.charAt(0).toUpperCase()}${data.state.substring(1)}\n**Locked:** ${data.locked ? "Yes" : "No"}\n**Labels:** ${data.labels.join(", ") || "*None*"}\n**Repo:** \`/view result: repo\`\n**Issues:** \`/view result: issues\`\n**Created:** ${parseDate(data.createdOn)}`);
 
     else embed
         .addField("State", `${data.state.charAt(0).toUpperCase()}${data.state.substring(1)}`, true)
-        .addField("User", `${data.user}\n(\`${prefix}view user\`)`, true)
+        .addField("User", `${data.user}\n(\`/view result: user\`)`, true)
         .addField("Locked", data.locked ? "Yes" : "No", true)
         .addField("Labels", data.labels.join(", ") || "*None*")
         .addField("Created", parseDate(data.createdOn))
         .addField()
-        .addField("More", `**\u2022 Repo:** \`${prefix}view repo\`\n**\u2022 Issues:** \`${prefix}view issues\``);
+        .addField("More", "**\u2022 Repo:** `/view result: repo`\n**\u2022 Issues:** `/view result: issues`");
 
     // Return
     return embed;

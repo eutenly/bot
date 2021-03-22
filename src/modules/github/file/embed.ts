@@ -7,9 +7,6 @@ import { File } from "../types";
 
 export default function embed(command: Command, data?: File): Embed {
 
-    // Get prefix
-    const prefix: string = command.userRequest.channel.prefix;
-
     // Embed
     const embed = new Embed()
         .setAuthor("GitHub File", "https://i.imgur.com/FwnDNtd.png")
@@ -34,14 +31,14 @@ export default function embed(command: Command, data?: File): Embed {
         .addField("Link", `[github.com...](https://github.com/${command.metadata?.ownerName}/${command.metadata?.name}/blob/master/${data.path})`, true)
         .addField(null, null, true);
 
-    if (command.compactMode) embed.addField(null, `**Size:** ${filesize(data.size)}\n**Repo:** To view this file's repo, use the \`${prefix}view repo\` command`);
+    if (command.compactMode) embed.addField(null, `**Size:** ${filesize(data.size)}\n**Repo:** To view this file's repo, use the \`/view result: repo\` command`);
 
     else embed
         .addField(null, null, true)
         .addField("Size", filesize(data.size), true)
         .addField(null, null, true)
         .addField()
-        .addField("Repo", `To view this file's repo, use the \`${prefix}view repo\` command`);
+        .addField("Repo", `To view this file's repo, use the \`/view repo\` command`);
 
     // Return
     return embed;

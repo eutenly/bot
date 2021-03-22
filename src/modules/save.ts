@@ -117,5 +117,5 @@ export default async function save(userRequest: UserRequest) {
     });
 
     // Send
-    userRequest.respond(`:white_check_mark:  **|  Saved link! View your saved links with \`${userRequest.channel.prefix}savedlinks\`**`);
+    userRequest.respond(":white_check_mark:  **|  Saved link! View your saved links with the `/saved-links` command**");
 }

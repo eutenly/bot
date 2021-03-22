@@ -5,9 +5,6 @@ import { Tweet } from "../types";
 
 export default function embed(command: Command, data?: Tweet): Embed {
 
-    // Get prefix
-    const prefix: string = command.userRequest.channel.prefix;
-
     // Embed
     const embed = new Embed()
         .setAuthor("Twitter Tweet", "https://1000logos.net/wp-content/uploads/2017/06/Twitter-Logo.png")
@@ -29,7 +26,7 @@ export default function embed(command: Command, data?: Tweet): Embed {
         .addField(null, null, true);
 
     if (command.compactMode) embed
-        .addField(null, `**Likes:**: ${data.likes.toLocaleString()}\n**Retweets:** ${data.retweets.toLocaleString()}\n**User:** View info about the person who sent this tweet with the \`${prefix}view user\` command${data.quotedTweet ? `\n**Quoted Tweet:** View the quoted tweet with the \`${prefix}view quoted tweet\` command` : ""}\n**Sent:** ${parseDate(data.sentOn)}`)
+        .addField(null, `**Likes:**: ${data.likes.toLocaleString()}\n**Retweets:** ${data.retweets.toLocaleString()}\n**User:** View info about the person who sent this tweet with the \`/view result: user\` command${data.quotedTweet ? `\n**Quoted Tweet:** View the quoted tweet with the \`/view result: quoted tweet\` command` : ""}\n**Sent:** ${parseDate(data.sentOn)}`)
         .setThumbnail(data.image);
 
     else {
@@ -39,10 +36,10 @@ export default function embed(command: Command, data?: Tweet): Embed {
             .addField("Retweets", data.retweets.toLocaleString(), true)
             .addField("Sent", parseDate(data.sentOn))
             .addField()
-            .addField("User", `View info about the person who sent this tweet with the \`${prefix}view user\` command`)
+            .addField("User", "View info about the person who sent this tweet with the `/view result: user` command")
             .setImage(data.image);
 
-        if (data.quotedTweet) embed.addField("Quoted Tweet", `View the quoted tweet with the \`${prefix}view quoted tweet\` command`);
+        if (data.quotedTweet) embed.addField("Quoted Tweet", "View the quoted tweet with the `/view result: quoted tweet` command");
     }
 
     // Return

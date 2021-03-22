@@ -6,9 +6,6 @@ import { Episode } from "../types";
 
 export default function embed(command: Command, data?: Episode): Embed {
 
-    // Get prefix
-    const prefix: string = command.userRequest.channel.prefix;
-
     // Embed
     const embed = new Embed()
         .setAuthor("Spotify Episode", "https://i.imgur.com/tiqno7l.png")
@@ -39,7 +36,7 @@ export default function embed(command: Command, data?: Episode): Embed {
         .addField("Length", parseDuration(data.length), true)
         .setImage(data.image);
 
-    embed.addField("Add This Episode", `Use the \`${prefix}add <Playlist>\` command to add this episode to a playlist`);
+    embed.addField("Add This Episode", "Use the `/add` command to add this episode to a playlist");
 
     // Progress
     if (data.progress) {
